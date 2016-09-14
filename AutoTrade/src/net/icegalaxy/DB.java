@@ -22,6 +22,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
+import org.sqlite.SQLiteConfig;
+
 public class DB {
 	static Statement stmt;
 	static Connection conn;
@@ -30,18 +32,26 @@ public class DB {
 		return ("'" + point + "'");
 	}
 
-	public static void connect(String DBName) {
+	public static void connect(String DBName) throws SQLException {
 
-		try {
-			Class.forName("sun.jdbc.odbc.JdbcOdbcDriver");
-			conn = DriverManager.getConnection("jdbc:odbc:" + DBName);
-			stmt = conn.createStatement();
-			System.out.println("Connected to Database");
-
-		} catch (Exception e) {
-			e.printStackTrace();
-
-		}
+//		try {
+//			Class.forName("sun.jdbc.odbc.JdbcOdbcDriver");
+//			conn = DriverManager.getConnection("jdbc:odbc:" + DBName);
+//			stmt = conn.createStatement();
+//			System.out.println("Connected to Database");
+//
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//
+//		}
+		
+		SQLiteConfig config = new SQLiteConfig(); 
+        config.setSharedCache(true);
+        config.enableRecursiveTriggers(true);
+    
+     
+        conn = DriverManager.getConnection("jdbc:sqlite:" + DBName + ".sqlite");
+        stmt = conn.createStatement();
 
 	}
 
@@ -70,7 +80,7 @@ public class DB {
 		}
 	}
 
-	// ¥H¤U¬Otxt file to String,¦n¥Î¡I
+	// ï¿½Hï¿½Uï¿½Otxt file to String,ï¿½nï¿½Î¡I
 	public static String fileToString(String filePath) {
 		FileInputStream fis = null;
 		try {
@@ -120,7 +130,7 @@ public class DB {
 		}
 	}
 
-	// µL«ü©wfolder name, means current folder
+	// ï¿½Lï¿½ï¿½ï¿½wfolder name, means current folder
 	public static void stringtoFile(String inputString,
 			String outputFileNameWithExtension) {
 
@@ -136,7 +146,7 @@ public class DB {
 		}
 	}
 
-	// ArrayList serialization, save ArrayList °µ .dat file
+	// ArrayList serialization, save ArrayList ï¿½ï¿½ .dat file
 	public static void arrayListToFile(String path,
 			ArrayList<String> inputArrayList, String fileName) {
 
@@ -183,7 +193,7 @@ public class DB {
 		try {
 		t = Toolkit.getDefaultToolkit().getSystemClipboard()
 				.getContents(null);
-		}catch (IllegalStateException e){ //©O­Óexception§Ú¥[ªº¡A¦]¬°¸Õ¹L¥X²{
+		}catch (IllegalStateException e){ //ï¿½Oï¿½ï¿½exceptionï¿½Ú¥[ï¿½ï¿½ï¿½Aï¿½]ï¿½ï¿½ï¿½Õ¹Lï¿½Xï¿½{
 			return null;
 		}
 		

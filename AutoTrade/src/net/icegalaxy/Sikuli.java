@@ -7,8 +7,8 @@ import java.awt.event.KeyEvent;
 
 import org.sikuli.script.*;
 
-//Global.setHoldingStock(true)¤ÎGlobal.setHoldingStock(false)³£«Y«×¡A¦]¬°«×«×¥Î¨ì
-//¶R¤§«esetTrue¡A½æ¤§«á¥ý¦ÜsetFalse¡A¥H¨¾¶R¦h¥ª
+//Global.setHoldingStock(true)ï¿½ï¿½Global.setHoldingStock(false)ï¿½ï¿½ï¿½Yï¿½×¡Aï¿½]ï¿½ï¿½ï¿½×«×¥Î¨ï¿½
+//ï¿½Rï¿½ï¿½ï¿½esetTrueï¿½Aï¿½æ¤§ï¿½ï¿½ï¿½ï¿½ï¿½setFalseï¿½Aï¿½Hï¿½ï¿½ï¿½Rï¿½hï¿½ï¿½
 public class Sikuli {
 
 	static Region centre = new Region(640, 0, 640, 1080);
@@ -17,7 +17,7 @@ public class Sikuli {
 	static Region bottomLeft = new Region(0, 540, 960, 540);
 	static Region bottomRight = new Region(960, 540, 960, 540);
 
-	static Location spTitle = new Location(471, 308); //ÅåspTrader D window pop up ·|block¥ª¡A©Ò¥HÂI¤@¤U­Ótitle¥ý¶R
+	static Location spTitle = new Location(471, 308); //ï¿½ï¿½spTrader D window pop up ï¿½|blockï¿½ï¿½ï¿½Aï¿½Ò¥Hï¿½Iï¿½@ï¿½Uï¿½ï¿½titleï¿½ï¿½ï¿½R
 
 	static Location buyOne = new Location(594, 480);
 	static Location sellOne = new Location(732, 480);
@@ -256,10 +256,10 @@ public class Sikuli {
 		}
 	}
 
-	public static synchronized void quotePower() { // ­nsynchronized¦]¬°ÅåÊ\¦Plong//¥Îµfrobot plz
-													// short¤@»ô«ö
+	public static synchronized void quotePower() { // ï¿½nsynchronizedï¿½]ï¿½ï¿½ï¿½ï¿½ï¿½\ï¿½Plong//ï¿½Îµfrobot plz
+													// shortï¿½@ï¿½ï¿½ï¿½ï¿½
 		try {
-//			robot.mouseMove(975, 114); // for chrome (¦]¬°chrome­Ó·sªO­øsupport quotepower (JAVA)¡A©Ò­n¥ÎµfIE)
+//			robot.mouseMove(975, 114); // for chrome (ï¿½]ï¿½ï¿½chromeï¿½Ó·sï¿½Oï¿½ï¿½support quotepower (JAVA)ï¿½Aï¿½Ò­nï¿½ÎµfIE)
 //			robot.mouseMove(987, 102); // for IE or firefox
 			robot.mouseMove(988, 77); // for Java web app
 			robot.mousePress(InputEvent.BUTTON1_MASK );

@@ -7,24 +7,40 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import org.sqlite.SQLiteConfig;
+
 public class AccessSQL {
 
 	public AccessSQL(String DBName) {
 		this.DBName = DBName;
-		connectToAccessDB();
-	}
-
-	private void connectToAccessDB() {
-
 		try {
-			Class.forName("sun.jdbc.odbc.JdbcOdbcDriver");
-			conn = DriverManager.getConnection("jdbc:odbc:" + DBName);
-			stmt = conn.createStatement();
-			System.out.println("Connected to Database: " + DBName);
-
-		} catch (Exception e) {
+			connectToAccessDB();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	private void connectToAccessDB() throws SQLException {
+
+//		try {
+//			Class.forName("sun.jdbc.odbc.JdbcOdbcDriver");
+//			conn = DriverManager.getConnection("jdbc:odbc:" + DBName);
+//			stmt = conn.createStatement();
+//			System.out.println("Connected to Database: " + DBName);
+//
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+		
+		SQLiteConfig config = new SQLiteConfig(); 
+        config.setSharedCache(true);
+        config.enableRecursiveTriggers(true);
+    
+     
+        conn = DriverManager.getConnection("jdbc:sqlite:" + DBName + ".sqlite");
+        stmt = conn.createStatement();
+		
 	}
 
 	public void createTable(String tableName,

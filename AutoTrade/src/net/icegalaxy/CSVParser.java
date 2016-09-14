@@ -45,25 +45,31 @@ public class CSVParser {
 		close = new ArrayList<Double>();
 		
 		volume = new ArrayList<Double>();
+		
+
 
 		try {
 
 			Scanner sc = new Scanner(file);
-
+					
 			sc.useDelimiter(",");
 
 			// ignore the title
 
 			for (int i = 0; i < 5; i++)
-
-				sc.next();
+				System.out.print(sc.next());
+			
+			sc.useDelimiter("\r");
+			System.out.println("xxx" + sc.next() +"xxx");
 
 			while (sc.hasNext()) {
 
 				// System.out.println(sc.next());
-
+				sc.useDelimiter(",");
 				try {
 
+					sc.useDelimiter(",");
+					
 					time.add(sc.next());
 
 					open.add(sc.nextDouble());
@@ -73,8 +79,9 @@ public class CSVParser {
 					low.add(sc.nextDouble());
 
 					close.add(sc.nextDouble());
-					
-					volume.add(sc.nextDouble());
+
+					sc.useDelimiter("\r");
+					volume.add(Double.parseDouble(sc.next().replace(",", "")));
 					System.out.println("Volume: " + volume.get(volume.size()-1));
 
 				} catch (Exception e) {

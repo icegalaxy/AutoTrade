@@ -27,7 +27,12 @@ public class QuotePower {
 	private int errCount;
 	
 	public QuotePower() {
-		DB.connect("AutoTrade");
+		try {
+			DB.connect("AutoTrade");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 //		hhi = createTable("");
 		fhi = createTable("FHI");
 
@@ -97,6 +102,9 @@ public class QuotePower {
 				ask = sc2.next();
 				askQuantity = sc2.next();
 
+				sc.close();
+				sc2.close();
+				
 			} catch (Exception e) {
 				e.printStackTrace();
 				sleep(1000);
