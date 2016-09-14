@@ -75,6 +75,7 @@ public class CSVParser {
 					close.add(sc.nextDouble());
 					
 					volume.add(sc.nextDouble());
+					System.out.println("Volume: " + volume.get(volume.size()-1));
 
 				} catch (Exception e) {
 
@@ -85,11 +86,12 @@ public class CSVParser {
 				}
 
 			}
+			
+			sc.close();
 
 		} catch (FileNotFoundException e) {
 
 			e.printStackTrace();
-
 		}
 
 	}
