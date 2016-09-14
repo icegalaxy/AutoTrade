@@ -30,11 +30,11 @@ public class QuotePower {
 		try {
 			DB.connect("AutoTrade");
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+
 			e.printStackTrace();
 		}
 //		hhi = createTable("");
-		fhi = createTable("FHI");
+		fhi = createTable("HSF");
 
 	}
 
@@ -135,7 +135,7 @@ public class QuotePower {
 					+ quote(askQuantity) + ");";
 
 			try {
-				DB.stmt.executeUpdate(query.toString());
+				DB.stmt.executeUpdate(query);
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -152,8 +152,10 @@ public class QuotePower {
 		// Sikuli.getSleep();
 	}
 
+	//cannot create table that starts with number
+	//so string is added to the beginning of today
 	private String createTable(String s) {
-		String query = "create table " + Global.getToday() + s + "(MyIndex integer, "
+		String query = "CREATE TABLE " + s + Global.getToday() + "(MyIndex integer, "
 				+ "TradeTime time, " + "Deal float, " + "Change float, "
 				+ "TotalQuantity float, " + "BidQuantity integer, "
 				+ "Bid float, Ask float, " + "AskQuantity integer)";
@@ -167,7 +169,7 @@ public class QuotePower {
 			e.printStackTrace();
 		}
 
-		return Global.getToday() + s;
+		return s + Global.getToday();
 	}
 
 	public void sleep(int miniSecond) {

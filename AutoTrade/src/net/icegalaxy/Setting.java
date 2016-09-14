@@ -106,7 +106,7 @@ public class Setting extends JFrame {
 					
 				}
 
-				while (getTime() > 163000 || getTime() < 90001){
+				while (getTime() > 235900 || getTime() < 90001){
 					System.out.println(getTime() + "Sleep for 5 min");
 					try {
 						Thread.sleep(300000);

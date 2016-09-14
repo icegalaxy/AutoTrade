@@ -93,6 +93,7 @@ public class TimePeriodDecider implements Runnable {
 				Global.setOrderTime(false);
 
 
+			Global.addLog("EMA240" + GetData.getLongTB().getEMA(240));
 			if (!Global.isRunning()) {
 				Global.setTradeTime(false);
 				Global.setOrderTime(false);
