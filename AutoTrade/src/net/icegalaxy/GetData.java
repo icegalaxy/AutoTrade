@@ -49,6 +49,8 @@ public class GetData implements Runnable {
 	private boolean getIndex() {
 
 		try {
+			
+			//time of QuotePower.java is past from here everytime this method is called
 			qp.setTime(time);
 			qp.getQuote();
 			deal = new Float(qp.getDeal());

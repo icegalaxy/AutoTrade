@@ -70,8 +70,8 @@ public class XMLReader {
 					setOpen(Double.parseDouble(eElement.getElementsByTagName("open").item(0).getTextContent()));
 					setnOpen(Double.parseDouble(eElement.getElementsByTagName("nOpen").item(0).getTextContent()));
 				
-					 System.out.println("XMLpHigh : " +
-					 eElement.getElementsByTagName("pHigh").item(0).getTextContent());
+//					 System.out.println("XMLpHigh : " +
+//					 eElement.getElementsByTagName("pHigh").item(0).getTextContent());
 
 				}
 			}

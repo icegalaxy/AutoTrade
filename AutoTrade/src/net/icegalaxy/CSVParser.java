@@ -57,10 +57,10 @@ public class CSVParser {
 			// ignore the title
 
 			for (int i = 0; i < 5; i++)
-				System.out.print(sc.next());
+				System.out.print(sc.next() + " ");
 			
 			sc.useDelimiter("\r");
-			System.out.println("xxx" + sc.next() +"xxx");
+			System.out.println(sc.next());
 
 			while (sc.hasNext()) {
 
@@ -82,7 +82,7 @@ public class CSVParser {
 
 					sc.useDelimiter("\r");
 					volume.add(Double.parseDouble(sc.next().replace(",", "")));
-					System.out.println("Volume: " + volume.get(volume.size()-1));
+
 
 				} catch (Exception e) {
 

@@ -60,7 +60,9 @@ public class QuotePower {
 		sleep(100); // �i��]��copy���Yget��get����AScanner���n�hnull
 
 		String s = DB.getClipboard();
-		time = getTime();
+		
+//		getTime() is returning time, this is meaningless
+//		time = getTime();
 
 //		for (int i = 0; i < 2; i++) {
 
@@ -74,7 +76,7 @@ public class QuotePower {
 				tableName = fhi;
 			} else { // �ĤG�����|�YH�A�|COVER��HSI D data, getDeal�GD�|get��h��
 //				index = "HHI ";
-				index = "H�ѫ��ƴ��f ";
+//				index = "H�ѫ��ƴ��f ";
 //				tableName = hhi;
 			}
 
@@ -109,7 +111,8 @@ public class QuotePower {
 				e.printStackTrace();
 				sleep(1000);
 
-				if (new Integer(getTime()) < 91600){ //�ڦ��O�׫Y�\�Ĥ@��GET����clipboard�A�զh�X��
+				//dont know what this is actually
+				if (new Integer(time) < 91600){ //�ڦ��O�׫Y�\�Ĥ@��GET����clipboard�A�զh�X��
 					Global.addLog("Can't get quote, try again");
 					getQuote();
 				}
@@ -128,7 +131,7 @@ public class QuotePower {
 			}
 
 			String query = "INSERT INTO " + tableName + " VALUES("
-					+ quote(num.toString()) + "," + quote(time) + ","
+					+ quote(num.toString()) + ",\"" + quote(time) + "\","
 					+ quote(deal) + "," + quote(change) + ","
 					+ quote(quantity.toString()) + "," + quote(bidQuantity)
 					+ "," + quote(bid) + "," + quote(ask) + ","
@@ -186,9 +189,9 @@ public class QuotePower {
 		return ("'" + point + "'");
 	}
 
-	private String getTime() {
-		return time;
-	}
+//	private String getTime() {
+//		return time;
+//	}
 
 	public String getDeal() {
 		return deal;
