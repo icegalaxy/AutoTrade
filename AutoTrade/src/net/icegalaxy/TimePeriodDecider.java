@@ -92,8 +92,6 @@ public class TimePeriodDecider implements Runnable {
 			else if (time > afternoonOrderStop)
 				Global.setOrderTime(false);
 
-
-			Global.addLog("EMA240" + GetData.getLongTB().getEMA(240));
 			if (!Global.isRunning()) {
 				Global.setTradeTime(false);
 				Global.setOrderTime(false);
