@@ -1,14 +1,9 @@
 package net.icegalaxy;
 
-import java.awt.AWTException;
-import java.awt.Robot;
-import java.awt.event.InputEvent;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Scanner;
 
-public class QuotePower {
+public class QuotePower { 
 
 	Integer num = 1;
 
@@ -57,28 +52,11 @@ public class QuotePower {
 			
 		}
 
-		sleep(100); // �i��]��copy���Yget��get����AScanner���n�hnull
-
-		String s = DB.getClipboard();
-		
-//		getTime() is returning time, this is meaningless
-//		time = getTime();
-
-//		for (int i = 0; i < 2; i++) {
-
-		for (int i = 0; i < 1; i++) { //HSI only
+		sleep(100); // give time the the computer, dont knwo whether is necessary
 			
-			String index = "";
 			String tableName = "";
-			if (i == 0) {
-//				index = "HSI ";
-				index = "HSI Futures ";
-				tableName = fhi;
-			} else { // �ĤG�����|�YH�A�|COVER��HSI D data, getDeal�GD�|get��h��
-//				index = "HHI ";
-//				index = "H�ѫ��ƴ��f ";
-//				tableName = hhi;
-			}
+			tableName = fhi;
+
 
 			deal = "";
 			change = "";
@@ -89,39 +67,10 @@ public class QuotePower {
 			ask = "";
 			quantity = new Float(0);
 
-			try {
-				Scanner sc = new Scanner(s);
-				sc.useDelimiter(index + "..........."); //�h��HKD
-				sc.next();
-				Scanner sc2 = new Scanner(sc.next());
-				deal = sc2.next();
-				change = sc2.next();
-				sc2.next();
-				quantityB4Treatment = sc2.next();
-				
-				bidQuantity = sc2.next();
-				bid = sc2.next();
-				ask = sc2.next();
-				askQuantity = sc2.next();
-
-				sc.close();
-				sc2.close();
-				
-			} catch (Exception e) {
-				e.printStackTrace();
-				sleep(1000);
-
-				//dont know what this is actually
-				if (new Integer(time) < 91600){ //�ڦ��O�׫Y�\�Ĥ@��GET����clipboard�A�զh�X��
-					Global.addLog("Can't get quote, try again");
-					getQuote();
-				}
-				else {
-					Global.shutDown = true;
-					throw new FailGettingDataException();
-				}
-				// getQuote();
-			}
+			if (TimePeriodDecider.getTime() <164500)
+				getDayMarket();
+			else
+				getNighMarket();
 
 			if (quantityB4Treatment.contains("K")) {
 				quantity = new Float(quantityB4Treatment.replace("K", ""));
@@ -143,10 +92,83 @@ public class QuotePower {
 				e.printStackTrace();
 			}
 
-		}
+		
 
 		num++;
 
+	}
+	
+	private void getDayMarket(){
+		try {
+			Scanner sc = new Scanner(DB.getClipboard());
+			sc.useDelimiter("HKD");
+			sc.next();
+			Scanner sc2 = new Scanner(sc.next());
+			deal = sc2.next();
+			change = sc2.next();
+			sc2.next();
+			quantityB4Treatment = sc2.next();
+			
+			bidQuantity = sc2.next();
+			bid = sc2.next();
+			ask = sc2.next();
+			askQuantity = sc2.next();
+
+			sc.close();
+			sc2.close();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			sleep(1000);
+
+			//dont know what this is actually
+//			if (new Integer(time) < 91600){ //�ڦ��O�׫Y�\�Ĥ@��GET����clipboard�A�զh�X��
+//				Global.addLog("Can't get quote, try again");
+//				getQuote();
+//			}
+//			else {
+//				Global.shutDown = true;
+//				throw new FailGettingDataException();
+//			}
+			// getQuote();
+		}
+	}
+	
+	private void getNighMarket(){
+		try {
+			Scanner sc = new Scanner(DB.getClipboard());
+			sc.useDelimiter("HKD");
+			sc.next();
+			sc.next();
+			Scanner sc2 = new Scanner(sc.next());
+			deal = sc2.next();
+			change = sc2.next();
+			sc2.next();
+			quantityB4Treatment = sc2.next();
+			
+			bidQuantity = sc2.next();
+			bid = sc2.next();
+			ask = sc2.next();
+			askQuantity = sc2.next();
+
+			sc.close();
+			sc2.close();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			sleep(1000);
+
+			//dont know what this is actually
+//			if (new Integer(time) < 91600){ //�ڦ��O�׫Y�\�Ĥ@��GET����clipboard�A�զh�X��
+//				Global.addLog("Can't get quote, try again");
+//				getQuote();
+//			}
+//			else {
+//				Global.shutDown = true;
+//				throw new FailGettingDataException();
+//			}
+			// getQuote();
+		}
 	}
 
 	public void close() {
