@@ -21,28 +21,55 @@ public class RuleSilvia extends Rules {
 		
 		
 		// Reset the lossCount at afternoon because P.High P.Low is so important
-		if (isAfternoonTime() && !tradeTimesReseted) {
-			lossTimes = 0;
-			tradeTimesReseted = true;
-		}
+//		if (isAfternoonTime() && !tradeTimesReseted) {
+//			lossTimes = 0;
+//			tradeTimesReseted = true;
+//		}
 
-		if (!isOrderTime() || lossTimes >= 3 || Global.getNoOfContracts() != 0
-				|| Global.getpHigh() == 0)
+		if (!isOrderTime() || lossTimes >= 2 || Global.getNoOfContracts() != 0)
 			return;
 
-		openOHLC(Global.getpHigh());
+		if(isUpTrend()){
+			
+			if (Global.getCurrentPoint() <= GetData.getM15TB().getHL(1).getTempLow() + 5){
+						
+				Global.addLog("Entered waiting zone");
+			
+				while (Global.getCurrentPoint() < GetData.getM15TB().getHL(1).getTempLow() + 10)
+					sleep(1000);
+				
+				if(!isUpTrend()){
+					Global.addLog("Is not upTrend anymore");
+					return;
+				}
+				
+				longContract();				
+			}	
+		}else if (isDownTrend()){
+			
+			if (Global.getCurrentPoint() >= GetData.getM15TB().getHL(1).getTempHigh() - 5){
+				
+				Global.addLog("Entered waiting zone");
+			
+				while (Global.getCurrentPoint() > GetData.getM15TB().getHL(1).getTempHigh() - 10)
+					sleep(1000);
+				
+				if(!isUpTrend()){
+					Global.addLog("Is not downTrend anymore");
+					return;
+				}
+				
+				shortContract();		
+			}
+		}
 	}
 
 	void updateStopEarn() {
 
 		if (getProfit() < 30 || getTimeBase().getEMA(5) == -1)
 			super.updateStopEarn();
-		else if (getProfit() <50){
-			secondStopEarn();
-		}else
-		{
-			thirdStopEarn();
-		}
+		else if (getProfit() <50)
+			thirdStopEarn();secondStopEarn();
 
 	}
 
