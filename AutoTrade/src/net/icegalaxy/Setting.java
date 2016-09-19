@@ -167,8 +167,9 @@ public class Setting extends JFrame {
 		RulePClose rulePClose = new RulePClose(true);
 		RuleDanny danny = new RuleDanny(true);
 		RuleNoonOpen noonOpen = new RuleNoonOpen(true);
-
-		Runnable[] r = { gd, tpd, ruleOpen,ruleRSI, rulePHigh, rulePLow, rulePClose, aoh, aol, danny, noonOpen};
+		RuleSilvia silvia = new RuleSilvia(true);
+		
+		Runnable[] r = { gd, tpd, ruleOpen,ruleRSI, rulePHigh, rulePLow, rulePClose, aoh, aol, danny, noonOpen, silvia};
 
 		Thread[] t = new Thread[r.length];
 		for (int i = 0; i < r.length; i++) {
