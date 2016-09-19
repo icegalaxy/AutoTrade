@@ -8,7 +8,7 @@ public class RuleSilvia extends Rules {
 
 	public RuleSilvia(boolean globalRunRule) {
 		super(globalRunRule);
-		setOrderTime(94500, 110000, 133000, 160000);
+		setOrderTime(94500, 113000, 130500, 160000);
 		// wait for EMA6, that's why 0945
 	}
 

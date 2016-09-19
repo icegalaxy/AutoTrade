@@ -8,7 +8,7 @@ public class RuleNoonOpen extends Rules {
 
 	public RuleNoonOpen(boolean globalRunRule) {
 		super(globalRunRule);
-		setOrderTime(120000, 120000, 133000, 160000);
+		setOrderTime(120000, 120000, 131500, 160000);
 		// wait for EMA6, that's why 0945
 	}
 

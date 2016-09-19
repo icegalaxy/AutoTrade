@@ -23,9 +23,9 @@ public abstract class Rules implements Runnable {
 	private static float balance; // holding contracts �� balance
 
 	//can use default trade time, just do not use the setTime method
-	int morningOpen = 93000;
-	int morningClose = 114500;
-	int noonOpen = 131500;
+	int morningOpen = 92000;
+	int morningClose = 113000;
+	int noonOpen = 130500;
 	int noonClose = 160000;
 	int nightOpen = 173000;
 	int nightClose = 231500;

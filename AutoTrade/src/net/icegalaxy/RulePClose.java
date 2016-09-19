@@ -6,7 +6,7 @@ public class RulePClose extends Rules {
 
 	public RulePClose(boolean globalRunRule) {
 		super(globalRunRule);
-		setOrderTime(91500, 110000, 140000, 153000);
+		setOrderTime(92000, 113000, 130500, 160000);
 
 	}
 
