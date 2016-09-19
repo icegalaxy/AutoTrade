@@ -29,13 +29,15 @@ public class RuleSilvia extends Rules {
 		if (!isOrderTime() || lossTimes >= 2 || Global.getNoOfContracts() != 0)
 			return;
 
+		//used 1hr instead of 15min
+		
 		if(isUpTrend()){
 			
-			if (Global.getCurrentPoint() <= GetData.getM15TB().getHL(1).getTempLow() + 5){
+			if (Global.getCurrentPoint() <= GetData.getM15TB().getHL(4).getTempLow() + 5){
 						
 				Global.addLog("Entered waiting zone");
 			
-				while (Global.getCurrentPoint() < GetData.getM15TB().getHL(1).getTempLow() + 10)
+				while (Global.getCurrentPoint() < GetData.getM15TB().getHL(4).getTempLow() + 10)
 					sleep(1000);
 				
 				if(!isUpTrend()){
@@ -47,11 +49,11 @@ public class RuleSilvia extends Rules {
 			}	
 		}else if (isDownTrend()){
 			
-			if (Global.getCurrentPoint() >= GetData.getM15TB().getHL(1).getTempHigh() - 5){
+			if (Global.getCurrentPoint() >= GetData.getM15TB().getHL(4).getTempHigh() - 5){
 				
 				Global.addLog("Entered waiting zone");
 			
-				while (Global.getCurrentPoint() > GetData.getM15TB().getHL(1).getTempHigh() - 10)
+				while (Global.getCurrentPoint() > GetData.getM15TB().getHL(4).getTempHigh() - 10)
 					sleep(1000);
 				
 				if(!isUpTrend()){
