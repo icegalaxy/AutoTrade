@@ -8,7 +8,7 @@ public class RuleDanny extends Rules {
 
 	public RuleDanny(boolean globalRunRule) {
 		super(globalRunRule);
-		setOrderTime(91500, 110000, 133000, 160000);
+//		setOrderTime(91500, 110000, 133000, 160000);
 		// wait for EMA6, that's why 0945
 	}
 

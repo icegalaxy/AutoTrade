@@ -329,6 +329,7 @@ public class Global {
 
 	public static synchronized void setOpen(double open) {
 		Global.open = open;
+		addLog("Set Open: " + open);
 	}
 
 
@@ -364,6 +365,7 @@ public class Global {
 
 	public static synchronized void setNoonOpen(double noonOpen) {
 		Global.noonOpen = noonOpen;
+		addLog("Set Noon Open: " + noonOpen);
 	}
 
 

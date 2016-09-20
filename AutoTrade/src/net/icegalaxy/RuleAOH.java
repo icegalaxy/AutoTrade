@@ -8,7 +8,7 @@ public class RuleAOH extends Rules {
 
 	public RuleAOH(boolean globalRunRule) {
 		super(globalRunRule);
-		setOrderTime(91500, 110000, 140000, 160000, 230000, 230000);
+//		setOrderTime(91500, 110000, 140000, 160000, 230000, 230000);
 
 	}
 

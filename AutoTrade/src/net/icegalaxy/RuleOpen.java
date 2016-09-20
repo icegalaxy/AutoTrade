@@ -7,7 +7,7 @@ public class RuleOpen extends Rules {
 
 	public RuleOpen(boolean globalRunRule) {
 		super(globalRunRule);
-		setOrderTime(91500, 110000, 140000, 153000);
+//		setOrderTime(92000, 110000, 140000, 153000);
 		
 	}
 
