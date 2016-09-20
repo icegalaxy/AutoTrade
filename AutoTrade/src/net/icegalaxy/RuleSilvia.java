@@ -35,13 +35,19 @@ public class RuleSilvia extends Rules {
 			
 			if (Global.getCurrentPoint() <= GetData.getM15TB().getHL(4).getTempLow() + 5){
 						
-				Global.addLog("Entered waiting zone");
+				Global.addLog(className + ": Entered waiting zone");
 			
 				while (Global.getCurrentPoint() < GetData.getM15TB().getHL(4).getTempLow() + 10)
 					sleep(1000);
 				
 				if(!isUpTrend()){
-					Global.addLog("Is not upTrend anymore");
+					Global.addLog(className + ": Is not upTrend anymore");
+					return;
+				}
+				
+				//don't want to trade at Day H/L
+				if(GetData.getM15TB().getHL(4).getTempLow() == Global.getDayLow()){
+					Global.addLog(className + ": Is DayLow");
 					return;
 				}
 				
@@ -51,13 +57,19 @@ public class RuleSilvia extends Rules {
 			
 			if (Global.getCurrentPoint() >= GetData.getM15TB().getHL(4).getTempHigh() - 5){
 				
-				Global.addLog("Entered waiting zone");
+				Global.addLog(className + ": Entered waiting zone");
 			
 				while (Global.getCurrentPoint() > GetData.getM15TB().getHL(4).getTempHigh() - 10)
 					sleep(1000);
 				
-				if(!isUpTrend()){
-					Global.addLog("Is not downTrend anymore");
+				if(!isDownTrend()){
+					Global.addLog(className + ": Is not downTrend anymore");
+					return;
+				}
+				
+				//don't want to trade at Day H/L
+				if(GetData.getM15TB().getHL(4).getTempHigh() == Global.getDayHigh()){
+					Global.addLog(className + ": Is DayHigh");
 					return;
 				}
 				
