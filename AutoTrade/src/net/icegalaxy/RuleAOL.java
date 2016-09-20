@@ -30,7 +30,10 @@ public class RuleAOL extends Rules {
 				|| Global.getAOL() == 0)
 			return;
 
-		openOHLC(Global.getAOL());
+		if (isInsideDay())
+			reverseOHLC(Global.getAOL());
+		else
+			openOHLC(Global.getAOL());
 	}
 
 	void updateStopEarn() {

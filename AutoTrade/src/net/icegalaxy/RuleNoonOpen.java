@@ -3,7 +3,7 @@ package net.icegalaxy;
 public class RuleNoonOpen extends Rules {
 
 	private int lossTimes;
-//	private double refEMA;
+	// private double refEMA;
 	private boolean tradeTimesReseted;
 
 	public RuleNoonOpen(boolean globalRunRule) {
@@ -18,14 +18,14 @@ public class RuleNoonOpen extends Rules {
 			lossTimes++;
 			shutdown = false;
 		}
-		
-		
 
-		if (!isOrderTime() || lossTimes >= 3 || Global.getNoOfContracts() != 0
-				|| Global.getNoonOpen() == 0)
+		if (!isOrderTime() || lossTimes >= 3 || Global.getNoOfContracts() != 0 || Global.getNoonOpen() == 0)
 			return;
 
-		openOHLC(Global.getNoonOpen());
+		if (isInsideDay())
+			reverseOHLC(Global.getNoonOpen());
+		else
+			openOHLC(Global.getNoonOpen());
 	}
 
 	void updateStopEarn() {

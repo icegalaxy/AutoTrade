@@ -360,6 +360,12 @@ public abstract class Rules implements Runnable {
 		}
 
 	}
+	
+	public boolean isInsideDay(){
+		
+		return Global.getCurrentPoint() > Global.getpLow() + 5 && Global.getCurrentPoint() < Global.getpHigh() - 5;
+		
+	}
 
 	void secondStopEarn() {
 
@@ -493,25 +499,67 @@ public abstract class Rules implements Runnable {
 	// Danny �l�ȥ�e�w��V
 	public boolean isUpTrend() {
 		return GetData.getM15TB().getMA(20) > GetData.getM15TB().getEMA(50)
-				&& GetData.getLongTB().getEMA(50) > GetData.getLongTB().getEMA(
-						240) && GetData.getLongTB().getEMA(5) > GetData.getLongTB().getEMA(6);
+				&& GetData.getLongTB().getEMA(50) > GetData.getLongTB().getEMA(240)
+				&& GetData.getLongTB().getEMA(5) > GetData.getLongTB().getEMA(6)
+//				&& GetData.getM15TB().isMARising(20, 1)
+//				&& GetData.getM15TB().isEMARising(50, 1)
+//				&& GetData.getLongTB().isEMARising(240, 1)
+				&& GetData.getLongTB().isEMARising(50, 1);
 	}
 
 	public boolean isDownTrend() {
 		return GetData.getM15TB().getMA(20) < GetData.getM15TB().getEMA(50)
-				&& GetData.getLongTB().getEMA(50) < GetData.getLongTB().getEMA(
-						240)  && GetData.getLongTB().getEMA(5) < GetData.getLongTB().getEMA(6);
+				&& GetData.getLongTB().getEMA(50) < GetData.getLongTB().getEMA(240)  
+				&& GetData.getLongTB().getEMA(5) < GetData.getLongTB().getEMA(6)
+//				&& GetData.getM15TB().isMADropping(20, 1)
+//				&& GetData.getM15TB().isEMADropping(50, 1)
+//				&& GetData.getLongTB().isEMADropping(240, 1)
+				&& GetData.getLongTB().isEMADropping(50, 1);
+		
+	}
+	
+
+	
+	public boolean isSideWay(){
+		
+		return 			
+				!GetData.getLongTB().isEMARising(50, 1)
+				&& !GetData.getLongTB().isEMADropping(50, 1);
 	}
 
+	void reverseOHLC(double ohlc) {
+		if (Global.getCurrentPoint() <= ohlc + 5
+				&& Global.getCurrentPoint() >= ohlc - 5) {
+
+			Global.addLog(className + ": Entered waiting zone");
+			Global.addLog("MA20(M15): " + GetData.getM15TB().getMA(20));
+			Global.addLog( "EMA50(M15): " + GetData.getM15TB().getEMA(50));
+			Global.addLog("EMA50(M5): " + GetData.getLongTB().getEMA(50));
+			Global.addLog( "EMA240(M5): " + GetData.getLongTB().getEMA(240));
+			Global.addLog("");
+
+			while (Global.getCurrentPoint() <= ohlc + 20
+					&& Global.getCurrentPoint() >= ohlc - 20)
+				sleep(1000);
+
+			if (Global.getCurrentPoint() > ohlc + 20 && isSideWay()) {
+				shortContract();
+			} else if (Global.getCurrentPoint() < ohlc - 20 && isSideWay()) {
+				longContract();
+			}
+		}
+	}
+	
 	void openOHLC(double ohlc) {
 		if (Global.getCurrentPoint() <= ohlc + 5
 				&& Global.getCurrentPoint() >= ohlc - 5) {
 
 			Global.addLog(className + ": Entered waiting zone");
-			Global.addLog("MA20(M15): " + GetData.getM15TB().getMA(20)
-					+ "; EMA50(M15): " + GetData.getM15TB().getEMA(50)
-					+ "; EMA50(M5): " + GetData.getLongTB().getEMA(50)
-					+ "; EMA240(M5): " + GetData.getLongTB().getEMA(240));
+			Global.addLog("MA20(M15): " + GetData.getM15TB().getMA(20));
+			Global.addLog( "EMA50(M15): " + GetData.getM15TB().getEMA(50));
+			Global.addLog("EMA50(M5): " + GetData.getLongTB().getEMA(50));
+			Global.addLog( "EMA240(M5): " + GetData.getLongTB().getEMA(240));
+			Global.addLog("");
 
 			while (Global.getCurrentPoint() <= ohlc + 10
 					&& Global.getCurrentPoint() >= ohlc - 10)

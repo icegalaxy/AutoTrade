@@ -3,12 +3,12 @@ package net.icegalaxy;
 public class RuleDanny extends Rules {
 
 	private int lossTimes;
-//	private double refEMA;
+	// private double refEMA;
 	private boolean tradeTimesReseted;
 
 	public RuleDanny(boolean globalRunRule) {
 		super(globalRunRule);
-//		setOrderTime(91500, 110000, 133000, 160000);
+		// setOrderTime(91500, 110000, 133000, 160000);
 		// wait for EMA6, that's why 0945
 	}
 
@@ -18,8 +18,7 @@ public class RuleDanny extends Rules {
 			lossTimes++;
 			shutdown = false;
 		}
-		
-		
+
 		// Reset the lossCount at afternoon because P.High P.Low is so important
 		if (isAfternoonTime() && !tradeTimesReseted) {
 			lossTimes = 0;
@@ -29,7 +28,10 @@ public class RuleDanny extends Rules {
 		if (!isOrderTime() || lossTimes >= 3 || Global.getNoOfContracts() != 0)
 			return;
 
-		openOHLC(GetData.getLongTB().getEMA(240));
+		if (isInsideDay())
+			reverseOHLC(GetData.getLongTB().getEMA(240));
+		else
+			openOHLC(GetData.getLongTB().getEMA(240));
 	}
 
 	void updateStopEarn() {

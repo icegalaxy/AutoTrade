@@ -47,7 +47,7 @@ public class RulePHigh extends Rules {
 					&& Global.getCurrentPoint() >= ohlc - 10)
 				sleep(1000);
 
-			if (Global.getCurrentPoint() > ohlc + 10 && isUpTrend()) {
+			if (Global.getCurrentPoint() > ohlc + 10) {
 				longContract();
 			} else if (Global.getCurrentPoint() < ohlc - 10) {		//cause if big drop trend
 				shortContract();

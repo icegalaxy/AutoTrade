@@ -3,36 +3,38 @@ package net.icegalaxy;
 public class RuleOpen extends Rules {
 
 	private int lossTimes = 0;
-//	private double refEMA;
+	// private double refEMA;
 
 	public RuleOpen(boolean globalRunRule) {
 		super(globalRunRule);
-//		setOrderTime(92000, 110000, 140000, 153000);
-		
+		// setOrderTime(92000, 110000, 140000, 153000);
+
 	}
 
 	public void openContract() {
-		
-//		if (Global.getOpen() == 0){									//Not setting open manually because this is faster, want to catch the first wave
-//			Global.setOpen(Global.getpClose() + Global.getGap()); //If gap == 0 then it will fail
-//			Global.addLog("Open @ " + Global.getOpen());
-//		}
+
+		// if (Global.getOpen() == 0){ //Not setting open manually because this
+		// is faster, want to catch the first wave
+		// Global.setOpen(Global.getpClose() + Global.getGap()); //If gap == 0
+		// then it will fail
+		// Global.addLog("Open @ " + Global.getOpen());
+		// }
 
 		if (shutdown) {
 			lossTimes++;
 			shutdown = false;
 		}
 
-		if (!isOrderTime() 
-				|| lossTimes >= 2 
-				|| Global.getNoOfContracts() != 0
-				|| Global.getOpen() == 0
-//				|| Global.getCurrentPoint() > Global.getPreviousHigh() - 30
-//				|| Global.getCurrentPoint() < Global.getPreviousLow() + 30
-				)
+		if (!isOrderTime() || lossTimes >= 2 || Global.getNoOfContracts() != 0 || Global.getOpen() == 0
+		// || Global.getCurrentPoint() > Global.getPreviousHigh() - 30
+		// || Global.getCurrentPoint() < Global.getPreviousLow() + 30
+		)
 			return;
 
-		openOHLC(Global.getOpen());
+		if (isInsideDay())
+			reverseOHLC(Global.getOpen());
+		else
+			openOHLC(Global.getOpen());
 	}
 
 	double getCutLossPt() {

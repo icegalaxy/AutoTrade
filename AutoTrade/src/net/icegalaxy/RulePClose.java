@@ -21,7 +21,10 @@ public class RulePClose extends Rules {
 				|| Global.getpClose() == 0)
 			return;
 
-		openOHLC(Global.getpClose());
+		if (isInsideDay())
+			reverseOHLC(Global.getpClose());
+		else
+			openOHLC(Global.getpClose());
 	}
 
 	void updateStopEarn() {

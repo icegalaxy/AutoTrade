@@ -30,7 +30,10 @@ public class RuleAOH extends Rules {
 				|| Global.getAOH() == 0)
 			return;
 
-		openOHLC(Global.getAOH());
+		if (isInsideDay())
+			reverseOHLC(Global.getAOH());
+		else
+			openOHLC(Global.getAOH());
 	}
 
 	void updateStopEarn() {
