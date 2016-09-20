@@ -70,8 +70,8 @@ public class RuleSilvia extends Rules {
 
 		if (getProfit() < 30 || getTimeBase().getEMA(5) == -1)
 			super.updateStopEarn();
-		else if (getProfit() <50)
-			thirdStopEarn();secondStopEarn();
+		else
+			thirdStopEarn();
 
 	}
 
