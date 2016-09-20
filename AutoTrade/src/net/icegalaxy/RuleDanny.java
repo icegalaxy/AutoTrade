@@ -28,10 +28,10 @@ public class RuleDanny extends Rules {
 		if (!isOrderTime() || lossTimes >= 3 || Global.getNoOfContracts() != 0)
 			return;
 
-		if (isInsideDay())
-			reverseOHLC(GetData.getLongTB().getEMA(240));
-		else
-			openOHLC(GetData.getLongTB().getEMA(240));
+//		if (isInsideDay())
+//			reverseOHLC(GetData.getLongTB().getEMA(240));
+//		else
+			openOHLC(getTimeBase().getEMA(240));
 	}
 
 	void updateStopEarn() {
@@ -44,11 +44,11 @@ public class RuleDanny extends Rules {
 	}
 
 	double getCutLossPt() {
-		return 10;
+		return Math.abs(buyingPoint - getTimeBase().getEMA(240));
 	}
 
 	double getStopEarnPt() {
-		return 15;
+		return Math.abs(buyingPoint - getTimeBase().getEMA(240)) * 1.5;
 	}
 
 	@Override

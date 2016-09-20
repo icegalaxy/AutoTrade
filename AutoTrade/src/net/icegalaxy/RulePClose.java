@@ -21,9 +21,9 @@ public class RulePClose extends Rules {
 				|| Global.getpClose() == 0)
 			return;
 
-		if (isInsideDay())
-			reverseOHLC(Global.getpClose());
-		else
+//		if (isInsideDay())
+//			reverseOHLC(Global.getpClose());
+//		else
 			openOHLC(Global.getpClose());
 	}
 
@@ -83,11 +83,11 @@ public class RulePClose extends Rules {
 	}
 
 	double getCutLossPt() {
-		return 10;
+		return Math.abs(buyingPoint - Global.getpClose());
 	}
 
 	double getStopEarnPt() {
-		return 15;
+		return Math.abs(buyingPoint - Global.getpClose()) * 1.5;
 	}
 
 	@Override

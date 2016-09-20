@@ -31,18 +31,18 @@ public class RuleOpen extends Rules {
 		)
 			return;
 
-		if (isInsideDay())
-			reverseOHLC(Global.getOpen());
-		else
+//		if (isInsideDay())
+//			reverseOHLC(Global.getOpen());
+//		else
 			openOHLC(Global.getOpen());
 	}
 
 	double getCutLossPt() {
-		return 10;
+		return Math.abs(buyingPoint - Global.getOpen());
 	}
 
 	double getStopEarnPt() {
-		return 15;
+		return Math.abs(buyingPoint - Global.getOpen()) * 1.5;
 	}
 
 	void updateStopEarn() {

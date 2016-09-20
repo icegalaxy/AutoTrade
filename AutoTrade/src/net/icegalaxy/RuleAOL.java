@@ -30,9 +30,9 @@ public class RuleAOL extends Rules {
 				|| Global.getAOL() == 0)
 			return;
 
-		if (isInsideDay())
-			reverseOHLC(Global.getAOL());
-		else
+//		if (isInsideDay())
+//			reverseOHLC(Global.getAOL());
+//		else
 			openOHLC(Global.getAOL());
 	}
 
@@ -48,11 +48,11 @@ public class RuleAOL extends Rules {
 	}
 
 	double getCutLossPt() {
-		return 10;
+		return Math.abs(buyingPoint - Global.getAOL());
 	}
 
 	double getStopEarnPt() {
-		return 15;
+		return Math.abs(buyingPoint - Global.getAOL()) * 1.5;
 	}
 
 	@Override

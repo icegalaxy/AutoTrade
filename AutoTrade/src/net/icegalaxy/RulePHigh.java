@@ -38,18 +38,18 @@ public class RulePHigh extends Rules {
 				&& Global.getCurrentPoint() >= ohlc - 5) {
 
 			Global.addLog(className + ": Entered waiting zone");
-			Global.addLog("MA20(M15): " + GetData.getM15TB().getMA(20)
-					+ "; EMA50(M15): " + GetData.getM15TB().getEMA(50)
-					+ "; EMA50(M5): " + GetData.getLongTB().getEMA(50)
-					+ "; EMA240(M5): " + GetData.getLongTB().getEMA(240));
+//			Global.addLog("MA20(M15): " + GetData.getM15TB().getMA(20)
+//					+ "; EMA50(M15): " + GetData.getM15TB().getEMA(50)
+//					+ "; EMA50(M5): " + GetData.getLongTB().getEMA(50)
+//					+ "; EMA240(M5): " + GetData.getLongTB().getEMA(240));
 
-			while (Global.getCurrentPoint() <= ohlc + 10
-					&& Global.getCurrentPoint() >= ohlc - 10)
+			while (getTimeBase().getLatestCandle().getClose() <= ohlc + 10
+					&& getTimeBase().getLatestCandle().getClose()  >= ohlc - 10)
 				sleep(1000);
 
-			if (Global.getCurrentPoint() > ohlc + 10) {
+			if (getTimeBase().getLatestCandle().getClose()  > ohlc + 10) {
 				longContract();
-			} else if (Global.getCurrentPoint() < ohlc - 10) {		//cause if big drop trend
+			} else if (getTimeBase().getLatestCandle().getClose() < ohlc - 10) {		//cause if big drop trend
 				shortContract();
 			}
 		}
@@ -67,11 +67,11 @@ public class RulePHigh extends Rules {
 	}
 
 	double getCutLossPt() {
-		return 10;
+		return Math.abs(buyingPoint - Global.getpHigh());
 	}
 
 	double getStopEarnPt() {
-		return 15;
+		return Math.abs(buyingPoint - Global.getpHigh()) * 1.5;
 	}
 
 	@Override

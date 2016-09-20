@@ -30,9 +30,9 @@ public class RuleAOH extends Rules {
 				|| Global.getAOH() == 0)
 			return;
 
-		if (isInsideDay())
-			reverseOHLC(Global.getAOH());
-		else
+//		if (isInsideDay())
+//			reverseOHLC(Global.getAOH());
+//		else
 			openOHLC(Global.getAOH());
 	}
 
@@ -47,11 +47,12 @@ public class RuleAOH extends Rules {
 	}
 
 	double getCutLossPt() {
-		return 10;
+		return Math.abs(buyingPoint - Global.getAOH());
 	}
 
 	double getStopEarnPt() {
-		return 15;
+		return Math.abs(buyingPoint - Global.getAOH()) * 1.5;
+
 	}
 
 	@Override

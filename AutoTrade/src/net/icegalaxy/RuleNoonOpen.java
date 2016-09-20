@@ -22,9 +22,9 @@ public class RuleNoonOpen extends Rules {
 		if (!isOrderTime() || lossTimes >= 3 || Global.getNoOfContracts() != 0 || Global.getNoonOpen() == 0)
 			return;
 
-		if (isInsideDay())
-			reverseOHLC(Global.getNoonOpen());
-		else
+//		if (isInsideDay())
+//			reverseOHLC(Global.getNoonOpen());
+//		else
 			openOHLC(Global.getNoonOpen());
 	}
 
@@ -38,11 +38,11 @@ public class RuleNoonOpen extends Rules {
 	}
 
 	double getCutLossPt() {
-		return 10;
+		return Math.abs(buyingPoint - Global.getNoonOpen());
 	}
 
 	double getStopEarnPt() {
-		return 15;
+		return Math.abs(buyingPoint - Global.getNoonOpen()) * 1.5;
 	}
 
 	@Override
