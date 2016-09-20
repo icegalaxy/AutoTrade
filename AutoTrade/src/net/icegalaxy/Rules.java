@@ -158,14 +158,29 @@ public abstract class Rules implements Runnable {
 		}
 	}
 
+//	protected void cutLoss() {
+//		if (Global.getNoOfContracts() > 0
+//				&& Global.getCurrentPoint() < tempCutLoss) {
+//			closeContract(className + ": CutLoss, short @ "
+//					+ Global.getCurrentBid());
+//			shutdown = true;
+//		} else if (Global.getNoOfContracts() < 0
+//				&& Global.getCurrentPoint() > tempCutLoss) {
+//			closeContract(className + ": CutLoss, long @ "
+//					+ Global.getCurrentAsk());
+//			shutdown = true;
+//		}
+//	}
+	
+	//Use the latest 1min close instead of current point
 	protected void cutLoss() {
 		if (Global.getNoOfContracts() > 0
-				&& Global.getCurrentPoint() < tempCutLoss) {
+				&& GetData.getShortTB().getLatestCandle().getClose() < tempCutLoss) {
 			closeContract(className + ": CutLoss, short @ "
 					+ Global.getCurrentBid());
 			shutdown = true;
 		} else if (Global.getNoOfContracts() < 0
-				&& Global.getCurrentPoint() > tempCutLoss) {
+				&& GetData.getShortTB().getLatestCandle().getClose() > tempCutLoss) {
 			closeContract(className + ": CutLoss, long @ "
 					+ Global.getCurrentAsk());
 			shutdown = true;
