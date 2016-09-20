@@ -475,17 +475,17 @@ public abstract class Rules implements Runnable {
 			return buyingPoint - Global.getCurrentPoint();
 	}
 
-	// Danny ¤l¤È¥æ¤e©w¤è¦V
+	// Danny ï¿½lï¿½È¥ï¿½eï¿½wï¿½ï¿½V
 	public boolean isUpTrend() {
 		return GetData.getM15TB().getMA(20) > GetData.getM15TB().getEMA(50)
 				&& GetData.getLongTB().getEMA(50) > GetData.getLongTB().getEMA(
-						240);
+						240) && GetData.getLongTB().getEMA(5) > GetData.getLongTB().getEMA(6);
 	}
 
 	public boolean isDownTrend() {
 		return GetData.getM15TB().getMA(20) < GetData.getM15TB().getEMA(50)
 				&& GetData.getLongTB().getEMA(50) < GetData.getLongTB().getEMA(
-						240);
+						240)  && GetData.getLongTB().getEMA(5) < GetData.getLongTB().getEMA(6);
 	}
 
 	void openOHLC(double ohlc) {
