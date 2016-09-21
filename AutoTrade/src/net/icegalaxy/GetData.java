@@ -49,8 +49,9 @@ public class GetData implements Runnable {
 	private boolean getIndex() {
 
 		try {
-			
-			//time of QuotePower.java is past from here everytime this method is called
+
+			// time of QuotePower.java is past from here everytime this method
+			// is called
 			qp.setTime(time);
 			qp.getQuote();
 			deal = new Float(qp.getDeal());
@@ -83,6 +84,23 @@ public class GetData implements Runnable {
 
 		setOHLC();
 		getPreviousData();
+
+		//Auto getOpen
+		if (getTimeInt() > 91400) {
+
+			try {
+				QuotePower q = new QuotePower("getOpen");
+				double open = q.getDealOnly();
+				Global.addLog("Auto getOpen: " + open);
+				
+				if (open != 0)
+					Global.setOpen(open);
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+		}
 
 		while (Global.isRunning()) {
 
@@ -179,15 +197,16 @@ public class GetData implements Runnable {
 
 					// getDayOpen, check every minutes
 					setOpen();
+					
+					checkStop();
 					// get noonOpen, check every minutes
 					if (Global.isNoonOpened)
 						setNoonOpen();
 
 					getShortTB().addData(point, totalQuantity);
 
-					getShortTB().addCandle(getTime(), shortData.periodHigh,
-							shortData.periodLow, shortData.openPt, point,
-							totalQuantity);
+					getShortTB().addCandle(getTime(), shortData.periodHigh, shortData.periodLow, shortData.openPt,
+							point, totalQuantity);
 
 					System.out.println(getTime() + " " + point);
 					System.out.println("MA10: " + getShortTB().getMA(10));
@@ -205,8 +224,7 @@ public class GetData implements Runnable {
 
 					getM15TB().addData(point, totalQuantity);
 
-					getM15TB().addCandle(getTime(), m15Data.periodHigh,
-							m15Data.periodLow, m15Data.openPt, point,
+					getM15TB().addCandle(getTime(), m15Data.periodHigh, m15Data.periodLow, m15Data.openPt, point,
 							totalQuantity);
 					m15Minutes = 0;
 					m15Data.reset();
@@ -214,10 +232,8 @@ public class GetData implements Runnable {
 					if (!aohAdded) {
 						Global.setAOL(getM15TB().getHL(1).getTempLow());
 						Global.setAOH(getM15TB().getHL(1).getTempHigh());
-						Global.addLog("AOL: "
-								+ getM15TB().getHL(1).getTempLow());
-						Global.addLog("AOH: "
-								+ getM15TB().getHL(1).getTempHigh());
+						Global.addLog("AOL: " + getM15TB().getHL(1).getTempLow());
+						Global.addLog("AOH: " + getM15TB().getHL(1).getTempHigh());
 						aohAdded = true;
 					}
 				}
@@ -227,8 +243,7 @@ public class GetData implements Runnable {
 					// addDat = addPoint + quantity
 					getLongTB().addData(point, totalQuantity);
 
-					getLongTB().addCandle(getTime(), longData.periodHigh,
-							longData.periodLow, longData.openPt, point,
+					getLongTB().addCandle(getTime(), longData.periodHigh, longData.periodLow, longData.openPt, point,
 							totalQuantity);
 
 					getLongTB().getMACD();
@@ -247,15 +262,23 @@ public class GetData implements Runnable {
 			if (!Global.isTradeTime())
 				counter = 1;
 
-//			if (getTimeInt() > 161400 && !liquidated) {
-//				Sikuli.liquidateOnly();
-//				liquidated = true;
-//			}
+			// if (getTimeInt() > 161400 && !liquidated) {
+			// Sikuli.liquidateOnly();
+			// liquidated = true;
+			// }
 
 		}
 
 		qp.close();
 
+	}
+
+	private void checkStop() {
+		XMLReader ohlc = new XMLReader(Global.getToday());
+		
+		if(ohlc.isStop())
+			Global.setRunning(false);
+		
 	}
 
 	private void getPreviousData() {
@@ -267,23 +290,17 @@ public class GetData implements Runnable {
 		for (int i = 0; i < csv.getLow().size(); i++) {
 
 			// addPoint is for technical indicators
-			getLongTB().addData(csv.getClose().get(i).floatValue(),
-					csv.getVolume().get(i).floatValue());
+			getLongTB().addData(csv.getClose().get(i).floatValue(), csv.getVolume().get(i).floatValue());
 			// addCandle History is made for previous data, volume is not
 			// accumulated
-			getLongTB().addCandleHistory(csv.getTime().get(i),
-					csv.getHigh().get(i), csv.getLow().get(i),
-					csv.getOpen().get(i), csv.getClose().get(i),
-					csv.getVolume().get(i));
+			getLongTB().addCandleHistory(csv.getTime().get(i), csv.getHigh().get(i), csv.getLow().get(i),
+					csv.getOpen().get(i), csv.getClose().get(i), csv.getVolume().get(i));
 
 			j++;
 			if (j == 3) {
-				getM15TB().addData(csv.getClose().get(i).floatValue(),
-						csv.getVolume().get(i).floatValue());
-				getM15TB().addCandleHistory(csv.getTime().get(i),
-						csv.getHigh().get(i), csv.getLow().get(i),
-						csv.getOpen().get(i), csv.getClose().get(i),
-						csv.getVolume().get(i));
+				getM15TB().addData(csv.getClose().get(i).floatValue(), csv.getVolume().get(i).floatValue());
+				getM15TB().addCandleHistory(csv.getTime().get(i), csv.getHigh().get(i), csv.getLow().get(i),
+						csv.getOpen().get(i), csv.getClose().get(i), csv.getVolume().get(i));
 				j = 0;
 			}
 

@@ -22,6 +22,8 @@ public class XMLReader {
 	double AOL;
 	double open;
 	double nOpen;
+	
+	boolean stop;
 
 	public XMLReader(String tradeDate) {
 
@@ -69,7 +71,7 @@ public class XMLReader {
 					setAOL(Double.parseDouble(eElement.getElementsByTagName("AOL").item(0).getTextContent()));
 					setOpen(Double.parseDouble(eElement.getElementsByTagName("open").item(0).getTextContent()));
 					setnOpen(Double.parseDouble(eElement.getElementsByTagName("nOpen").item(0).getTextContent()));
-				
+					setStop(Boolean.parseBoolean(eElement.getElementsByTagName("stop").item(0).getTextContent().trim()));
 //					 System.out.println("XMLpHigh : " +
 //					 eElement.getElementsByTagName("pHigh").item(0).getTextContent());
 
@@ -81,6 +83,16 @@ public class XMLReader {
 		}
 	}
 	
+	
+	
+	public boolean isStop() {
+		return stop;
+	}
+
+	public void setStop(boolean stop) {
+		this.stop = stop;
+	}
+
 	public double getpOpen() {
 		return pOpen;
 	}

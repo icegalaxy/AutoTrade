@@ -173,10 +173,18 @@ public abstract class Rules implements Runnable {
 
 	// Use the latest 1min close instead of current point
 	protected void cutLoss() {
-		if (Global.getNoOfContracts() > 0 && GetData.getLongTB().getLatestCandle().getClose() < tempCutLoss) {
+
+		double refPt = 0;
+
+		if (isInsideDay())
+			refPt = GetData.getLongTB().getLatestCandle().getClose();
+		else
+			refPt = GetData.getShortTB().getLatestCandle().getClose();
+
+		if (Global.getNoOfContracts() > 0 && refPt < tempCutLoss) {
 			closeContract(className + ": CutLoss, short @ " + Global.getCurrentBid());
 			shutdown = true;
-		} else if (Global.getNoOfContracts() < 0 && GetData.getLongTB().getLatestCandle().getClose() > tempCutLoss) {
+		} else if (Global.getNoOfContracts() < 0 && refPt > tempCutLoss) {
 			closeContract(className + ": CutLoss, long @ " + Global.getCurrentAsk());
 			shutdown = true;
 		}
@@ -394,17 +402,14 @@ public abstract class Rules implements Runnable {
 	double getCutLossPt() {
 		return getAGAL() * CUTLOSS_FACTOR;
 		// return GetData.getShortTB().getHL15().getFluctuation() /
-		// CUTLOSS_FACTOR;		
+		// CUTLOSS_FACTOR;
 	}
-	
 
 	double getStopEarnPt() {
 		return getAGAL() * STOPEARN_FACTOR;
 		// return GetData.getShortTB().getHL15().getFluctuation() /
 		// STOPEARN_FACTOR;
 	}
-	
-
 
 	public void setName(String s) {
 		className = s;
@@ -536,35 +541,52 @@ public abstract class Rules implements Runnable {
 	}
 
 	void openOHLC(double ohlc) {
-		if (Global.getCurrentPoint() <= ohlc + 5 && Global.getCurrentPoint() >= ohlc - 5) {
+		if (Math.abs(Global.getCurrentPoint() - ohlc) <= 5) {
 
-			 Global.addLog(className + ": Entered waiting zone");
-			// Global.addLog("MA20(M15): " + GetData.getM15TB().getMA(20));
-			// Global.addLog( "EMA50(M15): " + GetData.getM15TB().getEMA(50));
-			// Global.addLog("EMA50(M5): " + GetData.getLongTB().getEMA(50));
-			// Global.addLog( "EMA240(M5): " + GetData.getLongTB().getEMA(240));
-			// Global.addLog("");
+			Global.addLog(className + ": Entered waiting zone");
+			
+			waitForANewCandle();
 
-			while (GetData.getLongTB().getLatestCandle().getClose() <= ohlc + 10
-					&& GetData.getLongTB().getLatestCandle().getClose() >= ohlc - 10)
+			//wait until it standing firmly
+			while (Math.abs(GetData.getLongTB().getLatestCandle().getClose() - ohlc) <= 5)
 				sleep(1000);
+
+			Global.addLog(className + ": Waiting for second corner");
+			//in case it get too fast, wait until it come back, just like second corner but a little bit earlier
+			while (Math.abs(Global.getCurrentPoint() - ohlc) > 15) {
+				if (Math.abs(Global.getCurrentPoint() - ohlc) > 50) {
+					Global.addLog(className + ": Risk is too big");
+					return;
+				}
+				
+				sleep(1000);
+			}
 
 			// for outside
 			if (Global.getCurrentPoint() > Global.getDayHigh()) {
-				if (GetData.getLongTB().getLatestCandle().getClose() > ohlc + 10)
+				if (GetData.getLongTB().getLatestCandle().getClose() > ohlc + 5)
 					longContract();
 			} else if (Global.getCurrentPoint() < Global.getDayLow()) {
-				if (GetData.getLongTB().getLatestCandle().getClose() < ohlc - 10)
+				if (GetData.getLongTB().getLatestCandle().getClose() < ohlc - 5)
 					shortContract();
-			
-			// for inside
+
+				// for inside
 			} else {
-				if (GetData.getLongTB().getLatestCandle().getClose() > ohlc + 10 && isUpTrend())
+				if (GetData.getLongTB().getLatestCandle().getClose() > ohlc + 5 && isUpTrend())
 					longContract();
-				else if (GetData.getLongTB().getLatestCandle().getClose() < ohlc - 10 && isDownTrend())
+				else if (GetData.getLongTB().getLatestCandle().getClose() < ohlc - 5 && isDownTrend())
 					shortContract();
 			}
 		}
+	}
+
+	public void waitForANewCandle() {
+		
+		int currentSize = GetData.getLongTB().getCandles().size();
+		
+		while (currentSize == GetData.getLongTB().getCandles().size())
+			sleep(1000);
+		
 	}
 
 	public boolean isAfternoonTime() {

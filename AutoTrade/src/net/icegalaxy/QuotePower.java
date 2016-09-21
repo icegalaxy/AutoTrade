@@ -32,6 +32,55 @@ public class QuotePower {
 		fhi = createTable("HSF");
 
 	}
+	
+	public QuotePower(String typeSthOnly) {
+	
+
+	}
+	
+	public double getDealOnly(){
+		
+		try {
+			Sikuli.quotePower();
+			errCount = 0;
+		} catch (Exception e) {
+			Global.addLog("Can't get quote");
+			Sikuli.resetQuotePower();
+			e.printStackTrace();
+			sleep(100);
+			errCount++;
+			
+		}
+
+		sleep(100); // give time the the computer, dont knwo whether is necessary
+			
+			String tableName = "";
+			tableName = fhi;
+
+
+			deal = "";
+			change = "";
+			quantityB4Treatment = "";
+			bidQuantity = "";
+			askQuantity = "";
+			bid = "";
+			ask = "";
+			quantity = new Float(0);
+
+			if (TimePeriodDecider.getTime() <164500)
+				getDayMarket();
+			else
+				getNighMarket();
+
+			if (quantityB4Treatment.contains("K")) {
+				quantity = new Float(quantityB4Treatment.replace("K", ""));
+				quantity = quantity * 1000;
+			} else {
+				quantity = new Float(quantityB4Treatment);
+			}
+			
+			return Double.parseDouble(deal);
+	}
 
 	public void getQuote() throws FailGettingDataException {
 

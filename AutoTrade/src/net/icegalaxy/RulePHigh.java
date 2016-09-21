@@ -38,10 +38,8 @@ public class RulePHigh extends Rules {
 				&& Global.getCurrentPoint() >= ohlc - 5) {
 
 			Global.addLog(className + ": Entered waiting zone");
-//			Global.addLog("MA20(M15): " + GetData.getM15TB().getMA(20)
-//					+ "; EMA50(M15): " + GetData.getM15TB().getEMA(50)
-//					+ "; EMA50(M5): " + GetData.getLongTB().getEMA(50)
-//					+ "; EMA240(M5): " + GetData.getLongTB().getEMA(240));
+
+			waitForANewCandle();
 
 			while (getTimeBase().getLatestCandle().getClose() <= ohlc + 10
 					&& getTimeBase().getLatestCandle().getClose()  >= ohlc - 10)
