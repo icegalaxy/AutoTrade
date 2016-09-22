@@ -2,7 +2,7 @@ package net.icegalaxy;
 
 public class RulePHigh extends Rules {
 
-	private int lossTimes;
+//	private int lossTimes;
 //	private double refEMA;
 	private boolean tradeTimesReseted;
 	double ohlc;

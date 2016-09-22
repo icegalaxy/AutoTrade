@@ -3,7 +3,7 @@ package net.icegalaxy;
 
 public class RulePLow extends Rules {
 	
-	private int lossTimes;
+//	private int lossTimes;
 //	private double refEMA;
 	private boolean tradeTimesReseted;
 private double ohlc;

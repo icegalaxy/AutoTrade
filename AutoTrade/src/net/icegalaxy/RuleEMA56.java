@@ -2,13 +2,13 @@ package net.icegalaxy;
 
 public class RuleEMA56 extends Rules {
 
-	private int lossTimes;
+//	private int lossTimes;
 	// private double refEMA;
 	private boolean tradeTimesReseted;
 
 	public RuleEMA56(boolean globalRunRule) {
 		super(globalRunRule);
-		setOrderTime(92000, 113000, 130500, 160000);
+		setOrderTime(92000, 113000, 130500, 160000, 233000, 233000);
 		// wait for EMA6, that's why 0945
 	}
 
@@ -18,14 +18,21 @@ public class RuleEMA56 extends Rules {
 			lossTimes++;
 			shutdown = false;
 		}
+		
+		// Reset the lossCount at afternoon because P.High P.Low is so important
+				if (isAfternoonTime() && !tradeTimesReseted) {
+					lossTimes = 0;
+					tradeTimesReseted = true;
+				}
+		
 
-		if (!isOrderTime() || lossTimes >= 3 || Global.getNoOfContracts() != 0)
+		if (!isOrderTime() || Global.getNoOfContracts() != 0)
 			return;
 
 		if(!isInsideDay()){
-			if(getTimeBase().getEMA(5) >= getTimeBase().getEMA(6))
+			if(getTimeBase().getEMA(5) >= getTimeBase().getEMA(6) + lossTimes)
 				longContract();
-			else
+			else if (getTimeBase().getEMA(5) <= getTimeBase().getEMA(6) - lossTimes)
 				shortContract();
 		}
 

@@ -11,6 +11,8 @@ public abstract class Rules implements Runnable {
 	protected String className;
 	double stopEarnPt;
 	double cutLossPt;
+	
+	public int lossTimes;
 
 	private final float CUTLOSS_FACTOR = 5.0F;
 	private final float STOPEARN_FACTOR = 5.0F;
@@ -191,10 +193,30 @@ public abstract class Rules implements Runnable {
 	}
 
 	void stopEarn() {
-		if (Global.getNoOfContracts() > 0 && GetData.getShortTB().getLatestCandle().getClose() < tempCutLoss)
+		if (Global.getNoOfContracts() > 0 && GetData.getShortTB().getLatestCandle().getClose() < tempCutLoss){
+			
+			if(Global.getCurrentPoint() < buyingPoint){
+				cutLoss();
+				return;
+			}
+			
 			closeContract(className + ": StopEarn, short @ " + Global.getCurrentBid());
-		else if (Global.getNoOfContracts() < 0 && GetData.getShortTB().getLatestCandle().getClose() > tempCutLoss)
+			if (lossTimes > 0)
+				lossTimes--;
+				
+		}
+		else if (Global.getNoOfContracts() < 0 && GetData.getShortTB().getLatestCandle().getClose() > tempCutLoss){
+			
+
+			if(Global.getCurrentPoint() > buyingPoint){
+				cutLoss();
+				return;
+			}
+			
 			closeContract(className + ": StopEarn, long @ " + Global.getCurrentAsk());
+			if (lossTimes > 0)
+				lossTimes--;
+		}
 	}
 
 	public void closeContract(String msg) {
