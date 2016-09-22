@@ -563,20 +563,20 @@ public abstract class Rules implements Runnable {
 			}
 
 			// for outside
-			if (Global.getCurrentPoint() > Global.getDayHigh()) {
-				if (GetData.getLongTB().getLatestCandle().getClose() > ohlc + 5)
+//			if (Global.getCurrentPoint() > Global.getDayHigh()) {
+//				if (GetData.getLongTB().getLatestCandle().getClose() > ohlc + 5)
+//					longContract();
+//			} else if (Global.getCurrentPoint() < Global.getDayLow()) {
+//				if (GetData.getLongTB().getLatestCandle().getClose() < ohlc - 5)
+//					shortContract();
+//
+//				// for inside
+//			} else {
+				if (GetData.getLongTB().getLatestCandle().getClose() > ohlc)
 					longContract();
-			} else if (Global.getCurrentPoint() < Global.getDayLow()) {
-				if (GetData.getLongTB().getLatestCandle().getClose() < ohlc - 5)
+				else if (GetData.getLongTB().getLatestCandle().getClose() < ohlc)
 					shortContract();
-
-				// for inside
-			} else {
-				if (GetData.getLongTB().getLatestCandle().getClose() > ohlc + 5 && isUpTrend())
-					longContract();
-				else if (GetData.getLongTB().getLatestCandle().getClose() < ohlc - 5 && isDownTrend())
-					shortContract();
-			}
+//			}
 		}
 	}
 
