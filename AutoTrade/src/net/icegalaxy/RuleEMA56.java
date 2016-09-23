@@ -26,7 +26,9 @@ public class RuleEMA56 extends Rules {
 				}
 		
 
-		if (!isOrderTime() || Global.getNoOfContracts() != 0)
+		if (!isOrderTime() 
+				|| Global.getNoOfContracts() != 0
+				|| Global.getpHigh() == 0)
 			return;
 
 		if(!isInsideDay()){

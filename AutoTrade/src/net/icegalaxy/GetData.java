@@ -199,6 +199,13 @@ public class GetData implements Runnable {
 					setOpen();
 					
 					checkStop();
+					
+					if (Global.getpHigh() == 0){
+						setOHLC();
+
+					}
+					
+					
 					// get noonOpen, check every minutes
 					if (Global.isNoonOpened)
 						setNoonOpen();
@@ -316,6 +323,13 @@ public class GetData implements Runnable {
 		Global.setpOpen(ohlc.getpOpen());
 		Global.setpClose(ohlc.getpClose());
 		Global.setpFluc(ohlc.getpFluc());
+		
+		if (Global.getpHigh() != 0){
+			Global.addLog("-------------------------------------");
+			Global.addLog("P.High: " + Global.getpHigh());
+			Global.addLog("P.Low: " + Global.getpLow());
+			Global.addLog("-------------------------------------");
+		}
 
 	}
 
