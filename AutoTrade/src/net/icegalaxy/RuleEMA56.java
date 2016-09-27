@@ -43,7 +43,18 @@ public class RuleEMA56 extends Rules {
 
 	void updateStopEarn() {
 
-			thirdStopEarn();
+		if (Global.getNoOfContracts() > 0) {
+			if (getTimeBase().getEMA(5) < getTimeBase().getEMA(6)) {
+				tempCutLoss = 99999;
+				Global.addLog(className + " StopEarn: EMA5 < EMA6");
+			}
+		} else if (Global.getNoOfContracts() < 0) {
+			if (getTimeBase().getEMA(5) > getTimeBase().getEMA(6)) {
+				tempCutLoss = 0;
+				Global.addLog(className + " StopEarn: EMA5 > EMA6");
+
+			}
+		}
 
 	}
 
