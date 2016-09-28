@@ -32,9 +32,11 @@ public class RuleEMA56 extends Rules {
 			return;
 
 		if(!isInsideDay()){
-			if(getTimeBase().getEMA(5) >= getTimeBase().getEMA(6))
+			if(getTimeBase().getEMA(5) > getTimeBase().getEMA(6)
+					&& GetData.getShortTB().getEMA(5) > GetData.getShortTB().getEMA(6))
 				longContract();
-			else if (getTimeBase().getEMA(5) <= getTimeBase().getEMA(6))
+			else if (getTimeBase().getEMA(5) < getTimeBase().getEMA(6)
+					&& GetData.getShortTB().getEMA(5) < GetData.getShortTB().getEMA(6))
 				shortContract();
 		}
 
@@ -71,9 +73,9 @@ public class RuleEMA56 extends Rules {
 		// TODO Auto-generated method stub
 		
 		// switching between 1 & 5 minutes
-		if (lossTimes % 2 ==1)
-			return GetData.getShortTB();
-		else
+//		if (lossTimes % 2 ==1)
+//			return GetData.getShortTB();
+//		else
 			return GetData.getLongTB();
 	}
 
