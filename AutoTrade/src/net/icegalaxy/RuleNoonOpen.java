@@ -30,9 +30,9 @@ public class RuleNoonOpen extends Rules {
 
 	void updateStopEarn() {
 
-		if (getProfit() < 30)
-			super.updateStopEarn();
-		else
+//		if (getProfit() < 30)
+//			super.updateStopEarn();
+//		else
 			thirdStopEarn();
 
 	}

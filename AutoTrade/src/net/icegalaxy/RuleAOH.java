@@ -38,9 +38,9 @@ public class RuleAOH extends Rules {
 
 	void updateStopEarn() {
 
-		if (getProfit() < 30)
-			super.updateStopEarn();
-		else
+//		if (getProfit() < 30)
+//			super.updateStopEarn();
+//		else
 			thirdStopEarn();
 		
 

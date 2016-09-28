@@ -29,9 +29,9 @@ public class RulePClose extends Rules {
 
 	void updateStopEarn() {
 
-		if (getProfit() < 30 || getTimeBase().getEMA(5) == -1)
-			super.updateStopEarn();
-		else
+//		if (getProfit() < 30 || getTimeBase().getEMA(5) == -1)
+//			super.updateStopEarn();
+//		else
 			thirdStopEarn();
 
 //		if (getProfit() < 40 || getTimeBase().getEMA(6) == -1)

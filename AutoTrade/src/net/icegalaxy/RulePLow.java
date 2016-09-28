@@ -65,9 +65,9 @@ private double ohlc;
 	}
 	void updateStopEarn() {
 
-		if (getProfit() < 30)
-			super.updateStopEarn();
-		else
+//		if (getProfit() < 30)
+//			super.updateStopEarn();
+//		else
 			thirdStopEarn();
 
 	}	

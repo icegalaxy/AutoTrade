@@ -594,10 +594,20 @@ public abstract class Rules implements Runnable {
 //
 //				// for inside
 //			} else {
-				if (GetData.getLongTB().getLatestCandle().getClose() > ohlc)
+				if (GetData.getLongTB().getLatestCandle().getClose() > ohlc){
+					if (GetData.getLongTB().getEMA(5) < GetData.getLongTB().getEMA(6)){
+						Global.addLog("Not Trending Up: EMA5 < EMA6");
+						return;
+					}
 					longContract();
-				else if (GetData.getLongTB().getLatestCandle().getClose() < ohlc)
+				}
+				else if (GetData.getLongTB().getLatestCandle().getClose() < ohlc){
+					if (GetData.getLongTB().getEMA(5) > GetData.getLongTB().getEMA(6)){
+						Global.addLog("Not Trending Down: EMA5 > EMA6");
+						return;
+					}
 					shortContract();
+				}
 //			}
 		}
 	}
