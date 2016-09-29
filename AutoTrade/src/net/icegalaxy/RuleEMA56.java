@@ -32,26 +32,27 @@ public class RuleEMA56 extends Rules {
 			return;
 
 		if(!isInsideDay()){
-			if(getTimeBase().getEMA(5) > getTimeBase().getEMA(6)
-					&& GetData.getShortTB().getEMA(5) > GetData.getShortTB().getEMA(6))
+			if(getTimeBase().getEMA(5) > getTimeBase().getEMA(6) + 1 // don't trade when they are too close to each other
+					&& GetData.getShortTB().getEMA(5) > GetData.getShortTB().getEMA(6) + lossTimes)
 				longContract();
-			else if (getTimeBase().getEMA(5) < getTimeBase().getEMA(6)
-					&& GetData.getShortTB().getEMA(5) < GetData.getShortTB().getEMA(6))
+			else if (getTimeBase().getEMA(5) < getTimeBase().getEMA(6) - 1
+					&& GetData.getShortTB().getEMA(5) < GetData.getShortTB().getEMA(6) - lossTimes)
 				shortContract();
 		}
 
 		
 	}
 
+	//use 1min instead of 5min
 	void updateStopEarn() {
 
 		if (Global.getNoOfContracts() > 0) {
-			if (getTimeBase().getEMA(5) < getTimeBase().getEMA(6)) {
+			if (GetData.getShortTB().getEMA(5) < GetData.getShortTB().getEMA(6)) {
 				tempCutLoss = 99999;
 				Global.addLog(className + " StopEarn: EMA5 < EMA6");
 			}
 		} else if (Global.getNoOfContracts() < 0) {
-			if (getTimeBase().getEMA(5) > getTimeBase().getEMA(6)) {
+			if (GetData.getShortTB().getEMA(5) > GetData.getShortTB().getEMA(6)) {
 				tempCutLoss = 0;
 				Global.addLog(className + " StopEarn: EMA5 > EMA6");
 
@@ -59,22 +60,43 @@ public class RuleEMA56 extends Rules {
 		}
 
 	}
-
+	
+	//use 1min instead of 5min
 	double getCutLossPt() {
 		
 		//One time lost 100 at first trade >_< 20160929
 		if (Global.getNoOfContracts() > 0){
 			if (GetData.getShortTB().getEMA(5) < GetData.getShortTB().getEMA(6))
-				return 30;
+				return 1;
 			else
 				return 50;
 		}else{
 			if (GetData.getShortTB().getEMA(5) > GetData.getShortTB().getEMA(6))
-				return 30;
+				return 1;
 			else
 				return 50;
 		}
 
+	}
+	
+	@Override
+	protected void cutLoss() {
+
+		if (Global.getNoOfContracts() > 0 && Global.getCurrentPoint() < tempCutLoss) {
+			closeContract(className + ": CutLoss, short @ " + Global.getCurrentBid());
+			shutdown = true;
+			
+			//wait for it to clam down
+			if(GetData.getShortTB().getEMA(5) > GetData.getShortTB().getEMA(6))
+				sleep(1000);
+			
+		} else if (Global.getNoOfContracts() < 0 && Global.getCurrentPoint()  > tempCutLoss) {
+			closeContract(className + ": CutLoss, long @ " + Global.getCurrentAsk());
+			shutdown = true;
+			
+			if(GetData.getShortTB().getEMA(5) > GetData.getShortTB().getEMA(6))
+				sleep(1000);
+		}
 	}
 
 	double getStopEarnPt() {
