@@ -61,7 +61,20 @@ public class RuleEMA56 extends Rules {
 	}
 
 	double getCutLossPt() {
-		return 100;
+		
+		//One time lost 100 at first trade >_< 20160929
+		if (Global.getNoOfContracts() > 0){
+			if (GetData.getShortTB().getEMA(5) < GetData.getShortTB().getEMA(6))
+				return 30;
+			else
+				return 50;
+		}else{
+			if (GetData.getShortTB().getEMA(5) > GetData.getShortTB().getEMA(6))
+				return 30;
+			else
+				return 50;
+		}
+
 	}
 
 	double getStopEarnPt() {
