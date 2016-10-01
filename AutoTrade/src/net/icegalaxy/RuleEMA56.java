@@ -54,7 +54,7 @@ public class RuleEMA56 extends Rules {
 				//wait for a better position
 				Global.addLog(className + ": waiting for a better position");
 				
-				while(Global.getCurrentPoint() < GetData.getShortTB().getEMA(6)){
+				while(Global.getCurrentPoint() < getTimeBase().getEMA(6)){
 					sleep(1000);
 					
 					if(getTimeBase().getEMA(5) > getTimeBase().getEMA(6)){
