@@ -51,7 +51,7 @@ public class RuleAOH extends Rules {
 	}
 
 	double getStopEarnPt() {
-		return Math.abs(buyingPoint - Global.getAOH()) * 1.5;
+		return -100;
 
 	}
 

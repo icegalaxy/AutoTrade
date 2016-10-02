@@ -42,7 +42,7 @@ public class RuleOpen extends Rules {
 	}
 
 	double getStopEarnPt() {
-		return Math.abs(buyingPoint - Global.getOpen()) * 1.5;
+		return -100;
 	}
 
 	void updateStopEarn() {

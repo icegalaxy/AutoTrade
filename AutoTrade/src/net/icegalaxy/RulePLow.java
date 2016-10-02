@@ -34,32 +34,35 @@ private double ohlc;
 				|| Global.getpLow() == 0)
 			return;
 		
-		ohlc = Global.getpLow();
+//		ohlc = Global.getpLow();
+//		
+//		//use the openOHLC but do not use danny trend	
+//		if (Global.getCurrentPoint() <= ohlc + 5
+//				&& Global.getCurrentPoint() >= ohlc - 5) {
+//
+//			Global.addLog(className + ": Entered waiting zone");
+////			Global.addLog("MA20(M15): " + GetData.getM15TB().getMA(20)
+////					+ "; EMA50(M15): " + GetData.getM15TB().getEMA(50)
+////					+ "; EMA50(M5): " + GetData.getLongTB().getEMA(50)
+////					+ "; EMA240(M5): " + GetData.getLongTB().getEMA(240));
+//			
+//			waitForANewCandle();
+//
+//			while (getTimeBase().getLatestCandle().getClose() <= ohlc + 10
+//					&& getTimeBase().getLatestCandle().getClose() >= ohlc - 10)
+//				sleep(1000);
+//
+//			if (getTimeBase().getLatestCandle().getClose() > ohlc + 10) {
+//				longContract();
+//			} else if (getTimeBase().getLatestCandle().getClose() < ohlc - 10) {		//cause if big drop trend
+//				shortContract();
+//			}
 		
-		//use the openOHLC but do not use danny trend	
-		if (Global.getCurrentPoint() <= ohlc + 5
-				&& Global.getCurrentPoint() >= ohlc - 5) {
-
-			Global.addLog(className + ": Entered waiting zone");
-//			Global.addLog("MA20(M15): " + GetData.getM15TB().getMA(20)
-//					+ "; EMA50(M15): " + GetData.getM15TB().getEMA(50)
-//					+ "; EMA50(M5): " + GetData.getLongTB().getEMA(50)
-//					+ "; EMA240(M5): " + GetData.getLongTB().getEMA(240));
-			
-			waitForANewCandle();
-
-			while (getTimeBase().getLatestCandle().getClose() <= ohlc + 10
-					&& getTimeBase().getLatestCandle().getClose() >= ohlc - 10)
-				sleep(1000);
-
-			if (getTimeBase().getLatestCandle().getClose() > ohlc + 10) {
-				longContract();
-			} else if (getTimeBase().getLatestCandle().getClose() < ohlc - 10) {		//cause if big drop trend
-				shortContract();
-			}
-		}
 		
-//		openOHLC(Global.getpLow());
+		
+//		}
+		
+		openOHLC(Global.getpLow());
 		
 
 	}
@@ -76,7 +79,7 @@ private double ohlc;
 	}
 	
 	double getStopEarnPt(){
-		return Math.abs(buyingPoint - Global.getpLow()) * 1.5;
+		return -100;
 	}
 	
 	@Override

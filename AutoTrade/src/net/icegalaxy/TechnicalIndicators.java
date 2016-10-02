@@ -28,13 +28,13 @@ public class TechnicalIndicators {
 		this.close = close;
 	}
 
-	// current RSI,¦Ó®a­§ºò¡A©Ò¥H­ntake currentPoint as para
+	// current RSI,ï¿½Ó®aï¿½ï¿½ï¿½ï¿½Aï¿½Ò¥Hï¿½ntake currentPoint as para
 	public float getRSI(float currentPoint, int noOfPeriods) {
 		RSI rsi = new RSI(close, noOfPeriods);
 		return rsi.getRSI(currentPoint);
 	}
 
-	// previous RSI, ­ø­§ªº
+	// previous RSI, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	public float getRSI(int noOfPeriods) {
 		RSI rsi = new RSI(close, noOfPeriods);
 		return rsi.getRSI();
@@ -44,7 +44,7 @@ public class TechnicalIndicators {
 	//Only Get Current MA
 	public float getMovingAverage(int noOfPeriods) {
 
-		if (close.size() < noOfPeriods) // check¤U°÷­ø°÷®Æ­p¡A¦pªG­ø°÷·|¥X-1
+		if (close.size() < noOfPeriods) // checkï¿½Uï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ­pï¿½Aï¿½pï¿½Gï¿½ï¿½ï¿½ï¿½ï¿½|ï¿½X-1
 			return -1;
 
 		float total = 0;
@@ -61,7 +61,7 @@ public class TechnicalIndicators {
 	public float getMovingAverage(int noOfPeriods, int previosPeriods) {
 
 		
-		if (close.size() < noOfPeriods + previosPeriods) // check¤U°÷­ø°÷®Æ­p¡A¦pªG­ø°÷·|¥X-1
+		if (close.size() < noOfPeriods + previosPeriods) // checkï¿½Uï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ­pï¿½Aï¿½pï¿½Gï¿½ï¿½ï¿½ï¿½ï¿½|ï¿½X-1
 			return -1;
 
 		float total = 0;
@@ -89,7 +89,7 @@ public class TechnicalIndicators {
 
 			ema = getfirstMA(noOfPeriods);
 
-			for (int i = noOfPeriods; i < previosPeriods; i++) {
+			for (int i = noOfPeriods; i < close.size() - previosPeriods; i++) {
 
 				ema = (close.get(i) - ema) * smoothingConstant + ema;
 
@@ -137,7 +137,7 @@ public class TechnicalIndicators {
 
 	}
 
-	// period§Y«Y¥Îma´X¦h°µ¤¤½u
+	// periodï¿½Yï¿½Yï¿½ï¿½maï¿½Xï¿½hï¿½ï¿½ï¿½ï¿½ï¿½u
 	public float getStandardDeviation(int period) {
 
 		if (close.size() < period)
@@ -152,8 +152,8 @@ public class TechnicalIndicators {
 
 		// System.out.println("sqrt: " + (period) );
 
-		return (float) Math.sqrt((1.0 / period) * theSumPart); // ¦]¬°int °£
-		// int·|¥Xint,©O«×·|¥X¹s,©Ò¥H¥Î1.0°£¥ý±o
+		return (float) Math.sqrt((1.0 / period) * theSumPart); // ï¿½]ï¿½ï¿½int ï¿½ï¿½
+		// intï¿½|ï¿½Xint,ï¿½Oï¿½×·|ï¿½Xï¿½s,ï¿½Ò¥Hï¿½ï¿½1.0ï¿½ï¿½ï¿½ï¿½ï¿½o
 	}
 
 	public float getMACD() {

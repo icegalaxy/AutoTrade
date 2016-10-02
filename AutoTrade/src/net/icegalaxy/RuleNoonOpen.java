@@ -19,7 +19,7 @@ public class RuleNoonOpen extends Rules {
 			shutdown = false;
 		}
 
-		if (!isOrderTime() || lossTimes >= 3 || Global.getNoOfContracts() != 0 || Global.getNoonOpen() == 0)
+		if (!isOrderTime() || lossTimes >= 2 || Global.getNoOfContracts() != 0 || Global.getNoonOpen() == 0)
 			return;
 
 //		if (isInsideDay())
@@ -42,7 +42,7 @@ public class RuleNoonOpen extends Rules {
 	}
 
 	double getStopEarnPt() {
-		return Math.abs(buyingPoint - Global.getNoonOpen()) * 1.5;
+		return -100;
 	}
 
 	@Override

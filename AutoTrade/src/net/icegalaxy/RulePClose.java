@@ -87,7 +87,7 @@ public class RulePClose extends Rules {
 	}
 
 	double getStopEarnPt() {
-		return Math.abs(buyingPoint - Global.getpClose()) * 1.5;
+		return -100;
 	}
 
 	@Override

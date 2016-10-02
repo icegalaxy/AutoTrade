@@ -31,6 +31,7 @@ public class RuleDanny extends Rules {
 //		if (isInsideDay())
 //			reverseOHLC(GetData.getLongTB().getEMA(240));
 //		else
+		
 			openOHLC(getTimeBase().getEMA(240));
 	}
 
@@ -48,7 +49,7 @@ public class RuleDanny extends Rules {
 	}
 
 	double getStopEarnPt() {
-		return Math.abs(buyingPoint - getTimeBase().getEMA(240)) * 1.5;
+		return -100;
 	}
 
 	@Override

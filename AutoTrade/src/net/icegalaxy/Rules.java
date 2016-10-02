@@ -575,9 +575,9 @@ public abstract class Rules implements Runnable {
 			while (Math.abs(GetData.getLongTB().getLatestCandle().getClose() - ohlc) <= 5)
 				sleep(1000);
 
-			Global.addLog(className + ": Waiting for second corner");
+			Global.addLog(className + ": Waiting for a pull back");
 			//in case it get too fast, wait until it come back, just like second corner but a little bit earlier
-			while (Math.abs(Global.getCurrentPoint() - ohlc) > 15) {
+			while (Math.abs(Global.getCurrentPoint() - ohlc) > 5) {
 				if (Math.abs(Global.getCurrentPoint() - ohlc) > 50) {
 					Global.addLog(className + ": Risk is too big");
 					return;
@@ -597,14 +597,14 @@ public abstract class Rules implements Runnable {
 //				// for inside
 //			} else {
 				if (GetData.getLongTB().getLatestCandle().getClose() > ohlc){
-					if (GetData.getLongTB().getEMA(5) < GetData.getLongTB().getEMA(6)){
+					if (GetData.getLongTB().getEMA(5) < GetData.getLongTB().getEMA(6) + 2){
 						Global.addLog("Not Trending Up: EMA5 < EMA6");
 						return;
 					}
 					longContract();
 				}
 				else if (GetData.getLongTB().getLatestCandle().getClose() < ohlc){
-					if (GetData.getLongTB().getEMA(5) > GetData.getLongTB().getEMA(6)){
+					if (GetData.getLongTB().getEMA(5) > GetData.getLongTB().getEMA(6) - 2){
 						Global.addLog("Not Trending Down: EMA5 > EMA6");
 						return;
 					}

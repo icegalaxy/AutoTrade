@@ -52,7 +52,7 @@ public class RuleAOL extends Rules {
 	}
 
 	double getStopEarnPt() {
-		return Math.abs(buyingPoint - Global.getAOL()) * 1.5;
+		return -100;
 	}
 
 	@Override

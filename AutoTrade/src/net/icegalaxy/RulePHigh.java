@@ -31,28 +31,30 @@ public class RulePHigh extends Rules {
 				|| Global.getpHigh() == 0)
 			return;
 
-		ohlc = Global.getpHigh();
+//		ohlc = Global.getpHigh();
+//		
+//		//use the openOHLC but do not use danny trend	
+//		if (Global.getCurrentPoint() <= ohlc + 5
+//				&& Global.getCurrentPoint() >= ohlc - 5) {
+//
+//			Global.addLog(className + ": Entered waiting zone");
+//
+//			waitForANewCandle();
+//
+//			while (getTimeBase().getLatestCandle().getClose() <= ohlc + 10
+//					&& getTimeBase().getLatestCandle().getClose()  >= ohlc - 10)
+//				sleep(1000);
+//
+//			if (getTimeBase().getLatestCandle().getClose()  > ohlc + 10) {
+//				longContract();
+//			} else if (getTimeBase().getLatestCandle().getClose() < ohlc - 10) {		//cause if big drop trend
+//				shortContract();
+//			}
 		
-		//use the openOHLC but do not use danny trend	
-		if (Global.getCurrentPoint() <= ohlc + 5
-				&& Global.getCurrentPoint() >= ohlc - 5) {
-
-			Global.addLog(className + ": Entered waiting zone");
-
-			waitForANewCandle();
-
-			while (getTimeBase().getLatestCandle().getClose() <= ohlc + 10
-					&& getTimeBase().getLatestCandle().getClose()  >= ohlc - 10)
-				sleep(1000);
-
-			if (getTimeBase().getLatestCandle().getClose()  > ohlc + 10) {
-				longContract();
-			} else if (getTimeBase().getLatestCandle().getClose() < ohlc - 10) {		//cause if big drop trend
-				shortContract();
-			}
-		}
 		
-//		openOHLC(Global.getpHigh());
+//		}
+		
+		openOHLC(Global.getpHigh());
 	}
 
 	void updateStopEarn() {
@@ -69,7 +71,7 @@ public class RulePHigh extends Rules {
 	}
 
 	double getStopEarnPt() {
-		return Math.abs(buyingPoint - Global.getpHigh()) * 1.5;
+		return -100;
 	}
 
 	@Override
