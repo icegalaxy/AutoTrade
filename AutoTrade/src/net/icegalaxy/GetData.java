@@ -57,6 +57,14 @@ public class GetData implements Runnable {
 			deal = new Float(qp.getDeal());
 			bid = new Float(qp.getBid());
 			ask = new Float(qp.getAsk());
+			
+			if (deal == 0){
+				
+				Global.addLog("Deal = 0, try again");
+				System.out.println("Time: " + time);
+				sleep(1000);
+				getIndex();
+			}
 
 			// change = new Float(qp.getChange());
 
