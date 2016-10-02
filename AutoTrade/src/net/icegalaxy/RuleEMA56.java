@@ -1,5 +1,6 @@
 package net.icegalaxy;
 
+
 public class RuleEMA56 extends Rules {
 
 //	private int lossTimes;
@@ -33,15 +34,16 @@ public class RuleEMA56 extends Rules {
 
 		//use 1min TB will have more profit sometime, but will lose so many times when ranging.
 		
-			if(getTimeBase().getEMA(5) > getTimeBase().getEMA(6) + 2 + lossTimes){
+			if(getTimeBase().getEMA(5) > getTimeBase().getEMA(6) + 2
+					&& Global.getCurrentPoint() > getTimeBase().getEMA(5)){
 				
 				//wait for a better position
-				Global.addLog(className + ": waiting for a better position");
+				Global.addLog(className + ": waiting for a pull back");
 				
 				while(Global.getCurrentPoint() > getTimeBase().getEMA(6)){
 					sleep(1000);
 					
-					if(getTimeBase().getEMA(5) < getTimeBase().getEMA(6)){
+					if(getTimeBase().getEMA(5) < getTimeBase().getEMA(6) + 2){
 						Global.addLog(className + ": wrong trend");
 						return;
 					}
@@ -49,7 +51,8 @@ public class RuleEMA56 extends Rules {
 							
 				longContract();
 			}
-			else if (getTimeBase().getEMA(5) < getTimeBase().getEMA(6) - 2 - lossTimes){
+			else if (getTimeBase().getEMA(5) < getTimeBase().getEMA(6) - 2
+					&& Global.getCurrentPoint() < getTimeBase().getEMA(5)){
 				
 				//wait for a better position
 				Global.addLog(className + ": waiting for a better position");
@@ -57,7 +60,7 @@ public class RuleEMA56 extends Rules {
 				while(Global.getCurrentPoint() < getTimeBase().getEMA(6)){
 					sleep(1000);
 					
-					if(getTimeBase().getEMA(5) > getTimeBase().getEMA(6)){
+					if(getTimeBase().getEMA(5) > getTimeBase().getEMA(6) - 2){
 						Global.addLog(className + ": wrong trend");
 						return;
 					}
@@ -107,7 +110,7 @@ public class RuleEMA56 extends Rules {
 //				return 30;
 //		}
 		
-		return 50;
+		return 30;
 
 	}
 	
@@ -122,23 +125,23 @@ public class RuleEMA56 extends Rules {
 			
 			//wait for it to clam down
 			
-			if (refPt < getTimeBase().getEMA(6)){
-				Global.addLog(className + ": waiting for it to calm down");
-			}
+//			if (refPt < getTimeBase().getEMA(6)){
+//				Global.addLog(className + ": waiting for it to calm down");
+//			}
 			
-			while (refPt < getTimeBase().getEMA(6))
-				sleep(1000);
+//			while (refPt < getTimeBase().getEMA(6))
+//				sleep(1000);
 			
 		} else if (Global.getNoOfContracts() < 0 && ref  > tempCutLoss) {
 			closeContract(className + ": CutLoss, long @ " + Global.getCurrentAsk());
 			shutdown = true;
 			
-			if (refPt > getTimeBase().getEMA(6)){
-				Global.addLog(className + ": waiting for it to calm down");
-			}
-			
-			while (refPt > getTimeBase().getEMA(6))
-				sleep(1000);
+//			if (refPt > getTimeBase().getEMA(6)){
+//				Global.addLog(className + ": waiting for it to calm down");
+//			}
+//			
+//			while (refPt > getTimeBase().getEMA(6))
+//				sleep(1000);
 		}
 	}
 
