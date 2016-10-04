@@ -244,6 +244,7 @@ public class GetData implements Runnable {
 					m15Minutes = 0;
 					m15Data.reset();
 
+					//咁樣可能會少左一分鐘
 					if (!aohAdded) {
 						Global.setAOL(getM15TB().getHL(1).getTempLow());
 						Global.setAOH(getM15TB().getHL(1).getTempHigh());
