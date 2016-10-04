@@ -57,9 +57,9 @@ public class GetData implements Runnable {
 			deal = new Float(qp.getDeal());
 			bid = new Float(qp.getBid());
 			ask = new Float(qp.getAsk());
-			
-			if (deal == 0){
-				
+
+			if (deal == 0) {
+
 				Global.addLog("Deal = 0, try again");
 				System.out.println("Time: " + time);
 				sleep(1000);
@@ -93,17 +93,17 @@ public class GetData implements Runnable {
 		setOHLC();
 		getPreviousData();
 
-		//Auto getOpen
+		// Auto getOpen
 		if (getTimeInt() > 91400) {
 
 			try {
 				QuotePower q = new QuotePower("getOpen");
 				double open = q.getDealOnly();
 				Global.addLog("Auto getOpen: " + open);
-				
+
 				if (open != 0)
 					Global.setOpen(open);
-				
+
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -201,19 +201,29 @@ public class GetData implements Runnable {
 				// // getSec10TB().getMainDownRail().getSlope());
 				// }
 
+				if (!aohAdded) {
+
+					if (getTimeInt() >= 93000) {
+						Global.setAOL(Global.getDayLow());
+						Global.setAOH(Global.getDayHigh());
+						Global.addLog("AOL: " + Global.getAOL());
+						Global.addLog("AOH: " + Global.getAOH());
+						aohAdded = true;
+					}
+				}
+
 				if (shortMinutes == Setting.getShortTB()) {
 
 					// getDayOpen, check every minutes
 					setOpen();
-					
+
 					checkStop();
-					
-					if (Global.getpHigh() == 0){
+
+					if (Global.getpHigh() == 0) {
 						setOHLC();
 
 					}
-					
-					
+
 					// get noonOpen, check every minutes
 					if (Global.isNoonOpened)
 						setNoonOpen();
@@ -244,14 +254,6 @@ public class GetData implements Runnable {
 					m15Minutes = 0;
 					m15Data.reset();
 
-					//咁樣可能會少左一分鐘
-					if (!aohAdded) {
-						Global.setAOL(getM15TB().getHL(1).getTempLow());
-						Global.setAOH(getM15TB().getHL(1).getTempHigh());
-						Global.addLog("AOL: " + getM15TB().getHL(1).getTempLow());
-						Global.addLog("AOH: " + getM15TB().getHL(1).getTempHigh());
-						aohAdded = true;
-					}
 				}
 
 				if (longMinutes == Setting.getLongTB()) {
@@ -291,10 +293,10 @@ public class GetData implements Runnable {
 
 	private void checkStop() {
 		XMLReader ohlc = new XMLReader(Global.getToday());
-		
-		if(ohlc.isStop())
+
+		if (ohlc.isStop())
 			Global.setRunning(false);
-		
+
 	}
 
 	private void getPreviousData() {
@@ -332,8 +334,8 @@ public class GetData implements Runnable {
 		Global.setpOpen(ohlc.getpOpen());
 		Global.setpClose(ohlc.getpClose());
 		Global.setpFluc(ohlc.getpFluc());
-		
-		if (Global.getpHigh() != 0){
+
+		if (Global.getpHigh() != 0) {
 			Global.addLog("-------------------------------------");
 			Global.addLog("P.High: " + Global.getpHigh());
 			Global.addLog("P.Low: " + Global.getpLow());

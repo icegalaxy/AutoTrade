@@ -136,7 +136,7 @@ public class Setting extends JFrame {
 		Global.setDayLow(99999);
 		Global.setToday(getToday());
 
-		RuleOpen ruleOpen = new RuleOpen(true);
+//		RuleOpen ruleOpen = new RuleOpen(true);
 //		ruleMA_0.setBufferPt(0);
 //		RuleOpen ruleMA_5 = new RuleOpen(Global.runRuleMA);
 //		ruleMA_5.setBufferPt(5);
@@ -151,26 +151,26 @@ public class Setting extends JFrame {
 		
 //		RuleSuddenBreakThrough sudden = new RuleSuddenBreakThrough(false);
 //		RuleSuddenBreakThrough2 sudden2 = new RuleSuddenBreakThrough2(false);
-		RulePHigh rulePHigh = new RulePHigh(true);
-		RulePLow rulePLow = new RulePLow(true);
+//		RulePHigh rulePHigh = new RulePHigh(true);
+//		RulePLow rulePLow = new RulePLow(true);
 //		RuleRSI2 rsi2 = new RuleRSI2(false);
 		
 //		RuleMABackup backup	= new RuleMABackup(false);
 		
 //		ruleMACD ruleMACD = new ruleMACD(Global.runRuleMACD);
-		RuleRSI ruleRSI = new RuleRSI(Global.runRSI);
+//		RuleRSI ruleRSI = new RuleRSI(Global.runRSI);
 //		LoginThread login = new LoginThread();
 		TimePeriodDecider tpd = new TimePeriodDecider();
 		GetData gd = new GetData();
-		RuleAOH aoh = new RuleAOH(true);
-		RuleAOL aol = new RuleAOL(true);
-		RulePClose rulePClose = new RulePClose(true);
-		RuleDanny danny = new RuleDanny(true);
-		RuleNoonOpen noonOpen = new RuleNoonOpen(true);
+//		RuleAOH aoh = new RuleAOH(true);
+//		RuleAOL aol = new RuleAOL(true);
+//		RulePClose rulePClose = new RulePClose(true);
+//		RuleDanny danny = new RuleDanny(true);
+//		RuleNoonOpen noonOpen = new RuleNoonOpen(true);
 //		RuleSilvia silvia = new RuleSilvia(true);
 		RuleEMA56 ema56 = new RuleEMA56(true);
 		
-		Runnable[] r = { gd, tpd, ruleOpen,ruleRSI, rulePHigh, rulePLow, rulePClose, aoh, aol, danny, noonOpen, ema56};
+		Runnable[] r = { gd, tpd, ema56};
 
 		Thread[] t = new Thread[r.length];
 		for (int i = 0; i < r.length; i++) {
