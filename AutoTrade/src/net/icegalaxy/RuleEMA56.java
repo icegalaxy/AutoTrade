@@ -1,11 +1,10 @@
 package net.icegalaxy;
 
-
 public class RuleEMA56 extends Rules {
 
-//	private int lossTimes;
+	// private int lossTimes;
 	// private double refEMA;
-	private boolean tradeTimesReseted;
+//	private boolean tradeTimesReseted;
 
 	public RuleEMA56(boolean globalRunRule) {
 		super(globalRunRule);
@@ -19,66 +18,62 @@ public class RuleEMA56 extends Rules {
 			lossTimes++;
 			shutdown = false;
 		}
-		
-		// Reset the lossCount at afternoon because P.High P.Low is so important
-				if (isAfternoonTime() && !tradeTimesReseted) {
-					lossTimes = 0;
-					tradeTimesReseted = true;
-				}
-		
 
-		if (!isOrderTime() 
-				|| Global.getNoOfContracts() != 0
-				|| Global.getpHigh() == 0)
+		// Reset the lossCount at afternoon because P.High P.Low is so important
+		// if (isAfternoonTime() && !tradeTimesReseted) {
+		// lossTimes = 0;
+		// tradeTimesReseted = true;
+		// }
+
+		if (!isOrderTime() || Global.getNoOfContracts() != 0 || Global.getpHigh() == 0)
 			return;
 
-		//use 1min TB will have more profit sometime, but will lose so many times when ranging.
-		
-			if(getTimeBase().getEMA(5) > getTimeBase().getEMA(6) + 2
-					&& Global.getCurrentPoint() > getTimeBase().getEMA(5)){
-				
-				//wait for a better position
-				Global.addLog(className + ": waiting for a pull back");
-				
-				while(Global.getCurrentPoint() > getTimeBase().getEMA(6)){
-					sleep(1000);
-					
-					if(getTimeBase().getEMA(5) < getTimeBase().getEMA(6) + 2){
-						Global.addLog(className + ": wrong trend");
-						return;
-					}
+		// use 1min TB will have more profit sometime, but will lose so many
+		// times when ranging.
+
+		if (getTimeBase().getEMA(5) > getTimeBase().getEMA(6) + 2
+				&& Global.getCurrentPoint() > getTimeBase().getEMA(5)) {
+
+			// wait for a better position
+			Global.addLog(className + ": waiting for a pull back");
+
+			while (Global.getCurrentPoint() > getTimeBase().getEMA(5)) {
+				sleep(1000);
+
+				if (getTimeBase().getEMA(5) < getTimeBase().getEMA(6) + 2) {
+					Global.addLog(className + ": trend changed");
+					return;
 				}
-							
-				longContract();
 			}
-			else if (getTimeBase().getEMA(5) < getTimeBase().getEMA(6) - 2
-					&& Global.getCurrentPoint() < getTimeBase().getEMA(5)){
-				
-				//wait for a better position
-				Global.addLog(className + ": waiting for a better position");
-				
-				while(Global.getCurrentPoint() < getTimeBase().getEMA(6)){
-					sleep(1000);
-					
-					if(getTimeBase().getEMA(5) > getTimeBase().getEMA(6) - 2){
-						Global.addLog(className + ": wrong trend");
-						return;
-					}
-					
+
+			longContract();
+		} else if (getTimeBase().getEMA(5) < getTimeBase().getEMA(6) - 2
+				&& Global.getCurrentPoint() < getTimeBase().getEMA(5)) {
+
+			// wait for a better position
+			Global.addLog(className + ": waiting for a pull back");
+
+			while (Global.getCurrentPoint() < getTimeBase().getEMA(5)) {
+				sleep(1000);
+
+				if (getTimeBase().getEMA(5) > getTimeBase().getEMA(6) - 2) {
+					Global.addLog(className + ": trend changed");
+					return;
 				}
-				
-				
-				
-				shortContract();
+
 			}
-		
+
+			shortContract();
+		}
+
 	}
 
-	//use 1min instead of 5min
+	// use 1min instead of 5min
 	void updateStopEarn() {
 
-		//use 1min TB will have more profit sometime, but will lose so many times when ranging.
-		
+		// use 1min TB will have more profit sometime, but will lose so many
+		// times when ranging.
+
 		if (Global.getNoOfContracts() > 0) {
 			if (getTimeBase().getEMA(5) < getTimeBase().getEMA(6) - lossTimes) {
 				tempCutLoss = 99999;
@@ -93,55 +88,53 @@ public class RuleEMA56 extends Rules {
 		}
 
 	}
-	
-	//use 1min instead of 5min
+
+	// use 1min instead of 5min
 	double getCutLossPt() {
-		
-		//One time lost 100 at first trade >_< 20160929
-//		if (Global.getNoOfContracts() > 0){
-//			if (getTimeBase().getEMA(5) < getTimeBase().getEMA(6))
-//				return 1;
-//			else
-//				return 30;
-//		}else{
-//			if (getTimeBase().getEMA(5) > getTimeBase().getEMA(6))
-//				return 1;
-//			else
-//				return 30;
-//		}
-		
+
+		// One time lost 100 at first trade >_< 20160929
+		// if (Global.getNoOfContracts() > 0){
+		// if (getTimeBase().getEMA(5) < getTimeBase().getEMA(6))
+		// return 1;
+		// else
+		// return 30;
+		// }else{
+		// if (getTimeBase().getEMA(5) > getTimeBase().getEMA(6))
+		// return 1;
+		// else
+		// return 30;
+		// }
+
 		return 30;
 
 	}
-	
+
 	@Override
 	protected void cutLoss() {
-		
-		double ref = Global.getCurrentPoint();
 
-		if (Global.getNoOfContracts() > 0 && ref < tempCutLoss) {
+		if (Global.getNoOfContracts() > 0 && Global.getCurrentPoint() < tempCutLoss) {
 			closeContract(className + ": CutLoss, short @ " + Global.getCurrentBid());
 			shutdown = true;
-			
-			//wait for it to clam down
-			
-//			if (refPt < getTimeBase().getEMA(6)){
-//				Global.addLog(className + ": waiting for it to calm down");
-//			}
-			
-//			while (refPt < getTimeBase().getEMA(6))
-//				sleep(1000);
-			
-		} else if (Global.getNoOfContracts() < 0 && ref  > tempCutLoss) {
+
+			// wait for it to clam down
+
+			// if (refPt < getTimeBase().getEMA(6)){
+			// Global.addLog(className + ": waiting for it to calm down");
+			// }
+
+			// while (refPt < getTimeBase().getEMA(6))
+			// sleep(1000);
+
+		} else if (Global.getNoOfContracts() < 0 && Global.getCurrentPoint() > tempCutLoss) {
 			closeContract(className + ": CutLoss, long @ " + Global.getCurrentAsk());
 			shutdown = true;
-			
-//			if (refPt > getTimeBase().getEMA(6)){
-//				Global.addLog(className + ": waiting for it to calm down");
-//			}
-//			
-//			while (refPt > getTimeBase().getEMA(6))
-//				sleep(1000);
+
+			// if (refPt > getTimeBase().getEMA(6)){
+			// Global.addLog(className + ": waiting for it to calm down");
+			// }
+			//
+			// while (refPt > getTimeBase().getEMA(6))
+			// sleep(1000);
 		}
 	}
 
@@ -152,12 +145,12 @@ public class RuleEMA56 extends Rules {
 	@Override
 	public TimeBase getTimeBase() {
 		// TODO Auto-generated method stub
-		
+
 		// switching between 1 & 5 minutes
-//		if (lossTimes % 2 ==1)
-//			return GetData.getShortTB();
-//		else
-			return GetData.getLongTB();
+		// if (lossTimes % 2 ==1)
+		// return GetData.getShortTB();
+		// else
+		return GetData.getLongTB();
 	}
 
 }
