@@ -74,13 +74,20 @@ public class RuleEMA56 extends Rules {
 		// use 1min TB will have more profit sometime, but will lose so many
 		// times when ranging.
 
+		int difference;
+		
+		if (getProfit() > 30)
+			difference = 0;
+		else
+			difference = 2;
+		
 		if (Global.getNoOfContracts() > 0) {
-			if (getTimeBase().getEMA(5) < getTimeBase().getEMA(6) - lossTimes) {
+			if (getTimeBase().getEMA(5) < getTimeBase().getEMA(6) - difference) {
 				tempCutLoss = 99999;
 				Global.addLog(className + " StopEarn: EMA5 < EMA6");
 			}
 		} else if (Global.getNoOfContracts() < 0) {
-			if (getTimeBase().getEMA(5) > getTimeBase().getEMA(6) + lossTimes) {
+			if (getTimeBase().getEMA(5) > getTimeBase().getEMA(6) + difference) {
 				tempCutLoss = 0;
 				Global.addLog(className + " StopEarn: EMA5 > EMA6");
 
