@@ -6,6 +6,8 @@ public class RuleEMA56 extends Rules {
 	// private double refEMA;
 //	private boolean tradeTimesReseted;
 
+	private boolean firstCorner = true;
+	
 	public RuleEMA56(boolean globalRunRule) {
 		super(globalRunRule);
 		setOrderTime(92000, 113000, 130500, 160000, 233000, 233000);
@@ -25,11 +27,66 @@ public class RuleEMA56 extends Rules {
 		// tradeTimesReseted = true;
 		// }
 
+		
+
+		
 		if (!isOrderTime() || Global.getNoOfContracts() != 0 || Global.getpHigh() == 0)
 			return;
 
 		// use 1min TB will have more profit sometime, but will lose so many
 		// times when ranging.
+		
+		if (firstCorner){
+			
+			if (getTimeBase().getEMA(5) > getTimeBase().getEMA(6)) {
+				// wait for a better position
+				Global.addLog(className + ": waiting for the first corner");
+
+				while (getTimeBase().getEMA(5) > getTimeBase().getEMA(6)) 
+					sleep(1000);
+					
+				firstCorner = false;
+				
+				Global.addLog(className + ": waiting for a pull back");
+
+				while (Global.getCurrentPoint() > getTimeBase().getEMA(5)) 
+					sleep(1000);
+
+					if (getTimeBase().getEMA(5) < getTimeBase().getEMA(6) ) {
+						Global.addLog(className + ": trend changed");
+						return;
+					
+				}
+
+				longContract();
+			} else if (getTimeBase().getEMA(5) < getTimeBase().getEMA(6)) {
+
+				
+				Global.addLog(className + ": waiting for the first corner");
+
+				while (getTimeBase().getEMA(5) < getTimeBase().getEMA(6)) 
+					sleep(1000);
+				
+				firstCorner = false;
+				
+				// wait for a better position
+				Global.addLog(className + ": waiting for a pull back");
+
+				while (Global.getCurrentPoint() < getTimeBase().getEMA(5)) 
+					sleep(1000);
+
+					if (getTimeBase().getEMA(5) > getTimeBase().getEMA(6) ) {
+						Global.addLog(className + ": trend changed");
+						return;
+					}
+				
+
+				shortContract();
+			}
+			
+			
+		}
+		
 
 		if (getTimeBase().getEMA(5) > getTimeBase().getEMA(6) + 2
 				&& Global.getCurrentPoint() > getTimeBase().getEMA(5)) {
