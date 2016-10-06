@@ -1,5 +1,6 @@
 package net.icegalaxy;
 
+
 public class RuleEMA56 extends Rules {
 
 	// private int lossTimes;
@@ -44,21 +45,15 @@ public class RuleEMA56 extends Rules {
 
 				while (getTimeBase().getEMA(5) > getTimeBase().getEMA(6)) 
 					sleep(1000);
-					
-				firstCorner = false;
 				
 				Global.addLog(className + ": waiting for a pull back");
 
-				while (Global.getCurrentPoint() > getTimeBase().getEMA(5)) 
+				while (Global.getCurrentPoint() < GetData.getShortTB().getLatestCandle().getHigh()) 
 					sleep(1000);
-
-					if (getTimeBase().getEMA(5) < getTimeBase().getEMA(6) ) {
-						Global.addLog(className + ": trend changed");
-						return;
 					
-				}
-
-				longContract();
+				firstCorner = false;
+				
+				shortContract();
 			} else if (getTimeBase().getEMA(5) < getTimeBase().getEMA(6)) {
 
 				
@@ -72,16 +67,16 @@ public class RuleEMA56 extends Rules {
 				// wait for a better position
 				Global.addLog(className + ": waiting for a pull back");
 
-				while (Global.getCurrentPoint() < getTimeBase().getEMA(5)) 
+				while (Global.getCurrentPoint() > GetData.getShortTB().getLatestCandle().getLow()) 
 					sleep(1000);
 
-					if (getTimeBase().getEMA(5) > getTimeBase().getEMA(6) ) {
-						Global.addLog(className + ": trend changed");
-						return;
-					}
+//					if (getTimeBase().getEMA(5) > getTimeBase().getEMA(6) ) {
+//						Global.addLog(className + ": trend changed");
+//						return;
+//					}
 				
 
-				shortContract();
+				longContract();
 			}
 			
 			
@@ -94,11 +89,19 @@ public class RuleEMA56 extends Rules {
 			// wait for a better position
 			Global.addLog(className + ": waiting for a pull back");
 
+			refPt = Global.getCurrentPoint();
+			
 			while (Global.getCurrentPoint() > getTimeBase().getEMA(5)) {
 				sleep(1000);
 
 				if (getTimeBase().getEMA(5) < getTimeBase().getEMA(6) + 2) {
 					Global.addLog(className + ": trend changed");
+					return;
+				}
+				
+				if (Global.getCurrentPoint() > refPt + 50){
+					Global.addLog(className + ": too far away"); 
+					firstCorner = true;
 					return;
 				}
 			}
@@ -110,11 +113,19 @@ public class RuleEMA56 extends Rules {
 			// wait for a better position
 			Global.addLog(className + ": waiting for a pull back");
 
+			refPt = Global.getCurrentPoint();
+			
 			while (Global.getCurrentPoint() < getTimeBase().getEMA(5)) {
 				sleep(1000);
 
 				if (getTimeBase().getEMA(5) > getTimeBase().getEMA(6) - 2) {
 					Global.addLog(className + ": trend changed");
+					return;
+				}
+				
+				if (Global.getCurrentPoint() < refPt - 50){
+					Global.addLog(className + ": too far away"); 
+					firstCorner = true;
 					return;
 				}
 
@@ -169,7 +180,7 @@ public class RuleEMA56 extends Rules {
 		// return 30;
 		// }
 
-		return 30;
+		return 15;
 
 	}
 
