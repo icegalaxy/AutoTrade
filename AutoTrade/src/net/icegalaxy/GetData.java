@@ -12,7 +12,6 @@ public class GetData implements Runnable {
 	// private static TimeBase sec10TB;
 	private QuotePower qp;
 
-	private boolean liquidated;
 
 	GetData.CandleData shortData;
 	GetData.CandleData m15Data;
@@ -118,6 +117,7 @@ public class GetData implements Runnable {
 
 			if (Global.isTradeTime()) {
 
+				//this is for quote power
 				if (!getIndex())
 					return;
 
@@ -152,7 +152,7 @@ public class GetData implements Runnable {
 				// Global.setPreviousClose(previousClose);
 				// }
 
-				sec = new Integer(time.substring(6, 8));
+				min = new Integer(time.substring(3, 5));
 
 				// if (deal >= bid && deal <= ask)
 				point = deal;
@@ -173,13 +173,30 @@ public class GetData implements Runnable {
 				// sec10Data.getHighLow();
 				// sec10Data.getOpen();
 
-				if (sec == 59 || sec == 00 || sec == 01) {
-					if (counter >= 0) {
-						counter = -20;
+				//min will be add at first 01 sec and first 59 sec, so there will be one more record
+				// everyMin should be initialed as -1
+				
+//				if (min == 59 || min == 00 || min == 01) {
+//					if (counter >= 0) {
+//						counter = -20;
+//						shortMinutes++;
+//						longMinutes++;
+//						m15Minutes++;
+//					}
+//				}
+				
+				// that Math.abs is for when min = 59 and ref = -1
+				// use 10 in case the feeder stopped for serval mins
+				if (min > refMin && Math.abs(min - refMin) < 10){
+										
 						shortMinutes++;
 						longMinutes++;
 						m15Minutes++;
-					}
+						
+						if (refMin == 58)
+							refMin = -1;
+						else					
+							refMin = min;
 				}
 
 				// int remain = sec % 10;
@@ -271,15 +288,15 @@ public class GetData implements Runnable {
 				}
 
 				setGlobal();
-				counter++;
+//				counter++;
 				// counter10Sec++;
 			}
 
 			sleep(860);
 
-			if (!Global.isTradeTime())
-				counter = 1;
-
+			if (!Global.isTradeTime()){
+//				counter = 1;
+			}
 			// if (getTimeInt() > 161400 && !liquidated) {
 			// Sikuli.liquidateOnly();
 			// liquidated = true;
@@ -438,17 +455,19 @@ public class GetData implements Runnable {
 
 	static String time = getTime();
 	InputStream is;
-	int sec = 1;
-	int min = 0;
+	int min;
+	int refMin = 15;
+
 	int macdMin = 0;
 	int timeInFormat;
 	float bid;
 	float ask;
 	float deal;
 
-	private int shortMinutes;
-	private int longMinutes;
-	private int m15Minutes;
+	//to add the first data as a candle
+	private int shortMinutes = 1;
+	private int longMinutes = 5;
+	private int m15Minutes = 15;
 
 	private int counter = 1;
 	// private int counter10Sec = 0;

@@ -43,62 +43,56 @@ public class CSVParser {
 		low = new ArrayList<Double>();
 
 		close = new ArrayList<Double>();
-		
-		volume = new ArrayList<Double>();
-		
 
+		volume = new ArrayList<Double>();
+
+		Scanner sc = null;
 
 		try {
+			sc = new Scanner(file);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		sc.useDelimiter("\r\n");
 
-			Scanner sc = new Scanner(file);
-					
-			sc.useDelimiter(",");
+		ArrayList<String> al = new ArrayList<String>();
 
-			// ignore the title
+		//each line for one record
+		while (sc.hasNext()) {
+			al.add(sc.next());
+//			System.out.println(al.get(al.size() -1));
+		}
+		
+		sc.close();
 
-			for (int i = 0; i < 5; i++)
-				System.out.print(sc.next() + " ");
-			
-			sc.useDelimiter("\r");
-			System.out.println(sc.next());
+	
+		for (int i = 1; i < al.size(); i++) {			//start from 1, ignore the title
 
-			while (sc.hasNext()) {
+			Scanner sc2 = new Scanner(al.get(i));
+			sc2.useDelimiter(",");
 
-				// System.out.println(sc.next());
-				sc.useDelimiter(",");
-				try {
+			while (sc2.hasNext()) {
 
-					sc.useDelimiter(",");
-					
-					time.add(sc.next());
+				time.add(sc2.next());
 
-					open.add(sc.nextDouble());
+//				System.out.println("Time: " + time.get(time.size() - 1));
 
-					high.add(sc.nextDouble());
+				open.add(sc2.nextDouble());
 
-					low.add(sc.nextDouble());
+//				System.out.println("Open: " + open.get(open.size() - 1));
 
-					close.add(sc.nextDouble());
+				high.add(sc2.nextDouble());
 
-					sc.useDelimiter("\r");
-					volume.add(Double.parseDouble(sc.next().replace(",", "")));
+				low.add(sc2.nextDouble());
 
+				close.add(sc2.nextDouble());
 
-				} catch (Exception e) {
-
-					e.printStackTrace();
-
-					break;
-
-				}
+				volume.add(sc2.nextDouble());
 
 			}
 			
-			sc.close();
+			sc2.close();
 
-		} catch (FileNotFoundException e) {
-
-			e.printStackTrace();
 		}
 
 	}
@@ -136,7 +130,5 @@ public class CSVParser {
 	public ArrayList<Double> getVolume() {
 		return volume;
 	}
-
-	
 
 }
