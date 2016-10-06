@@ -79,7 +79,7 @@ public class RuleEMA56 extends Rules {
 				longContract();
 			}
 			
-			
+			return;
 		}
 		
 
