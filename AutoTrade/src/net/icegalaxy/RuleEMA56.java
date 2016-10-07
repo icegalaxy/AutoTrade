@@ -1,6 +1,7 @@
 package net.icegalaxy;
 
 
+
 public class RuleEMA56 extends Rules {
 
 	// private int lossTimes;
@@ -105,6 +106,11 @@ public class RuleEMA56 extends Rules {
 					return;
 				}
 			}
+			
+			Global.addLog(className + ": waiting for a second corner");
+
+			while (Global.getCurrentPoint() < GetData.getShortTB().getLatestCandle().getHigh())
+				sleep(1000);
 
 			longContract();
 		} else if (getTimeBase().getEMA(5) < getTimeBase().getEMA(6) - 2
@@ -130,6 +136,9 @@ public class RuleEMA56 extends Rules {
 				}
 
 			}
+			
+			while (Global.getCurrentPoint() > GetData.getShortTB().getLatestCandle().getLow())
+				sleep(1000);
 
 			shortContract();
 		}
