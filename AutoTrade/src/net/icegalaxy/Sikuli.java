@@ -103,7 +103,8 @@ public class Sikuli {
 
 	public static synchronized boolean longContract() {
 
-		if (Global.getNoOfContracts() >= Global.maxContracts) {
+		if (Global.getNoOfContracts() >= Global.maxContracts
+				|| !Global.isTradeTime()) {
 			return false;
 		}
 
@@ -134,7 +135,8 @@ public class Sikuli {
 
 	public static synchronized boolean shortContract() {
 
-		if (Global.getNoOfContracts() <= Global.maxContracts * -1) {
+		if (Global.getNoOfContracts() <= Global.maxContracts * -1
+				|| !Global.isTradeTime()) {
 			return false;
 		}
 
