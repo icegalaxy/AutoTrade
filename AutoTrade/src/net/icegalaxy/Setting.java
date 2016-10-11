@@ -151,7 +151,7 @@ public class Setting extends JFrame {
 		
 //		RuleSuddenBreakThrough sudden = new RuleSuddenBreakThrough(false);
 //		RuleSuddenBreakThrough2 sudden2 = new RuleSuddenBreakThrough2(false);
-//		RulePHigh rulePHigh = new RulePHigh(true);
+		RulePHigh pHigh = new RulePHigh(true);
 //		RulePLow rulePLow = new RulePLow(true);
 //		RuleRSI2 rsi2 = new RuleRSI2(false);
 		
@@ -165,12 +165,12 @@ public class Setting extends JFrame {
 //		RuleAOH aoh = new RuleAOH(true);
 //		RuleAOL aol = new RuleAOL(true);
 //		RulePClose rulePClose = new RulePClose(true);
-//		RuleDanny danny = new RuleDanny(true);
+		RuleDanny danny = new RuleDanny(true);
 //		RuleNoonOpen noonOpen = new RuleNoonOpen(true);
 //		RuleSilvia silvia = new RuleSilvia(true);
 		RuleEMA56 ema56 = new RuleEMA56(true);
 		
-		Runnable[] r = { gd, tpd, ema56};
+		Runnable[] r = { gd, tpd, ema56, danny, pHigh};
 
 		Thread[] t = new Thread[r.length];
 		for (int i = 0; i < r.length; i++) {

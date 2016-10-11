@@ -1,5 +1,7 @@
 package net.icegalaxy;
 
+
+
 public class RuleDanny extends Rules {
 
 	private int lossTimes;
@@ -18,43 +20,174 @@ public class RuleDanny extends Rules {
 			lossTimes++;
 			shutdown = false;
 		}
-
-		// Reset the lossCount at afternoon because P.High P.Low is so important
-		if (isAfternoonTime() && !tradeTimesReseted) {
-			lossTimes = 0;
-			tradeTimesReseted = true;
-		}
-
-		if (!isOrderTime() || lossTimes >= 3 || Global.getNoOfContracts() != 0)
+		
+		if (!isOrderTime() || Global.getNoOfContracts() != 0)
 			return;
 
-//		if (isInsideDay())
-//			reverseOHLC(GetData.getLongTB().getEMA(240));
-//		else
+		if (isUpTrend()
+				&& Global.getCurrentPoint() > getTimeBase().getEMA(240) + 5 + lossTimes * 5){
+			
+			while (Global.getCurrentPoint() > getTimeBase().getEMA(240) + 5 + lossTimes)
+				sleep(1000);
+			
+			while (Global.getCurrentPoint() < getTimeBase().getEMA(240) + 5 + lossTimes)
+				sleep(1000);
+			
+			longContract();
+			
+		}else if (isDownTrend()
+				&& Global.getCurrentPoint() < getTimeBase().getEMA(240) - 5 - lossTimes * 5){
+			
+			while (Global.getCurrentPoint() < getTimeBase().getEMA(240) - 5 - lossTimes)
+				sleep(1000);
+			
+			while (Global.getCurrentPoint() > getTimeBase().getEMA(240) - 5 - lossTimes)
+				sleep(1000);
+			
+			shortContract();
+			
+		}
 		
-			openOHLC(getTimeBase().getEMA(240));
+		
+		
+		
 	}
 
+	
+
+	// use 1min instead of 5min
 	void updateStopEarn() {
 
-//		if (getProfit() < 30 || getTimeBase().getEMA(5) == -1)
-//			super.updateStopEarn();
-//		else
-			thirdStopEarn();
+		double ema5;
+		double ema6;
+		int difference;
+
+		if (getProfit() > 100)
+			difference = 0;
+		else
+			difference = 2;
+
+		// if (Math.abs(getTimeBase().getEMA(5) - getTimeBase().getEMA(6)) <
+		// 10){
+		ema5 = getTimeBase().getEMA(5);
+		ema6 = getTimeBase().getEMA(6);
+		// }else{
+		// ema5 = GetData.getShortTB().getEMA(5);
+		// ema6 = GetData.getShortTB().getEMA(6);
+		// }
+		// use 1min TB will have more profit sometime, but will lose so many
+		// times when ranging.
+
+		if (Global.getNoOfContracts() > 0) {
+			
+			if (buyingPoint > tempCutLoss && getProfit() > 30){
+				Global.addLog("Free trade");
+				tempCutLoss = buyingPoint;
+			}
+			
+			
+			if (ema5 < ema6) {
+				tempCutLoss = 99999;
+				Global.addLog(className + " StopEarn: EMA5 < EMA6");
+			}
+		} else if (Global.getNoOfContracts() < 0) {
+			
+			if (buyingPoint < tempCutLoss && getProfit() > 30){
+				Global.addLog("Free trade");
+				tempCutLoss = buyingPoint;
+			}
+			
+			
+			if (ema5 > ema6) {
+				tempCutLoss = 0;
+				Global.addLog(className + " StopEarn: EMA5 > EMA6");
+
+			}
+		}
 
 	}
 
+	// use 1min instead of 5min
 	double getCutLossPt() {
-		return Math.abs(buyingPoint - getTimeBase().getEMA(240));
+
+		// One time lost 100 at first trade >_< 20160929
+		// if (Global.getNoOfContracts() > 0){
+		// if (getTimeBase().getEMA(5) < getTimeBase().getEMA(6))
+		// return 1;
+		// else
+		// return 30;
+		// }else{
+		// if (getTimeBase().getEMA(5) > getTimeBase().getEMA(6))
+		// return 1;
+		// else
+		// return 30;
+		// }
+
+		return 15;
+
+	}
+
+	@Override
+	protected void cutLoss() {
+
+		if (Global.getNoOfContracts() > 0 && Global.getCurrentPoint() < tempCutLoss) {
+			//
+			// while (Global.getCurrentPoint() <
+			// GetData.getShortTB().getEMA(5)){
+			// sleep(1000);
+			// if (getProfit() < -30)
+			// break;
+			// }
+			//
+
+			closeContract(className + ": CutLoss, short @ " + Global.getCurrentBid());
+			shutdown = true;
+
+			// wait for it to clam down
+
+			// if (Global.getCurrentPoint() < getTimeBase().getEMA(6)){
+			// Global.addLog(className + ": waiting for it to calm down");
+			// }
+
+			// while (Global.getCurrentPoint() < getTimeBase().getEMA(6))
+			// sleep(1000);
+
+		} else if (Global.getNoOfContracts() < 0 && Global.getCurrentPoint() > tempCutLoss) {
+			//
+			//
+			// while (Global.getCurrentPoint() >
+			// GetData.getShortTB().getEMA(5)){
+			// sleep(1000);
+			// if (getProfit() < -30)
+			// break;
+			// }
+
+			closeContract(className + ": CutLoss, long @ " + Global.getCurrentAsk());
+			shutdown = true;
+
+			// if (Global.getCurrentPoint() > getTimeBase().getEMA(6)){
+			// Global.addLog(className + ": waiting for it to calm down");
+			// }
+			//
+			// while (Global.getCurrentPoint() > getTimeBase().getEMA(6))
+			// sleep(1000);
+		}
 	}
 
 	double getStopEarnPt() {
-		return -100;
+		if (Global.getNoOfContracts() > 0){
+			if (getTimeBase().getEMA(5) >  getTimeBase().getEMA(6))
+				return -100;
+		}else if (Global.getNoOfContracts() < 0){
+			if (getTimeBase().getEMA(5) <  getTimeBase().getEMA(6))
+				return -100;
+		}
+		
+		return 100;
 	}
 
 	@Override
 	public TimeBase getTimeBase() {
-		// TODO Auto-generated method stub
 		return GetData.getLongTB();
 	}
 
