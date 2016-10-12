@@ -151,7 +151,7 @@ public class Setting extends JFrame {
 		
 //		RuleSuddenBreakThrough sudden = new RuleSuddenBreakThrough(false);
 //		RuleSuddenBreakThrough2 sudden2 = new RuleSuddenBreakThrough2(false);
-		RulePHigh pHigh = new RulePHigh(true);
+		RulePHigh pHigh = new RulePHigh(false);
 //		RulePLow rulePLow = new RulePLow(true);
 //		RuleRSI2 rsi2 = new RuleRSI2(false);
 		

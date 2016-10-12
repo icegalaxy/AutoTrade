@@ -1,7 +1,6 @@
 package net.icegalaxy;
 
 
-
 public class RuleEMA56 extends Rules {
 
 	private int lossTimes;
@@ -158,7 +157,12 @@ public class RuleEMA56 extends Rules {
 
 			Global.addLog(className + ": waiting for a pull back");
 
-			refPt = Global.getCurrentPoint();
+			while (Global.getCurrentPoint() < GetData.getShortTB().getLatestCandle().getHigh()){
+				sleep(1000);
+			}
+				refPt = Global.getCurrentPoint();	
+				
+			Global.addLog(className + ": waiting for a second corner");
 			
 			while (Global.getCurrentPoint() > GetData.getShortTB().getLatestCandle().getLow()){
 				sleep(1000);
@@ -185,9 +189,15 @@ public class RuleEMA56 extends Rules {
 			
 			refPt = Global.getCurrentPoint();
 
+			while (Global.getCurrentPoint() > GetData.getShortTB().getLatestCandle().getLow()){
+				sleep(1000);			
+			}
+			
+			refPt = Global.getCurrentPoint();
+			Global.addLog(className + ": waiting for a second corner");
+			
 			while (Global.getCurrentPoint() < GetData.getShortTB().getLatestCandle().getHigh()){
 				sleep(1000);
-				
 				if (Global.getCurrentPoint() < refPt)
 					refPt = Global.getCurrentPoint();		
 				
@@ -322,17 +332,11 @@ public class RuleEMA56 extends Rules {
 	}
 
 	double getStopEarnPt() {
-		return -100;
+		return 30;
 	}
 
 	@Override
 	public TimeBase getTimeBase() {
-		// TODO Auto-generated method stub
-
-		// switching between 1 & 5 minutes
-		// if (lossTimes % 2 ==1)
-		// return GetData.getShortTB();
-		// else
 		return GetData.getLongTB();
 	}
 
