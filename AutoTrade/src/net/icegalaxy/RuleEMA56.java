@@ -10,7 +10,7 @@ public class RuleEMA56 extends Rules {
 	
 	public RuleEMA56(boolean globalRunRule) {
 		super(globalRunRule);
-		setOrderTime(92000, 113000, 130500, 160000, 233000, 233000);
+		setOrderTime(93000, 113000, 130500, 160000, 233000, 233000);
 		// wait for EMA6, that's why 0945
 	}
 	public void openContract() {
@@ -19,6 +19,9 @@ public class RuleEMA56 extends Rules {
 			lossTimes++;
 			shutdown = false;
 		}
+		
+		while (lossTimes > 0 && TimePeriodDecider.getTime() < 100000)
+			sleep(1000);
 
 		// Reset the lossCount at afternoon because P.High P.Low is so important
 		// if (isAfternoonTime() && !tradeTimesReseted) {
@@ -26,8 +29,11 @@ public class RuleEMA56 extends Rules {
 		// tradeTimesReseted = true;
 		// }
 
-		if (!isOrderTime() || Global.getNoOfContracts() != 0 || Global.getpHigh() == 0)
+		if (!isOrderTime() || Global.getNoOfContracts() != 0 
+				|| lossTimes >= 3)
 			return;
+		
+		
 
 		if (firstCorner)
 			firstCorner();
@@ -47,7 +53,7 @@ public class RuleEMA56 extends Rules {
 			Global.addLog(className + ": waiting for a better position");
 			refPt = Global.getCurrentPoint();
 
-			while (Global.getCurrentPoint() > getTimeBase().getEMA(5) + 5 + lossTimes) {
+			while (Global.getCurrentPoint() > getTimeBase().getEMA(5) + 5) {
 				sleep(1000);
 
 				// Global.addLog("Current Pt: " + Global.getCurrentPoint() + " /
@@ -63,17 +69,17 @@ public class RuleEMA56 extends Rules {
 				// GetData.getShortTB().getEMA(5))
 				// break;
 
-				if (Global.getCurrentPoint() > refPt + 50) {
-					Global.addLog(className + ": too far away");
-					firstCorner = true;
-					return;
-				}
-
-//				// difference becomes small may mean changing trend
-//				if (getTimeBase().getEMA(5) < getTimeBase().getEMA(6) + 2) {
-//					Global.addLog(className + ": trend change");
+//				if (Global.getCurrentPoint() > refPt + 50) {
+//					Global.addLog(className + ": too far away");
+//					firstCorner = true;
 //					return;
 //				}
+
+//				// difference becomes small may mean changing trend
+				if (getTimeBase().getEMA(5) < getTimeBase().getEMA(6)) {
+					Global.addLog(className + ": trend change");
+					return;
+				}
 			}
 
 			Global.addLog(className + ": waiting for a second corner");
@@ -102,7 +108,7 @@ public class RuleEMA56 extends Rules {
 			Global.addLog(className + ": waiting for a better position");
 			refPt = Global.getCurrentPoint();
 
-			while (Global.getCurrentPoint() < getTimeBase().getEMA(5) - 5 -lossTimes) {
+			while (Global.getCurrentPoint() < getTimeBase().getEMA(5) - 5) {
 				sleep(1000);
 				//
 
@@ -116,16 +122,16 @@ public class RuleEMA56 extends Rules {
 				// return;
 				// }
 				//
-				if (Global.getCurrentPoint() < refPt - 50) {
-					Global.addLog(className + ": too far away");
-					firstCorner = true;
-					return;
-				}
-
-//				if (getTimeBase().getEMA(5) > getTimeBase().getEMA(6) - 2) {
-//					Global.addLog(className + ": trend change");
+//				if (Global.getCurrentPoint() < refPt - 50) {
+//					Global.addLog(className + ": too far away");
+//					firstCorner = true;
 //					return;
 //				}
+
+				if (getTimeBase().getEMA(5) > getTimeBase().getEMA(6)) {
+					Global.addLog(className + ": trend change");
+					return;
+				}
 
 			}
 
