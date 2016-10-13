@@ -6,6 +6,7 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Date;
 
+
 public class TimeBase {
 	ArrayList<Float> point = new ArrayList<Float>();
 	ArrayList<Float> quantity = new ArrayList<Float>();
@@ -51,7 +52,7 @@ public class TimeBase {
 
 	public void addCandle(String time, double high, double low, double open,
 			double close, double volume) {
-		volume -= total(this.quantity); //µL¥Îªº¡A©ñ¦í¥ý
+		volume -= total(this.quantity); //ï¿½Lï¿½Îªï¿½ï¿½Aï¿½ï¿½ï¿½ï¿½
 		this.candle.add(new Candle(time, high, low, open, close, getQuantity(), rsi14
 				.getRSI()));
 
@@ -313,7 +314,7 @@ public class TimeBase {
 		float ma5;
 
 		if (quantity.size() == 0)
-			return true; // for¥¼¦³quantityªº¤é¤lr
+			return true; // forï¿½ï¿½ï¿½ï¿½quantityï¿½ï¿½ï¿½ï¿½lr
 		else if (quantity.size() < 5)
 			return false;
 		ma5 = TI.getEMA(quantity, 5);
@@ -324,7 +325,7 @@ public class TimeBase {
 		float ma5;
 
 		if (quantity.size() == 0)
-			return 0; // for¥¼¦³quantityªº¤é¤lr
+			return 0; // forï¿½ï¿½ï¿½ï¿½quantityï¿½ï¿½ï¿½ï¿½lr
 		else if (quantity.size() < 5)
 			return 0;
 		ma5 = TI.getEMA(quantity, 5);
@@ -346,7 +347,7 @@ public class TimeBase {
 	public boolean isQuantityRising(int periods) {
 
 		if (quantity.size() == 0)
-			return true; // for¥¼¦³quantityªº¤é¤lr
+			return true; // forï¿½ï¿½ï¿½ï¿½quantityï¿½ï¿½ï¿½ï¿½lr
 		else if (quantity.size() < periods)
 			return false;
 
@@ -371,7 +372,7 @@ public class TimeBase {
 	public boolean isQuantityDropping(int periods) {
 
 		if (quantity.size() == 0)
-			return true; // for¥¼¦³quantityªº¤é¤lr
+			return true; // forï¿½ï¿½ï¿½ï¿½quantityï¿½ï¿½ï¿½ï¿½lr
 		else if (quantity.size() < periods)
 			return false;
 
@@ -428,7 +429,7 @@ public class TimeBase {
 			return false;
 		else
 			return ti.getMovingAverage(period, 0)
-					- ti.getMovingAverage(period, 1) > pointsToRise // 0«Y³Ì·sªº
+					- ti.getMovingAverage(period, 1) > pointsToRise // 0ï¿½Yï¿½Ì·sï¿½ï¿½
 					&& ti.getMovingAverage(period, 1)
 							- ti.getMovingAverage(period, 2) > pointsToRise;
 	}
@@ -439,7 +440,7 @@ public class TimeBase {
 			return false;
 		else
 			return ti.getEMA(period, 0)
-					- ti.getEMA(period, 1) > pointsToRise // 0«Y³Ì·sªº
+					- ti.getEMA(period, 1) > pointsToRise // 0ï¿½Yï¿½Ì·sï¿½ï¿½
 					&& ti.getEMA(period, 1)
 							- ti.getEMA(period, 2) > pointsToRise;
 	}
@@ -556,6 +557,18 @@ public class TimeBase {
 			return null;
 		}
 	}
+	
+	public Candle getPreviousCandle(int noOfPeriodBefore) {
+		
+		if (candle.size() < 1 + noOfPeriodBefore)
+			throw new ArrayIndexOutOfBoundsException();
+		
+		try {
+			return candle.get(candle.size() - 1 - noOfPeriodBefore);
+		} catch (ArrayIndexOutOfBoundsException e) {
+			return null;
+		}
+	}
 
 	class Rail {
 		public ArrayList<Rail> rails;
@@ -661,7 +674,7 @@ public class TimeBase {
 					getTheSlope();
 				} else if (isLatestRail()) {
 					rails.remove(railIndex);
-				} else { // ¤S­ø«Y²Ä¤@±ø¤S­ø«Y³Ì«áªG±ø
+				} else { // ï¿½Sï¿½ï¿½ï¿½Yï¿½Ä¤@ï¿½ï¿½ï¿½Sï¿½ï¿½ï¿½Yï¿½Ì«ï¿½Gï¿½ï¿½
 					slopeRetained = 0;
 					slope = 100.0D;
 				}
@@ -786,7 +799,7 @@ public class TimeBase {
 				if (i < 0)
 					break;
 
-				if (i == 166) // ¤¤¤È
+				if (i == 166) // ï¿½ï¿½ï¿½ï¿½
 					break;
 
 				if (candle.get(i).getRsi() > periodRsiHigh)
