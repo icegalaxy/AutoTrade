@@ -1,7 +1,6 @@
 package net.icegalaxy;
 
 
-
 public class RuleEMA56 extends Rules {
 
 	private int lossTimes;
@@ -11,7 +10,7 @@ public class RuleEMA56 extends Rules {
 	
 	public RuleEMA56(boolean globalRunRule) {
 		super(globalRunRule);
-		setOrderTime(93000, 113000, 130500, 160000, 233000, 233000);
+		setOrderTime(93000, 113000, 130500, 160000, 213000, 230000);
 		// wait for EMA6, that's why 0945
 	}
 	public void openContract() {
@@ -112,7 +111,15 @@ public class RuleEMA56 extends Rules {
 			Global.addLog(className + ": waiting for the first corner");
 
 			while (getTimeBase().getEMA(5) > getTimeBase().getEMA(6))
-				sleep(1000);
+				{
+					sleep(1000);
+//					if (TimePeriodDecider.getTime() > 100000)
+//					{
+//						Global.addLog("First corner did not appear after 10:00");
+//						firstCorner = false;
+//						return;
+//					}
+				}
 
 			Global.addLog(className + ": waiting for a pull back");
 
@@ -140,16 +147,24 @@ public class RuleEMA56 extends Rules {
 			Global.addLog(className + ": waiting for the first corner");
 
 			while (getTimeBase().getEMA(5) < getTimeBase().getEMA(6))
-				sleep(1000);
+				{
+					sleep(1000);
+//					if (TimePeriodDecider.getTime() > 100000)
+//					{
+//						Global.addLog("First corner did not appear after 10:00");
+//						firstCorner = false;
+//						return;
+//					}
+				}
 
-			firstCorner = false;
+
 
 			Global.addLog(className + ": waiting for a pull back");
 			
 			refPt = Global.getCurrentPoint();
 
 			while (Global.getCurrentPoint() > GetData.getShortTB().getLatestCandle().getLow()){
-				sleep(1000);			
+				sleep(1000);	
 			}
 			
 			refPt = Global.getCurrentPoint();
@@ -162,6 +177,7 @@ public class RuleEMA56 extends Rules {
 				
 			}
 			
+			firstCorner = false;
 			longContract();
 			cutLoss = Math.abs(Global.getCurrentPoint() - refPt);
 			Global.addLog("CutLossPt: " + cutLoss);

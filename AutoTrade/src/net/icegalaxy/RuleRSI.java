@@ -1,17 +1,17 @@
 package net.icegalaxy;
 
 
+
 public class RuleRSI extends Rules {
 	
-	protected double referencePoint;
-
-	double lowerRSI = 30;
-	double upperRSI = 70;
-	double refRSI;
+	private int lossTimes;
+	// private double refEMA;
+	private boolean firstCorner = false;
+	private double cutLoss;
 	
 	public RuleRSI(boolean globalRunRule) {
 		super(globalRunRule);
-		
+		setOrderTime(93000, 113000, 130500, 160000, 230000, 230000);
 	}
 	
 	@Override
@@ -20,233 +20,143 @@ public class RuleRSI extends Rules {
 	}
 
 	
-	@Override
 	public void openContract() {
-		
-		refRSI = 50;
 
-		if (!Global.isOrderTime()
-		// || Global.getDayHigh() - Global.getDayLow() > 100
+		if (shutdown) {
+			lossTimes++;
+			firstCorner = true;
+			shutdown = false;
+		}
+		
+		if (!isOrderTime() || Global.getNoOfContracts() != 0
+				|| lossTimes >=2
 		)
 			return;
 		
-		
-		if (shutdown){
+		if (isUpTrend() && GetData.getShortTB().getRSI() < 30 - lossTimes * 10)
+		{
 			
-
-			while (getTimeBase().getRSI() < 30 || getTimeBase().getRSI() > 70)
-				sleep(1000);
+			refPt = Global.getCurrentPoint();
+			while (GetData.getShortTB().getLatestCandle().getClose() < GetData.getShortTB().getPreviousCandle(1).getClose())
+				{
+					sleep(1000);
+					if (Global.getCurrentPoint() < refPt)
+						refPt = Global.getCurrentPoint();
+				}
 			
-			shutdown = false;
-
-		}
-		
-
-		if (getTimeBase().getRSI() < lowerRSI) {
-						
-			while (getTimeBase().getRSI() <= refRSI){
-				refRSI = getTimeBase().getRSI();
-				sleep(1000);
-			}
-
+			
 			longContract();
-			referencePoint = buyingPoint;
 			
-
-
-			// } else if (isDropping()) {
-		} else if (getTimeBase().getRSI() > upperRSI) {
+			cutLoss = buyingPoint - refPt;
+		}
+		else if  (isDownTrend() && GetData.getShortTB().getRSI() > 70 + lossTimes * 10)
+		{
 			
-			while (getTimeBase().getRSI() >= refRSI){
-				refRSI = getTimeBase().getRSI();
-				sleep(1000);
-			}
-
+			while (GetData.getShortTB().getLatestCandle().getClose() > GetData.getShortTB().getPreviousCandle(1).getClose())
+				{
+					sleep(1000);
+					
+					if (Global.getCurrentPoint() > refPt)
+						refPt = Global.getCurrentPoint();
+				}
+			
 			shortContract();
-			referencePoint = buyingPoint;
+			cutLoss = refPt - buyingPoint;
+		}
+	
+	}
+		
+//		openOHLC(Global.getpHigh());
+
+
+	// use 1min instead of 5min
+	void updateStopEarn() {
+
+
+
+		if (Global.getNoOfContracts() > 0) {
+
+			if (buyingPoint > tempCutLoss && getProfit() > 30){
+				Global.addLog("Free trade");
+				tempCutLoss = buyingPoint;
+			}
+			
+			if (getTimeBase().getEMA(5) < getTimeBase().getEMA(6))
+				tempCutLoss = 99999;
+			
+		} else if (Global.getNoOfContracts() < 0) {
+
+			if (buyingPoint < tempCutLoss && getProfit() > 30){
+				Global.addLog("Free trade");
+				tempCutLoss = buyingPoint;
+			}
+			
+			if (getTimeBase().getEMA(5) > getTimeBase().getEMA(6))
+				tempCutLoss = 0;
+
 		}
 
-		// wait to escape 70 30 zone
-		while (getTimeBase().getRSI() < 30 || getTimeBase().getRSI() > 70)
-			sleep(1000);
 	}
 
-	private boolean isSmallFluctutaion() {
-		return getTimeBase().getHL(60).getFluctuation() < 100;
-	}
-
-
-
+	// use 1min instead of 5min
 	double getCutLossPt() {
-		return 20;
+
+		if (cutLoss < 5)
+			return 5;
+		else
+			return cutLoss;
+
+	}
+
+	@Override
+	protected void cutLoss() {
+
+		if (Global.getNoOfContracts() > 0 && Global.getCurrentPoint() < tempCutLoss) {
+			closeContract(className + ": CutLoss, short @ " + Global.getCurrentBid());
+			shutdown = true;
+		} else if (Global.getNoOfContracts() < 0 && Global.getCurrentPoint() > tempCutLoss) {
+			closeContract(className + ": CutLoss, long @ " + Global.getCurrentAsk());
+			shutdown = true;
+
+		}
+	}
+
+	private void firstCorner() {
+
+		if (getTimeBase().getEMA(5) > getTimeBase().getEMA(6)) {
+			// wait for a better position
+			Global.addLog(className + ": waiting for the first corner");
+
+			while (getTimeBase().getEMA(5) > getTimeBase().getEMA(6))
+				sleep(1000);
+
+			firstCorner = false;
+
+		} else if (getTimeBase().getEMA(5) < getTimeBase().getEMA(6)) {
+
+			Global.addLog(className + ": waiting for the first corner");
+
+			while (getTimeBase().getEMA(5) < getTimeBase().getEMA(6))
+				sleep(1000);
+
+			firstCorner = false;
+		}
 	}
 
 	double getStopEarnPt() {
-//		return Global.getDayHigh() - Global.getDayLow(); //À³¸Ó¥u·|­p¶RªG¤@¨èªºdiff (i.e. escaped 30 70«á)  ¦]¬°¶i¤JClose Contract­ÓLoop¤§«á¡AStopEarn¥u·|´î¤Ö¡A¤£·|¼W¦h
-//		return getTimeBase().getHL(120).getFluctuation() / 2;
 		
-		if (Global.getNoOfContracts() > 0){
-			if (getTimeBase().getRSI() > 70)
-				return 10;
-			else
-				return 50;
-		}
-		else{
-			if (getTimeBase().getRSI() < 30)
-				return 10;
-			else
-				return 50;
-		}
+		if (Global.getNoOfContracts() > 0 && getTimeBase().getEMA(5) > getTimeBase().getEMA(6))
+			return -100;
+		else 	if (Global.getNoOfContracts() < 0 && getTimeBase().getEMA(5) < getTimeBase().getEMA(6))
+			return -100;
 		
+		//æœ‰å¯èƒ½è¡Œå¤ 50é»žéƒ½æœª 5 > 6ï¼Œå’æœƒå³åˆ»é£Ÿå·¦
+		return  50;
 	}
-
-//	protected void cutLoss() {
-//		if (Global.getNoOfContracts() > 0
-//				&& Global.getCurrentPoint() < tempCutLoss){
-//			closeContract("CutLoss " + className);
-//			shutdown = true;
-//			lowerRSI = lowerRSI - 5;
-//		}
-//		else if (Global.getNoOfContracts() < 0
-//				&& Global.getCurrentPoint() > tempCutLoss){
-//			closeContract("CutLoss " + className);
-//			shutdown = true;
-//			upperRSI = upperRSI + 5; 
-//		}
-//	}
-
-	
-
-	// @Override
-	// double getCutLossPt() {
-	// return 20;
-	// }
-	//
-	// @Override
-	// double getStopEarnPt() {
-	// return 20;
-	// }
 
 	@Override
 	public TimeBase getTimeBase() {
-		return GetData.getShortTB();
+		return GetData.getLongTB();
 	}
-	
-	@Override
-	protected void cutLoss() {
-		if (Global.getNoOfContracts() > 0
-				&& Global.getCurrentPoint() < tempCutLoss){
-			closeContract("CutLoss " + className);
-			lowerRSI = lowerRSI - 5;
-			shutdown = true;
-		}
-		else if (Global.getNoOfContracts() < 0
-				&& Global.getCurrentPoint() > tempCutLoss){
-			closeContract("CutLoss " + className);
-			upperRSI = upperRSI + 5;
-			shutdown = true;
-		}
-	}
-
-	// @Override
-	// boolean trendReversed() {
-	//
-	// if (Global.getNoOfContracts() > 0)
-	// return getTimeBase().getRSI() < 70;
-	// if (Global.getNoOfContracts() < 0)
-	// return getTimeBase().getRSI() > 30;
-	// return false;
-	// }
-
-	// @Override
-	// boolean trendReversed2() {
-	// double slope = 0;
-	// double longSlope = 0;
-	//
-	// if (Global.getNoOfContracts() > 0) {
-	// if (GetData.getSec10TB().getMainDownRail().getSlope() != 100)
-	// slope = GetData.getSec10TB().getMainDownRail()
-	// .getSlope();
-	//
-	// if (getTimeBase().getMainUpRail().getSlope() != 100)
-	// longSlope = getTimeBase().getMainUpRail().getSlope();
-	//
-	// }
-	// if (Global.getNoOfContracts() < 0) {
-	//
-	// if (GetData.getSec10TB().getMainUpRail().getSlope() != 100)
-	// slope = GetData.getSec10TB().getMainUpRail()
-	// .getSlope();
-	//
-	// if (getTimeBase().getMainDownRail().getSlope() != 100)
-	// longSlope = getTimeBase().getMainDownRail().getSlope();
-	// }
-	// return slope > 5 && slope > longSlope * 2;
-	// }
-
-	// @Override
-	// void updateStopEarn() {
-	//
-	// float ma10 = getTimeBase().getMA(10);
-	//
-	// if (Global.getNoOfContracts() > 0) {
-	//
-	// if (ma10 > tempCutLoss && Global.getCurrentPoint() > ma10)
-	// tempCutLoss = ma10;
-	// if (getTimeBase().getMainUpRail().getRail() > tempCutLoss)
-	// tempCutLoss = getTimeBase().getMainUpRail().getRail();
-	//
-	// } else if (Global.getNoOfContracts() < 0) {
-	//
-	// if (ma10 < tempCutLoss && Global.getCurrentPoint() < ma10)
-	// tempCutLoss = ma10;
-	// if (getTimeBase().getMainDownRail().getRail() != 0
-	// && getTimeBase().getMainDownRail().getRail() < tempCutLoss)
-	// tempCutLoss = getTimeBase().getMainDownRail().getRail();
-	// }
-	// }
-
-	// @Override
-	// protected boolean reachGreatProfitPt() {
-	//
-	// // if (getStopEarnPt() < stopEarnPt)
-	// // stopEarnPt = getStopEarnPt();
-	//
-	// if (Global.getNoOfContracts() > 0) {
-	//
-	// if (Global.getCurrentPoint() < referencePoint)
-	// referencePoint = Global.getCurrentPoint();
-	//
-	// return Global.getCurrentPoint() - getStopEarnPt() > referencePoint;
-	// }
-	//
-	// else if (Global.getNoOfContracts() < 0) {
-	//
-	// if (Global.getCurrentPoint() > referencePoint)
-	// referencePoint = Global.getCurrentPoint();
-	//
-	// return Global.getCurrentPoint() + getStopEarnPt() < referencePoint;
-	//
-	// } else
-	// return false;
-	// }
-	// @Override
-	// protected void cutLoss() {
-	//
-	// if (Global.getNoOfContracts() > 0) {
-	// if (Global.balance + Global.getCurrentPoint() <= -1 * getCutLossPt()) {
-	//
-	// closeContract("CutLoss " + className);
-	// shutdown = true;
-	// }
-	//
-	// } else if (Global.getNoOfContracts() < 0) {
-	// if (Global.balance - Global.getCurrentPoint() <= -1 * getCutLossPt()) {
-	// closeContract("CutLoss " + className);
-	// shutdown = true;
-	//
-	// }
-	// }
-	// }
 
 }

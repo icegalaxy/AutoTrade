@@ -1,6 +1,8 @@
 package net.icegalaxy;
 
-public abstract class Rules implements Runnable {
+
+public abstract class Rules implements Runnable
+{
 
 	protected boolean hasContract;
 	protected double tempCutLoss;
@@ -11,7 +13,7 @@ public abstract class Rules implements Runnable {
 	protected String className;
 	double stopEarnPt;
 	double cutLossPt;
-	
+
 	public int lossTimes;
 
 	private final float CUTLOSS_FACTOR = 5.0F;
@@ -32,7 +34,8 @@ public abstract class Rules implements Runnable {
 	int nightOpen = 173000;
 	int nightClose = 231500;
 
-	public Rules(boolean globalRunRule) {
+	public Rules(boolean globalRunRule)
+	{
 
 		this.globalRunRule = globalRunRule;
 		this.className = this.getClass().getSimpleName();
@@ -40,25 +43,32 @@ public abstract class Rules implements Runnable {
 	}
 
 	@Override
-	public void run() {
+	public void run()
+	{
 
-		if (!globalRunRule) {
-			while (Global.isRunning()) {
+		if (!globalRunRule)
+		{
+			while (Global.isRunning())
+			{
 				sleep(1000);
 			}
-		} else {
+		} else
+		{
 
 			Global.addLog(className + " Acivated");
 
-			while (Global.isRunning()) {
+			while (Global.isRunning())
+			{
 
 				usingMA20 = true;
 				usingMA10 = true;
 				usingMA5 = true;
 
-				if (hasContract) {
+				if (hasContract)
+				{
 					closeContract();
-				} else {
+				} else
+				{
 					openContract();
 				}
 
@@ -67,7 +77,8 @@ public abstract class Rules implements Runnable {
 		}
 	}
 
-	protected boolean reachGreatProfitPt() {
+	protected boolean reachGreatProfitPt()
+	{
 
 		if (getStopEarnPt() < stopEarnPt)
 			stopEarnPt = getStopEarnPt();
@@ -82,7 +93,8 @@ public abstract class Rules implements Runnable {
 	}
 
 	// can choose not to set the night time
-	public void setOrderTime(int morningOpen, int morningClose, int noonOpen, int noonClose) {
+	public void setOrderTime(int morningOpen, int morningClose, int noonOpen, int noonClose)
+	{
 		this.morningOpen = morningOpen;
 		this.morningClose = morningClose;
 		this.noonOpen = noonOpen;
@@ -91,7 +103,8 @@ public abstract class Rules implements Runnable {
 
 	// can choose to set the night time
 	public void setOrderTime(int morningOpen, int morningClose, int noonOpen, int noonClose, int nightOpen,
-			int nightClose) {
+			int nightClose)
+	{
 		this.morningOpen = morningOpen;
 		this.morningClose = morningClose;
 		this.noonOpen = noonOpen;
@@ -100,7 +113,8 @@ public abstract class Rules implements Runnable {
 		this.nightClose = nightClose;
 	}
 
-	public boolean isOrderTime() {
+	public boolean isOrderTime()
+	{
 
 		int time = TimePeriodDecider.getTime();
 
@@ -117,7 +131,8 @@ public abstract class Rules implements Runnable {
 			return false;
 	}
 
-	protected void updateCutLoss() {
+	protected void updateCutLoss()
+	{
 
 		if (getCutLossPt() < cutLossPt)
 			cutLossPt = getCutLossPt();
@@ -125,7 +140,8 @@ public abstract class Rules implements Runnable {
 		// if (getStopEarnPt() < stopEarnPt)
 		// stopEarnPt = getStopEarnPt();
 
-		if (Global.getNoOfContracts() > 0) {
+		if (Global.getNoOfContracts() > 0)
+		{
 			// if (Global.getCurrentPoint() - tempCutLoss > cutLossPt) {
 			// tempCutLoss = Global.getCurrentPoint() - cutLossPt;
 			// System.out.println("CurrentPt: " + Global.getCurrentPoint());
@@ -141,7 +157,8 @@ public abstract class Rules implements Runnable {
 			// System.out.println("TempStopEarn: " + tempStopEarn);
 			// }
 
-		} else if (Global.getNoOfContracts() < 0) {
+		} else if (Global.getNoOfContracts() < 0)
+		{
 			// if (tempCutLoss - Global.getCurrentPoint() > cutLossPt) {
 			// tempCutLoss = Global.getCurrentPoint() + cutLossPt;
 			// System.out.println("CurrentPt: " + Global.getCurrentPoint());
@@ -174,7 +191,8 @@ public abstract class Rules implements Runnable {
 	// }
 
 	// Use the latest 1min close instead of current point
-	protected void cutLoss() {
+	protected void cutLoss()
+	{
 
 		double refPt = 0;
 
@@ -183,43 +201,49 @@ public abstract class Rules implements Runnable {
 		else
 			refPt = GetData.getShortTB().getLatestCandle().getClose();
 
-		if (Global.getNoOfContracts() > 0 && refPt < tempCutLoss) {
+		if (Global.getNoOfContracts() > 0 && refPt < tempCutLoss)
+		{
 			closeContract(className + ": CutLoss, short @ " + Global.getCurrentBid());
 			shutdown = true;
-		} else if (Global.getNoOfContracts() < 0 && refPt > tempCutLoss) {
+		} else if (Global.getNoOfContracts() < 0 && refPt > tempCutLoss)
+		{
 			closeContract(className + ": CutLoss, long @ " + Global.getCurrentAsk());
 			shutdown = true;
 		}
 	}
 
-	void stopEarn() {
-		if (Global.getNoOfContracts() > 0 && GetData.getShortTB().getLatestCandle().getClose() < tempCutLoss){
-			
-			if(Global.getCurrentPoint() < buyingPoint){
+	void stopEarn()
+	{
+		if (Global.getNoOfContracts() > 0 && GetData.getShortTB().getLatestCandle().getClose() < tempCutLoss)
+		{
+
+			if (Global.getCurrentPoint() < buyingPoint)
+			{
 				cutLoss();
 				return;
 			}
-			
+
 			closeContract(className + ": StopEarn, short @ " + Global.getCurrentBid());
 			if (lossTimes > 0)
 				lossTimes--;
-				
-		}
-		else if (Global.getNoOfContracts() < 0 && GetData.getShortTB().getLatestCandle().getClose() > tempCutLoss){
-			
 
-			if(Global.getCurrentPoint() > buyingPoint){
+		} else if (Global.getNoOfContracts() < 0 && GetData.getShortTB().getLatestCandle().getClose() > tempCutLoss)
+		{
+
+			if (Global.getCurrentPoint() > buyingPoint)
+			{
 				cutLoss();
 				return;
 			}
-			
+
 			closeContract(className + ": StopEarn, long @ " + Global.getCurrentAsk());
 			if (lossTimes > 0)
 				lossTimes--;
 		}
 	}
 
-	public void closeContract(String msg) {
+	public void closeContract(String msg)
+	{
 
 		boolean b = Sikuli.closeContract();
 		Global.addLog(msg);
@@ -231,12 +255,15 @@ public abstract class Rules implements Runnable {
 			hasContract = false;
 	}
 
-	public void closeContract() {
+	public void closeContract()
+	{
 
-		if (Global.getNoOfContracts() > 0) {
+		if (Global.getNoOfContracts() > 0)
+		{
 			tempCutLoss = buyingPoint - getCutLossPt();
 			tempStopEarn = buyingPoint + getStopEarnPt();
-		} else if (Global.getNoOfContracts() < 0) {
+		} else if (Global.getNoOfContracts() < 0)
+		{
 			tempCutLoss = buyingPoint + getCutLossPt();
 			tempStopEarn = buyingPoint - getStopEarnPt();
 		}
@@ -245,31 +272,36 @@ public abstract class Rules implements Runnable {
 		cutLossPt = 100; // �O�׫Y�O�I�A��ĤG��set���H�Pcut loss�Ӥj,
 		// �O�ӫYMaximum
 
-		while (!reachGreatProfitPt()) {
+		while (!reachGreatProfitPt())
+		{
 
 			updateCutLoss();
 			cutLoss();
 
 			// checkRSI();
 			// checkDayHighLow();
-			if (trendReversed()) {
+			if (trendReversed())
+			{
 				closeContract(className + ": Trend Reversed");
 				return;
 			}
 
-			if (trendUnstable()) {
+			if (trendUnstable())
+			{
 				closeContract(className + ": Trend Unstable");
 				return;
 			}
 			// if (maReversed())
 			// return;
 
-			if (Global.isForceSellTime()) {
+			if (Global.isForceSellTime())
+			{
 				closeContract("Force Sell");
 				return;
 			}
 
-			if (Global.getNoOfContracts() == 0) { // �i��ڨ�Lrule
+			if (Global.getNoOfContracts() == 0)
+			{ // �i��ڨ�Lrule
 				// close���A��Trend
 				// truned�A�̧Y�Y�४�աA��
 				hasContract = false;
@@ -282,7 +314,8 @@ public abstract class Rules implements Runnable {
 			sleep(1000);
 		}
 
-		if (Global.getNoOfContracts() == 0) {
+		if (Global.getNoOfContracts() == 0)
+		{
 			hasContract = false;
 			return;
 		}
@@ -295,9 +328,11 @@ public abstract class Rules implements Runnable {
 
 		Global.addLog(className + ": Secure profit @ " + Global.getCurrentPoint());
 
-		while (hasContract) {
+		while (hasContract)
+		{
 
-			if (Global.getNoOfContracts() == 0) {
+			if (Global.getNoOfContracts() == 0)
+			{
 				hasContract = false;
 				break;
 			}
@@ -305,14 +340,15 @@ public abstract class Rules implements Runnable {
 			if (trendReversed2())
 				closeContract(className + ": TrendReversed2");
 
-			if (Global.isForceSellTime()) {
+			if (Global.isForceSellTime())
+			{
 				closeContract("Force Sell");
 				return;
 			}
 
 			updateCutLoss();
 			cutLoss();
-			
+
 			updateStopEarn();
 			stopEarn();
 
@@ -322,15 +358,18 @@ public abstract class Rules implements Runnable {
 		}
 	}
 
-	boolean trendReversed2() {
+	boolean trendReversed2()
+	{
 		return false;
 	}
 
-	boolean trendUnstable() {
+	boolean trendUnstable()
+	{
 		return false;
 	}
 
-	protected float getAGAL() {
+	protected float getAGAL()
+	{
 
 		GetData.getShortTB().getRSI(); // ���[�O�y����AGAL�Y���|����
 		return (GetData.getShortTB().getAG() + GetData.getShortTB().getAL()); // �Y���O�׫Y���Y�n�εfShort
@@ -338,12 +377,22 @@ public abstract class Rules implements Runnable {
 		// ALAG��Ĺ��
 	}
 
-	public void shortContract() {
-		
-		//can't do it in sikuli, it stopped the forcesell
+	public void shortContract()
+	{
+
+		// can't do it in sikuli, it stopped the forcesell
 		if (!Global.isOrderTime())
+		{
+			Global.addLog(className + ": not order time");
 			return;
-		
+		}
+
+		if (Global.getNoOfContracts() != 0)
+		{
+			Global.addLog(className + ": Has order already!");
+			return;
+		}
+
 		boolean b = Sikuli.shortContract();
 		if (!b)
 			return;
@@ -353,12 +402,22 @@ public abstract class Rules implements Runnable {
 		balance += buyingPoint;
 	}
 
-	public void longContract() {
-		
-		//can't do it in sikuli, it stopped the forcesell
+	public void longContract()
+	{
+
+		// can't do it in sikuli, it stopped the forcesell
 		if (!Global.isOrderTime())
+		{
+			Global.addLog(className + ": not order time");
 			return;
-		
+		}
+
+		if (Global.getNoOfContracts() != 0)
+		{
+			Global.addLog(className + ": Has order already!");
+			return;
+		}
+
 		boolean b = Sikuli.longContract();
 		if (!b)
 			return;
@@ -370,20 +429,25 @@ public abstract class Rules implements Runnable {
 
 	public abstract void openContract();
 
-	void updateStopEarn() {
+	void updateStopEarn()
+	{
 
-		if (Global.getNoOfContracts() > 0) {
+		if (Global.getNoOfContracts() > 0)
+		{
 
-			if (GetData.getShortTB().getLatestCandle().getLow() > tempCutLoss) {
+			if (GetData.getShortTB().getLatestCandle().getLow() > tempCutLoss)
+			{
 				tempCutLoss = GetData.getShortTB().getLatestCandle().getLow();
 				// usingMA20 = false;
 				// usingMA10 = false;
 				// usingMA5 = false;
 			}
 
-		} else if (Global.getNoOfContracts() < 0) {
+		} else if (Global.getNoOfContracts() < 0)
+		{
 
-			if (GetData.getShortTB().getLatestCandle().getHigh() < tempCutLoss) {
+			if (GetData.getShortTB().getLatestCandle().getHigh() < tempCutLoss)
+			{
 				tempCutLoss = GetData.getShortTB().getLatestCandle().getHigh();
 				// usingMA20 = false;
 				// usingMA10 = false;
@@ -393,21 +457,27 @@ public abstract class Rules implements Runnable {
 
 	}
 
-	public boolean isInsideDay() {
+	public boolean isInsideDay()
+	{
 
 		return Global.getCurrentPoint() > Global.getpLow() + 5 && Global.getCurrentPoint() < Global.getpHigh() - 5;
 
 	}
 
-	void secondStopEarn() {
+	void secondStopEarn()
+	{
 
-		if (Global.getNoOfContracts() > 0) {
-			if (Global.getCurrentPoint() < GetData.getLongTB().getEMA(5)) {
+		if (Global.getNoOfContracts() > 0)
+		{
+			if (Global.getCurrentPoint() < GetData.getLongTB().getEMA(5))
+			{
 				tempCutLoss = 99999;
 				Global.addLog(className + " StopEarn: Current Pt < EMA5");
 			}
-		} else if (Global.getNoOfContracts() < 0) {
-			if (Global.getCurrentPoint() > GetData.getLongTB().getEMA(5)) {
+		} else if (Global.getNoOfContracts() < 0)
+		{
+			if (Global.getCurrentPoint() > GetData.getLongTB().getEMA(5))
+			{
 				tempCutLoss = 0;
 				Global.addLog(className + " StopEarn: Current Pt > EMA5");
 
@@ -416,15 +486,20 @@ public abstract class Rules implements Runnable {
 
 	}
 
-	void thirdStopEarn() {
+	void thirdStopEarn()
+	{
 
-		if (Global.getNoOfContracts() > 0) {
-			if (GetData.getLongTB().getEMA(5) < GetData.getLongTB().getEMA(6)) {
+		if (Global.getNoOfContracts() > 0)
+		{
+			if (GetData.getLongTB().getEMA(5) < GetData.getLongTB().getEMA(6))
+			{
 				tempCutLoss = 99999;
 				Global.addLog(className + " StopEarn: EMA5 < EMA6");
 			}
-		} else if (Global.getNoOfContracts() < 0) {
-			if (GetData.getLongTB().getEMA(5) > GetData.getLongTB().getEMA(6)) {
+		} else if (Global.getNoOfContracts() < 0)
+		{
+			if (GetData.getLongTB().getEMA(5) > GetData.getLongTB().getEMA(6))
+			{
 				tempCutLoss = 0;
 				Global.addLog(className + " StopEarn: EMA5 > EMA6");
 
@@ -433,56 +508,67 @@ public abstract class Rules implements Runnable {
 
 	}
 
-	double getCutLossPt() {
+	double getCutLossPt()
+	{
 		return getAGAL() * CUTLOSS_FACTOR;
 		// return GetData.getShortTB().getHL15().getFluctuation() /
 		// CUTLOSS_FACTOR;
 	}
 
-	double getStopEarnPt() {
+	double getStopEarnPt()
+	{
 		return getAGAL() * STOPEARN_FACTOR;
 		// return GetData.getShortTB().getHL15().getFluctuation() /
 		// STOPEARN_FACTOR;
 	}
 
-	public void setName(String s) {
+	public void setName(String s)
+	{
 		className = s;
 	}
 
-	public static synchronized float getBalance() {
+	public static synchronized float getBalance()
+	{
 		if (Global.getNoOfContracts() > 0)
 			return balance + Global.getCurrentPoint() * Global.getNoOfContracts();
 		else if (Global.getNoOfContracts() < 0)
 			return balance + Global.getCurrentPoint() * Global.getNoOfContracts();
-		else {
+		else
+		{
 			balance = 0;
 			return balance;
 		}
 	}
 
-	public static synchronized void setBalance(float balance) {
+	public static synchronized void setBalance(float balance)
+	{
 		Rules.balance = balance;
 	}
 
 	public abstract TimeBase getTimeBase();
 
-	boolean maRising(int period) {
+	boolean maRising(int period)
+	{
 		return getTimeBase().isMARising(period, 1);
 	}
 
-	boolean maDropping(int period) {
+	boolean maDropping(int period)
+	{
 		return getTimeBase().isMADropping(period, 1);
 	}
 
-	boolean emaRising(int period) {
+	boolean emaRising(int period)
+	{
 		return getTimeBase().isEMARising(period, 1);
 	}
 
-	boolean emaDropping(int period) {
+	boolean emaDropping(int period)
+	{
 		return getTimeBase().isEMADropping(period, 1);
 	}
 
-	boolean trendReversed() {
+	boolean trendReversed()
+	{
 
 		// double slope = 0;
 		// double longSlope = 0;
@@ -511,15 +597,19 @@ public abstract class Rules implements Runnable {
 
 	}
 
-	protected void sleep(int i) {
-		try {
+	protected void sleep(int i)
+	{
+		try
+		{
 			Thread.sleep(i);
-		} catch (InterruptedException e) {
+		} catch (InterruptedException e)
+		{
 			e.printStackTrace();
 		}
 	}
 
-	public double getProfit() {
+	public double getProfit()
+	{
 		if (Global.getNoOfContracts() > 0)
 			return Global.getCurrentPoint() - buyingPoint;
 		else
@@ -527,7 +617,8 @@ public abstract class Rules implements Runnable {
 	}
 
 	// Danny �l�ȥ�e�w��V
-	public boolean isUpTrend() {
+	public boolean isUpTrend()
+	{
 		return GetData.getM15TB().getMA(20) > GetData.getM15TB().getEMA(50)
 				&& GetData.getLongTB().getEMA(50) > GetData.getLongTB().getEMA(240)
 				&& GetData.getLongTB().getEMA(5) > GetData.getLongTB().getEMA(6)
@@ -537,7 +628,8 @@ public abstract class Rules implements Runnable {
 				&& GetData.getLongTB().isEMARising(50, 1);
 	}
 
-	public boolean isDownTrend() {
+	public boolean isDownTrend()
+	{
 		return GetData.getM15TB().getMA(20) < GetData.getM15TB().getEMA(50)
 				&& GetData.getLongTB().getEMA(50) < GetData.getLongTB().getEMA(240)
 				&& GetData.getLongTB().getEMA(5) < GetData.getLongTB().getEMA(6)
@@ -548,13 +640,16 @@ public abstract class Rules implements Runnable {
 
 	}
 
-	public boolean isSideWay() {
+	public boolean isSideWay()
+	{
 
 		return !GetData.getLongTB().isEMARising(50, 1) && !GetData.getLongTB().isEMADropping(50, 1);
 	}
 
-	void reverseOHLC(double ohlc) {
-		if (Global.getCurrentPoint() <= ohlc + 5 && Global.getCurrentPoint() >= ohlc - 5) {
+	void reverseOHLC(double ohlc)
+	{
+		if (Global.getCurrentPoint() <= ohlc + 5 && Global.getCurrentPoint() >= ohlc - 5)
+		{
 
 			Global.addLog(className + ": Entered waiting zone");
 			Global.addLog("MA20(M15): " + GetData.getM15TB().getMA(20));
@@ -566,74 +661,86 @@ public abstract class Rules implements Runnable {
 			while (Global.getCurrentPoint() <= ohlc + 20 && Global.getCurrentPoint() >= ohlc - 20)
 				sleep(1000);
 
-			if (Global.getCurrentPoint() > ohlc + 20 && isSideWay()) {
+			if (Global.getCurrentPoint() > ohlc + 20 && isSideWay())
+			{
 				shortContract();
-			} else if (Global.getCurrentPoint() < ohlc - 20 && isSideWay()) {
+			} else if (Global.getCurrentPoint() < ohlc - 20 && isSideWay())
+			{
 				longContract();
 			}
 		}
 	}
 
-	void openOHLC(double ohlc) {
-		if (Math.abs(Global.getCurrentPoint() - ohlc) <= 5) {
+	void openOHLC(double ohlc)
+	{
+		if (Math.abs(Global.getCurrentPoint() - ohlc) <= 5)
+		{
 
 			Global.addLog(className + ": Entered waiting zone");
-			
+
 			waitForANewCandle();
 
-			//wait until it standing firmly
+			// wait until it standing firmly
 			while (Math.abs(GetData.getLongTB().getLatestCandle().getClose() - ohlc) <= 5)
 				sleep(1000);
 
 			Global.addLog(className + ": Waiting for a pull back");
-			//in case it get too fast, wait until it come back, just like second corner but a little bit earlier
-			while (Math.abs(Global.getCurrentPoint() - ohlc) > 5) {
-				if (Math.abs(Global.getCurrentPoint() - ohlc) > 50) {
+			// in case it get too fast, wait until it come back, just like
+			// second corner but a little bit earlier
+			while (Math.abs(Global.getCurrentPoint() - ohlc) > 5)
+			{
+				if (Math.abs(Global.getCurrentPoint() - ohlc) > 50)
+				{
 					Global.addLog(className + ": Risk is too big");
 					return;
 				}
-				
+
 				sleep(1000);
 			}
 
 			// for outside
-//			if (Global.getCurrentPoint() > Global.getDayHigh()) {
-//				if (GetData.getLongTB().getLatestCandle().getClose() > ohlc + 5)
-//					longContract();
-//			} else if (Global.getCurrentPoint() < Global.getDayLow()) {
-//				if (GetData.getLongTB().getLatestCandle().getClose() < ohlc - 5)
-//					shortContract();
-//
-//				// for inside
-//			} else {
-				if (GetData.getLongTB().getLatestCandle().getClose() > ohlc){
-					if (GetData.getLongTB().getEMA(5) < GetData.getLongTB().getEMA(6) + 2){
-						Global.addLog("Not Trending Up: EMA5 < EMA6");
-						return;
-					}
-					longContract();
+			// if (Global.getCurrentPoint() > Global.getDayHigh()) {
+			// if (GetData.getLongTB().getLatestCandle().getClose() > ohlc + 5)
+			// longContract();
+			// } else if (Global.getCurrentPoint() < Global.getDayLow()) {
+			// if (GetData.getLongTB().getLatestCandle().getClose() < ohlc - 5)
+			// shortContract();
+			//
+			// // for inside
+			// } else {
+			if (GetData.getLongTB().getLatestCandle().getClose() > ohlc)
+			{
+				if (GetData.getLongTB().getEMA(5) < GetData.getLongTB().getEMA(6) + 2)
+				{
+					Global.addLog("Not Trending Up: EMA5 < EMA6");
+					return;
 				}
-				else if (GetData.getLongTB().getLatestCandle().getClose() < ohlc){
-					if (GetData.getLongTB().getEMA(5) > GetData.getLongTB().getEMA(6) - 2){
-						Global.addLog("Not Trending Down: EMA5 > EMA6");
-						return;
-					}
-					shortContract();
+				longContract();
+			} else if (GetData.getLongTB().getLatestCandle().getClose() < ohlc)
+			{
+				if (GetData.getLongTB().getEMA(5) > GetData.getLongTB().getEMA(6) - 2)
+				{
+					Global.addLog("Not Trending Down: EMA5 > EMA6");
+					return;
 				}
-//			}
+				shortContract();
+			}
+			// }
 		}
 	}
 
-	public void waitForANewCandle() {
-		
+	public void waitForANewCandle()
+	{
+
 		int currentSize = GetData.getLongTB().getCandles().size();
-		
+
 		while (currentSize == GetData.getLongTB().getCandles().size())
 			sleep(1000);
-		
+
 	}
 
-	public boolean isAfternoonTime() {
+	public boolean isAfternoonTime()
+	{
 
 		int time = TimePeriodDecider.getTime();
 
