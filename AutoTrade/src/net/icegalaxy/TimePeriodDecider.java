@@ -1,7 +1,6 @@
 package net.icegalaxy;
 
 
-
 public class TimePeriodDecider implements Runnable {
 	
 	public final int getReadyTime = 90000;
@@ -82,14 +81,17 @@ public class TimePeriodDecider implements Runnable {
 			if (time >= forceSell2)
 				Global.setForceSellTime(true);
 			
-			//these should be no use, need to check
-			if (time >= morningOrderStart && time <= morningOrderStop)
+			if (getTime() >= morningOrderStart && getTime() <= morningOrderStop)
 				Global.setOrderTime(true);
-			else if (time > morningOrderStop && time < afternoonOrderStart)
+			else if (getTime() > morningOrderStop && getTime() < afternoonOrderStart)
 				Global.setOrderTime(false);
-			else if (time >= afternoonOrderStart && time < afternoonOrderStop)
+			else if (getTime() >= afternoonOrderStart && getTime() < afternoonOrderStop)
 				Global.setOrderTime(true);
-			else if (time > afternoonOrderStop)
+			else if (getTime() > afternoonOrderStop && getTime() < nightOrderStart)
+				Global.setOrderTime(false);
+			else if (getTime() >= nightOrderStart && getTime() < nightOrderStop)
+				Global.setOrderTime(true);
+			else if (getTime() > nightOrderStop)
 				Global.setOrderTime(false);
 
 			if (!Global.isRunning()) {
