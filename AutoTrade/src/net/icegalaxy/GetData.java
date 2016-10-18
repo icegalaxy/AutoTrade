@@ -285,6 +285,7 @@ public class GetData implements Runnable {
 					// System.out.println("MACD Histo: "
 					// + getLongTB().getMACDHistogram());
 					longMinutes = 0;
+					longData.reset();
 				}
 
 				setGlobal();
