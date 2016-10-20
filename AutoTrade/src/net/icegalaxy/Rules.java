@@ -620,23 +620,23 @@ public abstract class Rules implements Runnable
 	public boolean isUpTrend()
 	{
 		return GetData.getM15TB().getMA(20) > GetData.getM15TB().getEMA(50)
-				&& GetData.getLongTB().getEMA(50) > GetData.getLongTB().getEMA(240)
-				&& GetData.getLongTB().getEMA(5) > GetData.getLongTB().getEMA(6)
+				&& GetData.getLongTB().getEMA(50) > GetData.getLongTB().getEMA(240);
+//				&& GetData.getLongTB().getEMA(5) > GetData.getLongTB().getEMA(6)
 				// && GetData.getM15TB().isMARising(20, 1)
 				// && GetData.getM15TB().isEMARising(50, 1)
 				// && GetData.getLongTB().isEMARising(240, 1)
-				&& GetData.getLongTB().isEMARising(50, 1);
+//				&& GetData.getLongTB().isEMARising(50, 1);
 	}
 
 	public boolean isDownTrend()
 	{
 		return GetData.getM15TB().getMA(20) < GetData.getM15TB().getEMA(50)
-				&& GetData.getLongTB().getEMA(50) < GetData.getLongTB().getEMA(240)
-				&& GetData.getLongTB().getEMA(5) < GetData.getLongTB().getEMA(6)
+				&& GetData.getLongTB().getEMA(50) < GetData.getLongTB().getEMA(240);
+//				&& GetData.getLongTB().getEMA(5) < GetData.getLongTB().getEMA(6)
 				// && GetData.getM15TB().isMADropping(20, 1)
 				// && GetData.getM15TB().isEMADropping(50, 1)
 				// && GetData.getLongTB().isEMADropping(240, 1)
-				&& GetData.getLongTB().isEMADropping(50, 1);
+//				&& GetData.getLongTB().isEMADropping(50, 1);
 
 	}
 
