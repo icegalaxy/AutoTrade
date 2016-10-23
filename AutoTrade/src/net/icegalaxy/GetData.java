@@ -62,7 +62,7 @@ public class GetData implements Runnable {
 				Global.addLog("Deal = 0, try again");
 				System.out.println("Time: " + time);
 				sleep(1000);
-				getIndex();
+				return false;
 			}
 
 			// change = new Float(qp.getChange());
@@ -119,7 +119,7 @@ public class GetData implements Runnable {
 
 				//this is for quote power
 				if (!getIndex())
-					return;
+					continue;
 
 				// gap is 0 at the first time, so this must run at first time
 				// When market opens, gap is 0 means the feeder may not be
