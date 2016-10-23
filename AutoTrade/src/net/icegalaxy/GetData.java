@@ -4,6 +4,7 @@ import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+
 public class GetData implements Runnable {
 
 	private static TimeBase shortTB;
@@ -160,6 +161,11 @@ public class GetData implements Runnable {
 				// point = bid;
 				// else if (deal > ask)
 				// point = ask;
+				
+				if (Global.getOpen() == 0){
+					Global.setOpen(deal);
+					Global.addLog("Open: " + Global.getOpen());
+				}
 
 				shortData.getHighLow();
 				shortData.getOpen();
