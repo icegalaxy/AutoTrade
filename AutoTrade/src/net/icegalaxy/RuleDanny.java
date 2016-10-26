@@ -1,6 +1,5 @@
 package net.icegalaxy;
 
-
 public class RuleDanny extends Rules {
 
 	private int lossTimes;
@@ -22,7 +21,7 @@ public class RuleDanny extends Rules {
 		}
 		
 		if (!isOrderTime() || Global.getNoOfContracts() != 0
-				|| lossTimes >= 2)
+				|| lossTimes >= getLossTimesAllowed())
 			return;
 
 		if (isUpTrend()
@@ -54,6 +53,17 @@ public class RuleDanny extends Rules {
 		
 	}
 
+	private int getLossTimesAllowed(){
+		
+		double balance = Global.balance + Global.getCurrentPoint() * Global.getNoOfContracts();
+		
+		
+		
+		if  (balance > 15)
+			return 2;
+		else
+			return 1;
+	}
 	
 
 	// use 1min instead of 5min
@@ -186,7 +196,7 @@ public class RuleDanny extends Rules {
 				return -100;
 		}
 		
-		return 100;
+		return 30;
 	}
 
 	@Override

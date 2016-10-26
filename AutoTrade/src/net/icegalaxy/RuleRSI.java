@@ -1,7 +1,5 @@
 package net.icegalaxy;
 
-
-
 public class RuleRSI extends Rules {
 	
 	private int lossTimes;
@@ -63,6 +61,7 @@ public class RuleRSI extends Rules {
 		}
 	
 	}
+	
 		
 //		openOHLC(Global.getpHigh());
 

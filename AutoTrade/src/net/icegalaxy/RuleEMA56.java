@@ -1,6 +1,5 @@
 package net.icegalaxy;
 
-
 public class RuleEMA56 extends Rules {
 
 	private int lossTimes;
@@ -26,7 +25,7 @@ public class RuleEMA56 extends Rules {
 
 
 		if (!isOrderTime() || Global.getNoOfContracts() != 0 || Global.getpHigh() == 0
-				|| lossTimes >= 1)
+				|| lossTimes >= getLossTimesAllowed())
 			return;
 
 		if (firstCorner)
@@ -85,6 +84,8 @@ public class RuleEMA56 extends Rules {
 			
 			while (getTimeBase().getLatestCandle().getClose() < getTimeBase().getPreviousCandle(1).getHigh()) {
 				sleep(1000);
+				
+				
 			
 				if (GetData.getShortTB().getEMA(5) > GetData.getShortTB().getEMA(6)) {
 					Global.addLog(className + ": trend change");
@@ -170,7 +171,7 @@ public class RuleEMA56 extends Rules {
 			refPt = Global.getCurrentPoint();
 
 			while (Global.getCurrentPoint() > GetData.getShortTB().getLatestCandle().getLow()){
-				sleep(1000);	
+				sleep(1000);			
 			}
 			
 			refPt = Global.getCurrentPoint();
@@ -224,11 +225,11 @@ public class RuleEMA56 extends Rules {
 
 		if (Global.getNoOfContracts() > 0) {
 			
-//			if (buyingPoint > tempCutLoss){
-//				
-//				if (getProfit() > 50)
-//					tempCutLoss = buyingPoint;
-//			}
+			if (buyingPoint > tempCutLoss){
+				
+				if (getProfit() > 30)
+					tempCutLoss = buyingPoint + 5;
+			}
 //			
 			
 			if (ema5 < ema6 - lossTimes) {
@@ -237,11 +238,11 @@ public class RuleEMA56 extends Rules {
 			}
 		} else if (Global.getNoOfContracts() < 0) {
 			
-//			if (buyingPoint < tempCutLoss){
-//				
-//				if (getProfit() > 50)
-//					tempCutLoss = buyingPoint;
-//			}
+			if (buyingPoint < tempCutLoss){
+				
+				if (getProfit() > 30)
+					tempCutLoss = buyingPoint - 5;
+			}
 			
 			
 			if (ema5 > ema6 + lossTimes) {
@@ -251,6 +252,21 @@ public class RuleEMA56 extends Rules {
 			}
 		}
 
+	}
+	
+	private int getLossTimesAllowed(){
+		
+		double balance = Global.balance + Global.getCurrentPoint() * Global.getNoOfContracts();
+		
+//		Global.addLog("Balance: " + balance);
+		
+		if (balance > 30)
+			return 3;
+		else if (balance > 15)
+			return 2;
+		else
+			return 1;
+		
 	}
 
 	// use 1min instead of 5min
