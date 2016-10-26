@@ -26,7 +26,7 @@ public class RuleEMA56 extends Rules {
 
 
 		if (!isOrderTime() || Global.getNoOfContracts() != 0 || Global.getpHigh() == 0
-				|| lossTimes >= 3)
+				|| lossTimes >= 1)
 			return;
 
 		if (firstCorner)
