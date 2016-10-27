@@ -1,12 +1,12 @@
 package net.icegalaxy;
 
-public class RuleDanny extends Rules {
+public class RuleDanny50 extends Rules {
 
 	private int lossTimes;
 	// private double refEMA;
 	private boolean tradeTimesReseted;
 
-	public RuleDanny(boolean globalRunRule) {
+	public RuleDanny50(boolean globalRunRule) {
 		super(globalRunRule);
 		// setOrderTime(91500, 110000, 133000, 160000);
 		// wait for EMA6, that's why 0945

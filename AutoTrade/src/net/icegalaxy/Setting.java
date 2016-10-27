@@ -165,7 +165,7 @@ public class Setting extends JFrame {
 //		RuleAOH aoh = new RuleAOH(true);
 //		RuleAOL aol = new RuleAOL(true);
 //		RulePClose rulePClose = new RulePClose(true);
-		RuleDanny danny = new RuleDanny(true);
+		RuleDanny240 danny = new RuleDanny240(true);
 //		RuleNoonOpen noonOpen = new RuleNoonOpen(true);
 //		RuleSilvia silvia = new RuleSilvia(true);
 		RuleEMA56 ema56 = new RuleEMA56(true);
