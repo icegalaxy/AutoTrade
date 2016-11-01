@@ -12,7 +12,7 @@ public class RuleDanny50 extends Rules {
 		super(globalRunRule);
 		// setOrderTime(91500, 110000, 133000, 160000);
 		// wait for EMA6, that's why 0945
-		setOrderTime(91600, 113000, 130500, 160000, 172000, 231500);
+		setOrderTime(91600, 113000, 130500, 160000, 231500, 231500);
 	}
 
 	public void openContract()
@@ -27,6 +27,9 @@ public class RuleDanny50 extends Rules {
 		if (!isOrderTime() || Global.getNoOfContracts() != 0 || lossTimes >= getLossTimesAllowed())
 			return;
 
+		while (Math.abs(Global.getCurrentPoint() - getTimeBase().getEMA(50)) < 50)
+			sleep(1000);
+		
 		while (Math.abs(Global.getCurrentPoint() - getTimeBase().getEMA(50)) > 10)
 			sleep(1000);
 
@@ -168,7 +171,7 @@ public class RuleDanny50 extends Rules {
 		if (Global.getNoOfContracts() > 0)
 		{
 
-			if (buyingPoint > tempCutLoss && getProfit() > 30)
+			if (buyingPoint > tempCutLoss && getProfit() > 50)
 			{
 				Global.addLog("Free trade");
 				tempCutLoss = buyingPoint + 5;
@@ -182,7 +185,7 @@ public class RuleDanny50 extends Rules {
 		} else if (Global.getNoOfContracts() < 0)
 		{
 
-			if (buyingPoint < tempCutLoss && getProfit() > 30)
+			if (buyingPoint < tempCutLoss && getProfit() > 50)
 			{
 				Global.addLog("Free trade");
 				tempCutLoss = buyingPoint - 5;
