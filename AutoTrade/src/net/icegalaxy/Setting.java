@@ -158,7 +158,7 @@ public class Setting extends JFrame {
 //		RuleMABackup backup	= new RuleMABackup(false);
 		
 //		ruleMACD ruleMACD = new ruleMACD(Global.runRuleMACD);
-		RuleRSI rsi = new RuleRSI(true);
+//		RuleRSI rsi = new RuleRSI(true);
 //		LoginThread login = new LoginThread();
 		TimePeriodDecider tpd = new TimePeriodDecider();
 		GetData gd = new GetData();
@@ -172,7 +172,7 @@ public class Setting extends JFrame {
 		RuleEMA56 ema56 = new RuleEMA56(true);
 		RuleIBT ibt = new RuleIBT(true);
 		
-		Runnable[] r = { gd, tpd, ema56, danny240, danny50, ibt, rsi};
+		Runnable[] r = { gd, tpd, ema56, danny240, danny50, ibt};
 
 		Thread[] t = new Thread[r.length];
 		for (int i = 0; i < r.length; i++) {
