@@ -14,9 +14,9 @@ public class TimePeriodDecider implements Runnable {
 
 	public final int morningOrderStart = 91530;
 	public final int morningOrderStop = 115500;
-	public final int afternoonOrderStart = 130030;
+	public final int afternoonOrderStart = 160000;
 	public final int afternoonOrderStop = 160000;
-	public final int nightOrderStart = 173000;
+	public final int nightOrderStart = 231500;
 	public final int nightOrderStop = 231500; 
 
 	public final int forceSell = 162500;
