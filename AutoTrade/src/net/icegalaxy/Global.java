@@ -1,6 +1,7 @@
 package net.icegalaxy;
 
 
+
 public class Global {
 
 	public static synchronized boolean isTradeTime() {
@@ -370,6 +371,17 @@ public class Global {
 
 
 
+	public static synchronized Chasing getChasing()
+	{
+		return chasing;
+	}
+
+	public static synchronized void setChasing(Chasing chasing)
+	{
+		Global.chasing = chasing;
+	}
+
+	static Chasing chasing;
 
 
 	private static boolean backHandLong = false;

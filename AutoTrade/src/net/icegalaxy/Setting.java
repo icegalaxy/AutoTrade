@@ -14,6 +14,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+
+
 public class Setting extends JFrame {
 
 
@@ -135,6 +137,7 @@ public class Setting extends JFrame {
 		Global.setDayHigh(0);
 		Global.setDayLow(99999);
 		Global.setToday(getToday());
+		Global.setChasing(new Chasing());
 
 //		RuleOpen ruleOpen = new RuleOpen(true);
 //		ruleMA_0.setBufferPt(0);
@@ -158,7 +161,7 @@ public class Setting extends JFrame {
 //		RuleMABackup backup	= new RuleMABackup(false);
 		
 //		ruleMACD ruleMACD = new ruleMACD(Global.runRuleMACD);
-		RuleRSI rsi = new RuleRSI(true);
+//		RuleRSI rsi = new RuleRSI(false);
 //		LoginThread login = new LoginThread();
 		TimePeriodDecider tpd = new TimePeriodDecider();
 		GetData gd = new GetData();
@@ -169,10 +172,11 @@ public class Setting extends JFrame {
 		RuleDanny50 danny50 = new RuleDanny50(true);
 //		RuleNoonOpen noonOpen = new RuleNoonOpen(true);
 //		RuleSilvia silvia = new RuleSilvia(true);
-		RuleEMA56 ema56 = new RuleEMA56(true);
+//		RuleEMA56 ema56 = new RuleEMA56(false);
 		RuleIBT ibt = new RuleIBT(true);
+		RuleChasing chasing = new RuleChasing(true);
 		
-		Runnable[] r = { gd, tpd, ema56, danny240, danny50, ibt, rsi};
+		Runnable[] r = { gd, tpd, danny240, danny50, ibt, chasing};
 
 		Thread[] t = new Thread[r.length];
 		for (int i = 0; i < r.length; i++) {
