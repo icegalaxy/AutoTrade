@@ -139,7 +139,7 @@ public class Setting extends JFrame {
 		Global.setToday(getToday());
 		Global.setChasing(new Chasing());
 
-		RuleOpen open = new RuleOpen(true);
+//		RuleOpen open = new RuleOpen(true);
 //		ruleMA_0.setBufferPt(0);
 //		RuleOpen ruleMA_5 = new RuleOpen(Global.runRuleMA);
 //		ruleMA_5.setBufferPt(5);
@@ -168,7 +168,7 @@ public class Setting extends JFrame {
 //		RuleAOH aoh = new RuleAOH(true);
 //		RuleAOL aol = new RuleAOL(true);
 //		RulePClose rulePClose = new RulePClose(true);
-		RuleDanny240 danny240 = new RuleDanny240(true);
+//		RuleDanny240 danny240 = new RuleDanny240(true);
 		RuleDanny50 danny50 = new RuleDanny50(true);
 //		RuleNoonOpen noonOpen = new RuleNoonOpen(true);
 //		RuleSilvia silvia = new RuleSilvia(true);
@@ -176,7 +176,7 @@ public class Setting extends JFrame {
 		RuleIBT ibt = new RuleIBT(true);
 		RuleChasing chasing = new RuleChasing(true);
 		
-		Runnable[] r = { gd, tpd, danny240, danny50, ibt, chasing, open};
+		Runnable[] r = {gd, tpd, danny50, ibt, chasing};
 
 		Thread[] t = new Thread[r.length];
 		for (int i = 0; i < r.length; i++) {

@@ -163,6 +163,12 @@ public class GetData implements Runnable {
 				// point = ask;
 				
 				if (Global.getOpen() == 0){
+					
+					setOHLC();
+					
+					if (Global.getOpen() != 0)
+						return;
+					
 					Global.setOpen(deal);
 					Global.addLog("Open: " + Global.getOpen());
 				}
