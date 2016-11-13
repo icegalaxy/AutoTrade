@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 
+
 public class GetData implements Runnable {
 
 	private static TimeBase shortTB;
@@ -21,7 +22,14 @@ public class GetData implements Runnable {
 	private boolean aohAdded;
 	// GetData.CandleData sec10Data;
 	private float gap = 0;
-
+	XMLReader ohlc;
+	private static EMA ema5;
+	private static EMA ema25;
+	private static EMA ema50;
+	private static EMA ema100;
+	private static EMA ema250;
+	private static EMA ema1200;
+	
 	// private float previousClose = 0;
 
 	// private static TimeBase sec5TB;
@@ -34,6 +42,15 @@ public class GetData implements Runnable {
 		m15TB.setBaseMin(15);
 		longTB = new TimeBase();
 		longTB.setBaseMin(Setting.getLongTB());
+		
+		ohlc = new XMLReader(Global.getToday());
+
+		ema5 = new EMA(ohlc.getpEMA5(), 5);
+		ema25 = new EMA(ohlc.getpEMA25(), 25);
+		ema50 = new EMA(ohlc.getpEMA50(), 50);
+		ema100 = new EMA(ohlc.getpEMA100(), 100);
+		ema250 = new EMA(ohlc.getpEMA250(), 250);
+		ema1200 = new EMA(ohlc.getpEMA1200(), 1200);
 
 		// sec10TB = new TimeBase();
 
@@ -91,7 +108,7 @@ public class GetData implements Runnable {
 	public void run() {
 
 		setOHLC();
-		getPreviousData();
+//		getPreviousData();
 
 		// Auto getOpen
 		if (getTimeInt() > 91400) {
@@ -255,6 +272,13 @@ public class GetData implements Runnable {
 
 					getShortTB().addCandle(getTime(), shortData.periodHigh, shortData.periodLow, shortData.openPt,
 							point, totalQuantity);
+					
+					ema5.setlatestEMA(point);
+					ema25.setlatestEMA(point);
+					ema50.setlatestEMA(point);
+					ema100.setlatestEMA(point);
+					ema250.setlatestEMA(point);
+					ema1200.setlatestEMA(point);
 
 					System.out.println(getTime() + " " + point);
 					System.out.println("MA10: " + getShortTB().getMA(10));
@@ -350,9 +374,40 @@ public class GetData implements Runnable {
 
 	}
 
+	public static EMA getEma5()
+	{
+		return ema5;
+	}
+
+	public static EMA getEma25()
+	{
+		return ema25;
+	}
+
+	public static EMA getEma50()
+	{
+		return ema50;
+	}
+
+	public static EMA getEma100()
+	{
+		return ema100;
+	}
+
+	public static EMA getEma250()
+	{
+		return ema250;
+	}
+
+	public static EMA getEma1200()
+	{
+		return ema1200;
+	}
+	
+	
 	private void setOHLC() {
 
-		XMLReader ohlc = new XMLReader(Global.getToday());
+//		XMLReader ohlc = new XMLReader(Global.getToday());
 		Global.setpHigh(ohlc.getpHigh());
 		Global.setpLow(ohlc.getpLow());
 		Global.setpOpen(ohlc.getpOpen());
@@ -513,6 +568,8 @@ public class GetData implements Runnable {
 				openAdded = true;
 			}
 		}
+		
+		
 
 	}
 

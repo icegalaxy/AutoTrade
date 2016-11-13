@@ -168,15 +168,17 @@ public class Setting extends JFrame {
 //		RuleAOH aoh = new RuleAOH(true);
 //		RuleAOL aol = new RuleAOL(true);
 //		RulePClose rulePClose = new RulePClose(true);
-		RuleDanny240 danny240 = new RuleDanny240(true);
-		RuleDanny50 danny50 = new RuleDanny50(true);
+		RuleDanny250Pena danny250 = new RuleDanny250Pena(true);
+		RuleDanny2 danny2 = new RuleDanny2(true);
+//		RuleDanny240 danny240 = new RuleDanny240(true);
+//		RuleDanny50 danny50 = new RuleDanny50(true);
 //		RuleNoonOpen noonOpen = new RuleNoonOpen(true);
 //		RuleSilvia silvia = new RuleSilvia(true);
 //		RuleEMA56 ema56 = new RuleEMA56(false);
-		RuleIBT ibt = new RuleIBT(true);
-		RuleChasing chasing = new RuleChasing(true);
+//		RuleIBT ibt = new RuleIBT(true);
+//		RuleChasing chasing = new RuleChasing(true);
 		
-		Runnable[] r = { gd, tpd, danny240, danny50, ibt, chasing, open};
+		Runnable[] r = { gd, tpd, danny250, danny2};
 
 		Thread[] t = new Thread[r.length];
 		for (int i = 0; i < r.length; i++) {

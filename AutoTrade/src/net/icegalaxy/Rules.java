@@ -616,6 +616,26 @@ public abstract class Rules implements Runnable
 			return buyingPoint - Global.getCurrentPoint();
 	}
 
+	public boolean isUpTrend2()
+	{
+		return GetData.getEma100().getEMA() > GetData.getEma250().getEMA()
+				&& GetData.getEma250().getEMA() > GetData.getEma1200().getEMA()
+				&& Global.getCurrentPoint() > GetData.getEma250().getEMA();
+//				&& GetData.getEma25().getEMA() > GetData.getEma50().getEMA()
+//				&& GetData.getEma50().getEMA() > GetData.getEma100().getEMA();
+				
+	}
+
+	public boolean isDownTrend2()
+	{
+		return GetData.getEma100().getEMA() < GetData.getEma250().getEMA()
+				&& GetData.getEma250().getEMA() < GetData.getEma1200().getEMA()
+				&& Global.getCurrentPoint() < GetData.getEma250().getEMA();
+//				&& GetData.getEma25().getEMA() < GetData.getEma50().getEMA() 
+//				&& GetData.getEma50().getEMA() < GetData.getEma100().getEMA() ;
+		
+	}
+	
 	// Danny �l�ȥ�e�w��V
 	public boolean isUpTrend()
 	{
