@@ -143,18 +143,21 @@ public class GetData implements Runnable {
 //		getPreviousData();
 
 		// Auto getOpen
-		if (getTimeInt() > 91420) {
-
-			getOpenPrice();
-			Global.addLog("Open: " + Global.getOpen());
-	}
+		
 
 		while (Global.isRunning()) {
 
 			time = getTime();
-			Sikuli.capScreen(); // check if there is any errors to the feeder or
+//			Sikuli.capScreen(); // check if there is any errors to the feeder or
 								// spTrader. Fix it by teamviewer
 
+			
+			// should be put inside isRunning
+			if (getTimeInt() > 91420) {
+				getOpenPrice();
+				Global.addLog("Open: " + Global.getOpen());
+			}
+			
 			if (Global.isTradeTime()) {
 
 				//this is for quote power
