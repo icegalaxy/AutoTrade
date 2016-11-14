@@ -4,7 +4,6 @@ import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-import net.icegalaxy.parseWeb.HTMLParser;
 
 
 
@@ -147,8 +146,8 @@ public class GetData implements Runnable {
 		if (getTimeInt() > 91400) {
 
 			getOpenPrice();
-
-		}
+			Global.addLog("Open: " + Global.getOpen());
+	}
 
 		while (Global.isRunning()) {
 
