@@ -118,7 +118,7 @@ public class GetData implements Runnable {
 			Global.setOpen(etnet.parseETNetOpen());
 			if (Global.getOpen() == 0)
 			{
-				sleep(1000);
+				sleep(5000);
 				Global.addLog("Open = 0");
 				getOpenPrice();
 				
@@ -129,7 +129,7 @@ public class GetData implements Runnable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			Global.addLog("Cannot get open");
-			sleep(1000);
+			sleep(5000);
 			getOpenPrice();
 		}
 		return open;
@@ -143,7 +143,7 @@ public class GetData implements Runnable {
 //		getPreviousData();
 
 		// Auto getOpen
-		if (getTimeInt() > 91400) {
+		if (getTimeInt() > 91420) {
 
 			getOpenPrice();
 			Global.addLog("Open: " + Global.getOpen());
