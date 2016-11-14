@@ -4,6 +4,8 @@ import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+import net.icegalaxy.parseWeb.HTMLParser;
+
 
 
 public class GetData implements Runnable {
@@ -34,6 +36,7 @@ public class GetData implements Runnable {
 
 	// private static TimeBase sec5TB;
 
+	
 	public GetData() {
 		Sikuli.makeRobot();
 		shortTB = new TimeBase();
@@ -104,6 +107,36 @@ public class GetData implements Runnable {
 		return true;
 	}
 
+	private double getOpenPrice()
+	{
+		if (getTimeInt() > 91530)
+			return 0;
+		
+		HTMLParser etnet = new HTMLParser("http://www.etnet.com.hk/www/tc/futures/index.php?subtype=HSI&month=201611&tab=interval#tab"); 
+		double open = 0;
+		try
+		{
+			Global.setOpen(etnet.parseETNetOpen());
+			if (Global.getOpen() == 0)
+			{
+				sleep(1000);
+				Global.addLog("Open = 0");
+				getOpenPrice();
+				
+			}
+			
+		} catch (Exception e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			Global.addLog("Cannot get open");
+			sleep(1000);
+			getOpenPrice();
+		}
+		return open;
+		
+	}
+	
 	@Override
 	public void run() {
 
@@ -113,17 +146,7 @@ public class GetData implements Runnable {
 		// Auto getOpen
 		if (getTimeInt() > 91400) {
 
-			try {
-				QuotePower q = new QuotePower("getOpen");
-				double open = q.getDealOnly();
-				Global.addLog("Auto getOpen: " + open);
-
-				if (open != 0)
-					Global.setOpen(open);
-
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+			getOpenPrice();
 
 		}
 
