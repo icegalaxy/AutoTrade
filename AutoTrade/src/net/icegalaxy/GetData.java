@@ -153,10 +153,10 @@ public class GetData implements Runnable {
 
 			
 			// should be put inside isRunning
-			if (getTimeInt() > 91420) {
-				getOpenPrice();
-				Global.addLog("Open: " + Global.getOpen());
-			}
+//			if (getTimeInt() > 91420) {
+//				getOpenPrice();
+//				Global.addLog("Open: " + Global.getOpen());
+//			}
 			
 			if (Global.isTradeTime()) {
 
