@@ -1,5 +1,7 @@
 package net.icegalaxy;
 
+import java.util.ArrayList;
+
 
 public abstract class Rules implements Runnable
 {
@@ -634,6 +636,43 @@ public abstract class Rules implements Runnable
 //				&& GetData.getEma25().getEMA() < GetData.getEma50().getEMA() 
 //				&& GetData.getEma50().getEMA() < GetData.getEma100().getEMA() ;
 		
+	}
+	
+	public double getHighestMA()
+	{
+
+		double highestMA = 0;
+
+		for (int i = 0; i < get4MAs().size(); i++)
+		{
+			highestMA = Math.max(highestMA, get4MAs().get(i));
+		}
+		return highestMA;
+	}
+
+	public double getLowestMA()
+	{
+
+		double lowestMA = 99999;
+
+		for (int i = 0; i < get4MAs().size(); i++)
+		{
+			lowestMA = Math.min(lowestMA, get4MAs().get(i));
+		}
+		return lowestMA;
+	}
+
+	private ArrayList<Double> get4MAs()
+	{
+		ArrayList<Double> mas = new ArrayList<Double>();
+
+		mas.add(GetData.getEma25().getEMA());
+		mas.add(GetData.getEma50().getEMA());
+		mas.add(GetData.getEma100().getEMA());
+		mas.add(GetData.getEma250().getEMA());
+
+		return mas;
+
 	}
 	
 	// Danny �l�ȥ�e�w��V

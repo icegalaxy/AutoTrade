@@ -22,6 +22,11 @@ public class EMA
 	public double getEMA(){
 		return EMAs.get(EMAs.size()-1);
 	}
+	
+	public double getPreviousEMA(int noOfPeriodBefore)
+	{
+		return EMAs.get(EMAs.size() -1 -noOfPeriodBefore);
+	}
 
 	public double getEMA(double currentPt)
 	{
