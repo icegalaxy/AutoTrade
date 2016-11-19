@@ -108,7 +108,7 @@ public class GetData implements Runnable {
 
 	private double getOpenPrice()
 	{
-		if (getTimeInt() > 91530)
+		if (getTimeInt() >= 91500)
 			return 0;
 		
 		HTMLParser etnet = new HTMLParser("http://www.etnet.com.hk/www/tc/futures/index.php?subtype=HSI&month=201611&tab=interval#tab"); 
@@ -152,11 +152,11 @@ public class GetData implements Runnable {
 								// spTrader. Fix it by teamviewer
 
 			
-			// should be put inside isRunning
-//			if (getTimeInt() > 91420) {
-//				getOpenPrice();
-//				Global.addLog("Open: " + Global.getOpen());
-//			}
+//			 should be put inside isRunning
+			if (getTimeInt() > 91420) {
+				getOpenPrice();
+				Global.addLog("Open: " + Global.getOpen());
+			}
 			
 			if (Global.isTradeTime()) {
 
