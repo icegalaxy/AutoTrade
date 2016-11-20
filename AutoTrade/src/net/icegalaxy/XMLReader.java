@@ -81,12 +81,12 @@ public class XMLReader {
 //					setStop(Boolean.parseBoolean(eElement.getElementsByTagName("stop").item(0).getTextContent().trim()));
 //					 System.out.println("XMLpHigh : " +
 //					 eElement.getElementsByTagName("pHigh").item(0).getTextContent());
-					setpEMA5(Double.parseDouble(eElement.getElementsByTagName("pEMA5").item(0).getTextContent()));
-					setpEMA25(Double.parseDouble(eElement.getElementsByTagName("pEMA25").item(0).getTextContent()));
-					setpEMA50(Double.parseDouble(eElement.getElementsByTagName("pEMA50").item(0).getTextContent()));
-					setpEMA100(Double.parseDouble(eElement.getElementsByTagName("pEMA100").item(0).getTextContent()));
-					setpEMA250(Double.parseDouble(eElement.getElementsByTagName("pEMA250").item(0).getTextContent()));
-					setpEMA1200(Double.parseDouble(eElement.getElementsByTagName("pEMA1200").item(0).getTextContent()));
+//					setpEMA5(Double.parseDouble(eElement.getElementsByTagName("pEMA5").item(0).getTextContent()));
+//					setpEMA25(Double.parseDouble(eElement.getElementsByTagName("pEMA25").item(0).getTextContent()));
+//					setpEMA50(Double.parseDouble(eElement.getElementsByTagName("pEMA50").item(0).getTextContent()));
+//					setpEMA100(Double.parseDouble(eElement.getElementsByTagName("pEMA100").item(0).getTextContent()));
+//					setpEMA250(Double.parseDouble(eElement.getElementsByTagName("pEMA250").item(0).getTextContent()));
+//					setpEMA1200(Double.parseDouble(eElement.getElementsByTagName("pEMA1200").item(0).getTextContent()));
 					
 //					Global.addLog("EMA250 csv: " + Double.parseDouble(eElement.getElementsByTagName("pEMA250").item(0).getTextContent()));
 				}

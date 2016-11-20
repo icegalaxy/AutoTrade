@@ -5,16 +5,14 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 
-
-
-public class GetData implements Runnable {
+public class GetData implements Runnable
+{
 
 	private static TimeBase shortTB;
 	private static TimeBase m15TB;
 	private static TimeBase longTB;
 	// private static TimeBase sec10TB;
 	private QuotePower qp;
-
 
 	GetData.CandleData shortData;
 	GetData.CandleData m15Data;
@@ -30,13 +28,13 @@ public class GetData implements Runnable {
 	private static EMA ema100;
 	private static EMA ema250;
 	private static EMA ema1200;
-	
+
 	// private float previousClose = 0;
 
 	// private static TimeBase sec5TB;
 
-	
-	public GetData() {
+	public GetData()
+	{
 		Sikuli.makeRobot();
 		shortTB = new TimeBase();
 		shortTB.setBaseMin(Setting.getShortTB());
@@ -44,15 +42,8 @@ public class GetData implements Runnable {
 		m15TB.setBaseMin(15);
 		longTB = new TimeBase();
 		longTB.setBaseMin(Setting.getLongTB());
-		
-		ohlc = new XMLReader(Global.getToday());
 
-		ema5 = new EMA(ohlc.getpEMA5(), 5);
-		ema25 = new EMA(ohlc.getpEMA25(), 25);
-		ema50 = new EMA(ohlc.getpEMA50(), 50);
-		ema100 = new EMA(ohlc.getpEMA100(), 100);
-		ema250 = new EMA(ohlc.getpEMA250(), 250);
-		ema1200 = new EMA(ohlc.getpEMA1200(), 1200);
+		ohlc = new XMLReader(Global.getToday());
 
 		// sec10TB = new TimeBase();
 
@@ -65,9 +56,11 @@ public class GetData implements Runnable {
 		// sec10Data = new CandleData();
 	}
 
-	private boolean getIndex() {
+	private boolean getIndex()
+	{
 
-		try {
+		try
+		{
 
 			// time of QuotePower.java is past from here everytime this method
 			// is called
@@ -77,7 +70,8 @@ public class GetData implements Runnable {
 			bid = new Float(qp.getBid());
 			ask = new Float(qp.getAsk());
 
-			if (deal == 0) {
+			if (deal == 0)
+			{
 
 				Global.addLog("Deal = 0, try again");
 				System.out.println("Time: " + time);
@@ -89,14 +83,16 @@ public class GetData implements Runnable {
 
 			totalQuantity = qp.getQuantity();
 
-		} catch (FailGettingDataException e) {
+		} catch (FailGettingDataException e)
+		{
 			Global.addLog("Can't get index, shutDown!!");
 			Global.shutDown = true;
 			Global.setRunning(false);
 			Sikuli.liquidateOnly();
 			return false;
 
-		} catch (Exception e) {
+		} catch (Exception e)
+		{
 			Global.addLog("Can't get index, try again");
 			System.out.println("Time: " + time);
 			e.printStackTrace();
@@ -110,8 +106,9 @@ public class GetData implements Runnable {
 	{
 		if (getTimeInt() >= 91500)
 			return 0;
-		
-		HTMLParser etnet = new HTMLParser("http://www.etnet.com.hk/www/tc/futures/index.php?subtype=HSI&month=201611&tab=interval#tab"); 
+
+		HTMLParser etnet = new HTMLParser(
+				"http://www.etnet.com.hk/www/tc/futures/index.php?subtype=HSI&month=201611&tab=interval#tab");
 		double open = 0;
 		try
 		{
@@ -121,9 +118,9 @@ public class GetData implements Runnable {
 				sleep(5000);
 				Global.addLog("Open = 0");
 				getOpenPrice();
-				
+
 			}
-			
+
 		} catch (Exception e)
 		{
 			// TODO Auto-generated catch block
@@ -133,41 +130,45 @@ public class GetData implements Runnable {
 			getOpenPrice();
 		}
 		return open;
-		
+
 	}
-	
+
 	@Override
-	public void run() {
+	public void run()
+	{
 
 		setOHLC();
-//		getPreviousData();
+		getPreviousData();
 
 		// Auto getOpen
-		
 
-		while (Global.isRunning()) {
+		while (Global.isRunning())
+		{
 
 			time = getTime();
-//			Sikuli.capScreen(); // check if there is any errors to the feeder or
-								// spTrader. Fix it by teamviewer
+			// Sikuli.capScreen(); // check if there is any errors to the feeder
+			// or
+			// spTrader. Fix it by teamviewer
 
-			
-//			 should be put inside isRunning
-			if (getTimeInt() > 91420) {
+			// should be put inside isRunning
+			if (getTimeInt() > 91420)
+			{
 				getOpenPrice();
 				Global.addLog("Open: " + Global.getOpen());
 			}
-			
-			if (Global.isTradeTime()) {
 
-				//this is for quote power
+			if (Global.isTradeTime())
+			{
+
+				// this is for quote power
 				if (!getIndex())
 					continue;
 
 				// gap is 0 at the first time, so this must run at first time
 				// When market opens, gap is 0 means the feeder may not be
 				// functioning, so it will keep trying to get the open and gap
-				if (gap == 0 && Global.getOpen() == 0) {
+				if (gap == 0 && Global.getOpen() == 0)
+				{
 					gap = Float.valueOf(qp.getChange()); // getChange is moving,
 															// when it comes
 															// back to previous
@@ -203,8 +204,9 @@ public class GetData implements Runnable {
 				// point = bid;
 				// else if (deal > ask)
 				// point = ask;
-				
-				if (Global.getOpen() == 0){
+
+				if (Global.getOpen() == 0)
+				{
 					Global.setOpen(deal);
 					Global.addLog("Open: " + Global.getOpen());
 				}
@@ -221,30 +223,32 @@ public class GetData implements Runnable {
 				// sec10Data.getHighLow();
 				// sec10Data.getOpen();
 
-				//min will be add at first 01 sec and first 59 sec, so there will be one more record
+				// min will be add at first 01 sec and first 59 sec, so there
+				// will be one more record
 				// everyMin should be initialed as -1
-				
-//				if (min == 59 || min == 00 || min == 01) {
-//					if (counter >= 0) {
-//						counter = -20;
-//						shortMinutes++;
-//						longMinutes++;
-//						m15Minutes++;
-//					}
-//				}
-				
+
+				// if (min == 59 || min == 00 || min == 01) {
+				// if (counter >= 0) {
+				// counter = -20;
+				// shortMinutes++;
+				// longMinutes++;
+				// m15Minutes++;
+				// }
+				// }
+
 				// that Math.abs is for when min = 59 and ref = -1
 				// use 10 in case the feeder stopped for serval mins
-				if (min > refMin && Math.abs(min - refMin) < 10){
-										
-						shortMinutes++;
-						longMinutes++;
-						m15Minutes++;
-						
-						if (refMin == 58)
-							refMin = -1;
-						else					
-							refMin = min;
+				if (min > refMin && Math.abs(min - refMin) < 10)
+				{
+
+					shortMinutes++;
+					longMinutes++;
+					m15Minutes++;
+
+					if (refMin == 58)
+						refMin = -1;
+					else
+						refMin = min;
 				}
 
 				// int remain = sec % 10;
@@ -266,9 +270,11 @@ public class GetData implements Runnable {
 				// // getSec10TB().getMainDownRail().getSlope());
 				// }
 
-				if (!aohAdded) {
+				if (!aohAdded)
+				{
 
-					if (getTimeInt() >= 93000) {
+					if (getTimeInt() >= 93000)
+					{
 						Global.setAOL(Global.getDayLow());
 						Global.setAOH(Global.getDayHigh());
 						Global.addLog("AOL: " + Global.getAOL());
@@ -277,14 +283,16 @@ public class GetData implements Runnable {
 					}
 				}
 
-				if (shortMinutes == Setting.getShortTB()) {
+				if (shortMinutes == Setting.getShortTB())
+				{
 
 					// getDayOpen, check every minutes
 					setOpen();
 
 					checkStop();
 
-					if (Global.getpHigh() == 0) {
+					if (Global.getpHigh() == 0)
+					{
 						setOHLC();
 
 					}
@@ -297,7 +305,7 @@ public class GetData implements Runnable {
 
 					getShortTB().addCandle(getTime(), shortData.periodHigh, shortData.periodLow, shortData.openPt,
 							point, totalQuantity);
-					
+
 					ema5.setlatestEMA(point);
 					ema25.setlatestEMA(point);
 					ema50.setlatestEMA(point);
@@ -317,7 +325,8 @@ public class GetData implements Runnable {
 
 				}
 
-				if (m15Minutes == 15) {
+				if (m15Minutes == 15)
+				{
 
 					getM15TB().addData(point, totalQuantity);
 
@@ -328,7 +337,8 @@ public class GetData implements Runnable {
 
 				}
 
-				if (longMinutes == Setting.getLongTB()) {
+				if (longMinutes == Setting.getLongTB())
+				{
 
 					// addDat = addPoint + quantity
 					getLongTB().addData(point, totalQuantity);
@@ -344,14 +354,15 @@ public class GetData implements Runnable {
 				}
 
 				setGlobal();
-//				counter++;
+				// counter++;
 				// counter10Sec++;
 			}
 
 			sleep(860);
 
-			if (!Global.isTradeTime()){
-//				counter = 1;
+			if (!Global.isTradeTime())
+			{
+				// counter = 1;
 			}
 			// if (getTimeInt() > 161400 && !liquidated) {
 			// Sikuli.liquidateOnly();
@@ -364,7 +375,8 @@ public class GetData implements Runnable {
 
 	}
 
-	private void checkStop() {
+	private void checkStop()
+	{
 		XMLReader ohlc = new XMLReader(Global.getToday());
 
 		if (ohlc.isStop())
@@ -372,30 +384,64 @@ public class GetData implements Runnable {
 
 	}
 
-	private void getPreviousData() {
+	private void getPreviousData()
+	{
 
-		CSVParser csv = new CSVParser("Z:\\TradeData\\5minOHLC.csv");
+		parseSPRecord csv = new parseSPRecord("Z:\\TradeData\\SPRecords\\" + Global.getToday() + "m1.txt");
 		csv.parseOHLC();
 		int j = 0;
+		int k = 0;
 
-		for (int i = 0; i < csv.getLow().size(); i++) {
+		for (int i = 0; i < csv.getLow().size(); i++)
+		{
 
+			Double close = csv.getClose().get(i);
 			// addPoint is for technical indicators
-			getLongTB().addData(csv.getClose().get(i).floatValue(), csv.getVolume().get(i).floatValue());
+			getShortTB().addData(close.floatValue(), csv.getVolume().get(i).floatValue());
 			// addCandle History is made for previous data, volume is not
 			// accumulated
-			getLongTB().addCandleHistory(csv.getTime().get(i), csv.getHigh().get(i), csv.getLow().get(i),
-					csv.getOpen().get(i), csv.getClose().get(i), csv.getVolume().get(i));
+			getShortTB().addCandleHistory(csv.getTime().get(i), csv.getHigh().get(i), csv.getLow().get(i),
+					csv.getOpen().get(i), close, csv.getVolume().get(i));
 
+			if (i == 0)
+			{
+				ema5 = new EMA(close, 5);
+				ema25 = new EMA(close, 25);
+				ema50 = new EMA(close, 50);
+				ema100 = new EMA(close, 100);
+				ema250 = new EMA(close, 250);
+				ema1200 = new EMA(close, 1200);
+			} else
+			{
+				ema5.setlatestEMA(close);
+				ema25.setlatestEMA(close);
+				ema50.setlatestEMA(close);
+				ema100.setlatestEMA(close);
+				ema250.setlatestEMA(close);
+				ema1200.setlatestEMA(close);
+			}
 			j++;
-			if (j == 3) {
-				getM15TB().addData(csv.getClose().get(i).floatValue(), csv.getVolume().get(i).floatValue());
-				getM15TB().addCandleHistory(csv.getTime().get(i), csv.getHigh().get(i), csv.getLow().get(i),
-						csv.getOpen().get(i), csv.getClose().get(i), csv.getVolume().get(i));
+			k++;
+
+			if (j == 5)
+			{
+				getLongTB().addData(close.floatValue(), csv.getVolume().get(i).floatValue());
+				getLongTB().addCandleHistory(csv.getTime().get(i), csv.getHigh().get(i), csv.getLow().get(i),
+						csv.getOpen().get(i), close, csv.getVolume().get(i));
 				j = 0;
 			}
 
+			if (k == 15)
+			{
+				getM15TB().addData(close.floatValue(), csv.getVolume().get(i).floatValue());
+				getM15TB().addCandleHistory(csv.getTime().get(i), csv.getHigh().get(i), csv.getLow().get(i),
+						csv.getOpen().get(i), close, csv.getVolume().get(i));
+				k = 0;
+			}
+
 		}
+		
+		Global.addLog("Previous m1_EMA250: " + getEma250().getEMA());
 
 	}
 
@@ -428,18 +474,19 @@ public class GetData implements Runnable {
 	{
 		return ema1200;
 	}
-	
-	
-	private void setOHLC() {
 
-//		XMLReader ohlc = new XMLReader(Global.getToday());
+	private void setOHLC()
+	{
+
+		// XMLReader ohlc = new XMLReader(Global.getToday());
 		Global.setpHigh(ohlc.getpHigh());
 		Global.setpLow(ohlc.getpLow());
 		Global.setpOpen(ohlc.getpOpen());
 		Global.setpClose(ohlc.getpClose());
 		Global.setpFluc(ohlc.getpFluc());
 
-		if (Global.getpHigh() != 0) {
+		if (Global.getpHigh() != 0)
+		{
 			Global.addLog("-------------------------------------");
 			Global.addLog("P.High: " + Global.getpHigh());
 			Global.addLog("P.Low: " + Global.getpLow());
@@ -448,9 +495,11 @@ public class GetData implements Runnable {
 
 	}
 
-	private void setOpen() {
+	private void setOpen()
+	{
 
-		if (Global.getOpen() == 0) {
+		if (Global.getOpen() == 0)
+		{
 			XMLReader open = new XMLReader(Global.getToday());
 			if (open.getOpen() == 0)
 				return;
@@ -459,9 +508,11 @@ public class GetData implements Runnable {
 
 	}
 
-	private void setNoonOpen() {
+	private void setNoonOpen()
+	{
 
-		if (Global.getNoonOpen() == 0) {
+		if (Global.getNoonOpen() == 0)
+		{
 			XMLReader noon = new XMLReader(Global.getToday());
 			if (noon.getnOpen() == 0)
 				return;
@@ -470,13 +521,15 @@ public class GetData implements Runnable {
 
 	}
 
-	private void setAOHL() {
+	private void setAOHL()
+	{
 		XMLReader aohl = new XMLReader(Global.getToday());
 		Global.setAOH(aohl.getAOH());
 		Global.setAOL(aohl.getAOL());
 	}
 
-	private void setGlobal() {
+	private void setGlobal()
+	{
 
 		Global.setCurrentPoint(point);
 		Global.setCurrentBid(bid);
@@ -496,15 +549,18 @@ public class GetData implements Runnable {
 
 	}
 
-	public static synchronized TimeBase getShortTB() {
+	public static synchronized TimeBase getShortTB()
+	{
 		return shortTB;
 	}
 
-	public static synchronized TimeBase getM15TB() {
+	public static synchronized TimeBase getM15TB()
+	{
 		return m15TB;
 	}
 
-	public static synchronized TimeBase getLongTB() {
+	public static synchronized TimeBase getLongTB()
+	{
 		return longTB;
 	}
 
@@ -516,7 +572,8 @@ public class GetData implements Runnable {
 	// return sec5TB;
 	// }
 
-	public static String getTime() { // String is thread safe
+	public static String getTime()
+	{ // String is thread safe
 		Calendar now = Calendar.getInstance();
 		SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");
 		String time = new String(formatter.format(now.getTime()));
@@ -524,17 +581,21 @@ public class GetData implements Runnable {
 		return time;
 	}
 
-	public static int getTimeInt() {
+	public static int getTimeInt()
+	{
 
 		return new Integer(time.replaceAll(":", ""));
 
 	}
 
-	public static void sleep(int miniSecond) {
+	public static void sleep(int miniSecond)
+	{
 
-		try {
+		try
+		{
 			Thread.sleep(miniSecond);
-		} catch (InterruptedException e) {
+		} catch (InterruptedException e)
+		{
 			e.printStackTrace();
 		}
 
@@ -551,7 +612,7 @@ public class GetData implements Runnable {
 	float ask;
 	float deal;
 
-	//to add the first data as a candle
+	// to add the first data as a candle
 	private int shortMinutes = 1;
 	private int longMinutes = 5;
 	private int m15Minutes = 15;
@@ -567,34 +628,37 @@ public class GetData implements Runnable {
 	Float point = new Float(0);
 	float totalQuantity = 0;
 
-	class CandleData {
+	class CandleData
+	{
 		private double periodHigh = 0.0D;
 		private double periodLow = 99999.0D;
 		private double openPt = 0.0D;
 		private boolean openAdded = false;
 
-		void reset() {
+		void reset()
+		{
 
 			periodHigh = 0.0D;
 			periodLow = 99999.0D;
 			openAdded = false;
 		}
 
-		void getHighLow() {
+		void getHighLow()
+		{
 			if (point > periodHigh)
 				periodHigh = point;
 			if (point < periodLow)
 				periodLow = point;
 		}
 
-		void getOpen() {
-			if (!openAdded) {
+		void getOpen()
+		{
+			if (!openAdded)
+			{
 				openPt = point;
 				openAdded = true;
 			}
 		}
-		
-		
 
 	}
 
