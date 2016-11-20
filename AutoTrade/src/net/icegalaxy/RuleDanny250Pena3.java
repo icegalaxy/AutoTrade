@@ -2,11 +2,9 @@ package net.icegalaxy;
 
 import com.sun.javafx.css.parser.StopConverter;
 
-
-
 //Use the OPEN Line
 
-public class RuleDanny250Pena2 extends Rules
+public class RuleDanny250Pena3 extends Rules
 {
 
 	private int lossTimes;
@@ -15,31 +13,30 @@ public class RuleDanny250Pena2 extends Rules
 	private Chasing chasing;
 	double buffer = 5;
 
-	public RuleDanny250Pena2(boolean globalRunRule)
+	public RuleDanny250Pena3(boolean globalRunRule)
 	{
 		super(globalRunRule);
 		setOrderTime(93000, 115500, 130500, 160000, 230000, 230000);
 		chasing = new Chasing();
 		// wait for EMA6, that's why 0945
 	}
-
-	private double getRefPt()
-	{
+	
+	private double getRefPt(){
 		return getTimeBase().getEMA(10);
 	}
-
-	double getMADiff()
-	{
+	
+	double getMADiff(){
 		return GetData.getEma5().getEMA() - GetData.getEma50().getEMA();
 	}
-
-	double getClosePrice()
-	{
+	
+	double getClosePrice(){
 		return GetData.getShortTB().getLatestCandle().getClose();
 	}
 
 	public void openContract()
 	{
+		
+		
 
 		if (shutdown)
 		{
@@ -48,31 +45,29 @@ public class RuleDanny250Pena2 extends Rules
 			Global.addLog("LossTimes: " + lossTimes);
 		}
 
-		if (!isOrderTime() || Global.getNoOfContracts() != 0 || lossTimes >= 10)
+		if (!isOrderTime() || Global.getNoOfContracts() != 0 || lossTimes >= 10
+				|| getHighestMA() - getLowestMA() < 10)
 			return;
 
-		// Global.addLog("P5: " + GetData.getEma5().getPreviousEMA(1));
-		// Global.addLog("now5: " + GetData.getEma5().getEMA());
-
+//		Global.addLog("P5: " + GetData.getEma5().getPreviousEMA(1));
+//		Global.addLog("now5: " + GetData.getEma5().getEMA());
+		
 		if (GetData.getEma5().getPreviousEMA(1) < GetData.getEma250().getPreviousEMA(1)
 				&& GetData.getEma5().getEMA() > GetData.getEma250().getEMA()
-				&& GetData.getEma250().getEMA() == getHighestMA())
+				&& GetData.getEma250().getEMA() == getLowestMA())
 		{
-
-			// Global.addLog("---------------------");
-			// Global.addLog("P5: " + GetData.getEma5().getPreviousEMA(1));
-			// Global.addLog("P250: " + GetData.getEma250().getPreviousEMA(1));
-			// Global.addLog("5: " + GetData.getEma5().getEMA());
-			// Global.addLog("250: " + GetData.getEma250().getEMA());
-			// Global.addLog("---------------------");
-
-			int spreadingTimes = 0;
-			double refDiff = 0;
-
-			while (spreadingTimes <= 3)
+			
+			Global.addLog("---------------------");
+			Global.addLog("P5: " + GetData.getEma5().getPreviousEMA(1));
+			Global.addLog("P250: " + GetData.getEma250().getPreviousEMA(1));
+			Global.addLog("5: " + GetData.getEma5().getEMA());
+			Global.addLog("250: " + GetData.getEma250().getEMA());
+			Global.addLog("---------------------");
+			
+			while (GetData.getEma5().getEMA() < GetData.getEma50().getEMA())
 			{
-				sleep(1000);
-
+				sleep(1000);	
+				
 				if (GetData.getEma5().getEMA() < GetData.getEma250().getEMA())
 				{
 					Global.addLog("Trend Change");
@@ -84,43 +79,31 @@ public class RuleDanny250Pena2 extends Rules
 					Global.addLog("Not order time");
 					return;
 				}
-
-				if (getMADiff() > refDiff)
-				{
-					refDiff = getMADiff();
-					spreadingTimes++;
-					// Global.addLog("Spreading time: " + spreadingTimes);
-				} else if (getMADiff() < refDiff)
-				{
-					refDiff = getMADiff();
-					spreadingTimes--;
-					if (spreadingTimes < 0)
-						return;
-				}
+					
 			}
+					
 			longContract();
 			cutLossPt = buyingPoint - GetData.getEma250().getEMA();
-
-		} else if (GetData.getEma5().getPreviousEMA(1) > GetData.getEma250().getPreviousEMA(1)
+			
+			
+		}else if (GetData.getEma5().getPreviousEMA(1) > GetData.getEma250().getPreviousEMA(1)
 				&& GetData.getEma5().getEMA() < GetData.getEma250().getEMA()
-				&& GetData.getEma250().getEMA() == getLowestMA())
+				&& GetData.getEma250().getEMA() == getHighestMA())
 		{
-
-			// Global.addLog("---------------------");
-			// Global.addLog("P5: " + GetData.getEma5().getPreviousEMA(1));
-			// Global.addLog("P250: " + GetData.getEma250().getPreviousEMA(1));
-			// Global.addLog("5: " + GetData.getEma5().getEMA());
-			// Global.addLog("250: " + GetData.getEma250().getEMA());
-			// Global.addLog("---------------------");
-
-			int spreadingTimes = 0;
-			double refDiff = 0;
-
-			while (spreadingTimes <= 3)
+			
+			Global.addLog("---------------------");
+			Global.addLog("P5: " + GetData.getEma5().getPreviousEMA(1));
+			Global.addLog("P250: " + GetData.getEma250().getPreviousEMA(1));
+			Global.addLog("5: " + GetData.getEma5().getEMA());
+			Global.addLog("250: " + GetData.getEma250().getEMA());
+			Global.addLog("---------------------");
+			
+			
+			while (GetData.getEma5().getEMA() > GetData.getEma50().getEMA())
 			{
-				sleep(1000);
-
-				if (GetData.getEma5().getEMA() > GetData.getEma250().getEMA())
+				sleep(1000);	
+				
+				if (GetData.getEma5().getEMA() >  GetData.getEma250().getEMA())
 				{
 					Global.addLog("Trend Change");
 					return;
@@ -131,54 +114,25 @@ public class RuleDanny250Pena2 extends Rules
 					Global.addLog("Not order time");
 					return;
 				}
-
-				if (getMADiff() < refDiff)
-				{
-					refDiff = getMADiff();
-					spreadingTimes++;
-					// Global.addLog("Spreading time: " + spreadingTimes);
-				} else if (getMADiff() > refDiff)
-				{
-					refDiff = getMADiff();
-					spreadingTimes--;
-					if (spreadingTimes < 0)
-						return;
-				}
-
-				// if (Math.abs(buyingPoint - GetData.getEma50().getEMA()) >
-				// 50){
-				// Global.addLog("Risk too high");
-				// return;
-				// }
+					
 			}
-
+			
 			shortContract();
 			cutLossPt = GetData.getEma250().getEMA() - buyingPoint;
 		}
-
+		
 		sleep(1000);
 
 	}
 
 	@Override
-	boolean trendReversed()
-	{
-
+	boolean trendReversed(){
+		
 		if (Global.getNoOfContracts() > 0)
-		{
-
-//			if (getProfit() > 30)
-				return GetData.getEma5().getEMA() < GetData.getEma250().getEMA();
-//			else
-//				return GetData.getEma5().getEMA() < GetData.getEma5().getPreviousEMA(1);
-
-		} else
-		{
-//			if (getProfit() > 30)
-				return GetData.getEma5().getEMA() > GetData.getEma250().getEMA();
-//			else
-//				return GetData.getEma5().getEMA() > GetData.getEma5().getPreviousEMA(1);
-		}
+			return GetData.getEma5().getEMA() < GetData.getEma50().getEMA();
+		else
+			return GetData.getEma5().getEMA() > GetData.getEma50().getEMA();
+		
 	}
 
 	// use 1min instead of 5min
@@ -187,11 +141,15 @@ public class RuleDanny250Pena2 extends Rules
 
 		double ema5;
 		double ema6;
+		
 
 		// if (Math.abs(getTimeBase().getEMA(5) - getTimeBase().getEMA(6)) <
 		// 10){
 		ema5 = GetData.getShortTB().getLatestCandle().getClose();
 		ema6 = GetData.getEma25().getEMA();
+				
+	
+
 
 		if (Global.getNoOfContracts() > 0)
 		{
@@ -201,7 +159,7 @@ public class RuleDanny250Pena2 extends Rules
 				ema5 = GetData.getEma5().getEMA();
 				ema6 = GetData.getEma50().getEMA();
 			}
-
+			
 			if (buyingPoint > tempCutLoss && getProfit() > 50)
 			{
 				Global.addLog("Free trade");
@@ -216,7 +174,7 @@ public class RuleDanny250Pena2 extends Rules
 			}
 		} else if (Global.getNoOfContracts() < 0)
 		{
-
+			
 			if (isDownTrend2() && getProfit() > 50)
 			{
 				ema5 = GetData.getEma5().getEMA();
@@ -227,7 +185,7 @@ public class RuleDanny250Pena2 extends Rules
 			{
 				Global.addLog("Free trade");
 				tempCutLoss = buyingPoint - 5;
-
+	
 			}
 
 			if (ema5 > ema6)
@@ -244,7 +202,8 @@ public class RuleDanny250Pena2 extends Rules
 	double getCutLossPt()
 	{
 
-		// return Math.min(cutLossPt + 10, 40);
+		
+//		return Math.min(cutLossPt + 10, 40);
 		return 100;
 
 	}
@@ -253,22 +212,22 @@ public class RuleDanny250Pena2 extends Rules
 	protected void cutLoss()
 	{
 
-		if (Global.getNoOfContracts() > 0 && Global.getCurrentPoint() < tempCutLoss)
+		if (Global.getNoOfContracts() > 0 && GetData.getShortTB().getLatestCandle().getClose() < tempCutLoss)
 		{
 			closeContract(className + ": CutLoss, short @ " + Global.getCurrentBid());
 			shutdown = true;
-		} else if (Global.getNoOfContracts() < 0 && Global.getCurrentPoint() > tempCutLoss)
+		} else if (Global.getNoOfContracts() < 0 && GetData.getShortTB().getLatestCandle().getClose() > tempCutLoss)
 		{
 			closeContract(className + ": CutLoss, long @ " + Global.getCurrentAsk());
 			shutdown = true;
 		}
-
+		
 		if (Global.getCurrentPoint() > chasing.getRefHigh())
 			chasing.setRefHigh(Global.getCurrentPoint());
 		if (Global.getCurrentPoint() < chasing.getRefLow())
 			chasing.setRefLow(Global.getCurrentPoint());
 	}
-
+	
 	private int getLossTimesAllowed()
 	{
 

@@ -170,6 +170,7 @@ public class Setting extends JFrame {
 //		RulePClose rulePClose = new RulePClose(true);
 		RuleDanny250Pena danny250 = new RuleDanny250Pena(true);
 		RuleDanny250Pena2 danny2502 = new RuleDanny250Pena2(true);
+		RuleDanny250Pena3 danny2503 = new RuleDanny250Pena3(true);
 //		RuleDanny2 danny2 = new RuleDanny2(false);
 //		RuleDanny240 danny240 = new RuleDanny240(true);
 //		RuleDanny50 danny50 = new RuleDanny50(true);
@@ -179,7 +180,7 @@ public class Setting extends JFrame {
 //		RuleIBT ibt = new RuleIBT(true);
 //		RuleChasing chasing = new RuleChasing(true);
 		
-		Runnable[] r = { gd, tpd, danny250, danny2502};
+		Runnable[] r = { gd, tpd, danny250, danny2502, danny2503};
 
 		Thread[] t = new Thread[r.length];
 		for (int i = 0; i < r.length; i++) {
