@@ -330,7 +330,7 @@ public class Global {
 
 	public static synchronized void setOpen(double open) {
 		Global.open = open;
-//		addLog("Set Open: " + open);
+		addLog("Global Set Open: " + open);
 	}
 
 
