@@ -108,7 +108,7 @@ public class GetData implements Runnable
 			return 0;
 
 		HTMLParser etnet = new HTMLParser(
-				"http://www.etnet.com.hk/www/tc/futures/index.php?subtype=HSI&month=201611&tab=interval#tab");
+				"http://www.etnet.com.hk/www/tc/futures/index.php?subtype=HSI&month=20" + getYearMonth() + "&tab=interval#tab");
 		double open = 0;
 		try
 		{
@@ -571,6 +571,15 @@ public class GetData implements Runnable
 	// public static synchronized TimeBase getSec5TB() {
 	// return sec5TB;
 	// }
+	
+	public String getYearMonth() {
+
+		Calendar now = Calendar.getInstance();
+		SimpleDateFormat formatter = new SimpleDateFormat("yyMM");
+		String s = formatter.format(now.getTime());
+
+		return s;
+	}
 
 	public static String getTime()
 	{ // String is thread safe
