@@ -151,7 +151,7 @@ public class GetData implements Runnable
 			// spTrader. Fix it by teamviewer
 
 			// should be put inside isRunning
-			if (getTimeInt() > 91420)
+			if (getTimeInt() > 91420 && Global.getOpen() == 0)
 			{
 				getOpenPrice();
 				Global.addLog("Open: " + Global.getOpen());
