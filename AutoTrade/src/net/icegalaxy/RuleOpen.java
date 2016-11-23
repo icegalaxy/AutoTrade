@@ -2,15 +2,18 @@ package net.icegalaxy;
 
 import java.util.ArrayList;
 
+
 public class RuleOpen extends Rules {
 
-	private int lossTimes = 0;
 	private double cutLoss;
-	// private double refEMA;
+	private Chasing chasing;
+	private double OHLC;
+	private double refHigh;
+	private double refLow;
 
 	public RuleOpen(boolean globalRunRule) {
 		super(globalRunRule);
-		setOrderTime(91530, 115500, 160000, 160000, 231500, 231500);
+		setOrderTime(93000, 115500, 160000, 160000, 231500, 231500);
 
 	}
 
@@ -23,60 +26,119 @@ public class RuleOpen extends Rules {
 //			shutdown = false;
 //		}
 		
-		if (!isOrderTime() || Global.getNoOfContracts() != 0)
+	
+		
+//		if (chasing.chaseUp() || chasing.chaseDown()){
+//			
+//			Global.setChasing(chasing);
+//			chasing = new Chasing();
+//		}
+		
+		if (!isOrderTime() || Global.getNoOfContracts() != 0 || Global.getOpen() == 0 || shutdown)
 			return;
+		
+//		while (Math.abs(Global.getCurrentPoint() - Global.getOpen()) < 20)
+//			{
+//				sleep(1000);
+//				if (!isOrderTime())
+//					return;
+//			}
 
-		if (isHigherThan4MA(5))
+		if (GetData.getEma5().getPreviousEMA(1) < Global.getOpen()
+				&& GetData.getEma5().getEMA() > Global.getOpen())
 		{
-			while(!isLowerThan4MA(1) ){
-				sleep(1000);
+			refHigh = 0;
+			refLow = 99999;
 			
+			Global.addLog("Waiting for first pull back");
+			while (GetData.getEma5().getEMA() > GetData.getEma5().getPreviousEMA(1))
+			{
+//				if (TimePeriodDecider.getTime() > 100000)
+//					return;
+				
+//				if (GetData.getEma5().getEMA() > GetData.getShortTB().getEMA(6))
+//					break;
+				
+				if (GetData.getEma5().getEMA() < Global.getOpen())
+					return;
+				
+				if (GetData.getEma5().getEMA() > refHigh)
+					refHigh = GetData.getEma5().getEMA();
+				else if (GetData.getEma5().getEMA() < refLow)
+					refLow = GetData.getEma5().getEMA();
+				
+				sleep(1000);
 			}
 			
-			shortContract();
-		}else if (isLowerThan4MA(5))
-		{
-			while(!isHigherThan4MA(1) ){
+			while (GetData.getEma5().getEMA() < refHigh)
+			{
 				sleep(1000);
-			
+				
+//				if (TimePeriodDecider.getTime() > 100000)
+//					return;
+				
+				if (GetData.getEma5().getEMA() < Global.getOpen())
+					return;
+
+			 if (GetData.getEma5().getEMA() < refLow)
+					refLow = GetData.getEma5().getEMA();
+				
 			}
+			
 			longContract();
+			cutLoss = buyingPoint - refLow;
+			
+		}else if (GetData.getEma5().getPreviousEMA(1) > Global.getOpen()
+				&& GetData.getEma5().getEMA() < Global.getOpen())
+		{	
+			refHigh = 0;
+			refLow = 99999;
+			
+			Global.addLog("Waiting for first pull back");
+			while (GetData.getEma5().getEMA() < GetData.getEma5().getPreviousEMA(1))
+			{
+//				if (TimePeriodDecider.getTime() > 100000)
+//					return;
+				
+//				if (GetData.getEma5().getEMA() > GetData.getShortTB().getEMA(6))
+//					break;
+				
+				if (GetData.getEma5().getEMA()  > Global.getOpen())
+					return;
+				
+				if (GetData.getEma5().getEMA() > refHigh)
+					refHigh = GetData.getEma5().getEMA();
+				else if (GetData.getEma5().getEMA() < refLow)
+					refLow = GetData.getEma5().getEMA();
+				
+				sleep(1000);
+			}
+			
+			while (GetData.getEma5().getEMA() > refLow)
+			{
+				sleep(1000);
+				
+//				if (TimePeriodDecider.getTime() > 100000)
+//					return;
+				
+				if (GetData.getEma5().getEMA() > Global.getOpen())
+					return;
+
+				if (GetData.getEma5().getEMA() > refHigh)
+					refHigh = GetData.getEma5().getEMA();
+			
+				
+			}
+			shortContract();		
+			cutLoss = refHigh - buyingPoint;
 		}
 	}
 	
-	
-	public boolean isHigherThan4MA(double pointsHigher){
-		
-		double highestMA = 0;
-		
-		for (int i=0; i <get4MAs().size(); i++){		
-			highestMA = Math.max(highestMA, get4MAs().get(i));			
-		}	
-		return GetData.getShortTB().getLatestCandle().getClose() > highestMA + pointsHigher;
+	public double getCurrentClose(){
+		return GetData.getShortTB().getLatestCandle().getClose();
 	}
 	
-public boolean isLowerThan4MA(double pointsLower){
-		
-		double lowestMA = 99999;
-		
-		for (int i=0; i <get4MAs().size(); i++){		
-			lowestMA = Math.min(lowestMA, get4MAs().get(i));			
-		}	
-		return GetData.getShortTB().getLatestCandle().getClose() < lowestMA - pointsLower;
-	}
-
-	private ArrayList<Float> get4MAs()
-	{
-		ArrayList<Float> mas = new ArrayList<Float>();
-		
-		mas.add(GetData.getM15TB().getMA(20));
-		mas.add(GetData.getM15TB().getEMA(50));
-		mas.add(GetData.getLongTB().getEMA(50));
-		mas.add(GetData.getLongTB().getEMA(240));
-		
-		return mas;
-		
-	}
+	
 
 	// use 1min instead of 5min
 	void updateStopEarn()
@@ -90,8 +152,8 @@ public boolean isLowerThan4MA(double pointsLower){
 			ema6 = GetData.getLongTB().getEMA(5);
 //		} else
 //		{
-//			ema5 = GetData.getLongTB().getEMA(5);
-//			ema6 = GetData.getLongTB().getEMA(6);
+//			ema5 = StockDataController.getLongTB().getEMA(5);
+//			ema6 = StockDataController.getLongTB().getEMA(6);
 //		}
 
 		if (Global.getNoOfContracts() > 0)
@@ -124,7 +186,7 @@ public boolean isLowerThan4MA(double pointsLower){
 	// use 1min instead of 5min
 	double getCutLossPt()
 	{
-		return Math.max(15, cutLoss);
+		return Math.max(100, cutLoss);
 	}
 
 	@Override
@@ -142,10 +204,20 @@ public boolean isLowerThan4MA(double pointsLower){
 
 		}
 		
-//		if (Global.getCurrentPoint() > chasing.getRefHigh())
-//			chasing.setRefHigh(Global.getCurrentPoint());
-//		if (Global.getCurrentPoint() < chasing.getRefLow())
-//			chasing.setRefLow(Global.getCurrentPoint());
+		if (Global.getCurrentPoint() > chasing.getRefHigh())
+			chasing.setRefHigh(Global.getCurrentPoint());
+		if (Global.getCurrentPoint() < chasing.getRefLow())
+			chasing.setRefLow(Global.getCurrentPoint());
+		
+	}
+	
+	@Override
+	boolean trendReversed(){
+		
+		if (Global.getNoOfContracts() > 0)
+			return GetData.getEma5().getEMA() < refLow;
+		else
+			return GetData.getEma5().getEMA() > refHigh;
 		
 	}
 
@@ -153,7 +225,7 @@ public boolean isLowerThan4MA(double pointsLower){
 	{
 //		if (Global.getNoOfContracts() > 0)
 //		{
-//			if (GetData.getShortTB().getLatestCandle().getClose() > getTimeBase().getEMA(5))
+//			if (StockDataController.getShortTB().getLatestCandle().getClose() > getTimeBase().getEMA(5))
 //				return -100;
 //			
 //			
@@ -161,13 +233,13 @@ public boolean isLowerThan4MA(double pointsLower){
 //			
 //		} else if (Global.getNoOfContracts() < 0)
 //		{
-//			if (GetData.getShortTB().getLatestCandle().getClose() < getTimeBase().getEMA(6))
+//			if (StockDataController.getShortTB().getLatestCandle().getClose() < getTimeBase().getEMA(6))
 //				return -100;
 //		}
 		
 		
 		
-		return 30;
+		return 50;
 	}
 
 	@Override

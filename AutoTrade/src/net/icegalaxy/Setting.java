@@ -180,7 +180,7 @@ public class Setting extends JFrame {
 //		RuleIBT ibt = new RuleIBT(true);
 //		RuleChasing chasing = new RuleChasing(true);
 		
-		Runnable[] r = { gd, tpd, danny250, danny2502, danny2503};
+		Runnable[] r = { gd, tpd, danny250, danny2502, danny2503, open};
 
 		Thread[] t = new Thread[r.length];
 		for (int i = 0; i < r.length; i++) {
