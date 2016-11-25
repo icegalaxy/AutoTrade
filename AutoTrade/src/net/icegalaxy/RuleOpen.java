@@ -6,7 +6,6 @@ import java.util.ArrayList;
 public class RuleOpen extends Rules {
 
 	private double cutLoss;
-	private Chasing chasing;
 	private double OHLC;
 	private double refHigh;
 	private double refLow;
@@ -64,8 +63,8 @@ public class RuleOpen extends Rules {
 				
 				if (GetData.getEma5().getEMA() > refHigh)
 					refHigh = GetData.getEma5().getEMA();
-				else if (GetData.getEma5().getEMA() < refLow)
-					refLow = GetData.getEma5().getEMA();
+//				else if (GetData.getEma5().getEMA() < refLow)
+//					refLow = GetData.getEma5().getEMA();
 				
 				sleep(1000);
 			}
@@ -107,8 +106,8 @@ public class RuleOpen extends Rules {
 				if (GetData.getEma5().getEMA()  > Global.getOpen())
 					return;
 				
-				if (GetData.getEma5().getEMA() > refHigh)
-					refHigh = GetData.getEma5().getEMA();
+//				if (GetData.getEma5().getEMA() > refHigh)
+//					refHigh = GetData.getEma5().getEMA();
 				else if (GetData.getEma5().getEMA() < refLow)
 					refLow = GetData.getEma5().getEMA();
 				
@@ -152,7 +151,7 @@ public class RuleOpen extends Rules {
 //		if (getProfit() < 100)
 //		{
 			ema5 = GetData.getShortTB().getLatestCandle().getClose();
-			ema6 = GetData.getLongTB().getEMA(5);
+			ema6 = GetData.getEma25().getEMA();
 //		} else
 //		{
 //			ema5 = StockDataController.getLongTB().getEMA(5);
@@ -206,12 +205,7 @@ public class RuleOpen extends Rules {
 			shutdown = true;
 
 		}
-		
-		if (Global.getCurrentPoint() > chasing.getRefHigh())
-			chasing.setRefHigh(Global.getCurrentPoint());
-		if (Global.getCurrentPoint() < chasing.getRefLow())
-			chasing.setRefLow(Global.getCurrentPoint());
-		
+				
 	}
 	
 	@Override

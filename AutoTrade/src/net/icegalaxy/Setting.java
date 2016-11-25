@@ -139,7 +139,7 @@ public class Setting extends JFrame {
 		Global.setToday(getToday());
 		Global.setChasing(new Chasing());
 
-		RuleOpen open = new RuleOpen(true);
+		
 //		ruleMA_0.setBufferPt(0);
 //		RuleOpen ruleMA_5 = new RuleOpen(Global.runRuleMA);
 //		ruleMA_5.setBufferPt(5);
@@ -171,6 +171,7 @@ public class Setting extends JFrame {
 		RuleDanny250Pena danny250 = new RuleDanny250Pena(true);
 		RuleDanny250Pena2 danny2502 = new RuleDanny250Pena2(true);
 		RuleDanny250Pena3 danny2503 = new RuleDanny250Pena3(true);
+		RuleOpen open = new RuleOpen(true);
 //		RuleDanny2 danny2 = new RuleDanny2(false);
 //		RuleDanny240 danny240 = new RuleDanny240(true);
 //		RuleDanny50 danny50 = new RuleDanny50(true);

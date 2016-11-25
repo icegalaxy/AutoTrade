@@ -289,7 +289,7 @@ public class GetData implements Runnable
 					// getDayOpen, check every minutes
 					setOpen();
 
-					checkStop();
+//					checkStop();
 
 					if (Global.getpHigh() == 0)
 					{
