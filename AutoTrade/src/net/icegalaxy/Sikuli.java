@@ -104,6 +104,7 @@ public class Sikuli {
 	public static synchronized boolean longContract() {
 
 		if (Global.getNoOfContracts() >= Global.maxContracts) {
+			Global.addLog("> max no. of contract");
 			return false;
 		}
 
@@ -135,6 +136,7 @@ public class Sikuli {
 	public static synchronized boolean shortContract() {
 
 		if (Global.getNoOfContracts() <= Global.maxContracts * -1) {
+			Global.addLog("> max no. of contract");
 			return false;
 		}
 

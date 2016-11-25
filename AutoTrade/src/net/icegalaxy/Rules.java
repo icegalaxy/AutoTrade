@@ -246,7 +246,6 @@ public abstract class Rules implements Runnable
 
 	public void closeContract(String msg)
 	{
-
 		boolean b = Sikuli.closeContract();
 		Global.addLog(msg);
 		Global.addLog("");
@@ -274,6 +273,8 @@ public abstract class Rules implements Runnable
 		cutLossPt = 100; // �O�׫Y�O�I�A��ĤG��set���H�Pcut loss�Ӥj,
 		// �O�ӫYMaximum
 
+		Global.addLog("Enter loop of closeContract");
+		
 		while (!reachGreatProfitPt())
 		{
 
@@ -284,12 +285,19 @@ public abstract class Rules implements Runnable
 			// checkDayHighLow();
 			if (trendReversed())
 			{
+				Global.addLog(className + ": Trend reversed");
+				
+				if (getProfit() < 0)
+				{
+					shutdown = true;
+				}
 				closeContract(className + ": Trend Reversed");
 				return;
 			}
 
 			if (trendUnstable())
 			{
+				Global.addLog(className + ": Trend unstable");
 				closeContract(className + ": Trend Unstable");
 				return;
 			}
@@ -298,23 +306,26 @@ public abstract class Rules implements Runnable
 
 			if (Global.isForceSellTime())
 			{
+				Global.addLog(className + ": Force sell");
 				closeContract("Force Sell");
 				return;
 			}
 
 			if (Global.getNoOfContracts() == 0)
-			{ // �i��ڨ�Lrule
-				// close���A��Trend
-				// truned�A�̧Y�Y�४�աA��
+			{
+				Global.addLog(className + ": Suddenly Global contract = 0");
 				hasContract = false;
 				break;
 			}
 
-			if (!hasContract)
+			if (!hasContract){
+				Global.addLog(className + ": Suddenly !hasContract");
 				break;
-
+			}
 			sleep(1000);
 		}
+		
+		Global.addLog(className + ": broke out the first loop");
 
 		if (Global.getNoOfContracts() == 0)
 		{
@@ -397,7 +408,10 @@ public abstract class Rules implements Runnable
 
 		boolean b = Sikuli.shortContract();
 		if (!b)
+		{
+			Global.addLog(className + ": Fail to short");
 			return;
+		}
 		hasContract = true;
 		Global.addLog(className + ": Short @ " + Global.getCurrentBid());
 		buyingPoint = Global.getCurrentBid();
@@ -422,7 +436,10 @@ public abstract class Rules implements Runnable
 
 		boolean b = Sikuli.longContract();
 		if (!b)
+		{
+			Global.addLog(className + ": Fail to long");
 			return;
+		}
 		hasContract = true;
 		Global.addLog(className + ": Long @" + Global.getCurrentAsk());
 		buyingPoint = Global.getCurrentAsk();

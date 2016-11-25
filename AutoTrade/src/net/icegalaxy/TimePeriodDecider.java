@@ -110,6 +110,7 @@ public class TimePeriodDecider implements Runnable
 
 		}
 
+		Global.addLog("Day Close");
 		Global.setTradeTime(false);
 		Global.setQuotePowerTime(false);
 		Global.setRunning(false);

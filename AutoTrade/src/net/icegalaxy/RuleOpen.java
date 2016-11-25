@@ -70,6 +70,7 @@ public class RuleOpen extends Rules {
 				sleep(1000);
 			}
 			
+			Global.addLog("Waiting for a break through");
 			while (GetData.getEma5().getEMA() < refHigh)
 			{
 				sleep(1000);
@@ -114,6 +115,7 @@ public class RuleOpen extends Rules {
 				sleep(1000);
 			}
 			
+			Global.addLog("Waiting for a break through");
 			while (GetData.getEma5().getEMA() > refLow)
 			{
 				sleep(1000);
@@ -132,6 +134,7 @@ public class RuleOpen extends Rules {
 			shortContract();		
 			cutLoss = refHigh - buyingPoint;
 		}
+		sleep(1000);
 	}
 	
 	public double getCurrentClose(){
