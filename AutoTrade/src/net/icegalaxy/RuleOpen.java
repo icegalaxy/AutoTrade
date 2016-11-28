@@ -3,6 +3,8 @@ package net.icegalaxy;
 import java.util.ArrayList;
 
 
+
+
 public class RuleOpen extends Rules {
 
 	private double cutLoss;
@@ -15,6 +17,8 @@ public class RuleOpen extends Rules {
 		setOrderTime(93000, 115500, 130500, 160000, 231500, 231500);
 
 	}
+
+
 
 	public void openContract()
 	{
@@ -69,7 +73,6 @@ public class RuleOpen extends Rules {
 				sleep(1000);
 			}
 			
-			Global.addLog("Waiting for a break through");
 			while (GetData.getEma5().getEMA() < refHigh)
 			{
 				sleep(1000);
@@ -84,6 +87,9 @@ public class RuleOpen extends Rules {
 					refLow = GetData.getEma5().getEMA();
 				
 			}
+			
+			if (GetData.getEma5().getEMA() < GetData.getEma250().getEMA())
+				return;
 			
 			longContract();
 			cutLoss = buyingPoint - refLow;
@@ -114,7 +120,6 @@ public class RuleOpen extends Rules {
 				sleep(1000);
 			}
 			
-			Global.addLog("Waiting for a break through");
 			while (GetData.getEma5().getEMA() > refLow)
 			{
 				sleep(1000);
@@ -130,10 +135,13 @@ public class RuleOpen extends Rules {
 			
 				
 			}
+			
+			if (GetData.getEma5().getEMA() > GetData.getEma250().getEMA())
+				return;
+			
 			shortContract();		
 			cutLoss = refHigh - buyingPoint;
 		}
-		sleep(1000);
 	}
 	
 	public double getCurrentClose(){
@@ -205,7 +213,9 @@ public class RuleOpen extends Rules {
 			shutdown = true;
 
 		}
-				
+		
+	
+		
 	}
 	
 	@Override
@@ -236,7 +246,7 @@ public class RuleOpen extends Rules {
 		
 		
 		
-		return 50;
+		return 20;
 	}
 
 	@Override
