@@ -28,6 +28,7 @@ public class GetData implements Runnable
 	private static EMA ema100;
 	private static EMA ema250;
 	private static EMA ema1200;
+	private int errTimes;
 
 	// private float previousClose = 0;
 
@@ -93,6 +94,15 @@ public class GetData implements Runnable
 
 		} catch (Exception e)
 		{
+			
+			if (errTimes > 100)
+			{
+				Global.addLog("errTimes > 100");
+				Global.addLog("Force Close");
+				Global.shutDown = true;
+				Global.setRunning(false);
+				return false;
+			}
 			Global.addLog("Can't get index, try again");
 			System.out.println("Time: " + time);
 			e.printStackTrace();

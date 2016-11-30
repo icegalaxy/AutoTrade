@@ -104,6 +104,8 @@ public class TimePeriodDecider implements Runnable
 			{
 				Global.setTradeTime(false);
 				Global.setOrderTime(false);
+				Global.setForceSellTime(true);
+				break;
 			}
 
 			sleep(1000);
