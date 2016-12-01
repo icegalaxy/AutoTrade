@@ -213,6 +213,10 @@ public class DB {
 		{
 			Global.addLog("IOException: Clipboard return empty string");
 			e.printStackTrace();
+		}catch (Exception e)
+		{
+			Global.addLog("Other exceptions: Clipboard return empty string");
+			e.printStackTrace();
 		}
 		return "";
 	}
