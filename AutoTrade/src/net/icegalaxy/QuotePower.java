@@ -122,10 +122,27 @@ public class QuotePower {
 				getNighMarket();
 
 			if (quantityB4Treatment.contains("K")) {
+				try
+				{
 				quantity = new Float(quantityB4Treatment.replace("K", ""));
 				quantity = quantity * 1000;
+				}catch (Exception e)
+				{
+					e.printStackTrace();
+					Global.addLog("Cannot treat quantity with K");
+					quantity = new Float(0);
+				}
 			} else {
+				try
+				{
 				quantity = new Float(quantityB4Treatment);
+				}catch (Exception e)
+				{
+					e.printStackTrace();
+					Global.addLog("Cannot treat quantity");
+					quantity = new Float(0);
+				}
+				
 			}
 			
 			if (Integer.parseInt(deal) == 0) {

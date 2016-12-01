@@ -95,9 +95,9 @@ public class GetData implements Runnable
 		} catch (Exception e)
 		{
 			
-			if (errTimes > 100)
+			if (errTimes > 50)
 			{
-				Global.addLog("errTimes > 100");
+				Global.addLog("errTimes > 50");
 				Global.addLog("Force Close");
 				Global.shutDown = true;
 				Global.setRunning(false);
@@ -108,6 +108,7 @@ public class GetData implements Runnable
 			e.printStackTrace();
 			sleep(1000);
 			getIndex();
+			errTimes++;
 		}
 		return true;
 	}

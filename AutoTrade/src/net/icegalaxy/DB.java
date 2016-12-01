@@ -194,6 +194,8 @@ public class DB {
 		t = Toolkit.getDefaultToolkit().getSystemClipboard()
 				.getContents(null);
 		}catch (IllegalStateException e){ //�O��exception�ڥ[���A�]���չL�X�{
+			e.printStackTrace();
+			Global.addLog("IllegalStateException: Clipboard return null");
 			return null;
 		}
 		
@@ -203,8 +205,14 @@ public class DB {
 						.getTransferData(DataFlavor.stringFlavor);
 				return text;
 			}
-		} catch (UnsupportedFlavorException e) {
-		} catch (IOException e) {
+		} catch (UnsupportedFlavorException e) 
+		{	
+			Global.addLog("UnsupportedFlavorException: Clipboard return empty string");
+			e.printStackTrace();
+		} catch (IOException e)
+		{
+			Global.addLog("IOException: Clipboard return empty string");
+			e.printStackTrace();
 		}
 		return "";
 	}
