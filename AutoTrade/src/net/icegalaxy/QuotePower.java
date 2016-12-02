@@ -174,8 +174,9 @@ public class QuotePower {
 	private void getDayMarket(){
 		try {
 			
+			//161202 10：55 加左呢個之後又好似無事
 			String s = DB.getClipboard();
-			Global.addLog(s);
+//			Global.addLog(s);
 			
 			Scanner sc = new Scanner(s);
 			sc.useDelimiter("HKD");
