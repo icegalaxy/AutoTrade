@@ -173,7 +173,11 @@ public class QuotePower {
 	
 	private void getDayMarket(){
 		try {
-			Scanner sc = new Scanner(DB.getClipboard());
+			
+			String s = DB.getClipboard();
+			Global.addLog(s);
+			
+			Scanner sc = new Scanner(s);
 			sc.useDelimiter("HKD");
 			sc.next();
 			Scanner sc2 = new Scanner(sc.next());
