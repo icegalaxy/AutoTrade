@@ -68,7 +68,10 @@ public class QuotePower {
 			quantity = new Float(0);
 
 			if (TimePeriodDecider.getTime() <164500)
+				{
+				errCount = 0;
 				getDayMarket();
+				}
 			else
 				getNighMarket();
 
@@ -194,6 +197,21 @@ public class QuotePower {
 
 			sc.close();
 			sc2.close();
+			
+			try{
+				new Float(deal);
+				
+			}catch (Exception e)
+			{
+				Global.addLog("Can't treat deal, clipboard content: " + s);				
+				errCount++;
+				if(errCount <= 3)
+				{
+					sleep(300); //wait and try the clipboard again
+					Global.addLog("Try getClipboard again");
+					getDayMarket();
+				}
+			}
 			
 		} catch (Exception e) {
 			e.printStackTrace();
