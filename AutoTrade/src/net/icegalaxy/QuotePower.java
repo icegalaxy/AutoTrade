@@ -42,7 +42,7 @@ public class QuotePower {
 		
 		try {
 			Sikuli.quotePower();
-			errCount = 0;
+//			errCount = 0;
 		} catch (Exception e) {
 			Global.addLog("Can't get quote");
 			Sikuli.resetQuotePower();
@@ -67,13 +67,13 @@ public class QuotePower {
 			ask = "";
 			quantity = new Float(0);
 
-			if (TimePeriodDecider.getTime() <164500)
-				{
-				errCount = 0;
+//			if (TimePeriodDecider.getTime() <164500)
+//				{
+//				errCount = 0;
 				getDayMarket();
-				}
-			else
-				getNighMarket();
+//				}
+//			else
+//				getNighMarket();
 
 			if (quantityB4Treatment.contains("K")) {
 				quantity = new Float(quantityB4Treatment.replace("K", ""));
