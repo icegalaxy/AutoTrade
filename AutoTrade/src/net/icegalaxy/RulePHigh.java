@@ -1,188 +1,198 @@
 package net.icegalaxy;
 
 
+
 public class RulePHigh extends Rules {
 
-//	private int lossTimes;
-//	private double refEMA;
-	private boolean tradeTimesReseted;
-	double ohlc;
 	private double cutLoss;
-	
-
-	private double tempHigh;
-	private double tempLow;
-	public double OHLC;
+	private double OHLC;
+	private double refHigh;
+	private double refLow;
 
 	public RulePHigh(boolean globalRunRule) {
 		super(globalRunRule);
 //		setOrderTime(91500, 110000, 133000, 160000);
 		// wait for EMA6, that's why 0945
-		setOrderTime(94500, 113000, 130500, 160000, 213000, 231500);
+		setOrderTime(93000, 103000, 150000, 160000, 230000, 230000);
 	}
 
 	public void openContract()
 	{
 
-		if (shutdown)
-		{
-			lossTimes++;
-			shutdown = false;
-		}
-
-		OHLC = Global.getpHigh();
-
-		if (!isOrderTime() || Global.getNoOfContracts() != 0 || lossTimes >= 2)
-			return;
-
-		Global.addLog("Waiting to reach OHLC");
-		while (Math.abs(Global.getCurrentPoint() - OHLC) > 5)
-			sleep(1000);
-
-		tempHigh = Global.getCurrentPoint();
-		tempLow = Global.getCurrentPoint();
-
-		waitForANewCandle();
-
-		if (GetData.getShortTB().getLatestCandle().getHigh() > tempHigh)
-			tempHigh = GetData.getShortTB().getLatestCandle().getHigh();
-		if (GetData.getShortTB().getLatestCandle().getLow() < tempLow)
-			tempLow = GetData.getShortTB().getLatestCandle().getLow() ;
+//		if (shutdown)
+//		{
+//			lossTimes++;
+//			shutdown = false;
+//		}
 		
-		Global.addLog("TempHigh: " + tempHigh);
-		Global.addLog("TempLow: " + tempLow);
+	
+		
+//		if (chasing.chaseUp() || chasing.chaseDown()){
+//			
+//			Global.setChasing(chasing);
+//			chasing = new Chasing();
+//		}
+		
+		if (!isOrderTime() || Global.getNoOfContracts() != 0 || Global.getpHigh() == 0 || shutdown)
+			return;
+		
+//		while (Math.abs(Global.getCurrentPoint() - Global.getpHigh()) < 20)
+//			{
+//				sleep(1000);
+//				if (!isOrderTime())
+//					return;
+//			}
 
-		Global.addLog("Waiting for a first corner");
-		while (GetData.getShortTB().getLatestCandle().getHigh() < OHLC + 15
-				&& GetData.getShortTB().getLatestCandle().getLow() > OHLC - 15)
+		if (GetData.getEma5().getPreviousEMA(1) < Global.getpHigh()
+				&& GetData.getEma5().getEMA() > Global.getpHigh())
 		{
-
-			sleep(1000);
-
-			if (Global.getCurrentPoint() > tempHigh){
-				tempHigh = Global.getCurrentPoint();
-				Global.addLog("TempHigh: " + tempHigh);
+			refHigh = 0;
+			refLow = 99999;
+			
+			Global.addLog("Waiting for first pull back");
+			while (GetData.getEma5().getEMA() > GetData.getEma5().getPreviousEMA(1))
+			{
+//				if (TimePeriodDecider.getTime() > 100000)
+//					return;
+				
+//				if (GetData.getEma5().getEMA() > GetData.getShortTB().getEMA(6))
+//					break;
+				
+				if (GetData.getEma5().getEMA() < Global.getpHigh())
+					return;
+				
+				if (GetData.getEma5().getEMA() > refHigh)
+					refHigh = GetData.getEma5().getEMA();
+//				else if (GetData.getEma5().getEMA() < refLow)
+//					refLow = GetData.getEma5().getEMA();
+				
+				sleep(1000);
 			}
-			if (Global.getCurrentPoint() < tempLow){
-				tempLow = Global.getCurrentPoint();
-				Global.addLog("TempLow: " + tempLow);
+			
+			while (GetData.getEma5().getEMA() < refHigh)
+			{
+				sleep(1000);
+				
+//				if (TimePeriodDecider.getTime() > 100000)
+//					return;
+				
+				if (GetData.getEma5().getEMA() < Global.getpHigh())
+					return;
+
+			 if (GetData.getEma5().getEMA() < refLow)
+					refLow = GetData.getEma5().getEMA();
+				
 			}
-		}
-
-		Global.addLog("Waiting for a break through");
-		while (Global.getCurrentPoint() < tempHigh
-				&& Global.getCurrentPoint() > tempLow)
-		{
-
-			sleep(1000);
-
-			if (Global.getCurrentPoint() > tempHigh){
-				tempHigh = Global.getCurrentPoint();
-				Global.addLog("TempHigh: " + tempHigh);
-			}
-			if (Global.getCurrentPoint() < tempLow){
-				tempLow = Global.getCurrentPoint();
-				Global.addLog("TempLow: " + tempLow);
-			}
-		}
-
-		if (Global.getCurrentPoint() >= tempHigh)
-		{
+			
+			if (GetData.getEma5().getEMA() < GetData.getEma250().getEMA())
+				return;
+			
 			longContract();
-			cutLoss = Math.abs(buyingPoint - tempLow);
-		} else if (Global.getCurrentPoint() <= tempLow)
-		{
-			shortContract();
-			cutLoss = Math.abs(buyingPoint - tempHigh);
-		}
+			cutLoss = buyingPoint - refLow;
+			
+		}else if (GetData.getEma5().getPreviousEMA(1) > Global.getpHigh()
+				&& GetData.getEma5().getEMA() < Global.getpHigh())
+		{	
+			refHigh = 0;
+			refLow = 99999;
+			
+			Global.addLog("Waiting for first pull back");
+			while (GetData.getEma5().getEMA() < GetData.getEma5().getPreviousEMA(1))
+			{
+//				if (TimePeriodDecider.getTime() > 100000)
+//					return;
+				
+//				if (GetData.getEma5().getEMA() > GetData.getShortTB().getEMA(6))
+//					break;
+				
+				if (GetData.getEma5().getEMA()  > Global.getpHigh())
+					return;
+				
+//				if (GetData.getEma5().getEMA() > refHigh)
+//					refHigh = GetData.getEma5().getEMA();
+				else if (GetData.getEma5().getEMA() < refLow)
+					refLow = GetData.getEma5().getEMA();
+				
+				sleep(1000);
+			}
+			
+			while (GetData.getEma5().getEMA() > refLow)
+			{
+				sleep(1000);
+				
+//				if (TimePeriodDecider.getTime() > 100000)
+//					return;
+				
+				if (GetData.getEma5().getEMA() > Global.getpHigh())
+					return;
 
+				if (GetData.getEma5().getEMA() > refHigh)
+					refHigh = GetData.getEma5().getEMA();
+			
+				
+			}
+			
+			if (GetData.getEma5().getEMA() > GetData.getEma250().getEMA())
+				return;
+			
+			shortContract();		
+			cutLoss = refHigh - buyingPoint;
+		}
 	}
+	
+	public double getCurrentClose(){
+		return GetData.getShortTB().getLatestCandle().getClose();
+	}
+	
+	
 
 	// use 1min instead of 5min
 	void updateStopEarn()
 	{
-
 		double ema5;
 		double ema6;
-		int difference;
-
-		if (getProfit() > 100)
-			difference = 0;
-		else
-			difference = 2;
-
-		// if (Math.abs(getTimeBase().getEMA(5) - getTimeBase().getEMA(6)) <
-		// 10){
-		ema5 = getTimeBase().getEMA(5);
-		ema6 = getTimeBase().getEMA(6);
-		// }else{
-		// ema5 = GetData.getShortTB().getEMA(5);
-		// ema6 = GetData.getShortTB().getEMA(6);
-		// }
-		// use 1min TB will have more profit sometime, but will lose so many
-		// times when ranging.
+//
+//		if (getProfit() < 100)
+//		{
+			ema5 = GetData.getShortTB().getLatestCandle().getClose();
+			ema6 = GetData.getEma25().getEMA();
+//		} else
+//		{
+//			ema5 = StockDataController.getLongTB().getEMA(5);
+//			ema6 = StockDataController.getLongTB().getEMA(6);
+//		}
 
 		if (Global.getNoOfContracts() > 0)
 		{
 
-			if (buyingPoint > tempCutLoss && getProfit() > 30)
-			{
-				Global.addLog("Free trade");
-				tempCutLoss = buyingPoint;
+			// if (ema5 < ema6)
+//			 tempCutLoss = buyingPoint + 5;
+
+			if (ema5 < ema6){
+				tempCutLoss = 99999;
+//				if (getProfit() > 0)
+//					chasing.setChaseUp(true);
 			}
 
-			if (ema5 < ema6)
-			{
-				tempCutLoss = 99999;
-				Global.addLog(className + " StopEarn: EMA5 < EMA6");
-			}
 		} else if (Global.getNoOfContracts() < 0)
 		{
 
-			if (buyingPoint < tempCutLoss && getProfit() > 30)
-			{
-				Global.addLog("Free trade");
-				tempCutLoss = buyingPoint;
-			}
+			// if (ema5 > ema6)
+//			 tempCutLoss = buyingPoint - 5;
 
-			if (ema5 > ema6)
-			{
+			if (ema5 > ema6){
 				tempCutLoss = 0;
-				Global.addLog(className + " StopEarn: EMA5 > EMA6");
-
+//				if (getProfit() > 0)
+//					chasing.setChaseDown(true);
 			}
 		}
 
-	}
-	
-	public void waitForANewCandle() {
-		
-		int currentSize = GetData.getShortTB().getCandles().size();
-		
-		while (currentSize == GetData.getShortTB().getCandles().size())
-			sleep(1000);
-		
 	}
 
 	// use 1min instead of 5min
 	double getCutLossPt()
 	{
-
-		// One time lost 100 at first trade >_< 20160929
-		// if (Global.getNoOfContracts() > 0){
-		// if (getTimeBase().getEMA(5) < getTimeBase().getEMA(6))
-		// return 1;
-		// else
-		// return 30;
-		// }else{
-		// if (getTimeBase().getEMA(5) > getTimeBase().getEMA(6))
-		// return 1;
-		// else
-		// return 30;
-		// }
-
-		return cutLoss;
-
+		return Math.max(100, cutLoss);
 	}
 
 	@Override
@@ -191,63 +201,48 @@ public class RulePHigh extends Rules {
 
 		if (Global.getNoOfContracts() > 0 && Global.getCurrentPoint() < tempCutLoss)
 		{
-			//
-			// while (Global.getCurrentPoint() <
-			// GetData.getShortTB().getEMA(5)){
-			// sleep(1000);
-			// if (getProfit() < -30)
-			// break;
-			// }
-			//
-
 			closeContract(className + ": CutLoss, short @ " + Global.getCurrentBid());
 			shutdown = true;
-
-			// wait for it to clam down
-
-			// if (Global.getCurrentPoint() < getTimeBase().getEMA(6)){
-			// Global.addLog(className + ": waiting for it to calm down");
-			// }
-
-			// while (Global.getCurrentPoint() < getTimeBase().getEMA(6))
-			// sleep(1000);
-
 		} else if (Global.getNoOfContracts() < 0 && Global.getCurrentPoint() > tempCutLoss)
 		{
-			//
-			//
-			// while (Global.getCurrentPoint() >
-			// GetData.getShortTB().getEMA(5)){
-			// sleep(1000);
-			// if (getProfit() < -30)
-			// break;
-			// }
-
 			closeContract(className + ": CutLoss, long @ " + Global.getCurrentAsk());
 			shutdown = true;
 
-			// if (Global.getCurrentPoint() > getTimeBase().getEMA(6)){
-			// Global.addLog(className + ": waiting for it to calm down");
-			// }
-			//
-			// while (Global.getCurrentPoint() > getTimeBase().getEMA(6))
-			// sleep(1000);
 		}
+		
+		
+		
+	}
+	
+	@Override
+	boolean trendReversed(){
+		
+		if (Global.getNoOfContracts() > 0)
+			return GetData.getEma5().getEMA() < refLow;
+		else
+			return GetData.getEma5().getEMA() > refHigh;
+		
 	}
 
 	double getStopEarnPt()
 	{
-		if (Global.getNoOfContracts() > 0)
-		{
-			if (getTimeBase().getEMA(5) > getTimeBase().getEMA(6))
-				return -100;
-		} else if (Global.getNoOfContracts() < 0)
-		{
-			if (getTimeBase().getEMA(5) < getTimeBase().getEMA(6))
-				return -100;
-		}
-
-		return 30;
+//		if (Global.getNoOfContracts() > 0)
+//		{
+//			if (StockDataController.getShortTB().getLatestCandle().getClose() > getTimeBase().getEMA(5))
+//				return -100;
+//			
+//			
+//			
+//			
+//		} else if (Global.getNoOfContracts() < 0)
+//		{
+//			if (StockDataController.getShortTB().getLatestCandle().getClose() < getTimeBase().getEMA(6))
+//				return -100;
+//		}
+		
+		
+		
+		return 20;
 	}
 
 	@Override
@@ -255,5 +250,4 @@ public class RulePHigh extends Rules {
 	{
 		return GetData.getLongTB();
 	}
-
 }
