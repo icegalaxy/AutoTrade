@@ -33,7 +33,8 @@ public class RulePClose extends Rules {
 //			chasing = new Chasing();
 //		}
 		
-		if (!isOrderTime() || Global.getNoOfContracts() != 0 || Global.getpClose() == 0 || shutdown)
+		if (!isOrderTime() || Global.getNoOfContracts() != 0 || Global.getpClose() == 0 || shutdown
+				|| Math.abs(GetData.getEma250().getEMA() - GetData.getEma1200().getEMA()) > 100)
 			return;
 		
 //		while (Math.abs(Global.getCurrentPoint() - Global.getpClose()) < 20)

@@ -37,7 +37,8 @@ public class RuleOpen extends Rules {
 //			chasing = new Chasing();
 //		}
 		
-		if (!isOrderTime() || Global.getNoOfContracts() != 0 || Global.getOpen() == 0 || shutdown)
+		if (!isOrderTime() || Global.getNoOfContracts() != 0 || Global.getOpen() == 0 || shutdown
+				|| Math.abs(GetData.getEma250().getEMA() - GetData.getEma1200().getEMA()) > 100)
 			return;
 		
 //		while (Math.abs(Global.getCurrentPoint() - Global.getOpen()) < 20)

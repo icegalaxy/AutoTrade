@@ -46,7 +46,8 @@ public class RuleDanny250Pena3 extends Rules
 		}
 
 		if (!isOrderTime() || Global.getNoOfContracts() != 0 || lossTimes >= 10
-				|| getHighestMA() - getLowestMA() < 10)
+				|| getHighestMA() - getLowestMA() < 10
+				|| Math.abs(GetData.getEma250().getEMA() - GetData.getEma1200().getEMA()) > 100)
 			return;
 
 //		Global.addLog("P5: " + GetData.getEma5().getPreviousEMA(1));

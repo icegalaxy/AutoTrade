@@ -1,11 +1,8 @@
 package net.icegalaxy;
 
-
-
 public class RulePLow extends Rules {
 
 	private double cutLoss;
-	private double OHLC;
 	private double refHigh;
 	private double refLow;
 
@@ -33,7 +30,8 @@ public class RulePLow extends Rules {
 //			chasing = new Chasing();
 //		}
 		
-		if (!isOrderTime() || Global.getNoOfContracts() != 0 || Global.getpLow() == 0 || shutdown)
+		if (!isOrderTime() || Global.getNoOfContracts() != 0 || Global.getpLow() == 0 || shutdown
+				|| Math.abs(GetData.getEma250().getEMA() - GetData.getEma1200().getEMA()) > 100)
 			return;
 		
 //		while (Math.abs(Global.getCurrentPoint() - Global.getpLow()) < 20)
