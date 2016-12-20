@@ -11,7 +11,7 @@ public class RuleIBT2 extends Rules
 
 	public RuleIBT2(boolean globalRunRule) {
 		super(globalRunRule);
-		setOrderTime(91500, 92000, 160000, 160000, 230000, 230000);
+		setOrderTime(91500, 93000, 160000, 160000, 230000, 230000);
 		// wait for EMA6, that's why 0945
 	}
 	
@@ -52,7 +52,7 @@ public class RuleIBT2 extends Rules
 				Global.getOpen() > Global.getpClose() + 10
 //				&& GetData.getEma5().getEMA() > GetData.getEma5().getPreviousEMA(1) 
 				&& Global.getCurrentPoint() < Global.getOpen() - 10
-				&& TimePeriodDecider.getTime() < 92000)
+				)
 		{
 
 			Global.addLog("Waiting to break through open");
@@ -78,7 +78,7 @@ public class RuleIBT2 extends Rules
 				Global.getOpen() - 10 < Global.getpClose()
 //				&& GetData.getEma5().getEMA() < GetData.getEma5().getPreviousEMA(1) 
 				&& Global.getCurrentPoint() > Global.getOpen() + 10
-				&& TimePeriodDecider.getTime() < 92000)
+				)
 		{
 			Global.addLog("Waiting to break through open");
 			while (Global.getCurrentPoint() > Global.getOpen() - 5)
