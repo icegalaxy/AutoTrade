@@ -154,25 +154,25 @@ public class Setting extends JFrame {
 		
 //		RuleSuddenBreakThrough sudden = new RuleSuddenBreakThrough(false);
 //		RuleSuddenBreakThrough2 sudden2 = new RuleSuddenBreakThrough2(false);
-		RulePHigh pHigh = new RulePHigh(true);
-		RulePLow pLow = new RulePLow(true);
+		RulePHigh pHigh = new RulePHigh(false);
+		RulePLow pLow = new RulePLow(false);
 //		RuleRSI2 rsi2 = new RuleRSI2(false);
 		
 //		RuleMABackup backup	= new RuleMABackup(false);
 		
 //		ruleMACD ruleMACD = new ruleMACD(Global.runRuleMACD);
-		RuleRSI rsi = new RuleRSI(true);
+		RuleRSI rsi = new RuleRSI(false);
 //		LoginThread login = new LoginThread();
 		TimePeriodDecider tpd = new TimePeriodDecider();
 		GetData gd = new GetData();
 //		RuleAOH aoh = new RuleAOH(true);
 //		RuleAOL aol = new RuleAOL(true);
-		RulePClose pClose = new RulePClose(true);
-		RuleDanny250Pena danny250 = new RuleDanny250Pena(true);
-		RuleDanny250Pena2 danny2502 = new RuleDanny250Pena2(true);
-		RuleDanny250Pena3 danny2503 = new RuleDanny250Pena3(true);
-		RuleDanny250Pena4 danny2504 = new RuleDanny250Pena4(true);
-		RuleOpen open = new RuleOpen(true);
+		RulePClose pClose = new RulePClose(false);
+		RuleDanny250Pena danny250 = new RuleDanny250Pena(false);
+		RuleDanny250Pena2 danny2502 = new RuleDanny250Pena2(false);
+		RuleDanny250Pena3 danny2503 = new RuleDanny250Pena3(false);
+		RuleDanny250Pena4 danny2504 = new RuleDanny250Pena4(false);
+		RuleOpen open = new RuleOpen(false);
 //		RuleDanny2 danny2 = new RuleDanny2(false);
 //		RuleDanny240 danny240 = new RuleDanny240(true);
 //		RuleDanny50 danny50 = new RuleDanny50(true);
