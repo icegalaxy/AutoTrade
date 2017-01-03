@@ -43,7 +43,7 @@ public class XMLReader {
 		NodeList nList = null;
 
 		try {
-			File fXmlFile = new File("Z:\\TradeData\\FHIdata.xml");
+			File fXmlFile = new File("TradeData\\FHIdata.xml");
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 			Document doc = dBuilder.parse(fXmlFile);

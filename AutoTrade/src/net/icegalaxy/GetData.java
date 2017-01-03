@@ -120,7 +120,7 @@ public class GetData implements Runnable
 
 		HTMLParser etnet = new HTMLParser(
 //				"http://www.etnet.com.hk/www/tc/futures/index.php?subtype=HSI&month=20" + getYearMonth() + "&tab=interval#tab"
-				"http://www.etnet.com.hk/www/tc/futures/index.php?subtype=HSI&month=201612&tab=interval#tab"
+				"http://www.etnet.com.hk/www/tc/futures/index.php?subtype=HSI&month=201701&tab=interval#tab"
 				);
 		double open = 0;
 		try
@@ -400,7 +400,7 @@ public class GetData implements Runnable
 	private void getPreviousData()
 	{
 
-		parseSPRecord csv = new parseSPRecord("Z:\\TradeData\\SPRecords\\" + Global.getToday() + "\\m1.txt");
+		parseSPRecord csv = new parseSPRecord("TradeData\\SPRecords\\" + Global.getToday() + "\\m1.txt");
 		csv.parseOHLC();
 		int j = 0;
 		int k = 0;
