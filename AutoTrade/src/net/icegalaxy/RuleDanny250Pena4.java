@@ -38,7 +38,8 @@ public class RuleDanny250Pena4 extends Rules
 //		}
 		
 		if (!isOrderTime() || Global.getNoOfContracts() != 0 || GetData.getEma250().getEMA() == 0 || shutdown
-				|| Math.abs(GetData.getEma250().getEMA() - GetData.getEma1200().getEMA()) > 100)
+				|| Math.abs(GetData.getEma250().getEMA() - GetData.getEma1200().getEMA()) > 100
+				|| Global.balance < -30)
 			return;
 		
 //		while (Math.abs(Global.getCurrentPoint() - GetData.getEma250().getEMA()) < 20)
