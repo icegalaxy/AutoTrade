@@ -52,7 +52,7 @@ public class QuotePower {
 			
 		}
 
-		sleep(100); // give time the the computer, dont knwo whether is necessary
+		sleep(200); // give time the the computer, dont knwo whether is necessary
 			
 			String tableName = "";
 			tableName = fhi;
@@ -176,9 +176,18 @@ public class QuotePower {
 	
 	private void getDayMarket(){
 		try {
-			
+			String s = "";
 			//161202 10：55 加左呢個之後又好似無事
-			String s = DB.getClipboard();
+			try{
+			s = DB.getClipboard();
+			}
+			catch (Exception e)
+			{
+				e.printStackTrace();
+				Global.addLog("Cannot set s");
+				sleep(300);
+				getDayMarket();
+			}
 //			Global.addLog(s);
 			
 			Scanner sc = new Scanner(s);
