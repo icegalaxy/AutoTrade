@@ -34,7 +34,8 @@ public class RulePHigh extends Rules {
 //		}
 		
 		if (!isOrderTime() || Global.getNoOfContracts() != 0 || Global.getpHigh() == 0 || shutdown
-				|| Math.abs(GetData.getEma250().getEMA() - GetData.getEma1200().getEMA()) > 100)
+				|| Math.abs(GetData.getEma250().getEMA() - GetData.getEma1200().getEMA()) > 100
+				|| Global.balance < -30)
 			return;
 		
 //		while (Math.abs(Global.getCurrentPoint() - Global.getpHigh()) < 20)

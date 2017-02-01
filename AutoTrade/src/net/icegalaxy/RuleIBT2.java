@@ -180,7 +180,7 @@ public class RuleIBT2 extends Rules
 	// use 1min instead of 5min
 	double getCutLossPt()
 	{
-		return 15;
+		return 30;
 	}
 
 	@Override
