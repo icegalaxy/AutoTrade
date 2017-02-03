@@ -23,7 +23,7 @@ public class QuotePower {
 	
 	public QuotePower() {
 		try {
-			DB.connect("AutoTrade");
+			DB.connect("TradeData\\AutoTrade");
 		} catch (SQLException e) {
 
 			e.printStackTrace();

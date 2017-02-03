@@ -29,7 +29,7 @@ public class RuleIBT2 extends Rules
 //		}
 
 		if (!isOrderTime() || Global.getNoOfContracts() != 0 || shutdown
-				|| Global.getOpen() == 0 || traded)
+				|| Global.getOpen() == 0 || traded || Global.getpHigh() == 0 || Global.getpLow() == 0)
 			return;
 
 		// Global.addLog("Open: " + Global.getOpen());
@@ -180,7 +180,7 @@ public class RuleIBT2 extends Rules
 	// use 1min instead of 5min
 	double getCutLossPt()
 	{
-		return 30;
+		return 20;
 	}
 
 	@Override
