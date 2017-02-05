@@ -55,7 +55,7 @@ public class Setting extends JFrame {
 		ruleMAcheckBox = new JCheckBox("Rule MA", false);
 		ruleMA2checkBox = new JCheckBox("Rule MA2", false);
 		ruleMACDcheckBox = new JCheckBox("Rule MACD", false);
-		ruleRSIcheckBox = new JCheckBox("Rule RSI", false);
+		ruleRSIcheckBox = new JCheckBox("Rule RSI", true);
 		ruleSynccheckBox = new JCheckBox("Rule Sync", false);
 
 
