@@ -121,7 +121,7 @@ public class GetData implements Runnable
 
 		HTMLParser etnet = new HTMLParser(
 //				"http://www.etnet.com.hk/www/tc/futures/index.php?subtype=HSI&month=20" + getYearMonth() + "&tab=interval#tab"
-				"http://www.etnet.com.hk/www/tc/futures/index.php?subtype=HSI&month=201701&tab=interval#tab"
+				"http://www.etnet.com.hk/www/tc/futures/index.php?subtype=HSI&month=201702&tab=interval#tab"
 				);
 		double open = 0;
 		try
