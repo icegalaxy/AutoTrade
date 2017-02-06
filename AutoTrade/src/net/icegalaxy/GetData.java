@@ -45,6 +45,7 @@ public class GetData implements Runnable
 		longTB.setBaseMin(Setting.getLongTB());
 
 		ohlc = new XMLReader(Global.getToday());
+		ohlc.findOHLC();
 
 		// sec10TB = new TimeBase();
 
@@ -125,7 +126,8 @@ public class GetData implements Runnable
 		double open = 0;
 		try
 		{
-			Global.setOpen(etnet.parseETNetOpen());
+			open = etnet.parseETNetOpen();
+			Global.setOpen(open);
 			if (Global.getOpen() == 0)
 			{
 				sleep(5000);
@@ -133,6 +135,7 @@ public class GetData implements Runnable
 				getOpenPrice();
 
 			}
+			ohlc.updateNode("open", String.valueOf(open));
 
 		} catch (Exception e)
 		{
