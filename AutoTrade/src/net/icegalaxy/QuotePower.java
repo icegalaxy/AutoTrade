@@ -186,7 +186,8 @@ public class QuotePower {
 				e.printStackTrace();
 				Global.addLog("Cannot set s");
 				sleep(300);
-				getDayMarket();
+//				getDayMarket(); this is infinity loop, need to break out and click again
+				return;
 			}
 //			Global.addLog(s);
 			
