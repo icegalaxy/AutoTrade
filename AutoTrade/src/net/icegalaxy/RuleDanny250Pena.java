@@ -14,7 +14,7 @@ public class RuleDanny250Pena extends Rules
 	public RuleDanny250Pena(boolean globalRunRule)
 	{
 		super(globalRunRule);
-		setOrderTime(93000, 115500, 130500, 160000, 230000, 230000);
+		setOrderTime(93000, 103000, 150000, 160000, 230000, 230000);
 		chasing = new Chasing();
 		// wait for EMA6, that's why 0945
 	}
