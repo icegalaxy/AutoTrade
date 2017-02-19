@@ -98,6 +98,20 @@ public class Setting extends JFrame {
 				Global.runRSI = ruleRSIcheckBox.isSelected();
 				Global.ruleSync = ruleSynccheckBox.isSelected();
 				
+				SPApi.init();
+				
+				while (!Global.isConnectionOK())
+					try
+					{
+						Thread.sleep(1000);
+					} catch (InterruptedException e1)
+					{
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				
+				SPApi.subScribePrice();
+				
 				while (getDayOfWeek() == 1 || getDayOfWeek() == 7){
 					System.out.println("Sunday or Saturday " + getTime() + " Sleep for 1 hr");
 					try {

@@ -30,12 +30,7 @@ public class TimePeriodDecider implements Runnable
 	{
 
 		System.out.println("Program Started");
-		SPApi.init();
 		
-		while (!Global.isConnectionOK())
-			sleep(1000);
-		
-		SPApi.subScribePrice();
 
 //		while (getTime() < nightClose)
 		while (getTime() < dayClose)
