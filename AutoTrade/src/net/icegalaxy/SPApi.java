@@ -34,8 +34,8 @@ public class SPApi
 	 private static final String password = "ting1980";
 	 private static final String server = "futures.bsgroup.com.hk";
 
-	public interface SPApiDll extends Library {
-		SPApiDll INSTANCE = (SPApiDll) Native.loadLibrary("spapidllm32.dll", SPApiDll.class);
+	public static interface SPApiDll extends Library {
+		public static SPApiDll INSTANCE = (SPApiDll) Native.loadLibrary("spapidllm32.dll", SPApiDll.class);
 		int SPAPI_Initialize();
 		int SPAPI_Uninitialize();
 		
