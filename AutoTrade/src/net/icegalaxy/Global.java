@@ -380,6 +380,81 @@ public class Global {
 	{
 		Global.chasing = chasing;
 	}
+	
+	
+
+	public static synchronized int getAskQty()
+	{
+		return askQty;
+	}
+
+	public static synchronized void setAskQty(int askQty)
+	{
+		Global.askQty = askQty;
+	}
+
+	public static synchronized int getBidQty()
+	{
+		return bidQty;
+	}
+
+	public static synchronized void setBidQty(int bidQty)
+	{
+		Global.bidQty = bidQty;
+	}
+
+
+
+	public static synchronized double getTurnOverVol()
+	{
+		return turnOverVol;
+	}
+
+	public static synchronized void setTurnOverVol(double turnOverVol)
+	{
+		Global.turnOverVol = turnOverVol;
+	}
+
+
+	public static boolean isConnectionOK()
+	{
+		return isTradeLink() && isPriceLink() && isGeneralLink();	
+	}
+	
+
+	public static synchronized boolean isTradeLink()
+	{
+		return tradeLink;
+	}
+
+	public static synchronized void setTradeLink(boolean tradeLink)
+	{
+		Global.tradeLink = tradeLink;
+	}
+
+	public static synchronized boolean isPriceLink()
+	{
+		return priceLink;
+	}
+
+	public static synchronized void setPriceLink(boolean priceLink)
+	{
+		Global.priceLink = priceLink;
+	}
+
+	public static synchronized boolean isGeneralLink()
+	{
+		return generalLink;
+	}
+
+	public static synchronized void setGeneralLink(boolean generalLink)
+	{
+		Global.generalLink = generalLink;
+	}
+
+
+
+
 
 	static Chasing chasing;
 
@@ -407,6 +482,9 @@ public class Global {
 	private static float currentBid;
 	private static float currentAsk;
 	private static float currentDeal;
+	private static int askQty;
+	private static int bidQty;
+	private static double turnOverVol;
 	
 	
 	private static int noOfContracts = 0;
@@ -455,6 +533,11 @@ public class Global {
 	static double open;
 	static String Today;
 	static double noonOpen;
+	
+	private static boolean tradeLink;
+	private static boolean priceLink;
+	private static boolean generalLink;
+	
 	
 	
 }

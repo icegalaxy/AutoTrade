@@ -13,12 +13,25 @@ import com.sun.jna.Native;
 import com.sun.jna.Structure;
 
 import net.icegalaxy.SPApi.SPApiDll.SPApiOrder;
+import net.icegalaxy.SPApi.SPApiDll.RegisterConn;
+//import net.icegalaxy.SPApi.SPApiDll.RegisterError;
+//import net.icegalaxy.SPApi.SPApiDll.RegisterLoginReply;
+import net.icegalaxy.SPApi.SPApiDll.RegisterPriceUpdate;
+import net.icegalaxy.SPApi.SPApiDll.SPApiPrice;
+
 
 
 public class SPApi
 {
 	static int counter;
 	static long status = 0;
+	
+	 private static final int port = 8080;
+	 private static final String license = "76C2FB5B60006C7A";
+	 private static final String app_id  = "BS";
+	 private static final String userid = "T865829";
+	 private static final String password = "ting1980";
+	 private static final String server = "futures.bsgroup.com.hk";
 
 	public interface SPApiDll extends Library {
 		SPApiDll INSTANCE = (SPApiDll) Native.loadLibrary("spapidllm32.dll", SPApiDll.class);
@@ -30,7 +43,7 @@ public class SPApi
 	
 		int SPAPI_Logout(String user_id);
 		
-		void SPAPI_AddOrder(SPApiOrder order);
+		int SPAPI_AddOrder(SPApiOrder order);
 		
 		int SPAPI_SubscribePrice(String user_id, String prod_code, int mode);
 		
@@ -174,45 +187,33 @@ public class SPApi
 		
 	}
 	
-	   public int addOrder(String userID, char buy_sell, String clorderid, String decinprice, bool is_ao)
+	   public static int addOrder(char buy_sell)
        {
            int rc;
            SPApiOrder order = new SPApiOrder();
-           String acc = accNo;
+         
 
-
-           if (Spcommon.S_Prot == 8081) acc = Spcommon.ord_acc_no;
-           else acc = Spcommon.acc_no;
-
-           order.AccNo = acc;
-           order.Initiator = Spcommon.userID;
-           order.BuySell = Convert.ToByte(buy_sell);
+           order.AccNo = userid.toCharArray();
+           order.Initiator = userid.toCharArray();
+           order.BuySell = buy_sell;
            
            order.Qty = 2;
            
-           order.ProdCode = "MHIG7";
+           order.ProdCode = "MHIG7".toCharArray();
 
-           order.Ref = "@JAVA#TRADERAPI";      //参考
-           order.Ref2 = "0";
-           order.GatewayCode = "";
+           order.Ref = "@JAVA#TRADERAPI".toCharArray();      //参考
+           order.Ref2 = "0".toCharArray();
+           order.GatewayCode = "".toCharArray();
           
-           order.CondType = 0;
-           order.ClOrderId = clorderid;
+           order.CondType = 0; //normal type
+           order.ClOrderId = "0".toCharArray();
            order.ValidType = 0;
-           order.DecInPrice = Convert.ToByte(decinprice);
+           order.DecInPrice = 0;
 
-           if (is_ao)
-           {
-               order.OrderType = Spcommon.ORD_AUCTION;
-               order.Price = Spcommon.AO_PRC;
-               order.StopType = 0;
-               order.StopLevel = 0;
-           }
-           else
-           {
+           
                order.OrderType = 6; //market order
                order.Price = 0; // market price
-           }
+           
 
            rc = SPApiDll.INSTANCE.SPAPI_AddOrder(order);  //rc:0 成功 //modif xiaolin 2012-12-27
 
@@ -221,5 +222,79 @@ public class SPApi
 //           else { if (DllShowTextData != null) DllShowTextData("Add Order Failure! " + rc.ToString()); }
 
        }
+	   
+	   public static void registerPriceUpdate()
+	   {
+		   RegisterPriceUpdate priceUpdate = new RegisterPriceUpdate() {
+				
+				@Override
+				public void invoke(SPApiPrice price) {
+					Global.setCurrentPoint(new Float(price.Last[0]));
+					Global.setCurrentAsk(new Float(price.Ask[0]));
+					Global.setCurrentBid(new Float(price.Bid[0]));
+					Global.setAskQty(price.AskQty[0]);
+					Global.setBidQty(price.BidQty[0]);
+					Global.setTurnOverVol(price.TurnoverVol);
+					
+				}
+
+			};
+			
+			SPApiDll.INSTANCE.SPAPI_RegisterApiPriceUpdate(priceUpdate);
+	   }
+	   
+	   public static void registerConnReply()
+	   {
+		   RegisterConn conn = new RegisterConn() {
+				
+				@Override
+				public void invoke(long host_type, long con_status) {
+					Global.addLog("connection reply - host type: " + host_type + ", con state: " + con_status); 
+					if (host_type == 80 || host_type == 81)
+					{
+						if (con_status == 2)
+							Global.setTradeLink(true);
+						else
+							Global.setTradeLink(false);					
+					}else if (host_type == 83)
+					{
+						if (con_status == 2)
+							Global.setPriceLink(true);
+						else
+							Global.setPriceLink(false);
+					}else if (host_type == 88)
+					{
+						if (con_status == 2)
+							Global.setGeneralLink(true);
+						else
+							Global.setGeneralLink(false);
+					}
+				}
+			};
+			
+			SPApiDll.INSTANCE.SPAPI_RegisterConnectingReply(conn);
+	   }
+	   
+	   public static int init()
+	   {
+		   int status = 0;
+		   
+		   status += SPApiDll.INSTANCE.SPAPI_Initialize();
+		   			 SPApiDll.INSTANCE.SPAPI_SetLoginInfo(server, port, license, app_id, userid, password);
+		   status += SPApiDll.INSTANCE.SPAPI_Login();
+		   
+		   return status;
+	   }
+	   
+	   public static int unInit()
+	   {
+		   int status = 0;
+		   
+		   status += SPApiDll.INSTANCE.SPAPI_Logout(userid);
+		   status += SPApiDll.INSTANCE.SPAPI_Uninitialize();
+		   
+		   return status;
+		   
+	   }
 }
 

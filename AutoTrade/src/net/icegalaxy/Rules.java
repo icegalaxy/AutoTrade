@@ -399,6 +399,12 @@ public abstract class Rules implements Runnable
 			Global.addLog(className + ": not order time");
 			return;
 		}
+		
+		if (!Global.isConnectionOK())
+		{
+			Global.addLog(className + ": Connection probelm");
+			return;
+		}
 
 		if (Global.getNoOfContracts() != 0)
 		{
@@ -425,6 +431,12 @@ public abstract class Rules implements Runnable
 		if (!Global.isOrderTime())
 		{
 			Global.addLog(className + ": not order time");
+			return;
+		}
+		
+		if (!Global.isConnectionOK())
+		{
+			Global.addLog(className + ": Connection probelm");
 			return;
 		}
 

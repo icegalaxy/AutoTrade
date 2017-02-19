@@ -36,7 +36,7 @@ public class GetData implements Runnable
 
 	public GetData()
 	{
-		Sikuli.makeRobot();
+//		Sikuli.makeRobot();
 		shortTB = new TimeBase();
 		shortTB.setBaseMin(Setting.getShortTB());
 		m15TB = new TimeBase();
@@ -183,9 +183,9 @@ public class GetData implements Runnable
 				// gap is 0 at the first time, so this must run at first time
 				// When market opens, gap is 0 means the feeder may not be
 				// functioning, so it will keep trying to get the open and gap
-				if (gap == 0 && Global.getOpen() == 0)
-				{
-					gap = Float.valueOf(qp.getChange()); // getChange is moving,
+//				if (gap == 0 && Global.getOpen() == 0)
+//				{
+//					gap = Float.valueOf(qp.getChange()); // getChange is moving,
 															// when it comes
 															// back to previous
 															// close, the gap
@@ -194,17 +194,17 @@ public class GetData implements Runnable
 															// added to the
 															// clause
 
-					Global.setGap(gap);
+//					Global.setGap(gap);
 					// Global.setOpen(Double.parseDouble(qp.getDeal()));
 					// Not setting open manually because this is faster, want to
 					// catch the first wave
 					// open needs to be set manually, difference can be large
 
 					// Global.addLog("Open @ " + Global.getOpen());
-					Global.addLog("Gap: " + gap);
-					Global.addLog(" ");
-
-				}
+//					Global.addLog("Gap: " + gap);
+//					Global.addLog(" ");
+//
+//				}
 
 				// if (previousClose == 0){
 				// previousClose = deal - gap;
@@ -317,7 +317,7 @@ public class GetData implements Runnable
 					if (Global.isNoonOpened)
 						setNoonOpen();
 
-					getShortTB().addData(point, totalQuantity);
+					getShortTB().addData(point, new Float(totalQuantity));
 
 					getShortTB().addCandle(getTime(), shortData.periodHigh, shortData.periodLow, shortData.openPt,
 							point, totalQuantity);
@@ -344,7 +344,7 @@ public class GetData implements Runnable
 				if (m15Minutes == 15)
 				{
 
-					getM15TB().addData(point, totalQuantity);
+					getM15TB().addData(point, new Float(totalQuantity));
 
 					getM15TB().addCandle(getTime(), m15Data.periodHigh, m15Data.periodLow, m15Data.openPt, point,
 							totalQuantity);
@@ -357,7 +357,7 @@ public class GetData implements Runnable
 				{
 
 					// addDat = addPoint + quantity
-					getLongTB().addData(point, totalQuantity);
+					getLongTB().addData(point, new Float(totalQuantity));
 
 					getLongTB().addCandle(getTime(), longData.periodHigh, longData.periodLow, longData.openPt, point,
 							totalQuantity);
@@ -376,10 +376,10 @@ public class GetData implements Runnable
 
 			sleep(860);
 
-			if (!Global.isTradeTime())
-			{
+//			if (!Global.isTradeTime())
+//			{
 				// counter = 1;
-			}
+//			}
 			// if (getTimeInt() > 161400 && !liquidated) {
 			// Sikuli.liquidateOnly();
 			// liquidated = true;
@@ -547,10 +547,10 @@ public class GetData implements Runnable
 	private void setGlobal()
 	{
 
-		Global.setCurrentPoint(point);
-		Global.setCurrentBid(bid);
-		Global.setCurrentAsk(ask);
-		Global.setCurrentDeal(deal);
+//		Global.setCurrentPoint(point);
+//		Global.setCurrentBid(bid);
+//		Global.setCurrentAsk(ask);
+//		Global.setCurrentDeal(deal);
 
 		if (Global.getDayHigh() < point)
 			Global.setDayHigh(point);
@@ -651,7 +651,7 @@ public class GetData implements Runnable
 	float bidPt;
 
 	Float point = new Float(0);
-	float totalQuantity = 0;
+	double totalQuantity = 0;
 
 	class CandleData
 	{

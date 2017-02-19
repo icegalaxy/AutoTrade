@@ -102,6 +102,8 @@ public class Sikuli {
 	}
 
 	public static synchronized boolean longContract() {
+		
+		int status = 0;
 
 		if (Global.getNoOfContracts() >= Global.maxContracts) {
 			Global.addLog("> max no. of contract");
@@ -113,27 +115,42 @@ public class Sikuli {
 		Global.noOfTrades += 1;
 		Global.setNoOfContracts(Global.getNoOfContracts() + 1);
 
-		try {
-			sc.click(spTitle, 0);
-			sleep(300);
-			sc.click(buyOne, 0);
-		} catch (Exception e) {
-			e.printStackTrace();
-			Global.addLog("Fail to Long, liquidate");
-			liquidate();
-		}
+//		try {
+//			sc.click(spTitle, 0);
+//			sleep(300);
+//			sc.click(buyOne, 0);
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			Global.addLog("Fail to Long, liquidate");
+//			liquidate();
+//		}
+		
+		status = SPApi.addOrder('B');
 
-		if (Global.getNoOfContracts() == 0) {
+		if (Global.getNoOfContracts() == 0) { //means closing contract
+			
+			
+			
 //			Global.addLog("Current Balance: " + Global.balance + " points, No of Trades: " + Global.noOfTrades);
 			Rules.setBalance(0);
 		}
-		sleep(2000);
+		
+		
+		
+		sleep(1000);
 
-		robot.keyPress(KeyEvent.VK_PRINTSCREEN);
-		return true;
+//		robot.keyPress(KeyEvent.VK_PRINTSCREEN);
+		
+		if (status == 0)
+			return true;
+		else
+			return false;
+		
 	}
 
 	public static synchronized boolean shortContract() {
+		
+		int status = 0;
 
 		if (Global.getNoOfContracts() <= Global.maxContracts * -1) {
 			Global.addLog("> max no. of contract");
@@ -145,24 +162,30 @@ public class Sikuli {
 		Global.noOfTrades += 1;
 		Global.setNoOfContracts(Global.getNoOfContracts() - 1);
 
-		try {
-			sc.click(spTitle, 0);
-			sleep(300);
-			sc.click(sellOne, 0);
-		} catch (Exception e) {
-			e.printStackTrace();
-			Global.addLog("Fail to Long, liquidate");
-			liquidate();
-		}
+//		try {
+//			sc.click(spTitle, 0);
+//			sleep(300);
+//			sc.click(sellOne, 0);
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			Global.addLog("Fail to Long, liquidate");
+//			liquidate();
+//		}
 
+		status = SPApi.addOrder('S');
+		
 		if (Global.getNoOfContracts() == 0) {
 //			Global.addLog("Current Balance: " + Global.balance +  " points, No of Trades: " + Global.noOfTrades);
 			Rules.setBalance(0);
 		}
 
-		sleep(2000);
-		robot.keyPress(KeyEvent.VK_PRINTSCREEN);
-		return true;
+		sleep(1000);
+//		robot.keyPress(KeyEvent.VK_PRINTSCREEN);
+
+		if (status == 0)
+			return true;
+		else
+			return false;
 	}
 
 	public static synchronized void liquidate() {
@@ -170,20 +193,20 @@ public class Sikuli {
 		Global.setRunning(false);
 		Global.setNoOfContracts(0);
 
-		try {
-			sc.click(spTitle, 0);
-			sleep(300);
-			sc.click(liquidation, 0);
-			sleep(100);
-			sc.type(null, "\n", 0);
-			
-			sleep(2000);
-			robot.keyPress(KeyEvent.VK_PRINTSCREEN);
-		} catch (Exception e) {
-			Global
-					.addLog("Liquidation Fail, Program Stopped, Please liquidate manually (TeamViewer)");
-			e.printStackTrace();
-		}
+//		try {
+//			sc.click(spTitle, 0);
+//			sleep(300);
+//			sc.click(liquidation, 0);
+//			sleep(100);
+//			sc.type(null, "\n", 0);
+//			
+//			sleep(2000);
+//			robot.keyPress(KeyEvent.VK_PRINTSCREEN);
+//		} catch (Exception e) {
+//			Global
+//					.addLog("Liquidation Fail, Program Stopped, Please liquidate manually (TeamViewer)");
+//			e.printStackTrace();
+//		}
 	}
 	
 	public static synchronized void liquidateOnly() {

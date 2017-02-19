@@ -13,11 +13,11 @@ public class QuotePower {
 	private String deal;
 	private String change;
 	private String quantityB4Treatment;
-	private String bidQuantity;
-	private String askQuantity;
+	private int bidQuantity;
+	private int askQuantity;
 	private String bid;
 	private String ask;
-	private Float quantity;
+	private double quantity;
 	private String time;
 	private int errCount;
 	
@@ -61,11 +61,11 @@ public class QuotePower {
 			deal = "";
 			change = "";
 			quantityB4Treatment = "";
-			bidQuantity = "";
-			askQuantity = "";
+			bidQuantity = 0;
+			askQuantity = 0;
 			bid = "";
 			ask = "";
-			quantity = new Float(0);
+			quantity = 0;
 
 //			if (TimePeriodDecider.getTime() <164500)
 //				{
@@ -75,12 +75,12 @@ public class QuotePower {
 //			else
 //				getNighMarket();
 
-			if (quantityB4Treatment.contains("K")) {
-				quantity = new Float(quantityB4Treatment.replace("K", ""));
-				quantity = quantity * 1000;
-			} else {
-				quantity = new Float(quantityB4Treatment);
-			}
+//			if (quantityB4Treatment.contains("K")) {
+//				quantity = new Float(quantityB4Treatment.replace("K", ""));
+//				quantity = quantity * 1000;
+//			} else {
+//				quantity = new Float(quantityB4Treatment);
+//			}
 			
 			return Double.parseDouble(deal);
 	}
@@ -88,23 +88,23 @@ public class QuotePower {
 	public void getQuote() throws FailGettingDataException {
 
 		
-		try {
-			Sikuli.quotePower();
-			errCount = 0;
-		} catch (Exception e) {
-			Global.addLog("Can't get quote, try again");
-			Sikuli.resetQuotePower();
-			e.printStackTrace();
-			sleep(100);
-			getQuote();
-			if (errCount > 50)
-				throw new FailGettingDataException();
-			
-			errCount++;
-			
-		}
+//		try {
+//			Sikuli.quotePower();
+//			errCount = 0;
+//		} catch (Exception e) {
+//			Global.addLog("Can't get quote, try again");
+//			Sikuli.resetQuotePower();
+//			e.printStackTrace();
+//			sleep(100);
+//			getQuote();
+//			if (errCount > 50)
+//				throw new FailGettingDataException();
+//			
+//			errCount++;
+//			
+//		}
 
-		sleep(100); // give time the the computer, dont knwo whether is necessary
+//		sleep(100); // give time the the computer, dont knwo whether is necessary
 			
 			String tableName = "";
 			tableName = fhi;
@@ -113,40 +113,40 @@ public class QuotePower {
 			deal = "";
 			change = "";
 			quantityB4Treatment = "";
-			bidQuantity = "";
-			askQuantity = "";
+			bidQuantity = 0;
+			askQuantity = 0;
 			bid = "";
 			ask = "";
-			quantity = new Float(0);
+			quantity = 0;
 
-			if (TimePeriodDecider.getTime() <164500)
+//			if (TimePeriodDecider.getTime() <164500)
 				getDayMarket();
-			else
-				getNighMarket();
+//			else
+//				getNighMarket();
 
-			if (quantityB4Treatment.contains("K")) {
-				try
-				{
-				quantity = new Float(quantityB4Treatment.replace("K", ""));
-				quantity = quantity * 1000;
-				}catch (Exception e)
-				{
-					e.printStackTrace();
-					Global.addLog("Cannot treat quantity with K");
-					quantity = new Float(0);
-				}
-			} else {
-				try
-				{
-				quantity = new Float(quantityB4Treatment);
-				}catch (Exception e)
-				{
-					e.printStackTrace();
-					Global.addLog("Cannot treat quantity");
-					quantity = new Float(0);
-				}
+//			if (quantityB4Treatment.contains("K")) {
+//				try
+//				{
+//				quantity = new Float(quantityB4Treatment.replace("K", ""));
+//				quantity = quantity * 1000;
+//				}catch (Exception e)
+//				{
+//					e.printStackTrace();
+//					Global.addLog("Cannot treat quantity with K");
+//					quantity = new Float(0);
+//				}
+//			} else {
+//				try
+//				{
+//				quantity = new Float(quantityB4Treatment);
+//				}catch (Exception e)
+//				{
+//					e.printStackTrace();
+//					Global.addLog("Cannot treat quantity");
+//					quantity = new Float(0);
+//				}
 				
-			}
+//			}
 			
 			if (Integer.parseInt(deal) == 0) {
 
@@ -158,9 +158,9 @@ public class QuotePower {
 			String query = "INSERT INTO " + tableName + " VALUES("
 					+ quote(num.toString()) + ",\"" + quote(time) + "\","
 					+ quote(deal) + "," + quote(change) + ","
-					+ quote(quantity.toString()) + "," + quote(bidQuantity)
+					+ quote(String.valueOf(quantity)) + "," + quote(String.valueOf(bidQuantity))
 					+ "," + quote(bid) + "," + quote(ask) + ","
-					+ quote(askQuantity) + ");";
+					+ quote(String.valueOf(askQuantity)) + ");";
 
 			try {
 				DB.stmt.executeUpdate(query);
@@ -175,107 +175,42 @@ public class QuotePower {
 	}
 	
 	private void getDayMarket(){
-		try {
-			String s = "";
-			//161202 10：55 加左呢個之後又好似無事
-			try{
-			s = DB.getClipboard();
-			}
-			catch (Exception e)
-			{
-				e.printStackTrace();
-				Global.addLog("Cannot set s");
-				sleep(300);
-//				getDayMarket(); this is infinity loop, need to break out and click again
-				return;
-			}
+//		try {
+//			String s = "";
+//			//161202 10：55 加左呢個之後又好似無事
+//			try{
+//			s = DB.getClipboard();
+//			}
+//			catch (Exception e)
+//			{
+//				e.printStackTrace();
+//				Global.addLog("Cannot set s");
+//				sleep(300);
+////				getDayMarket(); this is infinity loop, need to break out and click again
+//				return;
+//			}
 //			Global.addLog(s);
 			
-			Scanner sc = new Scanner(s);
-			sc.useDelimiter("HKD");
-			sc.next();
-			Scanner sc2 = new Scanner(sc.next());
-			deal = sc2.next();
-			change = sc2.next();
-			sc2.next();
-			quantityB4Treatment = sc2.next();
+//			Scanner sc = new Scanner(s);
+//			sc.useDelimiter("HKD");
+//			sc.next();
+//			Scanner sc2 = new Scanner(sc.next());
+			deal = String.valueOf(Global.getCurrentPoint());
+			change = "0";
 			
-			bidQuantity = sc2.next();
-			bid = sc2.next();
-			ask = sc2.next();
-			askQuantity = sc2.next();
+			quantity = Global.getTurnOverVol();
+			
+			bidQuantity = Global.getBidQty();
+			bid = String.valueOf(Global.getBidQty());
+			ask = String.valueOf(Global.getAskQty());
+			askQuantity = Global.getAskQty();
 
-			sc.close();
-			sc2.close();
 			
-			try{
-				new Float(deal);
-				
-			}catch (Exception e)
-			{
-				Global.addLog("Can't treat deal, clipboard content: " + s);				
-				errCount++;
-				if(errCount <= 3)
-				{
-					sleep(300); //wait and try the clipboard again
-					Global.addLog("Try getClipboard again");
-					getDayMarket();
-				}
-			}
 			
-		} catch (Exception e) {
-			e.printStackTrace();
-			sleep(1000);
-
-			//dont know what this is actually
-//			if (new Integer(time) < 91600){ //�ڦ��O�׫Y�\�Ĥ@��GET����clipboard�A�զh�X��
-//				Global.addLog("Can't get quote, try again");
-//				getQuote();
-//			}
-//			else {
-//				Global.shutDown = true;
-//				throw new FailGettingDataException();
-//			}
-			// getQuote();
-		}
+			
 	}
 	
-	private void getNighMarket(){
-		try {
-			Scanner sc = new Scanner(DB.getClipboard());
-			sc.useDelimiter("HKD");
-			sc.next();
-			sc.next();
-			Scanner sc2 = new Scanner(sc.next());
-			deal = sc2.next();
-			change = sc2.next();
-			sc2.next();
-			quantityB4Treatment = sc2.next();
-			
-			bidQuantity = sc2.next();
-			bid = sc2.next();
-			ask = sc2.next();
-			askQuantity = sc2.next();
-
-			sc.close();
-			sc2.close();
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-			sleep(1000);
-
-			//dont know what this is actually
-//			if (new Integer(time) < 91600){ //�ڦ��O�׫Y�\�Ĥ@��GET����clipboard�A�զh�X��
-//				Global.addLog("Can't get quote, try again");
-//				getQuote();
-//			}
-//			else {
-//				Global.shutDown = true;
-//				throw new FailGettingDataException();
-//			}
-			// getQuote();
-		}
-	}
+	
 
 	public void close() {
 		DB.close();
@@ -337,7 +272,7 @@ public class QuotePower {
 		return change;
 	}
 
-	public Float getQuantity() {
+	public double getQuantity() {
 		return quantity;
 	}
 
