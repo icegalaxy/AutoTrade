@@ -30,6 +30,12 @@ public class TimePeriodDecider implements Runnable
 	{
 
 		System.out.println("Program Started");
+		SPApi.init();
+		
+		while (!Global.isConnectionOK())
+			sleep(1000);
+		
+		SPApi.subScribePrice();
 
 //		while (getTime() < nightClose)
 		while (getTime() < dayClose)
@@ -116,6 +122,8 @@ public class TimePeriodDecider implements Runnable
 		Global.setTradeTime(false);
 		Global.setQuotePowerTime(false);
 		Global.setRunning(false);
+		
+		SPApi.unInit();
 
 		System.out.println("Program Ended");
 		// Sikuli.closeWindow();

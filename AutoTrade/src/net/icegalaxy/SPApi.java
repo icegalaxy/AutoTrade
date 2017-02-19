@@ -21,6 +21,7 @@ import net.icegalaxy.SPApi.SPApiDll.SPApiPrice;
 
 
 
+
 public class SPApi
 {
 	static int counter;
@@ -243,6 +244,14 @@ public class SPApi
 			SPApiDll.INSTANCE.SPAPI_RegisterApiPriceUpdate(priceUpdate);
 	   }
 	   
+	   public static int subScribePrice()
+	   {
+		   int status = 0;
+		   status += SPApiDll.INSTANCE.SPAPI_SubscribePrice(userid, "HSIG7", 1);
+		   
+		   return status;
+	   }
+	   
 	   public static void registerConnReply()
 	   {
 		   RegisterConn conn = new RegisterConn() {
@@ -281,6 +290,8 @@ public class SPApi
 		   
 		   status += SPApiDll.INSTANCE.SPAPI_Initialize();
 		   			 SPApiDll.INSTANCE.SPAPI_SetLoginInfo(server, port, license, app_id, userid, password);
+		   			 registerConnReply();
+		   			 registerPriceUpdate();
 		   status += SPApiDll.INSTANCE.SPAPI_Login();
 		   
 		   return status;
@@ -290,6 +301,7 @@ public class SPApi
 	   {
 		   int status = 0;
 		   
+		   status += SPApiDll.INSTANCE.SPAPI_SubscribePrice(userid, "HSIG7", 0);
 		   status += SPApiDll.INSTANCE.SPAPI_Logout(userid);
 		   status += SPApiDll.INSTANCE.SPAPI_Uninitialize();
 		   
