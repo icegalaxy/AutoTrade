@@ -35,7 +35,7 @@ public class SPApi
 	 private static final String server = "futures.bsgroup.com.hk";
 
 	public static interface SPApiDll extends Library {
-		public static SPApiDll INSTANCE = (SPApiDll) Native.loadLibrary("spapidllm32.dll", SPApiDll.class);
+		public static SPApiDll INSTANCE = (SPApiDll) Native.loadLibrary("spapidllm64", SPApiDll.class);
 		int SPAPI_Initialize();
 		int SPAPI_Uninitialize();
 		
@@ -202,7 +202,7 @@ public class SPApi
            
            order.ProdCode = "MHIG7".toCharArray();
 
-           order.Ref = "@JAVA#TRADERAPI".toCharArray();      //参考
+           order.Ref = "@JAVA#TRADERAPI".toCharArray();      
            order.Ref2 = "0".toCharArray();
            order.GatewayCode = "".toCharArray();
           
@@ -216,7 +216,7 @@ public class SPApi
                order.Price = 0; // market price
            
 
-           rc = SPApiDll.INSTANCE.SPAPI_AddOrder(order);  //rc:0 成功 //modif xiaolin 2012-12-27
+           rc = SPApiDll.INSTANCE.SPAPI_AddOrder(order); 
 
            return rc;
 //           if (rc == 0) { if (DllShowTextData != null) DllShowTextData("Add Order Success!"); }

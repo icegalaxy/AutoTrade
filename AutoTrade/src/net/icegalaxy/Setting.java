@@ -98,6 +98,10 @@ public class Setting extends JFrame {
 				Global.runRSI = ruleRSIcheckBox.isSelected();
 				Global.ruleSync = ruleSynccheckBox.isSelected();
 				
+				String myLibraryPath = System.getProperty("user.dir");//or another absolute or relative path
+
+				System.setProperty("java.library.path", myLibraryPath);
+				
 				SPApi.init();
 				
 				while (!Global.isConnectionOK())

@@ -531,7 +531,7 @@ public class Global {
 	static double AOH;
 	static double AOL;
 	static double open;
-	static String Today;
+	static String Today = "xxx";
 	static double noonOpen;
 	
 	private static boolean tradeLink;
