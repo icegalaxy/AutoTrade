@@ -27,12 +27,19 @@ public class SPApi
 	static int counter;
 	static long status = 0;
 	
-	 private static final int port = 8080;
-	 private static final String license = "76C2FB5B60006C7A";
-	 private static final String app_id  = "BS";
-	 private static final String userid = "T865829";
-	 private static final String password = "ting1980";
-	 private static final String server = "futures.bsgroup.com.hk";
+	// private static final int port = 8080;
+	// private static final String license = "76C2FB5B60006C7A";
+	// private static final String app_id  = "BS";
+	// private static final String userid = "T865829";
+	// private static final String password = "ting1980";
+	// private static final String server = "futures.bsgroup.com.hk";
+	 
+	    static int port = 8080;
+	    static String license = "58A665DE84D02";
+	    static String app_id  = "SPDEMO";
+	    static String userid = "DEMO201702141";
+	    static String password = "vo2yv";
+	    static String server = "demo.spsystem.info";
 
 	public static interface SPApiDll extends Library {
 		public static SPApiDll INSTANCE = (SPApiDll) Native.loadLibrary("spapidllm64", SPApiDll.class);
