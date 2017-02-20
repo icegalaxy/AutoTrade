@@ -211,7 +211,7 @@ public class SPApi
 
            order.Ref = "@JAVA#TRADERAPI".toCharArray();      
            order.Ref2 = "0".toCharArray();
-           order.GatewayCode = "".toCharArray();
+           order.GatewayCode = " ".toCharArray();
           
            order.CondType = 0; //normal type
            order.ClOrderId = "0".toCharArray();

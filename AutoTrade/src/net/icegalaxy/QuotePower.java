@@ -148,12 +148,12 @@ public class QuotePower {
 				
 //			}
 			
-			if (Integer.parseInt(deal) == 0) {
+		//	if (Integer.parseInt(deal) == 0) {
 
 //				Global.addLog("Deal = 0, try again");
 //				System.out.println("Time: " + time);
-				return;
-			}
+			//	return;
+			//}
 
 			String query = "INSERT INTO " + tableName + " VALUES("
 					+ quote(num.toString()) + ",\"" + quote(time) + "\","
