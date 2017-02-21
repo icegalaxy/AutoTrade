@@ -10,7 +10,7 @@ public abstract class Rules implements Runnable
 	protected double tempCutLoss;
 	protected double tempStopEarn;
 	protected double refPt;
-	protected float buyingPoint;
+	protected double buyingPoint;
 	private boolean globalRunRule;
 	protected String className;
 	double stopEarnPt;
@@ -558,7 +558,7 @@ public abstract class Rules implements Runnable
 		className = s;
 	}
 
-	public static synchronized float getBalance()
+	public static synchronized double getBalance()
 	{
 		if (Global.getNoOfContracts() > 0)
 			return balance + Global.getCurrentPoint() * Global.getNoOfContracts();

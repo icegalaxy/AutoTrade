@@ -369,9 +369,7 @@ public class GetData implements Runnable
 					longData.reset();
 				}
 
-				setGlobal();
-				// counter++;
-				// counter10Sec++;
+			
 			}
 
 			sleep(860);
@@ -544,26 +542,7 @@ public class GetData implements Runnable
 		Global.setAOL(aohl.getAOL());
 	}
 
-	private void setGlobal()
-	{
-
-//		Global.setCurrentPoint(point);
-//		Global.setCurrentBid(bid);
-//		Global.setCurrentAsk(ask);
-//		Global.setCurrentDeal(deal);
-
-		if (Global.getDayHigh() < point)
-			Global.setDayHigh(point);
-
-		if (Global.getDayLow() > point)
-			Global.setDayLow(point);
-
-		if (Global.getDayHigh() - Global.getDayLow() < Global.getCurrentPoint() / 100)
-			Global.setLowFluctuation(true);
-		else
-			Global.setLowFluctuation(false);
-
-	}
+	
 
 	public static synchronized TimeBase getShortTB()
 	{

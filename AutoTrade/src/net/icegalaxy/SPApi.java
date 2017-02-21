@@ -237,12 +237,14 @@ public class SPApi
 				
 				@Override
 				public void invoke(SPApiPrice price) {
-					Global.setCurrentPoint(new Float(price.Last[0]));
-					Global.setCurrentAsk(new Float(price.Ask[0]));
-					Global.setCurrentBid(new Float(price.Bid[0]));
+					Global.setCurrentPoint(price.Last[0]);
+					Global.setCurrentAsk(price.Ask[0]);
+					Global.setCurrentBid(price.Bid[0]);
 					Global.setAskQty(price.AskQty[0]);
 					Global.setBidQty(price.BidQty[0]);
 					Global.setTurnOverVol(price.TurnoverVol);
+					Global.setDayHigh(price.High);
+					Global.setDayLow(price.Low);
 					
 				}
 

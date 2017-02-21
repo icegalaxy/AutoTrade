@@ -28,27 +28,27 @@ public class Global {
 		Global.isRunning = isRunning;
 	}
 
-	public static synchronized float getCurrentPoint() {
+	public static synchronized double getCurrentPoint() {
 		return currentPoint;
 	}
 
-	public static synchronized void setCurrentPoint(float currentPoint) {
-		Global.currentPoint = currentPoint;
+	public static synchronized void setCurrentPoint(double last) {
+		Global.currentPoint = last;
 	}
 
-	public static synchronized float getDayHigh() {
+	public static synchronized double getDayHigh() {
 		return dayHigh;
 	}
 
-	public static synchronized void setDayHigh(float dayHigh) {
-		Global.dayHigh = dayHigh;
+	public static synchronized void setDayHigh(double high) {
+		Global.dayHigh = high;
 	}
 
-	public static synchronized float getDayLow() {
+	public static synchronized double getDayLow() {
 		return dayLow;
 	}
 
-	public static synchronized void setDayLow(float dayLow) {
+	public static synchronized void setDayLow(double dayLow) {
 		Global.dayLow = dayLow;
 	}
 
@@ -141,20 +141,20 @@ public class Global {
 
 
 
-	public static synchronized float getCurrentBid() {
+	public static synchronized double getCurrentBid() {
 		return currentBid;
 	}
 
-	public static synchronized void setCurrentBid(float currentBid) {
+	public static synchronized void setCurrentBid(double currentBid) {
 		Global.currentBid = currentBid;
 	}
 
-	public static synchronized float getCurrentAsk() {
+	public static synchronized double getCurrentAsk() {
 		return currentAsk;
 	}
 
-	public static synchronized void setCurrentAsk(float currentAsk) {
-		Global.currentAsk = currentAsk;
+	public static synchronized void setCurrentAsk(double ask) {
+		Global.currentAsk = ask;
 	}
 
 
@@ -197,13 +197,13 @@ public class Global {
 	}
 	
 
-	public static synchronized float getCurrentDeal() {
-		return currentDeal;
-	}
-
-	public static synchronized void setCurrentDeal(float currentDeal) {
-		Global.currentDeal = currentDeal;
-	}
+//	public static synchronized float getCurrentDeal() {
+//		return currentDeal;
+//	}
+//
+//	public static synchronized void setCurrentDeal(float currentDeal) {
+//		Global.currentDeal = currentDeal;
+//	}
 
 
 
@@ -252,13 +252,7 @@ public class Global {
 		Global.isDownTrend = true;
 	}
 
-	public static synchronized boolean isLowFluctuation() {
-		return isLowFluctuation;
-	}
 
-	public static synchronized void setLowFluctuation(boolean isLowFluctuation) {
-		Global.isLowFluctuation = isLowFluctuation;
-	}
 
 	public static double getGap() {
 		return gap;
@@ -471,7 +465,6 @@ public class Global {
 	private static boolean isSideWay;
 	private static boolean isUpTrend;
 	private static boolean isDownTrend;
-	private static boolean isLowFluctuation;
 	
 	
 	private static boolean hasLoggedIn;
@@ -479,9 +472,9 @@ public class Global {
 	
 	
 
-	private static float currentBid;
-	private static float currentAsk;
-	private static float currentDeal;
+	private static double currentBid;
+	private static double currentAsk;
+//	private static float currentDeal;
 	private static int askQty;
 	private static int bidQty;
 	private static double turnOverVol;
@@ -489,11 +482,11 @@ public class Global {
 	
 	private static int noOfContracts = 0;
 	private static float cutLost;
-	private static float dayHigh;
-	private static float dayLow;
+	private static double dayHigh;
+	private static double dayLow;
 	private static float tempHigh;
 	private static float tempLow;
-	private static float currentPoint; // �O�ӫY����
+	private static double currentPoint; // �O�ӫY����
 	
 	private static float greatProfit;
 	
