@@ -27,12 +27,12 @@ public class SPApi
 	static int counter;
 	static long status = 0;
 	
-	 private static final int port = 8080;
-	 private static final String license = "76C2FB5B60006C7A";
-	 private static final String app_id  = "BS";
-	 private static final String userid = "T865829";
-	 private static final String password = "ting1980";
-	 private static final String server = "futures.bsgroup.com.hk";
+	  static final int port = 8080;
+	  static final String license = "76C2FB5B60006C7A";
+	  static final String app_id  = "BS";
+	  static final String userid = "T865829";
+	  static final String password = "ting1980";
+	  static final String server = "futures.bsgroup.com.hk";
 	 
 	//    static int port = 8080;
 	  //  static String license = "58A665DE84D02";
