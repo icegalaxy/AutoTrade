@@ -116,35 +116,49 @@ public class GetData implements Runnable
 
 	private double getOpenPrice()
 	{
-		if (getTimeInt() >= 91500)
-			return 0;
-
-		HTMLParser etnet = new HTMLParser(
-//				"http://www.etnet.com.hk/www/tc/futures/index.php?subtype=HSI&month=20" + getYearMonth() + "&tab=interval#tab"
-				"http://www.etnet.com.hk/www/tc/futures/index.php?subtype=HSI&month=201702&tab=interval#tab"
-				);
+//		if (getTimeInt() >= 91500)
+//			return 0;
+//
+//		HTMLParser etnet = new HTMLParser(
+////				"http://www.etnet.com.hk/www/tc/futures/index.php?subtype=HSI&month=20" + getYearMonth() + "&tab=interval#tab"
+//				"http://www.etnet.com.hk/www/tc/futures/index.php?subtype=HSI&month=201702&tab=interval#tab"
+//				);
+//		double open = 0;
+//		try
+//		{
+//			open = etnet.parseETNetOpen();
+//			Global.setOpen(open);
+//			if (Global.getOpen() == 0)
+//			{
+//				sleep(5000);
+//				Global.addLog("Open = 0");
+//				getOpenPrice();
+//
+//			}
+//			ohlc.updateNode("open", String.valueOf(open));
+//
+//		} catch (Exception e)
+//		{
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//			Global.addLog("Cannot get open");
+//			sleep(5000);
+//			getOpenPrice();
+//		}
+		
 		double open = 0;
-		try
+		
+		open = Global.getCurrentPoint();
+		
+		if (open == 0)
 		{
-			open = etnet.parseETNetOpen();
-			Global.setOpen(open);
-			if (Global.getOpen() == 0)
-			{
-				sleep(5000);
-				Global.addLog("Open = 0");
-				getOpenPrice();
-
-			}
-			ohlc.updateNode("open", String.valueOf(open));
-
-		} catch (Exception e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			Global.addLog("Cannot get open");
-			sleep(5000);
+			Global.addLog("Open = 0");
+			sleep(1000);
 			getOpenPrice();
 		}
+		
+		Global.setOpen(open);
+		ohlc.updateNode("open", String.valueOf(open));
 		return open;
 
 	}

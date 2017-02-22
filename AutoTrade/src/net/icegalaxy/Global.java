@@ -486,7 +486,7 @@ public class Global {
 	private static double dayLow;
 	private static float tempHigh;
 	private static float tempLow;
-	private static double currentPoint; // �O�ӫY����
+	private static double currentPoint = 0;
 	
 	private static float greatProfit;
 	
