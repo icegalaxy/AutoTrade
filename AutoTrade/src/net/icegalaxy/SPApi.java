@@ -207,7 +207,7 @@ public class SPApi
            
            order.Qty = 2;
            
-           order.ProdCode = "MHIG7".toCharArray();
+           order.ProdCode = "MHIH7".toCharArray();
 
            order.Ref = "@JAVA#TRADERAPI".toCharArray();      
            order.Ref2 = "0".toCharArray();
@@ -256,7 +256,7 @@ public class SPApi
 	   public static int subScribePrice()
 	   {
 		   int status = 0;
-		   status += SPApiDll.INSTANCE.SPAPI_SubscribePrice(userid, "HSIG7", 1);
+		   status += SPApiDll.INSTANCE.SPAPI_SubscribePrice(userid, "HSIH7", 1);
 		   
 		   return status;
 	   }
@@ -310,7 +310,7 @@ public class SPApi
 	   {
 		   int status = 0;
 		   
-		   status += SPApiDll.INSTANCE.SPAPI_SubscribePrice(userid, "HSIG7", 0);
+		   status += SPApiDll.INSTANCE.SPAPI_SubscribePrice(userid, "HSIH7", 0);
 		   status += SPApiDll.INSTANCE.SPAPI_Logout(userid);
 		   status += SPApiDll.INSTANCE.SPAPI_Uninitialize();
 		   
