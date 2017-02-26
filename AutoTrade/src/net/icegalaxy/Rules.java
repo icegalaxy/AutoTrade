@@ -3,6 +3,7 @@ package net.icegalaxy;
 import java.util.ArrayList;
 
 
+
 public abstract class Rules implements Runnable
 {
 
@@ -15,6 +16,9 @@ public abstract class Rules implements Runnable
 	protected String className;
 	double stopEarnPt;
 	double cutLossPt;
+	
+	double refHigh;
+	double refLow;
 
 	public int lossTimes;
 
@@ -278,6 +282,7 @@ public abstract class Rules implements Runnable
 		while (!reachGreatProfitPt())
 		{
 
+			updateHighLow();
 			updateCutLoss();
 			cutLoss();
 
@@ -373,6 +378,15 @@ public abstract class Rules implements Runnable
 			shutdown = true;
 		}
 		closeContract(className + ": Trend Reversed");
+	}
+	
+	private void updateHighLow()
+	{
+		if (Global.getCurrentPoint() > refHigh)
+			refHigh = Global.getCurrentPoint();
+		else if (Global.getCurrentPoint() < refLow)
+			refLow = Global.getCurrentPoint();
+		
 	}
 
 	boolean trendReversed2()
