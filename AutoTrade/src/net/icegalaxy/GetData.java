@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 
+
 public class GetData implements Runnable
 {
 
@@ -17,17 +18,20 @@ public class GetData implements Runnable
 	GetData.CandleData shortData;
 	GetData.CandleData m15Data;
 	GetData.CandleData longData;
+	
+	int[] EMAs = new int[]
+			{ 5, 25, 50, 100, 250, 1200 };
 
 	private boolean aohAdded;
 	// GetData.CandleData sec10Data;
 	private float gap = 0;
 	XMLReader ohlc;
-	private static EMA ema5;
-	private static EMA ema25;
-	private static EMA ema50;
-	private static EMA ema100;
-	private static EMA ema250;
-	private static EMA ema1200;
+//	private static EMA ema5;
+//	private static EMA ema25;
+//	private static EMA ema50;
+//	private static EMA ema100;
+//	private static EMA ema250;
+//	private static EMA ema1200;
 	private int errTimes;
 
 	// private float previousClose = 0;
@@ -139,7 +143,7 @@ public class GetData implements Runnable
 //
 //		} catch (Exception e)
 //		{
-//			// TODO Auto-generated catch block
+//			
 //			e.printStackTrace();
 //			Global.addLog("Cannot get open");
 //			sleep(5000);
@@ -336,16 +340,12 @@ public class GetData implements Runnable
 					getShortTB().addCandle(getTime(), shortData.periodHigh, shortData.periodLow, shortData.openPt,
 							point, totalQuantity);
 
-					ema5.setlatestEMA(point);
-					ema25.setlatestEMA(point);
-					ema50.setlatestEMA(point);
-					ema100.setlatestEMA(point);
-					ema250.setlatestEMA(point);
-					ema1200.setlatestEMA(point);
+					for (int x = 0; x < shortTB.EMAs.length; x++)
+						shortTB.EMAs[x].setlatestEMA(point);
 
 					System.out.println(getTime() + " " + point);
-					System.out.println("MA10: " + getShortTB().getMA(10));
-					System.out.println("MA20: " + getShortTB().getMA(20));
+//					System.out.println("MA10: " + getShortTB().getMA(10));
+//					System.out.println("MA20: " + getShortTB().getMA(20));
 
 					shortMinutes = 0;
 					shortData.reset();
@@ -370,6 +370,9 @@ public class GetData implements Runnable
 				if (longMinutes == Setting.getLongTB())
 				{
 
+					for (int x = 0; x < longTB.EMAs.length; x++)
+						longTB.EMAs[x].setlatestEMA(point);
+					
 					// addDat = addPoint + quantity
 					getLongTB().addData(point, new Float(totalQuantity));
 
@@ -417,8 +420,8 @@ public class GetData implements Runnable
 
 		parseSPRecord csv = new parseSPRecord("TradeData\\SPRecords\\" + Global.getToday() + "\\m1.txt");
 		csv.parseOHLC();
-		int j = 0;
-		int k = 0;
+		
+		int m5Period = 0;
 
 		for (int i = 0; i < csv.getLow().size(); i++)
 		{
@@ -433,39 +436,58 @@ public class GetData implements Runnable
 
 			if (i == 0)
 			{
-				ema5 = new EMA(close, 5);
-				ema25 = new EMA(close, 25);
-				ema50 = new EMA(close, 50);
-				ema100 = new EMA(close, 100);
-				ema250 = new EMA(close, 250);
-				ema1200 = new EMA(close, 1200);
+				for (int x = 0; x < EMAs.length; x++)
+				{
+					shortTB.EMAs[x] = new EMA(close, EMAs[x]); // creating new
+																// instance of
+																// EMA and set
+																// it to the EMA
+																// is array,
+																// changing it's
+																// reference. It
+																// is not the
+																// field in
+																// shortTB
+																// anymore
+					longTB.EMAs[x] = new EMA(close, EMAs[x]);
+
+				}
 			} else
 			{
-				ema5.setlatestEMA(close);
-				ema25.setlatestEMA(close);
-				ema50.setlatestEMA(close);
-				ema100.setlatestEMA(close);
-				ema250.setlatestEMA(close);
-				ema1200.setlatestEMA(close);
-			}
-			j++;
-			k++;
+				for (int x = 0; x < EMAs.length; x++)
+				{
+					shortTB.EMAs[x].setlatestEMA(close);
+					// System.out.println("settting latest EMA" + EMAs[x]);
+				}
+				
+				m5Period++;
 
-			if (j == 5)
-			{
-				getLongTB().addData(close.floatValue(), csv.getVolume().get(i).floatValue());
-				getLongTB().addCandleHistory(csv.getTime().get(i), csv.getHigh().get(i), csv.getLow().get(i),
-						csv.getOpen().get(i), close, csv.getVolume().get(i));
-				j = 0;
-			}
+				if (m5Period == 5)
+				{
+					for (int x = 0; x < EMAs.length; x++)
+						longTB.EMAs[x].setlatestEMA(close);
 
-			if (k == 15)
-			{
-				getM15TB().addData(close.floatValue(), csv.getVolume().get(i).floatValue());
-				getM15TB().addCandleHistory(csv.getTime().get(i), csv.getHigh().get(i), csv.getLow().get(i),
-						csv.getOpen().get(i), close, csv.getVolume().get(i));
-				k = 0;
+					m5Period = 0;
+				}
 			}
+//			j++;
+//			k++;
+//
+//			if (j == 5)
+//			{
+//				getLongTB().addData(close.floatValue(), csv.getVolume().get(i).floatValue());
+//				getLongTB().addCandleHistory(csv.getTime().get(i), csv.getHigh().get(i), csv.getLow().get(i),
+//						csv.getOpen().get(i), close, csv.getVolume().get(i));
+//				j = 0;
+//			}
+//
+//			if (k == 15)
+//			{
+//				getM15TB().addData(close.floatValue(), csv.getVolume().get(i).floatValue());
+//				getM15TB().addCandleHistory(csv.getTime().get(i), csv.getHigh().get(i), csv.getLow().get(i),
+//						csv.getOpen().get(i), close, csv.getVolume().get(i));
+//				k = 0;
+//			}
 
 		}
 		
@@ -475,32 +497,32 @@ public class GetData implements Runnable
 
 	public static EMA getEma5()
 	{
-		return ema5;
+		return shortTB.EMAs[0];
 	}
 
 	public static EMA getEma25()
 	{
-		return ema25;
+		return shortTB.EMAs[1];
 	}
 
 	public static EMA getEma50()
 	{
-		return ema50;
+		return shortTB.EMAs[2];
 	}
 
 	public static EMA getEma100()
 	{
-		return ema100;
+		return shortTB.EMAs[3];
 	}
 
 	public static EMA getEma250()
 	{
-		return ema250;
+		return shortTB.EMAs[4];
 	}
 
 	public static EMA getEma1200()
 	{
-		return ema1200;
+		return shortTB.EMAs[5];
 	}
 
 	private void setOHLC()

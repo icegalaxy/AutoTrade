@@ -285,14 +285,7 @@ public abstract class Rules implements Runnable
 			// checkDayHighLow();
 			if (trendReversed())
 			{
-				Global.addLog(className + ": Trend reversed");
-				
-				if (getProfit() < 0)
-				{
-					shutdown = true;
-				}
-				closeContract(className + ": Trend Reversed");
-				return;
+				trendReversedAction();
 			}
 
 			if (trendUnstable())
@@ -369,6 +362,17 @@ public abstract class Rules implements Runnable
 
 			sleep(1000);
 		}
+	}
+
+	public void trendReversedAction()
+	{
+		Global.addLog(className + ": Trend reversed");
+		
+		if (getProfit() < 0)
+		{
+			shutdown = true;
+		}
+		closeContract(className + ": Trend Reversed");
 	}
 
 	boolean trendReversed2()

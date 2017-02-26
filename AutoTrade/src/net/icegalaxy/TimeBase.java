@@ -2,12 +2,16 @@ package net.icegalaxy;
 
 
 
-import java.io.PrintStream;
+
 import java.util.ArrayList;
-import java.util.Date;
+
+
 
 
 public class TimeBase {
+	
+	public EMA[] EMAs = new EMA[6];
+	
 	ArrayList<Float> point = new ArrayList<Float>();
 	ArrayList<Float> quantity = new ArrayList<Float>();
 	ArrayList<Float> agalPt = new ArrayList<Float>(); 
@@ -547,7 +551,35 @@ public class TimeBase {
 	}
 	
 	
-	
+	public EMA getEma5()
+	{
+		return EMAs[0];
+	}
+
+	public EMA getEma25()
+	{
+		return EMAs[1];
+	}
+
+	public EMA getEma50()
+	{
+		return EMAs[2];
+	}
+
+	public EMA getEma100()
+	{
+		return EMAs[3];
+	}
+
+	public EMA getEma250()
+	{
+		return EMAs[4];
+	}
+
+	public EMA getEma1200()
+	{
+		return EMAs[5];
+	}
 
 
 	public ArrayList<Candle> getCandles() {

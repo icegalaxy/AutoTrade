@@ -2,7 +2,6 @@ package net.icegalaxy;
 
 
 
-
 //Use the OPEN Line
 
 public class RuleDanny250Pena4 extends Rules
@@ -12,6 +11,7 @@ public class RuleDanny250Pena4 extends Rules
 	private double cutLoss;
 	private double refHigh;
 	private double refLow;
+	private boolean trendReversed;
 
 	public RuleDanny250Pena4(boolean globalRunRule)
 	{
@@ -38,162 +38,110 @@ public class RuleDanny250Pena4 extends Rules
 //		}
 		
 		if (!isOrderTime() || Global.getNoOfContracts() != 0 || GetData.getEma250().getEMA() == 0 || shutdown
-				|| Math.abs(GetData.getEma250().getEMA() - GetData.getEma1200().getEMA()) > 100
-				|| Global.balance < -30)
+				|| Math.abs(GetData.getEma250().getEMA() - GetData.getEma1200().getEMA()) > 100)
 			return;
 		
 //		while (Math.abs(Global.getCurrentPoint() - GetData.getEma250().getEMA()) < 20)
 //			{
-//				sleep(1000);
+//				wanPrevious.middleWaiter(wanNext);
 //				if (!isOrderTime())
 //					return;
 //			}
 
-		if (GetData.getEma5().getPreviousEMA(1) < GetData.getEma250().getPreviousEMA(1)
-				&& GetData.getEma5().getEMA() > GetData.getEma250().getEMA())
+		if (GetData.getLongTB().getEma5().getPreviousEMA(1) < GetData.getLongTB().getEma250().getPreviousEMA(1)
+				&& GetData.getLongTB().getEma5().getEMA() > GetData.getLongTB().getEma250().getEMA())
 		{
-			refHigh = 0;
-			refLow = 99999;
-			
-			Global.addLog("Waiting for first pull back");
-			while (GetData.getEma5().getEMA() > GetData.getEma5().getPreviousEMA(1))
-			{
-//				if (TimePeriodDecider.getTime() > 100000)
-//					return;
-				
-//				if (GetData.getEma5().getEMA() > GetData.getShortTB().getEMA(6))
-//					break;
-				
-				if (GetData.getEma5().getEMA() < GetData.getEma250().getEMA())
-					return;
-				
-				if (GetData.getEma5().getEMA() > refHigh)
-					refHigh = GetData.getEma5().getEMA();
-//				else if (GetData.getEma5().getEMA() < refLow)
-//					refLow = GetData.getEma5().getEMA();
-				
-				sleep(1000);
-			}
-			
-			while (GetData.getEma5().getEMA() < refHigh)
-			{
-				sleep(1000);
-				
-//				if (TimePeriodDecider.getTime() > 100000)
-//					return;
-				
-				if (GetData.getEma5().getEMA() < GetData.getEma250().getEMA())
-					return;
-
-			 if (GetData.getEma5().getEMA() < refLow)
-					refLow = GetData.getEma5().getEMA();
-				
-			}
-			
-			if (GetData.getEma5().getEMA() < GetData.getEma250().getEMA())
-				return;
+		
 			
 			longContract();
 			cutLoss = buyingPoint - refLow;
 			
-		}else if (GetData.getEma5().getPreviousEMA(1) > GetData.getEma250().getPreviousEMA(1)
-				&& GetData.getEma5().getEMA() < GetData.getEma250().getEMA())
+		}else if (GetData.getLongTB().getEma5().getPreviousEMA(1) > GetData.getLongTB().getEma250().getPreviousEMA(1)
+				&& GetData.getLongTB().getEma5().getEMA() < GetData.getLongTB().getEma250().getEMA())
 		{	
-			refHigh = 0;
-			refLow = 99999;
 			
-			Global.addLog("Waiting for first pull back");
-			while (GetData.getEma5().getEMA() < GetData.getEma5().getPreviousEMA(1))
-			{
-//				if (TimePeriodDecider.getTime() > 100000)
-//					return;
-				
-//				if (GetData.getEma5().getEMA() > GetData.getShortTB().getEMA(6))
-//					break;
-				
-				if (GetData.getEma5().getEMA()  > GetData.getEma250().getEMA())
-					return;
-				
-//				if (GetData.getEma5().getEMA() > refHigh)
-//					refHigh = GetData.getEma5().getEMA();
-				else if (GetData.getEma5().getEMA() < refLow)
-					refLow = GetData.getEma5().getEMA();
-				
-				sleep(1000);
-			}
-			
-			while (GetData.getEma5().getEMA() > refLow)
-			{
-				sleep(1000);
-				
-//				if (TimePeriodDecider.getTime() > 100000)
-//					return;
-				
-				if (GetData.getEma5().getEMA() > GetData.getEma250().getEMA())
-					return;
-
-				if (GetData.getEma5().getEMA() > refHigh)
-					refHigh = GetData.getEma5().getEMA();
-			
-				
-			}
-			
-			if (GetData.getEma5().getEMA() > GetData.getEma250().getEMA())
-				return;
 			
 			shortContract();		
 			cutLoss = refHigh - buyingPoint;
 		}
+		
+		sleep(1000);
 	}
 	
 	public double getCurrentClose(){
 		return GetData.getShortTB().getLatestCandle().getClose();
 	}
 	
-	
-
-	// use 1min instead of 5min
 	void updateStopEarn()
 	{
-		double ema5;
-		double ema6;
-//
-//		if (getProfit() < 100)
-//		{
-			ema5 = GetData.getShortTB().getLatestCandle().getClose();
-			ema6 = GetData.getEma25().getEMA();
-//		} else
-//		{
-//			ema5 = StockDataController.getLongTB().getEMA(5);
-//			ema6 = StockDataController.getLongTB().getEMA(6);
-//		}
 
 		if (Global.getNoOfContracts() > 0)
 		{
 
-			// if (ema5 < ema6)
-//			 tempCutLoss = buyingPoint + 5;
-
-			if (ema5 < ema6){
-				tempCutLoss = 99999;
-//				if (getProfit() > 0)
-//					chasing.setChaseUp(true);
+			if (GetData.getShortTB().getLatestCandle().getLow() > tempCutLoss)
+			{
+				tempCutLoss = GetData.getShortTB().getLatestCandle().getLow();
 			}
+			
+			if (getProfit() >= 5 && trendReversed)
+				tempCutLoss = 99999;
 
 		} else if (Global.getNoOfContracts() < 0)
 		{
 
-			// if (ema5 > ema6)
-//			 tempCutLoss = buyingPoint - 5;
-
-			if (ema5 > ema6){
-				tempCutLoss = 0;
-//				if (getProfit() > 0)
-//					chasing.setChaseDown(true);
+			if (GetData.getShortTB().getLatestCandle().getHigh() < tempCutLoss)
+			{
+				tempCutLoss = GetData.getShortTB().getLatestCandle().getHigh();
 			}
+			
+			if (getProfit() >= 5 && trendReversed)
+				tempCutLoss = 0;
 		}
 
 	}
+
+	// use 1min instead of 5min
+//	void updateStopEarn()
+//	{
+//		double ema5;
+//		double ema6;
+////
+////		if (getProfit() < 100)
+////		{
+//			ema5 = GetData.getShortTB().getLatestCandle().getClose();
+//			ema6 = GetData.getEma25().getEMA();
+////		} else
+////		{
+////			ema5 = StockDataController.getLongTB().getEMA(5);
+////			ema6 = StockDataController.getLongTB().getEMA(6);
+////		}
+//
+//		if (Global.getNoOfContracts() > 0)
+//		{
+//
+//			// if (ema5 < ema6)
+////			 tempCutLoss = buyingPoint + 5;
+//
+//			if (ema5 < ema6){
+//				tempCutLoss = 99999;
+////				if (getProfit() > 0)
+////					chasing.setChaseUp(true);
+//			}
+//
+//		} else if (Global.getNoOfContracts() < 0)
+//		{
+//
+//			// if (ema5 > ema6)
+////			 tempCutLoss = buyingPoint - 5;
+//
+//			if (ema5 > ema6){
+//				tempCutLoss = 0;
+////				if (getProfit() > 0)
+////					chasing.setChaseDown(true);
+//			}
+//		}
+//
+//	}
 
 	// use 1min instead of 5min
 	double getCutLossPt()
@@ -224,10 +172,9 @@ public class RuleDanny250Pena4 extends Rules
 	boolean trendReversed(){
 		
 		if (Global.getNoOfContracts() > 0)
-			return GetData.getEma5().getEMA() < refLow;
+			return GetData.getLongTB().getEma5().getEMA() < GetData.getLongTB().getEma250().getEMA();
 		else
-			return GetData.getEma5().getEMA() > refHigh;
-		
+			return GetData.getLongTB().getEma5().getEMA() > GetData.getLongTB().getEma250().getEMA();		
 	}
 
 	double getStopEarnPt()
@@ -245,12 +192,27 @@ public class RuleDanny250Pena4 extends Rules
 //			if (StockDataController.getShortTB().getLatestCandle().getClose() < getTimeBase().getEMA(6))
 //				return -100;
 //		}
+		int pt;
 		
+		pt = (160000 - TimePeriodDecider.getTime()) / 1000;
 		
-		
-		return 20;
+		if (trendReversed)
+		{
+			shutdown = true;
+			return 5;
+//			return Math.min(5, (160000 - TimePeriodDecider.getTime()) / 2000);		
+		}
+		else if (pt < 20)
+			return 20;
+		else return pt;
 	}
 
+	@Override
+	public void trendReversedAction() {
+		
+		trendReversed = true;
+	}
+	
 	@Override
 	public TimeBase getTimeBase()
 	{
