@@ -270,7 +270,10 @@ public class SPApi
 
 			};
 			
+			
 			SPApiDll.INSTANCE.SPAPI_RegisterApiPriceUpdate(priceUpdate);
+			
+			System.out.println("Registered price update CALLBACK");
 	   }
 	   
 	   public static int subscribePrice()
@@ -286,7 +289,7 @@ public class SPApi
 		   return status;
 	   }
 	   
-	   public static void registerConnReply()
+	   public static void ()
 	   {
 		   RegisterConn conn = new RegisterConn() {
 				
@@ -315,7 +318,11 @@ public class SPApi
 				}
 			};
 			
+		
+			
 			SPApiDll.INSTANCE.SPAPI_RegisterConnectingReply(conn);
+			
+			System.out.println("Resistered connection reply CALLBACK");
 	   }
 	   
 	   public static int init()
