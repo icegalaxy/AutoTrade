@@ -1,5 +1,6 @@
 package net.icegalaxy;
 
+import java.lang.reflect.GenericArrayType;
 import java.util.Arrays;
 import java.util.List;
 
@@ -26,6 +27,7 @@ public class SPApi
 {
 	static int counter;
 	static long status = 0;
+	static String product = "HSIH7";
 	
 	  static final int port = 8080;
 	  static final String license = "76C2FB5B60006C7A";
@@ -67,7 +69,7 @@ public class SPApi
 		
 		void SPAPI_RegisterConnectionErrorUpdate(RegisterError error);
 		
-		
+		int SPAPI_GetPriceByCode(String user_id, String prod_code, SPApiPrice price);
 		
 		public interface RegisterPriceUpdate extends Callback
 		{
@@ -231,6 +233,24 @@ public class SPApi
 
        }
 	   
+	   public static double setGlobalPrice()
+	   {
+		   SPApiPrice price = new SPApiPrice();
+		   
+		   int i = SPApiDll.INSTANCE.SPAPI_GetPriceByCode(userid, product, price);
+		   
+		   if (i==0)
+		   {
+			   Global.setCurrentPoint(price.Last[0]);
+			   System.out.println("Added Global price: " + price.Last[0]);
+	   
+		   }else
+		   {
+			   System.out.println("Failed to getPriceByCode!");
+		   }
+		   return i;
+	   }
+	   
 	   public static void registerPriceUpdate()
 	   {
 		   RegisterPriceUpdate priceUpdate = new RegisterPriceUpdate() {
@@ -253,10 +273,15 @@ public class SPApi
 			SPApiDll.INSTANCE.SPAPI_RegisterApiPriceUpdate(priceUpdate);
 	   }
 	   
-	   public static int subScribePrice()
+	   public static int subscribePrice()
 	   {
-		   int status = 0;
-		   status += SPApiDll.INSTANCE.SPAPI_SubscribePrice(userid, "HSIH7", 1);
+		   
+		   int status = SPApiDll.INSTANCE.SPAPI_SubscribePrice(userid, product, 1);
+		   
+		   if (status == 0)
+			   System.out.println("Subscribed price: " + product + ", Succeed[" + status +"]");
+		   else
+			   System.out.println("Subscribed price: " + product + ", Failed[" + status +"]");
 		   
 		   return status;
 	   }

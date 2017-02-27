@@ -21,7 +21,7 @@ public class TestAPI {
 			e1.printStackTrace();
 		}
 	
-		SPApi.subScribePrice();
+		SPApi.subscribePrice();
 	
 		SPApi.addOrder('B');
 		

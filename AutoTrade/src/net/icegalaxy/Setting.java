@@ -98,8 +98,8 @@ public class Setting extends JFrame {
 				Global.runRSI = ruleRSIcheckBox.isSelected();
 				Global.ruleSync = ruleSynccheckBox.isSelected();
 				
+				
 				String myLibraryPath = System.getProperty("user.dir");//or another absolute or relative path
-
 				System.setProperty("java.library.path", myLibraryPath);
 				
 				SPApi.init();
@@ -110,11 +110,29 @@ public class Setting extends JFrame {
 						Thread.sleep(1000);
 					} catch (InterruptedException e1)
 					{
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
 				
-				SPApi.subScribePrice();
+				int subscribeAttemps = 0;
+				
+				while (SPApi.subscribePrice() !=0)
+				{
+					System.out.println("Failed to subscrib price, waiting for 5 sec!");
+					try
+					{
+						Thread.sleep(5000);
+					} catch (InterruptedException e1)
+					{
+						e1.printStackTrace();
+					}
+					subscribeAttemps++;
+					
+					if (subscribeAttemps > 10)
+					{
+						System.out.println("Failed attemps > 10, please check!");
+						break;
+					}
+				}
 				
 				while (getDayOfWeek() == 1 || getDayOfWeek() == 7){
 					System.out.println("Sunday or Saturday " + getTime() + " Sleep for 1 hr");

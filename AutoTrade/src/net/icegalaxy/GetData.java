@@ -158,6 +158,8 @@ public class GetData implements Runnable
 		{
 			Global.addLog("Open = 0");
 			sleep(1000);
+			SPApi.setGlobalPrice();
+			sleep(4000);
 			getOpenPrice();
 		}
 		
