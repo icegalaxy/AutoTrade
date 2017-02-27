@@ -289,7 +289,7 @@ public class SPApi
 		   return status;
 	   }
 	   
-	   public static void ()
+	   public static void registerConnReply()
 	   {
 		   RegisterConn conn = new RegisterConn() {
 				
