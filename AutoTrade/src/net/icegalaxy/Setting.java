@@ -113,6 +113,8 @@ public class Setting extends JFrame {
 						e1.printStackTrace();
 					}
 				
+				SPApi.accLoginReply();
+				
 				int subscribeAttemps = 0;
 				
 				while (SPApi.subscribePrice() !=0)
@@ -153,6 +155,8 @@ public class Setting extends JFrame {
 					}
 					
 				}
+				
+				SPApi.setGlobalPrice(); //don't know if this is necessary, try to test if the API is functioning
 				
 				runThreads();
 			}
