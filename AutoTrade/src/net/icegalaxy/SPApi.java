@@ -26,19 +26,21 @@ public class SPApi
 	static long status = 0;
 	static String product = "HSIH7";
 
+	/*
 	static final int port = 8080;
 	static final String license = "76C2FB5B60006C7A";
 	static final String app_id = "BS";
 	static final String userid = "T865829";
 	static final String password = "ting1980";
 	static final String server = "futures.bsgroup.com.hk";
-
-	// static int port = 8080;
-	// static String license = "58A665DE84D02";
-	// static String app_id = "SPDEMO";
-	// static String userid = "DEMO201702141";
-	// static String password = "vo2yv";
-	// static String server = "demo.spsystem.info";
+*/
+	
+	 static int port = 8080;
+	 static String license = "58A665DE84D02";
+	 static String app_id = "SPDEMO";
+	 static String userid = "DEMO201702141";
+	 static String password = "00000000";
+	 static String server = "demo.spsystem.info";
 
 	public static interface SPApiDll extends Library
 	{

@@ -45,7 +45,7 @@ public class QuotePower {
 //			errCount = 0;
 		} catch (Exception e) {
 			Global.addLog("Can't get quote");
-			Sikuli.resetQuotePower();
+		//	Sikuli.resetQuotePower();
 			e.printStackTrace();
 			sleep(100);
 			errCount++;

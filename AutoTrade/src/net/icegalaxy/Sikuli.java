@@ -5,12 +5,12 @@ import java.awt.Robot;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 
-import org.sikuli.script.*;
+
 
 //Global.setHoldingStock(true)��Global.setHoldingStock(false)���Y�סA�]���׫ץΨ�
 //�R���esetTrue�A�椧�����setFalse�A�H���R�h��
 public class Sikuli {
-
+/*
 	static Region centre = new Region(640, 0, 640, 1080);
 	static Region topLeft = new Region(0, 0, 960, 540);
 	static Region topRight = new Region(960, 0, 960, 540);
@@ -28,12 +28,12 @@ public class Sikuli {
 	static Location liquidation = new Location(880, 330);
 	
 	static Location resetFutureOption = new Location(42, 77);
-	static Location resetProfolio = new Location(42, 97);
+	static Location resetProfolio = new Location(42, 97);*/
 
 	//static Location quotePower = new Location(975, 114); //chrome
 	//static Location sleep = new Location(160, 585);
 
-	static Screen sc = new Screen();
+//	static Screen sc = new Screen();
 	static Robot robot;
 	
 	public static void makeRobot(){
@@ -45,7 +45,7 @@ public class Sikuli {
 		}
 	}
 	
-	public static void capScreen(){
+	/*public static void capScreen(){
 		robot.keyPress(KeyEvent.VK_PRINTSCREEN);
 	}
 
@@ -64,8 +64,8 @@ public class Sikuli {
 			Sikuli.login();
 		}
 	}
-
-	public static void resetWindow() {
+*/
+	/*public static void resetWindow() {
 		try {
 			centre.click("images\\login\\cross.png", 0);
 		} catch (FindFailed e1) {
@@ -100,7 +100,7 @@ public class Sikuli {
 		}
 		sleep(5000);
 	}
-
+*/
 	public static synchronized boolean longContract() {
 		
 		int status = 0;
@@ -209,21 +209,21 @@ public class Sikuli {
 //		}
 	}
 	
-	public static synchronized void liquidateOnly() {
-		Global.addLog("Liquidate: Precaution");
-		
-		try {
-			sc.click(spTitle, 0);
-			sleep(300);
-			sc.click(liquidation, 0);
-			sleep(100);
-			sc.type(null, "\n", 0);
-		} catch (Exception e) {
-			Global
-					.addLog("Liquidation Fail, Program Stopped, Please liquidate manually (TeamViewer)");
-			e.printStackTrace();
-		}
-	}
+//	public static synchronized void liquidateOnly() {
+//		Global.addLog("Liquidate: Precaution");
+//		
+//		try {
+//			sc.click(spTitle, 0);
+//			sleep(300);
+//			sc.click(liquidation, 0);
+//			sleep(100);
+//			sc.type(null, "\n", 0);
+//		} catch (Exception e) {
+//			Global
+//					.addLog("Liquidation Fail, Program Stopped, Please liquidate manually (TeamViewer)");
+//			e.printStackTrace();
+//		}
+//	}
 
 	public static synchronized boolean closeContract() {
 
@@ -249,7 +249,7 @@ public class Sikuli {
 		return true;
 	}
 
-	public static void closeWindow() {
+/*	public static void closeWindow() {
 		Global.addLog("Close SP Trader Window");
 		try {
 			topRight.click("images\\login\\cross.png", 0);
@@ -259,7 +259,7 @@ public class Sikuli {
 			Global.addLog("Can't close SP Trader Window");
 			e.printStackTrace();
 		}
-	}
+	}*/
 
 //	public static void closeEclipse() {
 //		Global.addLog("Close Eclipse");

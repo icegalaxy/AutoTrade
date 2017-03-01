@@ -14,16 +14,20 @@ public class TestAPI {
 		
 		try
 		{
-			Thread.sleep(1000);
+			Thread.sleep(5000);
 		} catch (InterruptedException e1)
 		{
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 	
+		int status = 0;
 		SPApi.subscribePrice();
 	
-		SPApi.addOrder('B');
+	//	status = 
+				Sikuli.longContract();
+		
+		//System.out .println("Buy: " + status);
 		
 		try
 		{
@@ -35,7 +39,7 @@ public class TestAPI {
 		}
 	
 	
-		SPApi.addOrder('S');
+		System.out .println("Sell: " + SPApi.addOrder('S'));
 
 	}
 

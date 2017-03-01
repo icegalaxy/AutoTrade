@@ -94,7 +94,7 @@ public class GetData implements Runnable
 			Global.addLog("Can't get index, shutDown!!");
 			Global.shutDown = true;
 			Global.setRunning(false);
-			Sikuli.liquidateOnly();
+		//	Sikuli.liquidateOnly();
 			return false;
 
 		} catch (Exception e)
