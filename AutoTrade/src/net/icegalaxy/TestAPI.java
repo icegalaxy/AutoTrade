@@ -39,7 +39,7 @@ public class TestAPI {
 		}
 	
 	
-		System.out .println("Sell: " + SPApi.addOrder('S'));
+		System.out .println("Sell: " + SPApi.addOrder((byte)'S'));
 
 	}
 

@@ -1,10 +1,10 @@
 package net.icegalaxy;
 
-import java.lang.reflect.GenericArrayType;
+
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.imageio.spi.RegisterableService;
 
 import com.sun.jna.Callback;
 import com.sun.jna.Library;
@@ -17,7 +17,9 @@ import net.icegalaxy.SPApi.SPApiDll.SPApiOrder;
 import net.icegalaxy.SPApi.SPApiDll.RegisterConn;
 
 import net.icegalaxy.SPApi.SPApiDll.RegisterPriceUpdate;
+import net.icegalaxy.SPApi.SPApiDll.RegisterTradeReport;
 import net.icegalaxy.SPApi.SPApiDll.SPApiPrice;
+import net.icegalaxy.SPApi.SPApiDll.SPApiTrade;
 import net.icegalaxy.SPApi.SPApiDll.AccLoginReply;
 
 public class SPApi
@@ -25,6 +27,8 @@ public class SPApi
 	static int counter;
 	static long status = 0;
 	static String product = "HSIH7";
+	
+	static ArrayList<SPApiOrder> orders = new ArrayList<SPApiOrder>();
 
 	/*
 	static final int port = 8080;
@@ -61,6 +65,8 @@ public class SPApi
 		int SPAPI_SubscribePrice(String user_id, String prod_code, int mode);
 
 		void SPAPI_RegisterApiPriceUpdate(RegisterPriceUpdate priceUpdate);
+		
+		void SPAPI_RegisterTradeReport(RegisterTradeReport tradeReport);
 
 		void SPAPI_RegisterConnectingReply(RegisterConn conn);
 
@@ -109,7 +115,53 @@ public class SPApi
 		{
 			void printStatus(long login_status);
 		}
+		
+		public interface RegisterTradeReport extends Callback
+		{
+			void invoke(long rec_no, SPApiTrade trade);
+		}
 
+		public class SPApiTrade extends Structure
+		{
+			public double RecNo;
+			public double Price;
+			public double AvgPrice;
+			public int TradeNo;
+			public int ExtOrderNo;
+			public int IntOrderNo;
+			public int Qty;
+			public int TradeDate;
+			public int TradeTime;
+			public char[] AccNo = new char[16];
+			public char[] ProdCode = new char[16];
+			public char[] Initiator = new char[16];
+			public char[] Ref = new char[16];
+			public char[] Ref2 = new char[16];
+			public char[] GatewayCode = new char[16];
+			public char[] ClOrderId = new char[40];
+			public char BuySell;
+			public char OpenClose;
+			public int Status;
+			public int DecInPrice;
+			public double OrderPrice;
+			public char[] TradeRef = new char[40];
+			public int TotalQty;
+			public int RemainingQty;
+			public int TradedQty;
+			public double AvgTradedPrice;
+
+			@Override
+			protected List getFieldOrder()
+			{
+				
+				return Arrays.asList(new String[]
+				{ "RecNo", "Price", "AvgPrice", "TradeNo", "ExtOrderNo", "IntOrderNo", "Qty", "TradeDate", "TradeTime",
+						"AccNo", "", "ProdCode", "Initiator", "Ref", "Ref2", "GatewayCode", "ClOrderId", "BuySell",
+						"OpenClose", "Status", "DecInPrice", "OrderPrice", "TradeRef", "TotalQty", "RemainingQty",
+						"TradedQty", "AvgTradedPrice" });
+			}
+		}
+		
 		public class SPApiPrice extends Structure
 		{
 
@@ -174,14 +226,14 @@ public class SPApi
 			public int SchedTime;
 			public int TimeStamp;
 			public long OrderOptions;
-			public char[] AccNo = new char[16];
-			public char[] ProdCode = new char[16];
-			public char[] Initiator = new char[16];
-			public char[] Ref = new char[16];
-			public char[] Ref2 = new char[16];
-			public char[] GatewayCode = new char[16];
-			public char[] ClOrderId = new char[40];
-			public char BuySell;
+			public byte[] AccNo = new byte[16];
+			public byte[] ProdCode = new byte[16];
+			public byte[] Initiator = new byte[16];
+			public byte[] Ref = new byte[16];
+			public byte[] Ref2 = new byte[16];
+			public byte[] GatewayCode = new byte[16];
+			public byte[] ClOrderId = new byte[40];
+			public byte BuySell;
 			public char StopType;
 			public char OpenClose;
 			public int CondType;
@@ -208,25 +260,27 @@ public class SPApi
 
 	}
 
-	public static int addOrder(char buy_sell)
+	public static int addOrder(byte buy_sell)
 	{
 		int rc;
+		
 		SPApiOrder order = new SPApiOrder();
+		orders.add(order);
 
-		order.AccNo = userid.toCharArray();
-		order.Initiator = userid.toCharArray();
+		setBytes(order.AccNo, userid);
+		setBytes(order.Initiator, userid);
 		order.BuySell = buy_sell;
 
 		order.Qty = 2;
 
-		order.ProdCode = "MHIH7".toCharArray();
+		setBytes(order.ProdCode, "MHIH7");
 
-		order.Ref = "@JAVA#TRADERAPI".toCharArray();
-		order.Ref2 = "0".toCharArray();
-		order.GatewayCode = " ".toCharArray();
+		setBytes(order.Ref, "@JAVA#TRADERAPI");
+		setBytes(order.Ref2, "0");
+		setBytes(order.GatewayCode, "");
 
 		order.CondType = 0; // normal type
-		order.ClOrderId = "0".toCharArray();
+		setBytes(order.ClOrderId, "0");
 		order.ValidType = 0;
 		order.DecInPrice = 0;
 
@@ -315,6 +369,11 @@ public class SPApi
 
 		return status;
 	}
+	
+	public static void registerTradeReport(){
+		RegisterTradeReport tradeReport = (rec_no, trade) -> Global.addLog("Rec_no: " + rec_no + ", Price: " + trade.Price);
+		
+	}
 
 	public static void registerConnReply()
 	{
@@ -360,6 +419,7 @@ public class SPApi
 		SPApiDll.INSTANCE.SPAPI_SetLoginInfo(server, port, license, app_id, userid, password);
 		registerConnReply();
 		registerPriceUpdate();
+		registerTradeReport();
 		status += SPApiDll.INSTANCE.SPAPI_Login();
 
 		return status;
@@ -375,5 +435,15 @@ public class SPApi
 
 		return status;
 
+	}
+	
+	public static void setBytes(byte[] bytes, String s)
+	{
+		 for (int i=0; i<s.length(); i++)
+		 {
+		        bytes[i] = (byte) s.charAt(i);
+		   }
+
+		
 	}
 }

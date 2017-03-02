@@ -125,7 +125,7 @@ public class Sikuli {
 //			liquidate();
 //		}
 		
-		status = SPApi.addOrder('B');
+		status = SPApi.addOrder((byte) 'B');
 
 		if (Global.getNoOfContracts() == 0) { //means closing contract
 			
@@ -172,7 +172,7 @@ public class Sikuli {
 //			liquidate();
 //		}
 
-		status = SPApi.addOrder('S');
+		status = SPApi.addOrder((byte) 'S');
 		
 		if (Global.getNoOfContracts() == 0) {
 //			Global.addLog("Current Balance: " + Global.balance +  " points, No of Trades: " + Global.noOfTrades);
