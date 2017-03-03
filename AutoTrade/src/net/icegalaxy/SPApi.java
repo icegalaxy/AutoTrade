@@ -66,6 +66,8 @@ public class SPApi
 
 		void SPAPI_RegisterApiPriceUpdate(RegisterPriceUpdate priceUpdate);
 		
+		void SPAPI_RegisterOrderBeforeSendReport(RegisterOrderB4 orderB4);
+		
 		void SPAPI_RegisterTradeReport(RegisterTradeReport tradeReport);
 
 		void SPAPI_RegisterConnectingReply(RegisterConn conn);
@@ -80,6 +82,11 @@ public class SPApi
 		void SPAPI_RegisterConnectionErrorUpdate(RegisterError error);
 
 		int SPAPI_GetPriceByCode(String user_id, String prod_code, SPApiPrice price);
+		
+		public interface RegisterOrderB4 extends Callback
+		{
+			void invoke(SPApiOrder order);
+		}
 
 		public interface RegisterPriceUpdate extends Callback
 		{
@@ -217,7 +224,7 @@ public class SPApi
 			public double UpPrice;
 			public double DownLevel;
 			public double DownPrice;
-			public int ExtOrderNo;
+			public long ExtOrderNo;
 			public int IntOrderNo;
 			public int Qty;
 			public int TradedQty;
@@ -225,7 +232,7 @@ public class SPApi
 			public int ValidTime;
 			public int SchedTime;
 			public int TimeStamp;
-			public long OrderOptions;
+			public int OrderOptions;
 			public byte[] AccNo = new byte[16];
 			public byte[] ProdCode = new byte[16];
 			public byte[] Initiator = new byte[16];
@@ -234,13 +241,13 @@ public class SPApi
 			public byte[] GatewayCode = new byte[16];
 			public byte[] ClOrderId = new byte[40];
 			public byte BuySell;
-			public char StopType;
-			public char OpenClose;
-			public int CondType;
-			public int OrderType;
-			public int ValidType;
-			public int Status;
-			public int DecInPrice;
+			public byte StopType;
+			public byte OpenClose;
+			public byte CondType;
+			public byte OrderType;
+			public byte ValidType;
+			public byte Status;
+			public byte DecInPrice;
 			public int OrderAction;
 			public int updateTime;
 			public int updateSeqNo;
@@ -446,4 +453,6 @@ public class SPApi
 
 		
 	}
+	
+	
 }
