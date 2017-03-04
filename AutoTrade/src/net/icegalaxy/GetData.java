@@ -118,52 +118,29 @@ public class GetData implements Runnable
 		return true;
 	}
 
-	private double getOpenPrice()
+	private double setOpenPrice()
 	{
-//		if (getTimeInt() >= 91500)
-//			return 0;
-//
-//		HTMLParser etnet = new HTMLParser(
-////				"http://www.etnet.com.hk/www/tc/futures/index.php?subtype=HSI&month=20" + getYearMonth() + "&tab=interval#tab"
-//				"http://www.etnet.com.hk/www/tc/futures/index.php?subtype=HSI&month=201702&tab=interval#tab"
-//				);
-//		double open = 0;
-//		try
-//		{
-//			open = etnet.parseETNetOpen();
-//			Global.setOpen(open);
-//			if (Global.getOpen() == 0)
-//			{
-//				sleep(5000);
-//				Global.addLog("Open = 0");
-//				getOpenPrice();
-//
-//			}
-//			ohlc.updateNode("open", String.valueOf(open));
-//
-//		} catch (Exception e)
-//		{
-//			
-//			e.printStackTrace();
-//			Global.addLog("Cannot get open");
-//			sleep(5000);
-//			getOpenPrice();
-//		}
 		
 		double open = 0;
 		
-		open = Global.getCurrentPoint();
+		SPApi.setOpenPrice();
+		
+		open = Global.getOpen();
 		
 		if (open == 0)
 		{
 			Global.addLog("Open = 0");
-			sleep(1000);
-			SPApi.setGlobalPrice();
-			sleep(4000);
-			getOpenPrice();
+			sleep(5000);
+			
+			if (getTimeInt() > 91500)
+			{
+				Global.addLog("Fail to set open b4 91500, try again later");
+				return 0;
+			}
+			
+			setOpenPrice();
 		}
 		
-		Global.setOpen(open);
 		ohlc.updateNode("open", String.valueOf(open));
 		return open;
 
@@ -189,7 +166,7 @@ public class GetData implements Runnable
 			// should be put inside isRunning
 			if (getTimeInt() > 91420 && getTimeInt() < 91500 && Global.getOpen() == 0)
 			{
-				getOpenPrice();
+				setOpenPrice();
 				Global.addLog("Open: " + Global.getOpen());
 			}
 
@@ -241,12 +218,7 @@ public class GetData implements Runnable
 				// else if (deal > ask)
 				// point = ask;
 
-				if (Global.getOpen() == 0)
-				{
-					Global.setOpen(deal);
-					Global.addLog("Open: " + Global.getOpen());
-				}
-
+	
 				shortData.getHighLow();
 				shortData.getOpen();
 
@@ -322,10 +294,12 @@ public class GetData implements Runnable
 				if (shortMinutes == Setting.getShortTB())
 				{
 
-					// getDayOpen, check every minutes
-					setOpen();
+					if (Global.getOpen() == 0)
+					{
+						Global.setOpen(SPApi.getAPIPrice().Open);
+						Global.addLog("Set open after 91500 at: " + Global.getOpen());
+					}
 
-//					checkStop();
 
 					if (Global.getpHigh() == 0)
 					{
@@ -547,18 +521,6 @@ public class GetData implements Runnable
 
 	}
 
-	private void setOpen()
-	{
-
-		if (Global.getOpen() == 0)
-		{
-			XMLReader open = new XMLReader(Global.getToday());
-			if (open.getOpen() == 0)
-				return;
-			Global.setOpen(open.getOpen());
-		}
-
-	}
 
 	private void setNoonOpen()
 	{

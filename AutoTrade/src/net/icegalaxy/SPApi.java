@@ -14,37 +14,33 @@ import com.sun.jna.Native;
 import com.sun.jna.Structure;
 
 import net.icegalaxy.SPApi.SPApiDll.SPApiOrder;
-import net.icegalaxy.SPApi.SPApiDll.RegisterConn;
-
-import net.icegalaxy.SPApi.SPApiDll.RegisterPriceUpdate;
-import net.icegalaxy.SPApi.SPApiDll.RegisterTradeReport;
 import net.icegalaxy.SPApi.SPApiDll.SPApiPrice;
 import net.icegalaxy.SPApi.SPApiDll.SPApiTrade;
-import net.icegalaxy.SPApi.SPApiDll.AccLoginReply;
+
 
 public class SPApi
 {
 	static int counter;
 	static long status = 0;
-	static String product = "HSIH7";
+	static byte[] product = getBytes("HSIH7", 16);
 	
 	static ArrayList<SPApiOrder> orders = new ArrayList<SPApiOrder>();
 
-	/*
+	
 	static final int port = 8080;
 	static final String license = "76C2FB5B60006C7A";
 	static final String app_id = "BS";
 	static final String userid = "T865829";
 	static final String password = "ting1980";
 	static final String server = "futures.bsgroup.com.hk";
-*/
+
 	
-	 static int port = 8080;
+/*	 static int port = 8080;
 	 static String license = "58A665DE84D02";
 	 static String app_id = "SPDEMO";
 	 static String userid = "DEMO201702141";
 	 static String password = "00000000";
-	 static String server = "demo.spsystem.info";
+	 static String server = "demo.spsystem.info";*/
 
 	public static interface SPApiDll extends Library
 	{
@@ -62,7 +58,7 @@ public class SPApi
 
 		int SPAPI_AddOrder(SPApiOrder order);
 
-		int SPAPI_SubscribePrice(String user_id, String prod_code, int mode);
+		int SPAPI_SubscribePrice(String user_id, byte[] prod_code, int mode);
 
 		void SPAPI_RegisterApiPriceUpdate(RegisterPriceUpdate priceUpdate);
 		
@@ -79,47 +75,9 @@ public class SPApi
 
 		void SPAPI_RegisterConnectionErrorUpdate(RegisterError error);
 
-		int SPAPI_GetPriceByCode(String user_id, String prod_code, SPApiPrice price);
+		int SPAPI_GetPriceByCode(String user_id, byte[] prod_code, SPApiPrice price);
 
-		public interface RegisterPriceUpdate extends Callback
-		{
-			void invoke(SPApiPrice price);
-		}
-
-		public interface AccLoginReply extends Callback
-		{
-			void invoke(String accNo, long ret_code, String ret_msg);
-		}
-
-		public interface RegisterConn extends Callback
-		{
-			void invoke(long host_type, long con_status);
-		}
-
-		// public interface RegisterTradeReport extends Callback
-		// {
-		// void invoke(String acc_no);
-		// }
-
-		public interface RegisterError extends Callback
-		{
-			void invoke(short host_id, long link_err);
-		}
-
-		public interface RegisterLoginReply extends Callback
-		{
-			void printLoginStatus(long ret_code, String ret_msg);
-		}
-
-		public interface RegisterLoginStatusUpdate extends Callback
-		{
-			void printStatus(long login_status);
-		}
-		
-		public interface RegisterTradeReport extends Callback
-		{
-			void invoke(long rec_no, SPApiTrade trade);
-		}
+	
 
 		public class SPApiTrade extends Structure
 		{
@@ -217,7 +175,7 @@ public class SPApi
 			public double UpPrice;
 			public double DownLevel;
 			public double DownPrice;
-			public int ExtOrderNo;
+			public long ExtOrderNo;
 			public int IntOrderNo;
 			public int Qty;
 			public int TradedQty;
@@ -225,7 +183,7 @@ public class SPApi
 			public int ValidTime;
 			public int SchedTime;
 			public int TimeStamp;
-			public long OrderOptions;
+			public int OrderOptions;
 			public byte[] AccNo = new byte[16];
 			public byte[] ProdCode = new byte[16];
 			public byte[] Initiator = new byte[16];
@@ -234,13 +192,13 @@ public class SPApi
 			public byte[] GatewayCode = new byte[16];
 			public byte[] ClOrderId = new byte[40];
 			public byte BuySell;
-			public char StopType;
-			public char OpenClose;
-			public int CondType;
-			public int OrderType;
-			public int ValidType;
-			public int Status;
-			public int DecInPrice;
+			public byte StopType;
+			public byte OpenClose;
+			public byte CondType;
+			public byte OrderType;
+			public byte ValidType;
+			public byte Status;
+			public byte DecInPrice;
 			public int OrderAction;
 			public int updateTime;
 			public int updateSeqNo;
@@ -259,6 +217,41 @@ public class SPApi
 		}
 
 	}
+	
+	public interface RegisterPriceUpdate extends Callback
+	{
+		void invoke(SPApiPrice price);
+	}
+
+	public interface AccLoginReply extends Callback
+	{
+		void invoke(String accNo, long ret_code, String ret_msg);
+	}
+
+	public interface RegisterConn extends Callback
+	{
+		void invoke(long host_type, long con_status);
+	}
+
+	public interface RegisterError extends Callback
+	{
+		void invoke(short host_id, long link_err);
+	}
+
+	public interface RegisterLoginReply extends Callback
+	{
+		void printLoginStatus(long ret_code, String ret_msg);
+	}
+
+	public interface RegisterLoginStatusUpdate extends Callback
+	{
+		void printStatus(long login_status);
+	}
+	
+	public interface RegisterTradeReport extends Callback
+	{
+		void invoke(long rec_no, SPApiTrade trade);
+	}
 
 	public static int addOrder(byte buy_sell)
 	{
@@ -275,8 +268,8 @@ public class SPApi
 
 		setBytes(order.ProdCode, "MHIH7");
 
-		setBytes(order.Ref, "@JAVA#TRADERAPI");
-		setBytes(order.Ref2, "0");
+		setBytes(order.Ref, "JAVA");
+		setBytes(order.Ref2, "TRADERAPI");
 		setBytes(order.GatewayCode, "");
 
 		order.CondType = 0; // normal type
@@ -290,30 +283,20 @@ public class SPApi
 		rc = SPApiDll.INSTANCE.SPAPI_AddOrder(order);
 
 		return rc;
-		// if (rc == 0) { if (DllShowTextData != null) DllShowTextData("Add
-		// Order Success!"); }
-		// else { if (DllShowTextData != null) DllShowTextData("Add Order
-		// Failure! " + rc.ToString()); }
 
 	}
 
+	
+
 	public static void accLoginReply()
 	{
-		AccLoginReply accReply = new AccLoginReply()
-		{
-
-			@Override
-			public void invoke(String accNo, long ret_code, String ret_msg)
-			{
-				System.out.println("AccNo xxxxxx: " + accNo);
-			}
-		};
+		AccLoginReply accReply = (accNo,  ret_code,  ret_msg) -> Global.addLog("AccNo: " + accNo);
 
 		SPApiDll.INSTANCE.SPAPI_RegisterAccountLoginReply(accReply);
 		
 	}
 
-	public static double setGlobalPrice()
+	/*public static double setGlobalPrice()
 	{
 		SPApiPrice price = new SPApiPrice();
 
@@ -329,16 +312,55 @@ public class SPApi
 			System.out.println("Failed to getPriceByCode!");
 		}
 		return i;
+	}*/
+	
+	//used before 91500
+	public static double setOpenPrice()
+	{
+		SPApiPrice price = new SPApiPrice();
+
+		int i = SPApiDll.INSTANCE.SPAPI_GetPriceByCode(userid, product, price);
+
+		if (i == 0)
+		{
+			
+			if (price.Last[0] != price.Open)
+			{
+				Global.addLog("API open price: " + price.Open);
+				Global.addLog("API current price: " + price.Last[0]);
+				
+				Global.setOpen(price.Last[0]);
+			}else
+			{
+				Global.addLog("API Open  = Current");
+				Global.setOpen(price.Open);
+			}
+			
+		} else
+		{
+			System.out.println("Failed to getPriceByCode!");
+		}
+		return i;
+	}
+	
+	public static SPApiPrice getAPIPrice()
+	{
+		SPApiPrice price = new SPApiPrice();
+		int i = SPApiDll.INSTANCE.SPAPI_GetPriceByCode(userid, product, price);
+		
+		if (i == 0)
+			return price;
+		else
+		{
+			Global.addLog("Fail to get APIPrice");
+			return price;
+		}
 	}
 
 	public static void registerPriceUpdate()
 	{
-		RegisterPriceUpdate priceUpdate = new RegisterPriceUpdate()
+		RegisterPriceUpdate priceUpdate = (price) ->
 		{
-
-			@Override
-			public void invoke(SPApiPrice price)
-			{
 				Global.setCurrentPoint(price.Last[0]);
 				Global.setCurrentAsk(price.Ask[0]);
 				Global.setCurrentBid(price.Bid[0]);
@@ -347,9 +369,6 @@ public class SPApi
 				Global.setTurnOverVol(price.TurnoverVol);
 				Global.setDayHigh(price.High);
 				Global.setDayLow(price.Low);
-
-			}
-
 		};
 
 		SPApiDll.INSTANCE.SPAPI_RegisterApiPriceUpdate(priceUpdate);
@@ -372,7 +391,7 @@ public class SPApi
 	
 	public static void registerTradeReport(){
 		RegisterTradeReport tradeReport = (rec_no, trade) -> Global.addLog("Rec_no: " + rec_no + ", Price: " + trade.Price);
-		
+		// not going to register it until the test is ok
 	}
 
 	public static void registerConnReply()
@@ -429,7 +448,7 @@ public class SPApi
 	{
 		int status = 0;
 
-		status += SPApiDll.INSTANCE.SPAPI_SubscribePrice(userid, "HSIH7", 0);
+		status += SPApiDll.INSTANCE.SPAPI_SubscribePrice(userid, product, 0);
 		status += SPApiDll.INSTANCE.SPAPI_Logout(userid);
 		status += SPApiDll.INSTANCE.SPAPI_Uninitialize();
 
@@ -445,5 +464,17 @@ public class SPApi
 		   }
 
 		
+	}
+	
+	private static byte[] getBytes(String s, int size)
+	{
+		byte[] bytes = new byte[size];
+
+		for (int i = 0; i < s.length(); i++)
+		{
+			bytes[i] = (byte) s.charAt(i);
+
+		}
+		return bytes;
 	}
 }

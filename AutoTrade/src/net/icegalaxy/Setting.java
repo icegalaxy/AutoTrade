@@ -156,7 +156,7 @@ public class Setting extends JFrame {
 					
 				}
 				
-				SPApi.setGlobalPrice(); //don't know if this is necessary, try to test if the API is functioning
+				Global.setCurrentPoint(SPApi.getAPIPrice().Last[0]); //don't know if this is necessary, try to test if the API is functioning
 				
 				runThreads();
 			}
