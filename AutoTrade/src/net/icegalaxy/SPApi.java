@@ -17,7 +17,6 @@ import net.icegalaxy.SPApi.SPApiDll.SPApiOrder;
 import net.icegalaxy.SPApi.SPApiDll.SPApiPrice;
 import net.icegalaxy.SPApi.SPApiDll.SPApiTrade;
 
-
 public class SPApi
 {
 	static int counter;
@@ -65,6 +64,8 @@ public class SPApi
 		void SPAPI_RegisterTradeReport(RegisterTradeReport tradeReport);
 
 		void SPAPI_RegisterConnectingReply(RegisterConn conn);
+		
+		void SPAPI_RegisterOrderRequestFailed(RegisterOrderFail orderFail);
 
 		// void SPAPI_RegisterTradeReport(RegisterTradeReport tradeReport);
 		void SPAPI_RegisterAccountLoginReply(AccLoginReply loginReply);
@@ -84,25 +85,25 @@ public class SPApi
 			public double RecNo;
 			public double Price;
 			public double AvgPrice;
-			public int TradeNo;
-			public int ExtOrderNo;
+			public long TradeNo;
+			public long ExtOrderNo;
 			public int IntOrderNo;
 			public int Qty;
 			public int TradeDate;
 			public int TradeTime;
-			public char[] AccNo = new char[16];
-			public char[] ProdCode = new char[16];
-			public char[] Initiator = new char[16];
-			public char[] Ref = new char[16];
-			public char[] Ref2 = new char[16];
-			public char[] GatewayCode = new char[16];
-			public char[] ClOrderId = new char[40];
-			public char BuySell;
-			public char OpenClose;
-			public int Status;
-			public int DecInPrice;
+			public byte[] AccNo = new byte[16];
+			public byte[] ProdCode = new byte[16];
+			public byte[] Initiator = new byte[16];
+			public byte[] Ref = new byte[16];
+			public byte[] Ref2 = new byte[16];
+			public byte[] GatewayCode = new byte[16];
+			public byte[] ClOrderId = new byte[40];
+			public byte BuySell;
+			public byte OpenClose;
+			public byte Status;
+			public byte DecInPrice;
 			public double OrderPrice;
-			public char[] TradeRef = new char[40];
+			public byte[] TradeRef = new byte[40];
 			public int TotalQty;
 			public int RemainingQty;
 			public int TradedQty;
@@ -114,7 +115,7 @@ public class SPApi
 				
 				return Arrays.asList(new String[]
 				{ "RecNo", "Price", "AvgPrice", "TradeNo", "ExtOrderNo", "IntOrderNo", "Qty", "TradeDate", "TradeTime",
-						"AccNo", "", "ProdCode", "Initiator", "Ref", "Ref2", "GatewayCode", "ClOrderId", "BuySell",
+						"AccNo", "ProdCode", "Initiator", "Ref", "Ref2", "GatewayCode", "ClOrderId", "BuySell",
 						"OpenClose", "Status", "DecInPrice", "OrderPrice", "TradeRef", "TotalQty", "RemainingQty",
 						"TradedQty", "AvgTradedPrice" });
 			}
@@ -218,6 +219,11 @@ public class SPApi
 
 	}
 	
+	public interface RegisterOrderFail extends Callback
+	{
+		void invoke(int action, SPApiOrder order, long err_code, String err_msg);
+	}
+	
 	public interface RegisterPriceUpdate extends Callback
 	{
 		void invoke(SPApiPrice price);
@@ -284,6 +290,15 @@ public class SPApi
 
 		return rc;
 
+	}
+	
+	public static void registerOrderFail()
+	{
+		RegisterOrderFail orderFail = (action, order, err_code, err_msg) -> Global.addLog("Order Fail: " + err_msg + "[" + err_code + "]");
+		
+		SPApiDll.INSTANCE.SPAPI_RegisterOrderRequestFailed(orderFail);
+		
+		System.out.println("Registered Order Fail CALLBACK");
 	}
 
 	
@@ -439,6 +454,7 @@ public class SPApi
 		registerConnReply();
 		registerPriceUpdate();
 		registerTradeReport();
+		registerOrderFail();
 		status += SPApiDll.INSTANCE.SPAPI_Login();
 
 		return status;
