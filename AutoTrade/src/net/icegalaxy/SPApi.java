@@ -397,9 +397,9 @@ public class SPApi
 		int status = SPApiDll.INSTANCE.SPAPI_SubscribePrice(userid, product, 1);
 
 		if (status == 0)
-			System.out.println("Subscribed price: " + product + ", Succeed[" + status + "]");
+			System.out.println("Subscribed price: " + Native.toString(product) + ", Succeed[" + status + "]");
 		else
-			System.out.println("Subscribed price: " + product + ", Failed[" + status + "]");
+			System.out.println("Subscribed price: " + Native.toString(product) + ", Failed[" + status + "]");
 
 		return status;
 	}
