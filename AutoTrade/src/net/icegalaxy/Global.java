@@ -451,6 +451,34 @@ public class Global {
 
 
 
+	public static synchronized boolean isTraded()
+	{
+		return Traded;
+	}
+
+	public static synchronized void setTraded(boolean traded)
+	{
+		Traded = traded;
+	}
+
+
+
+
+
+	public static synchronized int getTradedQty()
+	{
+		return tradedQty;
+	}
+
+	public static synchronized void setTradedQty(int tradedQty)
+	{
+		Global.tradedQty = tradedQty;
+	}
+
+
+
+
+
 	static Chasing chasing;
 
 
@@ -532,7 +560,8 @@ public class Global {
 	private static boolean priceLink;
 	private static boolean generalLink;
 	
-	
+	private static boolean Traded;
+	private static int tradedQty;
 	
 }
 

@@ -280,11 +280,15 @@ public class SPApi
 
 		order.CondType = 0; // normal type
 		setBytes(order.ClOrderId, "0");
-		order.ValidType = 0;
+		order.ValidType = 2;
 		order.DecInPrice = 0;
 
-		order.OrderType = 6; // market order
-		order.Price = 0; // market price
+		order.OrderType = 0;
+		
+		if (buy_sell == 'B')
+			order.Price = Global.getCurrentAsk(); 
+		else
+			order.Price = Global.getCurrentBid();
 
 		rc = SPApiDll.INSTANCE.SPAPI_AddOrder(order);
 
@@ -405,8 +409,16 @@ public class SPApi
 	}
 	
 	public static void registerTradeReport(){
-		RegisterTradeReport tradeReport = (rec_no, trade) -> Global.addLog("Rec_no: " + rec_no + ", Price: " + trade.Price);
-		// not going to register it until the test is ok
+		RegisterTradeReport tradeReport = (rec_no, trade) -> 
+		{
+			Global.addLog("Order traded: " + trade.Qty + "@" + trade.Price + ", Rec no: " + rec_no);
+			Global.setTraded(true);
+			Global.setTradedQty(trade.Qty);
+		};
+		
+		SPApiDll.INSTANCE.SPAPI_RegisterTradeReport(tradeReport);
+		System.out.println("Registered Trade Report");
+		
 	}
 
 	public static void registerConnReply()

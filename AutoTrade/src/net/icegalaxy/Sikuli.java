@@ -126,6 +126,23 @@ public class Sikuli {
 //		}
 		
 		status = SPApi.addOrder((byte) 'B');
+		
+		int counter = 0;
+		
+		while(!Global.isTraded())
+		{
+			counter++;
+			sleep(1000);
+			
+			if (counter > 60)
+			{
+				Global.addLog("Waited too long, failed to long");
+				return false;
+			}
+		}
+		
+		Global.setTraded(false);
+		
 
 		if (Global.getNoOfContracts() == 0) { //means closing contract
 			
@@ -141,11 +158,15 @@ public class Sikuli {
 
 //		robot.keyPress(KeyEvent.VK_PRINTSCREEN);
 		
-		if (status == 0)
-			return true;
-		else
+		if (Global.getTradedQty() == 0)
+		{
 			return false;
-		
+		}	
+		else
+		{
+			Global.setTradedQty(0);
+			return true;			
+		}
 	}
 
 	public static synchronized boolean shortContract() {
@@ -174,6 +195,22 @@ public class Sikuli {
 
 		status = SPApi.addOrder((byte) 'S');
 		
+		int counter = 0;
+		
+		while(!Global.isTraded())
+		{
+			counter++;
+			sleep(1000);
+			
+			if (counter > 60)
+			{
+				Global.addLog("Waited too short, failed to long");
+				return false;
+			}
+		}
+		
+		Global.setTraded(false);
+		
 		if (Global.getNoOfContracts() == 0) {
 //			Global.addLog("Current Balance: " + Global.balance +  " points, No of Trades: " + Global.noOfTrades);
 			Rules.setBalance(0);
@@ -182,10 +219,15 @@ public class Sikuli {
 		sleep(1000);
 //		robot.keyPress(KeyEvent.VK_PRINTSCREEN);
 
-		if (status == 0)
-			return true;
-		else
+		if (Global.getTradedQty() == 0)
+		{
 			return false;
+		}	
+		else
+		{
+			Global.setTradedQty(0);
+			return true;			
+		}
 	}
 
 	public static synchronized void liquidate() {
