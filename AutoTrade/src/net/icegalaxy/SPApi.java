@@ -23,7 +23,7 @@ public class SPApi
 	static long status = 0;
 	static byte[] product = getBytes("HSIH7", 16);
 	
-	static ArrayList<SPApiOrder> orders = new ArrayList<SPApiOrder>();
+//	static ArrayList<SPApiOrder> orders = new ArrayList<SPApiOrder>();
 
 	
 	static final int port = 8080;
@@ -264,7 +264,7 @@ public class SPApi
 		int rc;
 		
 		SPApiOrder order = new SPApiOrder();
-		orders.add(order);
+		//orders.add(order);
 
 		setBytes(order.AccNo, userid);
 		setBytes(order.Initiator, userid);
