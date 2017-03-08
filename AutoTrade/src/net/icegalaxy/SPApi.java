@@ -272,7 +272,7 @@ public class SPApi
 		setBytes(order.Initiator, userid);
 		order.BuySell = buy_sell;
 
-		order.Qty = 2;
+		order.Qty = 1;
 
 		setBytes(order.ProdCode, "MHIH7");
 
@@ -282,15 +282,15 @@ public class SPApi
 
 		order.CondType = 0; // normal type
 		setBytes(order.ClOrderId, "0");
-		order.ValidType = 0; // 0= valid all day
+		order.ValidType = 2; // 0= valid all day, 2= deal all or cancel all
 		order.DecInPrice = 0;
 
 		order.OrderType = 0;
 		
 		if (buy_sell == 'B')
-			order.Price = Global.getCurrentAsk(); 
+			order.Price = Global.getCurrentPoint() + 10;  //chase 10 pts
 		else
-			order.Price = Global.getCurrentBid();
+			order.Price = Global.getCurrentPoint() - 10;
 
 		rc = SPApiDll.INSTANCE.SPAPI_AddOrder(order);
 
