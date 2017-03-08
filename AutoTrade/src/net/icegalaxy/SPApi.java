@@ -47,7 +47,9 @@ public class SPApi
 
 		int SPAPI_Initialize();
 
-		int SPAPI_Uninitialize();
+		void SPAPI_Uninitialize();
+		
+		int SPAPI_DeleteAllOrders(String user_id, String acc_no);
 
 		void SPAPI_SetLoginInfo(String server, int port, String license, String app_id, String userid, String password);
 
@@ -280,7 +282,7 @@ public class SPApi
 
 		order.CondType = 0; // normal type
 		setBytes(order.ClOrderId, "0");
-		order.ValidType = 2;
+		order.ValidType = 0; // 0= valid all day
 		order.DecInPrice = 0;
 
 		order.OrderType = 0;
@@ -294,6 +296,16 @@ public class SPApi
 
 		return rc;
 
+	}
+	
+	public static int deleteAllOrder()
+	{
+		int status = 1;
+		
+		status = SPApiDll.INSTANCE.SPAPI_DeleteAllOrders(userid, userid);
+		Global.addLog("Delete all orders");
+		
+		return status;
 	}
 	
 	public static void registerOrderFail()
@@ -478,7 +490,7 @@ public class SPApi
 
 		status += SPApiDll.INSTANCE.SPAPI_SubscribePrice(userid, product, 0);
 		status += SPApiDll.INSTANCE.SPAPI_Logout(userid);
-		status += SPApiDll.INSTANCE.SPAPI_Uninitialize();
+		SPApiDll.INSTANCE.SPAPI_Uninitialize();
 
 		return status;
 

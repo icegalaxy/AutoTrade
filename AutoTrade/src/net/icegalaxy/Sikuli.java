@@ -6,9 +6,6 @@ import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 
 
-
-//Global.setHoldingStock(true)��Global.setHoldingStock(false)���Y�סA�]���׫ץΨ�
-//�R���esetTrue�A�椧�����setFalse�A�H���R�h��
 public class Sikuli {
 /*
 	static Region centre = new Region(640, 0, 640, 1080);
@@ -111,9 +108,7 @@ public class Sikuli {
 		}
 
 //		Global.addLog("Long at " + Global.getCurrentAsk());
-		Global.balance -= Global.getCurrentAsk();
-		Global.noOfTrades += 1;
-		Global.setNoOfContracts(Global.getNoOfContracts() + 1);
+		
 
 //		try {
 //			sc.click(spTitle, 0);
@@ -127,32 +122,33 @@ public class Sikuli {
 		
 		status = SPApi.addOrder((byte) 'B');
 		
+		if (status == 0)
+			Global.addLog("Long order sent");
+		else
+		{
+			Global.addLog("Fail to send long order");
+			return false;
+		}
+		
 		int counter = 0;
 		
 		while(!Global.isTraded())
 		{
-			counter++;
-			sleep(1000);
 			
-			if (counter > 60)
+			if (counter > 10)
 			{
+				SPApi.deleteAllOrder();
 				Global.addLog("Waited too long, failed to long");
 				return false;
 			}
+			
+			counter++;
+			sleep(1000);
 		}
+		
+		
 		
 		Global.setTraded(false);
-		
-
-		if (Global.getNoOfContracts() == 0) { //means closing contract
-			
-			
-			
-//			Global.addLog("Current Balance: " + Global.balance + " points, No of Trades: " + Global.noOfTrades);
-			Rules.setBalance(0);
-		}
-		
-		
 		
 		sleep(1000);
 
@@ -164,6 +160,12 @@ public class Sikuli {
 		}	
 		else
 		{
+			Global.balance -= Global.getCurrentAsk();
+			Global.noOfTrades += 1;
+			Global.setNoOfContracts(Global.getNoOfContracts() + 1);
+			if (Global.getNoOfContracts() == 0) { //means closing contract
+				Rules.setBalance(0);
+			}
 			Global.setTradedQty(0);
 			return true;			
 		}
@@ -179,9 +181,7 @@ public class Sikuli {
 		}
 
 //		Global.addLog("Short at " + Global.getCurrentBid());
-		Global.balance += Global.getCurrentBid();
-		Global.noOfTrades += 1;
-		Global.setNoOfContracts(Global.getNoOfContracts() - 1);
+	
 
 //		try {
 //			sc.click(spTitle, 0);
@@ -195,26 +195,33 @@ public class Sikuli {
 
 		status = SPApi.addOrder((byte) 'S');
 		
+		if (status == 0)
+			Global.addLog("Short order sent");
+		else
+		{
+			Global.addLog("Fail to send short order");
+			return false;
+		}
+		
 		int counter = 0;
 		
 		while(!Global.isTraded())
 		{
-			counter++;
-			sleep(1000);
-			
-			if (counter > 60)
+			if (counter > 10)
 			{
-				Global.addLog("Waited too short, failed to long");
+				SPApi.deleteAllOrder();
+				Global.addLog("Waited too long, failed to short");
 				return false;
 			}
+			
+			counter++;
+			sleep(1000);
+
 		}
 		
 		Global.setTraded(false);
 		
-		if (Global.getNoOfContracts() == 0) {
-//			Global.addLog("Current Balance: " + Global.balance +  " points, No of Trades: " + Global.noOfTrades);
-			Rules.setBalance(0);
-		}
+		
 
 		sleep(1000);
 //		robot.keyPress(KeyEvent.VK_PRINTSCREEN);
@@ -225,6 +232,12 @@ public class Sikuli {
 		}	
 		else
 		{
+			Global.balance += Global.getCurrentBid();
+			Global.noOfTrades += 1;
+			Global.setNoOfContracts(Global.getNoOfContracts() - 1);
+			if (Global.getNoOfContracts() == 0) {
+				Rules.setBalance(0);
+			}
 			Global.setTradedQty(0);
 			return true;			
 		}
