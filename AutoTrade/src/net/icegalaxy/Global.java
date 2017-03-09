@@ -1,7 +1,6 @@
 package net.icegalaxy;
 
 
-
 public class Global {
 
 	public static synchronized boolean isTradeTime() {
@@ -476,7 +475,25 @@ public class Global {
 	}
 
 
+	public static synchronized boolean isRapidRise()
+	{
+		return rapidRise;
+	}
 
+	public static synchronized void setRapidRise(boolean rapidRise)
+	{
+		Global.rapidRise = rapidRise;
+	}
+
+	public static synchronized boolean isRapidDrop()
+	{
+		return rapidDrop;
+	}
+
+	public static synchronized void setRapidDrop(boolean rapidDrop)
+	{
+		Global.rapidDrop = rapidDrop;
+	}
 
 
 	static Chasing chasing;
@@ -562,6 +579,9 @@ public class Global {
 	
 	private static boolean Traded;
 	private static int tradedQty;
+	
+	static boolean rapidRise;
+	static boolean rapidDrop;
 	
 }
 

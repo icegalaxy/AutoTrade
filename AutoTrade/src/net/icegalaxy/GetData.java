@@ -6,6 +6,8 @@ import java.util.Calendar;
 
 
 
+
+
 public class GetData implements Runnable
 {
 
@@ -227,6 +229,25 @@ public class GetData implements Runnable
 
 				longData.getHighLow();
 				longData.getOpen();
+				
+				try
+				{
+				if (getTimeInt() > 92000)
+				{
+					if (Global.getCurrentPoint() - getShortTB().getLatestCandle().getLow() > 15)
+						Global.setRapidRise(true);
+					else
+						Global.setRapidRise(false);
+
+					if (getShortTB().getLatestCandle().getHigh() - Global.getCurrentPoint() > 15)
+						Global.setRapidDrop(true);
+					else
+						Global.setRapidDrop(false);
+				}
+				}catch (Exception e)
+				{
+					e.printStackTrace();
+				}
 
 				// sec10Data.getHighLow();
 				// sec10Data.getOpen();

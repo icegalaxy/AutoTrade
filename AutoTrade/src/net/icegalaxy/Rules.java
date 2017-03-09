@@ -412,7 +412,7 @@ public abstract class Rules implements Runnable
 	{
 
 		// can't do it in sikuli, it stopped the forcesell
-		if (!Global.isOrderTime())
+		if (!isOrderTime())
 		{
 			Global.addLog(className + ": not order time");
 			return;
@@ -446,7 +446,7 @@ public abstract class Rules implements Runnable
 	{
 
 		// can't do it in sikuli, it stopped the forcesell
-		if (!Global.isOrderTime())
+		if (!isOrderTime())
 		{
 			Global.addLog(className + ": not order time");
 			return;
