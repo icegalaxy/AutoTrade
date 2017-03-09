@@ -272,7 +272,7 @@ public class SPApi
 		setBytes(order.Initiator, userid);
 		order.BuySell = buy_sell;
 
-		order.Qty = 1;
+		order.Qty = 2;
 
 		setBytes(order.ProdCode, "MHIH7");
 
