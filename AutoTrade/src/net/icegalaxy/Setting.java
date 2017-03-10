@@ -219,7 +219,7 @@ public class Setting extends JFrame {
 //		RuleNoonOpen noonOpen = new RuleNoonOpen(true);
 //		RuleSilvia silvia = new RuleSilvia(true);
 //		RuleEMA56 ema56 = new RuleEMA56(false);
-		RuleIBT2 ibt2 = new RuleIBT2(true);
+		RuleIBT2 ibt2 = new RuleIBT2(false);
 //		RuleChasing chasing = new RuleChasing(true);
 		
 		Runnable[] r = { gd, tpd, danny250, danny2502, danny2503, danny2504, breakThrough, ibt2, pHigh, pLow, pClose, rsi};
