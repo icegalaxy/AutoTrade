@@ -282,15 +282,15 @@ public class SPApi
 
 		order.CondType = 0; // normal type
 		setBytes(order.ClOrderId, "0");
-		order.ValidType = 2; // 0= valid all day, 2= deal all or cancel all
+		order.ValidType = 0; // 0= valid all day, 2= deal all or cancel all
 		order.DecInPrice = 0;
 
 		order.OrderType = 0;
 		
 		if (buy_sell == 'B')
-			order.Price = Global.getCurrentPoint() + 10;  //chase 10 pts
+			order.Price = Global.getCurrentPoint() + 20;  //chase 20 pts
 		else
-			order.Price = Global.getCurrentPoint() - 10;
+			order.Price = Global.getCurrentPoint() - 20;
 
 		rc = SPApiDll.INSTANCE.SPAPI_AddOrder(order);
 
