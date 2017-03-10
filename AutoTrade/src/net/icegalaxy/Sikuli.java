@@ -130,7 +130,7 @@ public class Sikuli {
 			return false;
 		}
 		
-		int counter = 0;
+		/*int counter = 0;
 		
 		while(!Global.isTraded())
 		{
@@ -159,7 +159,7 @@ public class Sikuli {
 			return false;
 		}	
 		else
-		{
+		{*/
 			Global.balance -= Global.getCurrentAsk();
 			Global.noOfTrades += 1;
 			Global.setNoOfContracts(Global.getNoOfContracts() + 1);
@@ -168,7 +168,7 @@ public class Sikuli {
 			}
 			Global.setTradedQty(0);
 			return true;			
-		}
+	//	}
 	}
 
 	public static synchronized boolean shortContract() {
@@ -203,7 +203,7 @@ public class Sikuli {
 			return false;
 		}
 		
-		int counter = 0;
+	/*	int counter = 0;
 		
 		while(!Global.isTraded())
 		{
@@ -231,7 +231,7 @@ public class Sikuli {
 			return false;
 		}	
 		else
-		{
+		{*/
 			Global.balance += Global.getCurrentBid();
 			Global.noOfTrades += 1;
 			Global.setNoOfContracts(Global.getNoOfContracts() - 1);
@@ -240,7 +240,7 @@ public class Sikuli {
 			}
 			Global.setTradedQty(0);
 			return true;			
-		}
+	//	}
 	}
 
 	public static synchronized void liquidate() {

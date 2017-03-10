@@ -562,16 +562,16 @@ public class Global {
 
 	public static boolean isNoonOpened;
 	
-	static double pOpen;
-	static double pHigh;
-	static double pLow;
-	static double pClose;
+	static double pOpen = 0;
+	static double pHigh = 0;
+	static double pLow = 0;
+	static double pClose = 0;
 	static double pFluc;
-	static double AOH;
-	static double AOL;
-	static double open;
+	static double AOH = 0;
+	static double AOL = 0;
+	static double open = 0;
 	static String Today = "xxx";
-	static double noonOpen;
+	static double noonOpen = 0;
 	
 	private static boolean tradeLink;
 	private static boolean priceLink;

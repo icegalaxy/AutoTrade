@@ -37,9 +37,12 @@ public class RuleBreakThrough extends Rules {
 		{
 			ohlc = item;
 
-			if (ohlc == 0 || Global.getNoOfContracts() !=0)
+			if (Global.getNoOfContracts() !=0)
 				return;
-
+			
+			if (ohlc == 0)
+				continue;
+				
 			if (GetData.getEma5().getPreviousEMA(1) < ohlc && GetData.getEma5().getEMA() > ohlc)
 			{
 
