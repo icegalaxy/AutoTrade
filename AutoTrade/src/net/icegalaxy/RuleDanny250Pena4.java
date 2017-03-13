@@ -1,6 +1,7 @@
 package net.icegalaxy;
 
 
+
 //Use the OPEN Line
 
 public class RuleDanny250Pena4 extends Rules
@@ -8,6 +9,7 @@ public class RuleDanny250Pena4 extends Rules
 
 
 	private double cutLoss;
+	private double OHLC;
 	private double refHigh;
 	private double refLow;
 	private boolean trendReversed;
@@ -25,30 +27,13 @@ public class RuleDanny250Pena4 extends Rules
 		refHigh = 0;
 		refLow = 99999;
 
-//		if (shutdown)
-//		{
-//			lossTimes++;
-//			shutdown = false;
-//		}
+
 		
-	
-		
-//		if (chasing.chaseUp() || chasing.chaseDown()){
-//			
-//			Global.setChasing(chasing);
-//			chasing = new Chasing();
-//		}
-		
-		if (!isOrderTime() || Global.getNoOfContracts() != 0 || GetData.getEma250().getEMA() == 0 || shutdown
-				|| Math.abs(GetData.getEma250().getEMA() - GetData.getEma1200().getEMA()) > 100)
+		if (!isOrderTime() || Global.getNoOfContracts() != 0 || GetData.getLongTB().getEma5().getEMA() == 0 || shutdown
+				|| Global.balance < -30)
 			return;
 		
-//		while (Math.abs(Global.getCurrentPoint() - GetData.getEma250().getEMA()) < 20)
-//			{
-//				wanPrevious.middleWaiter(wanNext);
-//				if (!isOrderTime())
-//					return;
-//			}
+
 
 		if (GetData.getLongTB().getEma5().getPreviousEMA(1) < GetData.getLongTB().getEma250().getPreviousEMA(1)
 				&& GetData.getLongTB().getEma5().getEMA() > GetData.getLongTB().getEma250().getEMA())
@@ -104,48 +89,6 @@ public class RuleDanny250Pena4 extends Rules
 
 	}
 
-	// use 1min instead of 5min
-//	void updateStopEarn()
-//	{
-//		double ema5;
-//		double ema6;
-////
-////		if (getProfit() < 100)
-////		{
-//			ema5 = GetData.getShortTB().getLatestCandle().getClose();
-//			ema6 = GetData.getEma25().getEMA();
-////		} else
-////		{
-////			ema5 = StockDataController.getLongTB().getEMA(5);
-////			ema6 = StockDataController.getLongTB().getEMA(6);
-////		}
-//
-//		if (Global.getNoOfContracts() > 0)
-//		{
-//
-//			// if (ema5 < ema6)
-////			 tempCutLoss = buyingPoint + 5;
-//
-//			if (ema5 < ema6){
-//				tempCutLoss = 99999;
-////				if (getProfit() > 0)
-////					chasing.setChaseUp(true);
-//			}
-//
-//		} else if (Global.getNoOfContracts() < 0)
-//		{
-//
-//			// if (ema5 > ema6)
-////			 tempCutLoss = buyingPoint - 5;
-//
-//			if (ema5 > ema6){
-//				tempCutLoss = 0;
-////				if (getProfit() > 0)
-////					chasing.setChaseDown(true);
-//			}
-//		}
-//
-//	}
 
 	// use 1min instead of 5min
 	double getCutLossPt()
