@@ -20,7 +20,11 @@ public class EMA
 	}
 	
 	public double getEMA(){
-		return EMAs.get(EMAs.size()-1);
+		
+		if (EMAs.size() < 1)
+			return 0;
+		else
+			return EMAs.get(EMAs.size()-1);
 	}
 	
 	public double getPreviousEMA(int noOfPeriodBefore)
