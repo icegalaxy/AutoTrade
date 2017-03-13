@@ -60,6 +60,8 @@ public class SPApi
 		int SPAPI_AddOrder(SPApiOrder order);
 
 		int SPAPI_SubscribePrice(String user_id, byte[] prod_code, int mode);
+		
+		void SPAPI_RegisterOrderReport(RegisterOrder orderReport);
 
 		void SPAPI_RegisterApiPriceUpdate(RegisterPriceUpdate priceUpdate);
 		
@@ -221,6 +223,11 @@ public class SPApi
 
 	}
 	
+	public interface RegisterOrder extends Callback
+	{
+		void invoke(long rec_no, SPApiOrder order);
+	}
+	
 	public interface RegisterOrderFail extends Callback
 	{
 		void invoke(int action, SPApiOrder order, long err_code, String err_msg);
@@ -306,6 +313,19 @@ public class SPApi
 		Global.addLog("Delete all orders");
 		
 		return status;
+	}
+	
+	public static void registerOrderReport()
+	{
+		RegisterOrder orderReport = (rec, order) -> 
+		{
+			Global.addLog("Order report [Rec no: " + rec + ", Price: " + order.Price + "]");
+		};
+		
+		SPApiDll.INSTANCE.SPAPI_RegisterOrderReport(orderReport);
+		
+		System.out.println("Registered Order report");
+		
 	}
 	
 	public static void registerOrderFail()
@@ -423,7 +443,7 @@ public class SPApi
 	public static void registerTradeReport(){
 		RegisterTradeReport tradeReport = (rec_no, trade) -> 
 		{
-			Global.addLog("Order traded: " + trade.Qty + "@" + trade.Price + ", Rec no: " + rec_no);
+			Global.addLog("Trade report: " + trade.Qty + "@" + trade.Price + ", Rec no: " + rec_no);
 			Global.setTraded(true);
 			Global.setTradedQty(trade.Qty);
 		};
@@ -479,6 +499,7 @@ public class SPApi
 		registerPriceUpdate();
 		registerTradeReport();
 		registerOrderFail();
+		registerOrderReport();
 		status += SPApiDll.INSTANCE.SPAPI_Login();
 
 		return status;
