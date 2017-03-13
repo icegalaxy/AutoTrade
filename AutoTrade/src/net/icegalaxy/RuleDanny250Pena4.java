@@ -150,7 +150,7 @@ public class RuleDanny250Pena4 extends Rules
 	// use 1min instead of 5min
 	double getCutLossPt()
 	{
-		return Math.max(100, cutLoss);
+		return Math.max(50, cutLoss);
 	}
 	
 	
