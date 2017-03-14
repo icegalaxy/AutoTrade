@@ -23,9 +23,6 @@ public class RuleBreakThrough extends Rules {
 
 	public void openContract()
 	{
-
-		refHigh = 0;
-		refLow = 99999;
 		
 		if (!isOrderTime() || Global.getNoOfContracts() != 0 || shutdown || Global.balance < -30)
 			return;
@@ -47,6 +44,9 @@ public class RuleBreakThrough extends Rules {
 				
 			if (GetData.getEma5().getPreviousEMA(1) < ohlc && GetData.getEma5().getEMA() > ohlc)
 			{
+				
+				refHigh = Global.getCurrentPoint();
+				refLow = Global.getCurrentPoint();
 
 				while (!Global.isRapidRise())
 				{
@@ -75,10 +75,13 @@ public class RuleBreakThrough extends Rules {
 				
 
 				longContract();
+				return;
 
 			} else if (GetData.getEma5().getPreviousEMA(1) > ohlc && GetData.getEma5().getEMA() < ohlc)
 			{
 
+				refHigh = Global.getCurrentPoint();
+				refLow = Global.getCurrentPoint();
 				
 				while (!Global.isRapidDrop())
 				{
@@ -107,6 +110,7 @@ public class RuleBreakThrough extends Rules {
 			
 
 				shortContract();
+				return;
 
 			}
 			sleep(1000);
