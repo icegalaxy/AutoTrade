@@ -1,22 +1,89 @@
-2017-02-27T03:06:19.617236: Set Connect (Host: futures.bsgroup.com.hk:8080)...
-2017-02-27T03:06:19.638266: Logging in ...
-2017-02-27T03:06:20.901327: Login OK !>>> (UserId#T865829 systemTime:1488135981)systemid:PROXY0
-2017-02-27T03:06:20.902831: WebLink: Id>>> 0 ,URL:http://spsystem.info/autoupgrade/
-2017-02-27T03:06:20.902831: WebLink: Id>>> 1 ,URL:http://spsystem.info/splinker/index.php?action=webchart
-2017-02-27T03:06:20.902831: WebLink: Id>>> 2 ,URL:http://spsystem.info/splinker/index.php?action=sphelp
-2017-02-27T03:06:20.902831: WebLink: Id>>> 3 ,URL:http://spsystem.info/splinker/index.php?action=splogo
-2017-02-27T03:06:20.903332: WebLink: Id>>> 4 ,URL:http://spsystem.info/splinker/index.php?action=spprodinfo
-2017-02-27T03:06:20.903332: WebLink: Id>>> 9 ,URL:https://mobilefs1.bsgroup.com.hk/sptrader/
-2017-02-27T03:06:20.903332: WebLink: Id>>> 20 ,URL:spsystem.info/splinker/index.php?a=1
-2017-02-27T03:06:20.903332: WebLink: Id>>> 21 ,URL:spsystem.info/splinker/index.php?a=2
-2017-02-27T03:06:20.903332: WebLink: Id>>> 24 ,URL:103.241.165.206:80/spmobile_api/spwebapi/
-2017-02-27T03:06:20.903332: WebLink: Id>>> 28 ,URL:http://spsystem.info/spmobile_service/spwebapi
-2017-02-27T03:06:20.903332: WebLink: Id>>> 29 ,URL:http://spsystem.info/spproduct_mobile/index.php?referer=mobile&format=json
-2017-02-27T03:06:20.907298: WebLink: Id>>> 30 ,URL:http://spsystem.info/document/
-2017-02-27T03:06:20.907298: WebLink: Id>>> 32 ,URL:https://mobilef.bsgroup.com.hk/spmobile_api/spwebapi/
-2017-02-27T03:06:20.907298: WebLink: Id>>> 33 ,URL:http://profile1.spsystem.info
-2017-02-27T03:06:20.907298: WebLink: Id>>> 34 ,URL:http://profile2.spsystem.info
-2017-02-27T03:06:20.907298: WebLink: Id>>> 35 ,URL:http://profile3.spsystem.info
-2017-02-27T03:06:20.907798: WebLink: Id>>> 36 ,URL:http://profile4.spsystem.info
-2017-02-27T03:06:20.907798: WebLink: Id>>> 37 ,URL:http://profile5.spsystem.info
-2017-02-27T03:06:20.907798: WebLink: Id>>> 100 ,URL:
+2017-03-13T09:01:01.009885: Start Logout ...
+2017-03-13T10:27:24.281844: Set Connect (Host: futures.bsgroup.com.hk:8080)...
+2017-03-13T10:27:24.340361: Logging in ...
+2017-03-13T10:27:25.641716: Login OK !>>> (UserId#T865829 systemTime:1489372045)systemid:PROXY0
+2017-03-13T10:27:25.670718: WebLink: Id>>> 0 ,URL:http://spsystem.info/autoupgrade/
+2017-03-13T10:27:25.670718: WebLink: Id>>> 1 ,URL:http://spsystem.info/splinker/index.php?action=webchart
+2017-03-13T10:27:25.670718: WebLink: Id>>> 2 ,URL:http://spsystem.info/splinker/index.php?action=sphelp
+2017-03-13T10:27:25.670718: WebLink: Id>>> 3 ,URL:http://spsystem.info/splinker/index.php?action=splogo
+2017-03-13T10:27:25.671715: WebLink: Id>>> 4 ,URL:http://spsystem.info/splinker/index.php?action=spprodinfo
+2017-03-13T10:27:25.671715: WebLink: Id>>> 9 ,URL:https://mobilefs1.bsgroup.com.hk/sptrader/
+2017-03-13T10:27:25.671715: WebLink: Id>>> 20 ,URL:spsystem.info/splinker/index.php?a=1
+2017-03-13T10:27:25.671715: WebLink: Id>>> 21 ,URL:spsystem.info/splinker/index.php?a=2
+2017-03-13T10:27:25.671715: WebLink: Id>>> 24 ,URL:103.241.165.206:80/spmobile_api/spwebapi/
+2017-03-13T10:27:25.671715: WebLink: Id>>> 28 ,URL:http://spsystem.info/spmobile_service/spwebapi
+2017-03-13T10:27:25.671715: WebLink: Id>>> 29 ,URL:http://spsystem.info/spproduct_mobile/index.php?referer=mobile&format=json
+2017-03-13T10:27:25.671715: WebLink: Id>>> 30 ,URL:http://spsystem.info/document/
+2017-03-13T10:27:25.671715: WebLink: Id>>> 32 ,URL:https://mobilef.bsgroup.com.hk/spmobile_api/spwebapi/
+2017-03-13T10:27:25.671715: WebLink: Id>>> 33 ,URL:http://profile1.spsystem.info
+2017-03-13T10:27:25.679718: WebLink: Id>>> 34 ,URL:http://profile2.spsystem.info
+2017-03-13T10:27:25.679718: WebLink: Id>>> 35 ,URL:http://profile3.spsystem.info
+2017-03-13T10:27:25.679718: WebLink: Id>>> 36 ,URL:http://profile4.spsystem.info
+2017-03-13T10:27:25.679718: WebLink: Id>>> 37 ,URL:http://profile5.spsystem.info
+2017-03-13T10:27:25.680717: WebLink: Id>>> 100 ,URL:
+2017-03-13T10:28:48.404509: Set Connect (Host: futures.bsgroup.com.hk:8080)...
+2017-03-13T10:28:48.440507: Logging in ...
+2017-03-13T10:28:50.229632: Login OK !>>> (UserId#T865829 systemTime:1489372129)systemid:PROXY0
+2017-03-13T10:28:50.230633: WebLink: Id>>> 0 ,URL:http://spsystem.info/autoupgrade/
+2017-03-13T10:28:50.230633: WebLink: Id>>> 1 ,URL:http://spsystem.info/splinker/index.php?action=webchart
+2017-03-13T10:28:50.230633: WebLink: Id>>> 2 ,URL:http://spsystem.info/splinker/index.php?action=sphelp
+2017-03-13T10:28:50.230633: WebLink: Id>>> 3 ,URL:http://spsystem.info/splinker/index.php?action=splogo
+2017-03-13T10:28:50.230633: WebLink: Id>>> 4 ,URL:http://spsystem.info/splinker/index.php?action=spprodinfo
+2017-03-13T10:28:50.230633: WebLink: Id>>> 9 ,URL:https://mobilefs1.bsgroup.com.hk/sptrader/
+2017-03-13T10:28:50.231633: WebLink: Id>>> 20 ,URL:spsystem.info/splinker/index.php?a=1
+2017-03-13T10:28:50.231633: WebLink: Id>>> 21 ,URL:spsystem.info/splinker/index.php?a=2
+2017-03-13T10:28:50.231633: WebLink: Id>>> 24 ,URL:103.241.165.206:80/spmobile_api/spwebapi/
+2017-03-13T10:28:50.231633: WebLink: Id>>> 28 ,URL:http://spsystem.info/spmobile_service/spwebapi
+2017-03-13T10:28:50.231633: WebLink: Id>>> 29 ,URL:http://spsystem.info/spproduct_mobile/index.php?referer=mobile&format=json
+2017-03-13T10:28:50.236634: WebLink: Id>>> 30 ,URL:http://spsystem.info/document/
+2017-03-13T10:28:50.236634: WebLink: Id>>> 32 ,URL:https://mobilef.bsgroup.com.hk/spmobile_api/spwebapi/
+2017-03-13T10:28:50.236634: WebLink: Id>>> 33 ,URL:http://profile1.spsystem.info
+2017-03-13T10:28:50.236634: WebLink: Id>>> 34 ,URL:http://profile2.spsystem.info
+2017-03-13T10:28:50.236634: WebLink: Id>>> 35 ,URL:http://profile3.spsystem.info
+2017-03-13T10:28:50.236634: WebLink: Id>>> 36 ,URL:http://profile4.spsystem.info
+2017-03-13T10:28:50.236634: WebLink: Id>>> 37 ,URL:http://profile5.spsystem.info
+2017-03-13T10:28:50.236634: WebLink: Id>>> 100 ,URL:
+2017-03-13T11:52:18.836000: Set Connect (Host: futures.bsgroup.com.hk:8080)...
+2017-03-13T11:52:18.880074: Logging in ...
+2017-03-13T11:52:20.181666: Login OK !>>> (UserId#T865829 systemTime:1489377139)systemid:PROXY0
+2017-03-13T11:52:20.182667: WebLink: Id>>> 0 ,URL:http://spsystem.info/autoupgrade/
+2017-03-13T11:52:20.183168: WebLink: Id>>> 1 ,URL:http://spsystem.info/splinker/index.php?action=webchart
+2017-03-13T11:52:20.183168: WebLink: Id>>> 2 ,URL:http://spsystem.info/splinker/index.php?action=sphelp
+2017-03-13T11:52:20.183168: WebLink: Id>>> 3 ,URL:http://spsystem.info/splinker/index.php?action=splogo
+2017-03-13T11:52:20.183168: WebLink: Id>>> 4 ,URL:http://spsystem.info/splinker/index.php?action=spprodinfo
+2017-03-13T11:52:20.183168: WebLink: Id>>> 9 ,URL:https://mobilefs1.bsgroup.com.hk/sptrader/
+2017-03-13T11:52:20.183669: WebLink: Id>>> 20 ,URL:spsystem.info/splinker/index.php?a=1
+2017-03-13T11:52:20.183669: WebLink: Id>>> 21 ,URL:spsystem.info/splinker/index.php?a=2
+2017-03-13T11:52:20.183669: WebLink: Id>>> 24 ,URL:103.241.165.206:80/spmobile_api/spwebapi/
+2017-03-13T11:52:20.183669: WebLink: Id>>> 28 ,URL:http://spsystem.info/spmobile_service/spwebapi
+2017-03-13T11:52:20.183669: WebLink: Id>>> 29 ,URL:http://spsystem.info/spproduct_mobile/index.php?referer=mobile&format=json
+2017-03-13T11:52:20.190681: WebLink: Id>>> 30 ,URL:http://spsystem.info/document/
+2017-03-13T11:52:20.190681: WebLink: Id>>> 32 ,URL:https://mobilef.bsgroup.com.hk/spmobile_api/spwebapi/
+2017-03-13T11:52:20.190681: WebLink: Id>>> 33 ,URL:http://profile1.spsystem.info
+2017-03-13T11:52:20.190681: WebLink: Id>>> 34 ,URL:http://profile2.spsystem.info
+2017-03-13T11:52:20.190681: WebLink: Id>>> 35 ,URL:http://profile3.spsystem.info
+2017-03-13T11:52:20.190681: WebLink: Id>>> 36 ,URL:http://profile4.spsystem.info
+2017-03-13T11:52:20.190681: WebLink: Id>>> 37 ,URL:http://profile5.spsystem.info
+2017-03-13T11:52:20.190681: WebLink: Id>>> 100 ,URL:
+2017-03-13T12:02:17.008834: Set Connect (Host: futures.bsgroup.com.hk:8080)...
+2017-03-13T12:02:17.044393: Logging in ...
+2017-03-13T12:02:18.464954: Login OK !>>> (UserId#T865829 systemTime:1489377737)systemid:PROXY0
+2017-03-13T12:02:18.493878: WebLink: Id>>> 0 ,URL:http://spsystem.info/autoupgrade/
+2017-03-13T12:02:18.493878: WebLink: Id>>> 1 ,URL:http://spsystem.info/splinker/index.php?action=webchart
+2017-03-13T12:02:18.493878: WebLink: Id>>> 2 ,URL:http://spsystem.info/splinker/index.php?action=sphelp
+2017-03-13T12:02:18.493878: WebLink: Id>>> 3 ,URL:http://spsystem.info/splinker/index.php?action=splogo
+2017-03-13T12:02:18.493878: WebLink: Id>>> 4 ,URL:http://spsystem.info/splinker/index.php?action=spprodinfo
+2017-03-13T12:02:18.493878: WebLink: Id>>> 9 ,URL:https://mobilefs1.bsgroup.com.hk/sptrader/
+2017-03-13T12:02:18.493878: WebLink: Id>>> 20 ,URL:spsystem.info/splinker/index.php?a=1
+2017-03-13T12:02:18.493878: WebLink: Id>>> 21 ,URL:spsystem.info/splinker/index.php?a=2
+2017-03-13T12:02:18.493878: WebLink: Id>>> 24 ,URL:103.241.165.206:80/spmobile_api/spwebapi/
+2017-03-13T12:02:18.493878: WebLink: Id>>> 28 ,URL:http://spsystem.info/spmobile_service/spwebapi
+2017-03-13T12:02:18.495881: WebLink: Id>>> 29 ,URL:http://spsystem.info/spproduct_mobile/index.php?referer=mobile&format=json
+2017-03-13T12:02:18.495881: WebLink: Id>>> 30 ,URL:http://spsystem.info/document/
+2017-03-13T12:02:18.495881: WebLink: Id>>> 32 ,URL:https://mobilef.bsgroup.com.hk/spmobile_api/spwebapi/
+2017-03-13T12:02:18.495881: WebLink: Id>>> 33 ,URL:http://profile1.spsystem.info
+2017-03-13T12:02:18.499387: WebLink: Id>>> 34 ,URL:http://profile2.spsystem.info
+2017-03-13T12:02:18.499886: WebLink: Id>>> 35 ,URL:http://profile3.spsystem.info
+2017-03-13T12:02:18.499886: WebLink: Id>>> 36 ,URL:http://profile4.spsystem.info
+2017-03-13T12:02:18.499886: WebLink: Id>>> 37 ,URL:http://profile5.spsystem.info
+2017-03-13T12:02:18.499886: WebLink: Id>>> 100 ,URL:
