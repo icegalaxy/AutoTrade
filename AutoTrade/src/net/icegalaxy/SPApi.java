@@ -279,9 +279,9 @@ public class SPApi
 		setBytes(order.Initiator, userid);
 		order.BuySell = buy_sell;
 
-		order.Qty = 2;
+		order.Qty = 1;
 
-		setBytes(order.ProdCode, "MHIH7");
+		order.ProdCode = product;
 
 		setBytes(order.Ref, "JAVA");
 		setBytes(order.Ref2, "TRADERAPI");
