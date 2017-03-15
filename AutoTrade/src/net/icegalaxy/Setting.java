@@ -211,7 +211,7 @@ public class Setting extends JFrame {
 		RuleDanny250Pena danny250 = new RuleDanny250Pena(false);
 		RuleDanny250Pena2 danny2502 = new RuleDanny250Pena2(false);
 		RuleDanny250Pena3 danny2503 = new RuleDanny250Pena3(false);
-		RuleDanny250Pena4 danny2504 = new RuleDanny250Pena4(true);
+		RuleDanny250Pena4 danny2504 = new RuleDanny250Pena4(false);
 		RuleBreakThrough breakThrough = new RuleBreakThrough(true);
 //		RuleDanny2 danny2 = new RuleDanny2(false);
 //		RuleDanny240 danny240 = new RuleDanny240(true);
