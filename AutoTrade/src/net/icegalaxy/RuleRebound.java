@@ -1,7 +1,5 @@
 package net.icegalaxy;
 
-
-
 public class RuleRebound extends Rules {
 
 	private double cutLoss;
@@ -35,6 +33,9 @@ public class RuleRebound extends Rules {
 			
 			if (ohlc == 0)
 				continue;
+			
+			if (Math.abs(Global.getCurrentPoint() - ohlc) > 30)
+				continue;
 
 			if (GetData.getEma5().getEMA() > ohlc && Global.getCurrentPoint() < ohlc + 5)
 			{
@@ -55,6 +56,9 @@ public class RuleRebound extends Rules {
 						Global.addLog("EMA5 < Open, EMA5: " + GetData.getEma5().getEMA() + ", Open: " + ohlc);
 						return;
 					}
+					
+					if (Global.getCurrentPoint() - ohlc > 30)
+						return;
 
 //					if (GetData.getShortTB().getRSI() > 70 || Global.isRapidDrop())
 //					{
@@ -90,6 +94,9 @@ public class RuleRebound extends Rules {
 						Global.addLog("EMA5: " + GetData.getEma5().getEMA() + ", Open: " + ohlc);
 						return;
 					}
+					
+					if (ohlc - Global.getCurrentPoint() > 30)
+						return;
 
 //					if (GetData.getShortTB().getRSI() < 30 || Global.isRapidRise())
 //					{

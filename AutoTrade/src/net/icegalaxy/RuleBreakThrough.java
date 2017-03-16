@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 
 
+
 public class RuleBreakThrough extends Rules {
 
 	
@@ -41,6 +42,9 @@ public class RuleBreakThrough extends Rules {
 			
 			if (ohlc == 0)
 				continue;
+			
+			if (Math.abs(Global.getCurrentPoint() - ohlc) > 30)
+				continue;
 				
 			if (GetData.getEma5().getPreviousEMA(1) < ohlc && GetData.getEma5().getEMA() > ohlc)
 			{
@@ -61,6 +65,9 @@ public class RuleBreakThrough extends Rules {
 						Global.addLog("EMA5 < Open, EMA5: " + GetData.getEma5().getEMA() + ", Open: " + ohlc);
 						return;
 					}
+					
+					if (Global.getCurrentPoint() - ohlc > 30)
+						return;
 
 //					if (GetData.getShortTB().getRSI() > 70 || Global.isRapidDrop())
 //					{
@@ -96,6 +103,9 @@ public class RuleBreakThrough extends Rules {
 						Global.addLog("EMA5: " + GetData.getEma5().getEMA() + ", Open: " + ohlc);
 						return;
 					}
+					
+					if (ohlc - Global.getCurrentPoint() > 30)
+						return;
 
 //					if (GetData.getShortTB().getRSI() < 30 || Global.isRapidRise())
 //					{
