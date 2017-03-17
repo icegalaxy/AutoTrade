@@ -201,8 +201,8 @@ public class QuotePower {
 			quantity = Global.getTurnOverVol();
 			
 			bidQuantity = Global.getBidQty();
-			bid = String.valueOf(Global.getBidQty());
-			ask = String.valueOf(Global.getAskQty());
+			bid = String.valueOf(Global.getCurrentBid());
+			ask = String.valueOf(Global.getCurrentAsk());
 			askQuantity = Global.getAskQty();
 
 			
