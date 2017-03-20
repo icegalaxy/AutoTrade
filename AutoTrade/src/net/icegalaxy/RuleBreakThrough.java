@@ -123,7 +123,6 @@ public class RuleBreakThrough extends Rules {
 				return;
 
 			}
-			sleep(1000);
 		}
 	}
 

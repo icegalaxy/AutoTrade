@@ -114,7 +114,6 @@ public class RuleRebound extends Rules {
 				return;
 
 			}
-			sleep(1000);
 		}
 	}
 
