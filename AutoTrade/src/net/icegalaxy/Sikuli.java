@@ -120,7 +120,7 @@ public class Sikuli {
 //			liquidate();
 //		}
 		
-		status = SPApi.addOrder((byte) 'B');
+	/*	status = SPApi.addOrder((byte) 'B');
 		
 		if (status == 0)
 			Global.addLog("Long order sent");
@@ -128,7 +128,7 @@ public class Sikuli {
 		{
 			Global.addLog("Fail to send long order");
 			return false;
-		}
+		}*/
 		
 		/*int counter = 0;
 		
@@ -195,13 +195,13 @@ public class Sikuli {
 
 		status = SPApi.addOrder((byte) 'S');
 		
-		if (status == 0)
+	/*	if (status == 0)
 			Global.addLog("Short order sent");
 		else
 		{
 			Global.addLog("Fail to send short order");
 			return false;
-		}
+		}*/
 		
 	/*	int counter = 0;
 		
