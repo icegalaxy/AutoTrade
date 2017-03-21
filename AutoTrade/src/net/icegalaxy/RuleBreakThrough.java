@@ -29,7 +29,7 @@ public class RuleBreakThrough extends Rules {
 			return;
 		
 		ohlcs = new double[]
-				{ Global.getOpen(), Global.getpHigh(), Global.getpLow(), Global.getpClose(), Global.getAOH(), Global.getAOL(), GetData.getShortTB().getEma250().getEMA() };
+				{ Global.getOpen(), Global.getpHigh(), Global.getpLow(), Global.getpClose()};
 
 		
 
