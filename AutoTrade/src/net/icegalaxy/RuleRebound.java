@@ -1,11 +1,14 @@
 package net.icegalaxy;
 
+
+
 public class RuleRebound extends Rules {
 
 	private double cutLoss;
 	double[] ohlcs;
 	double ohlc = 0;
 	private boolean trendReversed;
+	private boolean isStealing;
 
 	public RuleRebound(boolean globalRunRule) {
 		super(globalRunRule);
@@ -70,7 +73,10 @@ public class RuleRebound extends Rules {
 					sleep(1000);
 				}
 
-				
+				if (Global.getCurrentPoint() > GetData.getShortTB().getEma5().getEMA())
+					isStealing = false;
+				else
+					isStealing = true;
 
 				longContract();
 				return;
@@ -108,7 +114,11 @@ public class RuleRebound extends Rules {
 					sleep(1000);
 				}
 
-			
+				if (Global.getCurrentPoint() < GetData.getShortTB().getEma5().getEMA())
+					isStealing = false;
+				else
+					isStealing = true;
+
 
 				shortContract();
 				return;
@@ -180,7 +190,7 @@ public class RuleRebound extends Rules {
 	// use 1min instead of 5min
 	double getCutLossPt()
 	{
-		return Math.max(50, cutLoss);
+		return 50;
 	}
 
 	@Override
@@ -212,6 +222,10 @@ public class RuleRebound extends Rules {
 
 	double getStopEarnPt()
 	{
+		
+		if (isStealing)
+			return 5;
+		
 		double adjustPt = 0;
 
 		if (Global.getNoOfContracts() > 0)
