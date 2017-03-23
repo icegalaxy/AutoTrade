@@ -25,7 +25,7 @@ public class RuleRebound extends Rules {
 			return;
 		
 		ohlcs = new double[]
-				{ Global.getOpen(), Global.getpHigh(), Global.getpLow(), Global.getpClose(), Global.getAOH(), Global.getAOL()};
+				{ Global.getOpen(), Global.getpHigh(), Global.getpLow(), Global.getpClose()};
 
 		for (double item : ohlcs)
 		{
