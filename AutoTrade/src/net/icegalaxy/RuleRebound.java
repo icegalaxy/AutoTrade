@@ -223,7 +223,7 @@ public class RuleRebound extends Rules {
 	double getStopEarnPt()
 	{
 		
-		if (isStealing)
+		if (getProfit() > 0 && isStealing)
 			return 5;
 		
 		double adjustPt = 0;
