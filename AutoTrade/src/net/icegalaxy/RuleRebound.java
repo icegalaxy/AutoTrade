@@ -224,7 +224,7 @@ public class RuleRebound extends Rules {
 	{
 		
 		if (getProfit() > 0 && isStealing)
-			return 5;
+			return 10;
 		
 		double adjustPt = 0;
 
@@ -257,7 +257,7 @@ public class RuleRebound extends Rules {
 			// return 5;
 			return Math.min(5, pt / 2 - adjustPt);
 		} else if (refHigh > Global.getDayHigh() - 5 || refLow < Global.getDayLow() + 5)
-			return 5;
+			return 10;
 		
 		
 		
