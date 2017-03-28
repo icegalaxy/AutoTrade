@@ -531,6 +531,9 @@ public class GetData implements Runnable
 		Global.setpOpen(ohlc.getpOpen());
 		Global.setpClose(ohlc.getpClose());
 		Global.setpFluc(ohlc.getpFluc());
+		
+		Global.setKkResist(ohlc.getKkResist());
+		Global.setKkSupport(ohlc.getKkSupport());
 
 		if (Global.getpHigh() != 0)
 		{
