@@ -1,11 +1,10 @@
 package net.icegalaxy;
 
 
-
 public class RuleRebound extends Rules {
 
 	private double cutLoss;
-	double[] ohlcs;
+	OHLC[] ohlcs;
 	double ohlc = 0;
 	private boolean trendReversed;
 	private boolean isStealing;
@@ -20,16 +19,20 @@ public class RuleRebound extends Rules {
 	public void openContract()
 	{
 
+		refHigh = 0;
+		refLow = 99999;
 		
 		if (!isOrderTime() || Global.getNoOfContracts() != 0 || shutdown || Global.balance < -30)
 			return;
 		
-		ohlcs = new double[]
-				{ Global.getOpen(), Global.getpHigh(), Global.getpLow(), Global.getpClose(), Global.getKkResist(), Global.getKkSupport()};
+		ohlcs = new OHLC[]
+				{GetData.open, GetData.pHigh, GetData.pLow, GetData.pClose};
 
-		for (double item : ohlcs)
+	
+
+		for (OHLC item : ohlcs)
 		{
-			ohlc = item;
+			ohlc = item.position;
 
 			if (Global.getNoOfContracts() !=0)
 				return;
@@ -37,10 +40,17 @@ public class RuleRebound extends Rules {
 			if (ohlc == 0)
 				continue;
 			
+//			if (!item.reboundValid)
+//				continue;
+			
 			if (Math.abs(Global.getCurrentPoint() - ohlc) > 30)
 				continue;
+			
+//			if (Global.isHugeDrop() || Global.isHugeRise())
+//				return;
 
-			if (GetData.getEma5().getEMA() > ohlc && Global.getCurrentPoint() < ohlc + 5)
+			if (GetData.getEma5().getEMA() > ohlc && Global.getCurrentPoint() < ohlc + 5
+					&& !Global.isHugeDrop())
 			{
 
 				refHigh = Global.getCurrentPoint();
@@ -62,6 +72,9 @@ public class RuleRebound extends Rules {
 					
 					if (Global.getCurrentPoint() - ohlc > 30)
 						return;
+					
+					if (Global.isHugeDrop())
+						return;
 
 //					if (GetData.getShortTB().getRSI() > 70 || Global.isRapidDrop())
 //					{
@@ -73,15 +86,17 @@ public class RuleRebound extends Rules {
 					sleep(1000);
 				}
 
-				if (Global.getCurrentPoint() > GetData.getShortTB().getEma5().getEMA())
-					isStealing = false;
-				else
-					isStealing = true;
+//				if (Global.getCurrentPoint() > GetData.getShortTB().getEma5().getEMA())
+//					isStealing = false;
+//				else
+//					isStealing = true;
 
 				longContract();
+				Global.addLog("Long using " + item.name);
 				return;
 
-			} else if (GetData.getEma5().getEMA() < ohlc && Global.getCurrentPoint() > ohlc - 5)
+			} else if (GetData.getEma5().getEMA() < ohlc && Global.getCurrentPoint() > ohlc - 5
+					&& !Global.isHugeRise())
 			{
 
 				refHigh = Global.getCurrentPoint();
@@ -103,6 +118,9 @@ public class RuleRebound extends Rules {
 					
 					if (ohlc - Global.getCurrentPoint() > 30)
 						return;
+					
+					if (Global.isHugeRise())
+						return;
 
 //					if (GetData.getShortTB().getRSI() < 30 || Global.isRapidRise())
 //					{
@@ -114,15 +132,14 @@ public class RuleRebound extends Rules {
 					sleep(1000);
 				}
 
-				if (Global.getCurrentPoint() < GetData.getShortTB().getEma5().getEMA())
-					isStealing = false;
-				else
-					isStealing = true;
-
+//				if (Global.getCurrentPoint() < GetData.getShortTB().getEma5().getEMA())
+//					isStealing = false;
+//				else
+//					isStealing = true;
 
 				shortContract();
+				Global.addLog("Short using " + item.name);
 				return;
-
 			}
 		}
 	}
@@ -135,7 +152,10 @@ public class RuleRebound extends Rules {
 	// use 1min instead of 5min
 	void updateStopEarn()
 	{
-		if (getProfit() > 5)
+//		if (getProfit() < 1)
+//			Liquidate();
+//		else 
+			if (getProfit() > 5)
 			profitedStopEarn();
 		else
 			super.updateStopEarn();
@@ -190,7 +210,7 @@ public class RuleRebound extends Rules {
 	// use 1min instead of 5min
 	double getCutLossPt()
 	{
-		return 50;
+		return Math.max(50, cutLoss);
 	}
 
 	@Override
@@ -223,26 +243,26 @@ public class RuleRebound extends Rules {
 	double getStopEarnPt()
 	{
 		
-		if (getProfit() > 0 && isStealing)
+		if (isStealing)
 			return 10;
 		
 		double adjustPt = 0;
 
-		if (Global.getNoOfContracts() > 0)
-		{
-
-			adjustPt = buyingPoint - refLow;
+//		if (Global.getNoOfContracts() > 0)
+//		{
+//
+//			adjustPt = buyingPoint - refLow;
 
 //			if (Global.isRapidDrop())
 //				tempCutLoss = 99999;
 
-		} else if (Global.getNoOfContracts() < 0)
-		{
-			adjustPt = refHigh - buyingPoint;
+//		} else if (Global.getNoOfContracts() < 0)
+//		{
+			adjustPt = refHigh - refLow;
 
 //			if (Global.isRapidRise())
 //				tempCutLoss = 0;
-		}
+//		}
 		double pt;
 		double stopEarn;
 

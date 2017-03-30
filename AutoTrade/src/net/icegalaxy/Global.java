@@ -518,7 +518,25 @@ public class Global {
 		Global.kkSupport = kkSupport;
 	}
 
+	public static boolean isHugeRise()
+	{
+		return hugeRise;
+	}
 
+	public static void setHugeRise(boolean hugeRise)
+	{
+		Global.hugeRise = hugeRise;
+	}
+
+	public static boolean isHugeDrop()
+	{
+		return hugeDrop;
+	}
+
+	public static void setHugeDrop(boolean hugeDrop)
+	{
+		Global.hugeDrop = hugeDrop;
+	}
 
 
 	static Chasing chasing;
@@ -610,6 +628,9 @@ public class Global {
 	
 	static boolean rapidRise;
 	static boolean rapidDrop;
+	
+	static boolean hugeRise;
+	static boolean hugeDrop;
 	
 }
 
