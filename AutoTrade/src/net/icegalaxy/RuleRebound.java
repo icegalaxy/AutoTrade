@@ -21,6 +21,7 @@ public class RuleRebound extends Rules {
 
 		refHigh = 0;
 		refLow = 99999;
+		trendReversed = false;
 		
 		if (!isOrderTime() || Global.getNoOfContracts() != 0 || shutdown || Global.balance < -30)
 			return;
