@@ -6,6 +6,7 @@ public class RuleRebound extends Rules {
 	private double cutLoss;
 	OHLC[] ohlcs;
 	double ohlc = 0;
+	OHLC currentOHLC;
 	private boolean trendReversed;
 	private boolean isStealing;
 
@@ -26,14 +27,18 @@ public class RuleRebound extends Rules {
 		if (!isOrderTime() || Global.getNoOfContracts() != 0 || shutdown || Global.balance < -30)
 			return;
 		
-		ohlcs = new OHLC[]
-				{GetData.open, GetData.pHigh, GetData.pLow, GetData.pClose};
+		if (ohlcs == null)
+			ohlcs = new OHLC[]
+				{GetData.open, GetData.pHigh, GetData.pLow, GetData.pClose, GetData.AOL, GetData.AOH};
 
+		ohlcs[0].setOrderTime(93000, 103000, 160000, 160000);
 	
 
 		for (OHLC item : ohlcs)
 		{
+			currentOHLC = item;
 			ohlc = item.position;
+			setOrderTime(item.getOrderTime());
 
 			if (Global.getNoOfContracts() !=0)
 				return;
@@ -41,11 +46,14 @@ public class RuleRebound extends Rules {
 			if (ohlc == 0)
 				continue;
 			
+			if (item.shutdown)
+				continue;
+			
 //			if (!item.reboundValid)
 //				continue;
 			
-			if (Math.abs(Global.getCurrentPoint() - ohlc) > 30)
-				continue;
+//			if (Math.abs(Global.getCurrentPoint() - ohlc) > 30)
+//				continue;
 			
 //			if (Global.isHugeDrop() || Global.isHugeRise())
 //				return;
@@ -67,7 +75,6 @@ public class RuleRebound extends Rules {
 
 					if (GetData.getEma5().getEMA() < ohlc)
 					{
-						Global.addLog("EMA5 < Open, EMA5: " + GetData.getEma5().getEMA() + ", Open: " + ohlc);
 						return;
 					}
 					
@@ -86,6 +93,18 @@ public class RuleRebound extends Rules {
 
 					sleep(1000);
 				}
+				
+//				double percent236 = GetData.getShortTB().getHL(15).getTempHigh()
+//						- ((GetData.getShortTB().getHL(15).getTempHigh() - GetData.getShortTB().getHL(15).getTempLow()) * 0.236);
+//				
+//				while (Global.getCurrentPoint() > percent236)
+//				{
+//					if (GetData.getEma5().getEMA() < ohlc)
+//					{
+//						return;
+//					}
+//					sleep(1000);
+//				}
 
 //				if (Global.getCurrentPoint() > GetData.getShortTB().getEma5().getEMA())
 //					isStealing = false;
@@ -93,7 +112,7 @@ public class RuleRebound extends Rules {
 //					isStealing = true;
 
 				longContract();
-				Global.addLog("Long using " + item.name);
+				Global.addLog("XXXXXX: " + item.name);
 				return;
 
 			} else if (GetData.getEma5().getEMA() < ohlc && Global.getCurrentPoint() > ohlc - 5
@@ -137,9 +156,21 @@ public class RuleRebound extends Rules {
 //					isStealing = false;
 //				else
 //					isStealing = true;
+				
+//				double percent236 = GetData.getShortTB().getHL(15).getTempLow()
+//						+ ((GetData.getShortTB().getHL(15).getTempHigh() - GetData.getShortTB().getHL(15).getTempLow()) * 0.236);
+//				
+//				while (Global.getCurrentPoint() > percent236)
+//				{
+//
+//					if (GetData.getEma5().getEMA()  > ohlc)
+//					{
+//						return;
+//					}
+//					sleep(1000);
+//				}
 
 				shortContract();
-				Global.addLog("Short using " + item.name);
 				return;
 			}
 		}
@@ -153,10 +184,8 @@ public class RuleRebound extends Rules {
 	// use 1min instead of 5min
 	void updateStopEarn()
 	{
-//		if (getProfit() < 1)
-//			Liquidate();
-//		else 
-			if (getProfit() > 5)
+
+		if (getProfit() > 5)
 			profitedStopEarn();
 		else
 			super.updateStopEarn();
@@ -170,8 +199,12 @@ public class RuleRebound extends Rules {
 		//
 		// if (getProfit() < 100)
 		// {
-		ema5 = Global.getCurrentPoint();
-		ema6 = GetData.getEma5().getEMA();
+		ema5 = GetData.getShortTB().getLatestCandle().getClose();
+		
+//		if (getProfit() > 20)
+//			ema6 = GetData.getEma25().getEMA();
+//		else
+			ema6 = GetData.getEma5().getEMA();
 		// } else
 		// {
 		// ema5 = StockDataController.getLongTB().getEMA(5);
@@ -222,11 +255,12 @@ public class RuleRebound extends Rules {
 		{
 			closeContract(className + ": CutLoss, short @ " + Global.getCurrentBid());
 			shutdown = true;
+			currentOHLC.shutdown = true;
 		} else if (Global.getNoOfContracts() < 0 && Global.getCurrentPoint() > tempCutLoss)
 		{
 			closeContract(className + ": CutLoss, long @ " + Global.getCurrentAsk());
 			shutdown = true;
-
+			currentOHLC.shutdown = true;
 		}
 
 	}
@@ -244,8 +278,8 @@ public class RuleRebound extends Rules {
 	double getStopEarnPt()
 	{
 		
-		if (isStealing)
-			return 10;
+//		if (isStealing)
+//			return 10;
 		
 		double adjustPt = 0;
 
@@ -266,9 +300,9 @@ public class RuleRebound extends Rules {
 //		}
 		double pt;
 		double stopEarn;
-		
-		pt = GetData.getShortTB().getHL(15).getTempHigh() - GetData.getShortTB().getHL(15).getTempLow();
 
+		pt = GetData.getShortTB().getHL(15).getTempHigh() - GetData.getShortTB().getHL(15).getTempLow();
+		
 //		pt = (160000 - TimePeriodDecider.getTime()) / 1000;
 
 		if (trendReversed)
@@ -305,4 +339,6 @@ public class RuleRebound extends Rules {
 	{
 		return GetData.getLongTB();
 	}
+	
+	
 }

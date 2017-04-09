@@ -265,12 +265,14 @@ public class GetData implements Runnable
 				{
 				if (getTimeInt() > 92000)
 				{
-					if (Global.getCurrentPoint() - getShortTB().getLatestCandle().getLow() > 15)
+					if (Global.getCurrentPoint() - getShortTB().getLatestCandle().getLow() > 
+					(shortTB.getHL(15).getTempHigh() - shortTB.getHL(15).getTempLow()) * 0.5)
 						Global.setRapidRise(true);
 					else
 						Global.setRapidRise(false);
 
-					if (getShortTB().getLatestCandle().getHigh() - Global.getCurrentPoint() > 15)
+					if (getShortTB().getLatestCandle().getHigh() - Global.getCurrentPoint() > 
+					(shortTB.getHL(15).getTempHigh() - shortTB.getHL(15).getTempLow()) * 0.5)
 						Global.setRapidDrop(true);
 					else
 						Global.setRapidDrop(false);
