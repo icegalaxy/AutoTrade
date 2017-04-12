@@ -26,6 +26,8 @@ public class GetData implements Runnable
 	public static OHLC pClose;
 	public static OHLC AOL;
 	public static OHLC AOH;
+	public static OHLC mySupport;
+	public static OHLC myResist;
 
 	GetData.CandleData shortData;
 	GetData.CandleData m15Data;
@@ -72,6 +74,10 @@ public class GetData implements Runnable
 		AOH.name = "AOH";
 		AOL = new OHLC();
 		AOL.name = "AOL";
+		mySupport = new OHLC();
+		mySupport.name = "MySupport";
+		myResist = new OHLC();
+		myResist.name = "MyResist";
 
 		ohlc = new XMLReader(Global.getToday());
 		ohlc.findOHLC();
@@ -174,6 +180,8 @@ public class GetData implements Runnable
 		pLow.position = Global.getpLow();
 		pClose.position = Global.getpClose();
 		
+		mySupport.position = Global.getKkSupport();
+		myResist.position = Global.getKkResist();
 		
 		return openPrice;
 

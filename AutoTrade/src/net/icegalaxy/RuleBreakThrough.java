@@ -33,7 +33,7 @@ public class RuleBreakThrough extends Rules {
 			return;
 		
 		ohlcs = new OHLC[]
-				{GetData.open, GetData.pHigh, GetData.pLow, GetData.pClose};
+				{GetData.open, GetData.pHigh, GetData.pLow, GetData.pClose, GetData.mySupport, GetData.myResist};
 
 		
 
