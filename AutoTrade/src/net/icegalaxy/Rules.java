@@ -99,12 +99,12 @@ public abstract class Rules implements Runnable
 	}
 
 	// can choose not to set the night time
-	public void setOrderTime(int morningOpen, int morningClose, int noonOpen, int noonClose)
+	public void setOrderTime(int[] orderTime)
 	{
-		this.morningOpen = morningOpen;
-		this.morningClose = morningClose;
-		this.noonOpen = noonOpen;
-		this.noonClose = noonClose;
+		this.morningOpen = orderTime[0];
+		this.morningClose = orderTime[1];
+		this.noonOpen = orderTime[2];
+		this.noonClose = orderTime[3];
 	}
 
 	// can choose to set the night time

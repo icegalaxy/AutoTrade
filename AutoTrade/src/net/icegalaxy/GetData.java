@@ -8,6 +8,9 @@ import java.util.Calendar;
 
 
 
+
+
+
 public class GetData implements Runnable
 {
 
@@ -16,6 +19,13 @@ public class GetData implements Runnable
 	private static TimeBase longTB;
 	// private static TimeBase sec10TB;
 	private QuotePower qp;
+	
+	public static OHLC open;
+	public static OHLC pHigh;
+	public static OHLC pLow;
+	public static OHLC pClose;
+	public static OHLC AOL;
+	public static OHLC AOH;
 
 	GetData.CandleData shortData;
 	GetData.CandleData m15Data;
@@ -49,6 +59,19 @@ public class GetData implements Runnable
 		m15TB.setBaseMin(15);
 		longTB = new TimeBase();
 		longTB.setBaseMin(Setting.getLongTB());
+		
+		open = new OHLC();
+		open.name = "Open";
+		pHigh = new OHLC();
+		pHigh.name = "P.High";
+		pLow = new OHLC();
+		pLow.name = "P.Low";
+		pClose = new OHLC();
+		pClose.name = "P.Close";
+		AOH = new OHLC();
+		AOH.name = "AOH";
+		AOL = new OHLC();
+		AOL.name = "AOL";
 
 		ohlc = new XMLReader(Global.getToday());
 		ohlc.findOHLC();
@@ -123,13 +146,13 @@ public class GetData implements Runnable
 	private double setOpenPrice()
 	{
 		
-		double open = 0;
+		double openPrice = 0;
 		
 		SPApi.setOpenPrice();
 		
-		open = Global.getOpen();
+		openPrice = Global.getOpen();
 		
-		if (open == 0)
+		if (openPrice == 0)
 		{
 			Global.addLog("Open = 0");
 			sleep(5000);
@@ -143,8 +166,16 @@ public class GetData implements Runnable
 			setOpenPrice();
 		}
 		
-		ohlc.updateNode("open", String.valueOf(open));
-		return open;
+		ohlc.updateNode("open", String.valueOf(openPrice));
+		
+		//wait for open price to add them together
+		open.position = Global.getOpen();
+		pHigh.position = Global.getpHigh();
+		pLow.position = Global.getpLow();
+		pClose.position = Global.getpClose();
+		
+		
+		return openPrice;
 
 	}
 
@@ -234,15 +265,44 @@ public class GetData implements Runnable
 				{
 				if (getTimeInt() > 92000)
 				{
-					if (Global.getCurrentPoint() - getShortTB().getLatestCandle().getLow() > 15)
+					if (Global.getCurrentPoint() - getShortTB().getLatestCandle().getLow() > 
+					(shortTB.getHL(15).getTempHigh() - shortTB.getHL(15).getTempLow()) * 0.5)
 						Global.setRapidRise(true);
 					else
 						Global.setRapidRise(false);
 
-					if (getShortTB().getLatestCandle().getHigh() - Global.getCurrentPoint() > 15)
+					if (getShortTB().getLatestCandle().getHigh() - Global.getCurrentPoint() > 
+					(shortTB.getHL(15).getTempHigh() - shortTB.getHL(15).getTempLow()) * 0.5)
 						Global.setRapidDrop(true);
 					else
 						Global.setRapidDrop(false);
+				}
+				}catch (Exception e)
+				{
+					e.printStackTrace();
+				}
+				
+				try
+				{
+				if (TimePeriodDecider.getTime() >= 91600)
+				{
+					if (shortData.periodHigh - getShortTB().getLatestCandle().getLow() > 50
+//							|| longData.periodHigh - getLongTB().getLatestCandle().getLow() > 50 
+							)
+					{
+						Global.setHugeRise(true);
+					}
+					else
+						Global.setHugeRise(false);
+
+					if (getShortTB().getLatestCandle().getHigh() - shortData.periodLow > 50
+//							|| getLongTB().getLatestCandle().getHigh() - longData.periodLow  > 50 
+							)
+					{
+						Global.setHugeDrop(true);
+					}
+					else
+						Global.setHugeDrop(false);
 				}
 				}catch (Exception e)
 				{
@@ -308,6 +368,10 @@ public class GetData implements Runnable
 						Global.setAOH(Global.getDayHigh());
 						Global.addLog("AOL: " + Global.getAOL());
 						Global.addLog("AOH: " + Global.getAOH());
+						
+						AOH.position = Global.getAOH();
+						AOL.position = Global.getAOL();
+						
 						aohAdded = true;
 					}
 				}
@@ -531,6 +595,9 @@ public class GetData implements Runnable
 		Global.setpOpen(ohlc.getpOpen());
 		Global.setpClose(ohlc.getpClose());
 		Global.setpFluc(ohlc.getpFluc());
+		
+		Global.setKkResist(ohlc.getKkResist());
+		Global.setKkSupport(ohlc.getKkSupport());
 
 		if (Global.getpHigh() != 0)
 		{

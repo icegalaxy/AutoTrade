@@ -494,6 +494,49 @@ public class Global {
 	{
 		Global.rapidDrop = rapidDrop;
 	}
+	
+	
+
+
+	public static synchronized double getKkResist()
+	{
+		return kkResist;
+	}
+
+	public static synchronized void setKkResist(double kkResist)
+	{
+		Global.kkResist = kkResist;
+	}
+
+	public static synchronized double getKkSupport()
+	{
+		return kkSupport;
+	}
+
+	public static synchronized void setKkSupport(double kkSupport)
+	{
+		Global.kkSupport = kkSupport;
+	}
+
+	public static boolean isHugeRise()
+	{
+		return hugeRise;
+	}
+
+	public static void setHugeRise(boolean hugeRise)
+	{
+		Global.hugeRise = hugeRise;
+	}
+
+	public static boolean isHugeDrop()
+	{
+		return hugeDrop;
+	}
+
+	public static void setHugeDrop(boolean hugeDrop)
+	{
+		Global.hugeDrop = hugeDrop;
+	}
 
 
 	static Chasing chasing;
@@ -573,6 +616,9 @@ public class Global {
 	static String Today = "xxx";
 	static double noonOpen = 0;
 	
+	static double kkResist;
+	static double kkSupport;
+	
 	private static boolean tradeLink;
 	private static boolean priceLink;
 	private static boolean generalLink;
@@ -582,6 +628,9 @@ public class Global {
 	
 	static boolean rapidRise;
 	static boolean rapidDrop;
+	
+	static boolean hugeRise;
+	static boolean hugeDrop;
 	
 }
 
