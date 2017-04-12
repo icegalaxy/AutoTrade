@@ -25,7 +25,7 @@ public class RuleBreakThrough extends Rules {
 	public void openContract()
 	{
 		
-		if (!isOrderTime() || Global.getNoOfContracts() != 0 || shutdown || Global.balance < -30)
+		if (!isOrderTime() || Global.getNoOfContracts() != 0)
 			return;
 		
 		ohlcs = new double[]
