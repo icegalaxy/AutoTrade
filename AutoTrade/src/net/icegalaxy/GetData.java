@@ -6,11 +6,6 @@ import java.util.Calendar;
 
 
 
-
-
-
-
-
 public class GetData implements Runnable
 {
 
@@ -28,6 +23,8 @@ public class GetData implements Runnable
 	public static OHLC AOH;
 	public static OHLC mySupport;
 	public static OHLC myResist;
+	
+
 
 	GetData.CandleData shortData;
 	GetData.CandleData m15Data;
@@ -40,6 +37,7 @@ public class GetData implements Runnable
 	// GetData.CandleData sec10Data;
 	private float gap = 0;
 	XMLReader ohlc;
+	
 //	private static EMA ema5;
 //	private static EMA ema25;
 //	private static EMA ema50;
@@ -78,9 +76,13 @@ public class GetData implements Runnable
 		mySupport.name = "MySupport";
 		myResist = new OHLC();
 		myResist.name = "MyResist";
+		
+	
 
-		ohlc = new XMLReader(Global.getToday());
+		ohlc = new XMLReader(Global.getToday(), "TradeData\\FHIdata.xml");
 		ohlc.findOHLC();
+		
+	
 
 		// sec10TB = new TimeBase();
 
@@ -401,8 +403,8 @@ public class GetData implements Runnable
 					}
 
 					// get noonOpen, check every minutes
-					if (Global.isNoonOpened)
-						setNoonOpen();
+//					if (Global.isNoonOpened)
+//						setNoonOpen();
 
 					getShortTB().addData(point, new Float(totalQuantity));
 
@@ -419,8 +421,10 @@ public class GetData implements Runnable
 					shortMinutes = 0;
 					shortData.reset();
 
-					if (Global.getAOH() == 0)
-						setAOHL();
+//					if (Global.getAOH() == 0)
+//						setAOHL();
+					
+					
 
 				}
 
@@ -475,14 +479,14 @@ public class GetData implements Runnable
 
 	}
 
-	private void checkStop()
-	{
-		XMLReader ohlc = new XMLReader(Global.getToday());
-
-		if (ohlc.isStop())
-			Global.setRunning(false);
-
-	}
+//	private void checkStop()
+//	{
+//		XMLReader ohlc = new XMLReader(Global.getToday());
+//
+//		if (ohlc.isStop())
+//			Global.setRunning(false);
+//
+//	}
 
 	private void getPreviousData()
 	{
@@ -618,25 +622,25 @@ public class GetData implements Runnable
 	}
 
 
-	private void setNoonOpen()
-	{
-
-		if (Global.getNoonOpen() == 0)
-		{
-			XMLReader noon = new XMLReader(Global.getToday());
-			if (noon.getnOpen() == 0)
-				return;
-			Global.setNoonOpen(noon.getnOpen());
-		}
-
-	}
-
-	private void setAOHL()
-	{
-		XMLReader aohl = new XMLReader(Global.getToday());
-		Global.setAOH(aohl.getAOH());
-		Global.setAOL(aohl.getAOL());
-	}
+//	private void setNoonOpen()
+//	{
+//
+//		if (Global.getNoonOpen() == 0)
+//		{
+//			XMLReader noon = new XMLReader(Global.getToday());
+//			if (noon.getnOpen() == 0)
+//				return;
+//			Global.setNoonOpen(noon.getnOpen());
+//		}
+//
+//	}
+//
+//	private void setAOHL()
+//	{
+//		XMLReader aohl = new XMLReader(Global.getToday());
+//		Global.setAOH(aohl.getAOH());
+//		Global.setAOL(aohl.getAOL());
+//	}
 
 	
 

@@ -12,7 +12,7 @@ public class OHLC
 	
 	
 	public String name;
-	public double position;
+	public double position = 0;
 	public boolean testedBreakThrough;
 	public boolean testedRebound;
 	public boolean breakThroughValid;

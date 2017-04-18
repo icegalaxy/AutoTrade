@@ -16,6 +16,7 @@ public class XMLReader
 {
 
 	private String tradeDate;
+	private String filePath;
 
 	double kkResist;
 	double kkSupport;
@@ -43,20 +44,23 @@ public class XMLReader
 
 	private Document doc;
 
-	public XMLReader(String tradeDate)
+	public XMLReader(String tradeDate, String filePath)
 	{
 
 		this.tradeDate = tradeDate;
+		this.filePath = filePath;
+		
 		findElementOfToday();
+		
 	}
 
-	private void findElementOfToday()
+	protected void findElementOfToday()
 	{
 		NodeList nList = null;
 
 		try
 		{
-			File fXmlFile = new File("TradeData\\FHIdata.xml");
+			File fXmlFile = new File(filePath);
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 			doc = dBuilder.parse(fXmlFile);
@@ -139,7 +143,7 @@ public class XMLReader
 			TransformerFactory transformerFactory = TransformerFactory.newInstance();
 			Transformer transformer = transformerFactory.newTransformer();
 			DOMSource source = new DOMSource(doc);
-			StreamResult result = new StreamResult(new File("TradeData\\FHIdata.xml"));
+			StreamResult result = new StreamResult(new File(filePath));
 			transformer.transform(source, result);
 			
 			System.out.println("Updated value of node:"+ nodeName + " to \"" + content + "\"");
