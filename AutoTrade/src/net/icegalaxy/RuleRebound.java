@@ -112,7 +112,7 @@ public class RuleRebound extends Rules {
 //					isStealing = true;
 
 				longContract();
-				Global.addLog("XXXXXX: " + item.name);
+				Global.addLog("OHLC: " + item.name);
 				return;
 
 			} else if (GetData.getEma5().getEMA() < ohlc && Global.getCurrentPoint() > ohlc - 5
@@ -171,6 +171,7 @@ public class RuleRebound extends Rules {
 //				}
 
 				shortContract();
+				Global.addLog("OHLC: " + item.name);
 				return;
 			}
 		}

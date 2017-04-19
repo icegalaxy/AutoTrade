@@ -25,7 +25,7 @@ public class RuleRange extends Rules
 
 		trendReversed = false;
 
-		if (shutdown)
+		if (shutdown || isOutOfRange())
 		{
 			intraDay.updateNode("rangeResist", "0");
 			intraDay.updateNode("rangeSupport", "0");
@@ -39,6 +39,12 @@ public class RuleRange extends Rules
 			intraDay.findOHLC();
 			rangeResist = intraDay.rangeResist;
 			rangeSupport = intraDay.rangeSupport;
+
+			if (rangeResist != 0 || rangeSupport != 0)
+			{
+				Global.addLog("RangeResist: " + rangeResist);
+				Global.addLog("RangeSupport: " + rangeSupport);
+			}
 		}
 
 		if (!isOrderTime() || Global.getNoOfContracts() != 0)
@@ -56,6 +62,16 @@ public class RuleRange extends Rules
 
 	}
 
+	private boolean isOutOfRange()
+	{
+		if (rangeResist != 0 && Global.getCurrentPoint() > rangeResist + 20)
+			return true;
+		else if (rangeSupport != 0 && Global.getCurrentPoint() < rangeSupport - 20)
+			return true;
+
+		return false;
+	}
+
 	public double getCurrentClose()
 	{
 		return GetData.getShortTB().getLatestCandle().getClose();
@@ -70,18 +86,15 @@ public class RuleRange extends Rules
 				tempCutLoss = 99999;
 			else
 				super.updateStopEarn();
-		}
-		else
+		} else
 		{
 			if (rangeSupport == 0 || trendReversed)
 				tempCutLoss = 0;
 			else
 				super.updateStopEarn();
 		}
-			
-	}
 
-	 
+	}
 
 	double getCutLossPt()
 	{

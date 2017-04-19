@@ -77,8 +77,11 @@ public class RuleBreakThrough extends Rules {
 				
 				
 				
-				longContract();
+				longContract();		
+				Global.addLog("OHLC: " + item.name);
+				
 				return;
+				
 			}else if (Global.isHugeDrop() && GetData.getShortTB().getLatestCandle().getOpen() > ohlc + 10 && Global.getCurrentPoint() < ohlc - 10)
 			{
 				
@@ -101,6 +104,8 @@ public class RuleBreakThrough extends Rules {
 				
 				
 				shortContract();
+				Global.addLog("OHLC: " + item.name);
+				
 				return;
 			}
 			
