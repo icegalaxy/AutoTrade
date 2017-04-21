@@ -34,11 +34,13 @@ public class RuleRange extends Rules
 			intraDay.updateNode("rangeResist", "0");
 			intraDay.updateNode("rangeSupport", "0");
 			Global.addLog("Shut down ruleRange");
+			rangeResist = 0;
+			rangeSupport = 0;
 			trendReversed = false;
 			shutdown = false;
 		}
 
-		while (true)
+		while (rangeResist == 0 && rangeSupport ==0)
 		{
 			
 			intraDay.findElementOfToday();
