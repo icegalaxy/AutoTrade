@@ -23,19 +23,25 @@ public class RuleRange extends Rules
 	public void openContract()
 	{
 
-		trendReversed = false;
+		
+		
+		if (!isOrderTime() || Global.getNoOfContracts() != 0)
+			return;
 
-		if (shutdown || isOutOfRange())
+		if (shutdown || isOutOfRange() || trendReversed)
 		{
+			intraDay.findElementOfToday();
 			intraDay.updateNode("rangeResist", "0");
 			intraDay.updateNode("rangeSupport", "0");
 			Global.addLog("Shut down ruleRange");
+			trendReversed = false;
 			shutdown = false;
 		}
 
-		while (rangeResist == 0 && rangeSupport == 0)
+		while (true)
 		{
-			sleep(60000);
+			
+			intraDay.findElementOfToday();
 			intraDay.findOHLC();
 			rangeResist = intraDay.rangeResist;
 			rangeSupport = intraDay.rangeSupport;
@@ -44,11 +50,13 @@ public class RuleRange extends Rules
 			{
 				Global.addLog("RangeResist: " + rangeResist);
 				Global.addLog("RangeSupport: " + rangeSupport);
+				break;
 			}
+			
+			sleep(60000);
 		}
 
-		if (!isOrderTime() || Global.getNoOfContracts() != 0)
-			return;
+		
 
 		if (rangeSupport != 0)
 		{
@@ -123,9 +131,9 @@ public class RuleRange extends Rules
 	{
 
 		if (Global.getNoOfContracts() > 0)
-			return Global.getCurrentPoint() < rangeSupport;
+			return Global.getCurrentPoint() < rangeSupport - 5;
 		else
-			return Global.getCurrentPoint() > rangeResist;
+			return Global.getCurrentPoint() > rangeResist + 5;
 	}
 
 	double getStopEarnPt()
