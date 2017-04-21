@@ -143,10 +143,15 @@ public class RuleRange extends Rules
 
 		if (trendReversed)
 			return 5;
+		
+		
 
 		if (Global.getNoOfContracts() > 0)
 		{
 
+			if (GetData.getShortTB().getRSI() > 60)
+				return 10;
+			
 			if (rangeResist != 0)
 				return Math.max(10, rangeResist - buyingPoint - 3);
 			else
@@ -154,6 +159,9 @@ public class RuleRange extends Rules
 		} else
 		{
 
+			if (GetData.getShortTB().getRSI() < 40)
+				return 10;
+			
 			if (rangeSupport != 0)
 				return Math.max(10, buyingPoint - rangeSupport - 3);
 			else
