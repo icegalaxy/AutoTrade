@@ -20,6 +20,7 @@ public class XMLWatcher implements Runnable
 	public static OHLC pClose;
 	public static OHLC mySupport;
 	public static OHLC myResist;
+	public static OHLC mySAR;
 	
 	
 	public static double SAR = 0;
@@ -49,6 +50,8 @@ public class XMLWatcher implements Runnable
 		mySupport.name = "MySupport";
 		myResist = new OHLC();
 		myResist.name = "MyResist";
+		mySAR = new OHLC();
+		mySAR.name = "SAR";
 
 		ohlc = new XMLReader(Global.getToday(), "TradeData\\FHIdata.xml");
 		ohlc.findOHLC();
@@ -84,6 +87,8 @@ public class XMLWatcher implements Runnable
 				reverse = Double.parseDouble(intraDay.getValueOfNode("reverse"));
 				buying = Boolean.parseBoolean(intraDay.getValueOfNode("buying"));
 				selling = Boolean.parseBoolean(intraDay.getValueOfNode("selling"));
+				
+				mySAR.position = SAR;
 						
 			}
 			

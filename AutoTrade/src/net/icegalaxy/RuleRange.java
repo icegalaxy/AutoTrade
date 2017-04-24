@@ -24,9 +24,6 @@ public class RuleRange extends Rules
 		if (!isOrderTime() || Global.getNoOfContracts() != 0)
 			return;
 		
-		rangeResist = XMLWatcher.rangeResist;
-		rangeSupport = XMLWatcher.rangeSupport;
-
 		if (shutdown || isOutOfRange() || trendReversed)
 		{
 			XMLWatcher.updateIntraDayXML("rangeResist", "0");
@@ -36,7 +33,14 @@ public class RuleRange extends Rules
 			rangeSupport = 0;
 			trendReversed = false;
 			shutdown = false;
+			
+			sleep(60000);
 		}
+		
+		rangeResist = XMLWatcher.rangeResist;
+		rangeSupport = XMLWatcher.rangeSupport;
+
+		
 	
 
 		if (rangeSupport != 0)

@@ -29,7 +29,7 @@ public class RuleRebound extends Rules {
 		
 		if (ohlcs == null)
 			ohlcs = new OHLC[]
-				{XMLWatcher.open, XMLWatcher.pHigh, XMLWatcher.pLow, XMLWatcher.pClose, GetData.AOL, GetData.AOH, XMLWatcher.mySupport, XMLWatcher.myResist};
+				{XMLWatcher.open, XMLWatcher.pHigh, XMLWatcher.pLow, XMLWatcher.pClose, GetData.AOL, GetData.AOH, XMLWatcher.mySupport, XMLWatcher.myResist, XMLWatcher.mySAR};
 
 		ohlcs[0].setOrderTime(93000, 103000, 160000, 160000);
 	
