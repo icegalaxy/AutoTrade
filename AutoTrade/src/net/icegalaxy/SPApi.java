@@ -375,17 +375,17 @@ public class SPApi
 		if (i == 0)
 		{
 			
-			if (price.Last[0] != price.Open)
-			{
-				Global.addLog("API open price: " + price.Open);
-				Global.addLog("API current price: " + price.Last[0]);
-				
-				Global.setOpen(price.Last[0]);
-			}else
-			{
-				Global.addLog("API Open  = Current");
+//			if (price.Last[0] != price.Open)
+//			{
+//				Global.addLog("API open price: " + price.Open);
+//				Global.addLog("API current price: " + price.Last[0]);
+//				
+//				Global.setOpen(price.Last[0]);
+//			}else
+//			{
+//				Global.addLog("API Open  = Current");
 				Global.setOpen(price.Open);
-			}
+//			}
 			
 		} else
 		{

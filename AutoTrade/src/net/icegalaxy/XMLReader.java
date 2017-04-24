@@ -100,6 +100,11 @@ public class XMLReader
 
 	}
 
+	public String getValueOfNode(String node)
+	{
+		return eElement.getElementsByTagName(node).item(0).getTextContent();
+	}
+	
 	public void findOHLC()
 	{
 

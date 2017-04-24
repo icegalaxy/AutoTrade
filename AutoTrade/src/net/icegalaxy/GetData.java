@@ -15,17 +15,9 @@ public class GetData implements Runnable
 	// private static TimeBase sec10TB;
 	private QuotePower qp;
 	
-	public static OHLC open;
-	public static OHLC pHigh;
-	public static OHLC pLow;
-	public static OHLC pClose;
 	public static OHLC AOL;
 	public static OHLC AOH;
-	public static OHLC mySupport;
-	public static OHLC myResist;
 	
-
-
 	GetData.CandleData shortData;
 	GetData.CandleData m15Data;
 	GetData.CandleData longData;
@@ -35,8 +27,6 @@ public class GetData implements Runnable
 
 	private boolean aohAdded;
 	// GetData.CandleData sec10Data;
-	private float gap = 0;
-	XMLReader ohlc;
 	
 //	private static EMA ema5;
 //	private static EMA ema25;
@@ -60,30 +50,12 @@ public class GetData implements Runnable
 		longTB = new TimeBase();
 		longTB.setBaseMin(Setting.getLongTB());
 		
-		open = new OHLC();
-		open.name = "Open";
-		pHigh = new OHLC();
-		pHigh.name = "P.High";
-		pLow = new OHLC();
-		pLow.name = "P.Low";
-		pClose = new OHLC();
-		pClose.name = "P.Close";
+	
 		AOH = new OHLC();
 		AOH.name = "AOH";
 		AOL = new OHLC();
 		AOL.name = "AOL";
-		mySupport = new OHLC();
-		mySupport.name = "MySupport";
-		myResist = new OHLC();
-		myResist.name = "MyResist";
-		
 	
-
-		ohlc = new XMLReader(Global.getToday(), "TradeData\\FHIdata.xml");
-		ohlc.findOHLC();
-		
-	
-
 		// sec10TB = new TimeBase();
 
 		qp = new QuotePower();
@@ -151,49 +123,13 @@ public class GetData implements Runnable
 		return true;
 	}
 
-	private double setOpenPrice()
-	{
-		
-		double openPrice = 0;
-		
-		SPApi.setOpenPrice();
-		
-		openPrice = Global.getOpen();
-		
-		if (openPrice == 0)
-		{
-			Global.addLog("Open = 0");
-			sleep(5000);
-			
-			if (getTimeInt() > 91500)
-			{
-				Global.addLog("Fail to set open b4 91500, try again later");
-				return 0;
-			}
-			
-			setOpenPrice();
-		}
-		
-		ohlc.updateNode("open", String.valueOf(openPrice));
-		
-		//wait for open price to add them together
-		open.position = Global.getOpen();
-		pHigh.position = Global.getpHigh();
-		pLow.position = Global.getpLow();
-		pClose.position = Global.getpClose();
-		
-		mySupport.position = Global.getKkSupport();
-		myResist.position = Global.getKkResist();
-		
-		return openPrice;
-
-	}
+	
 
 	@Override
 	public void run()
 	{
 
-		setOHLC();
+	
 		getPreviousData();
 
 		// Auto getOpen
@@ -207,11 +143,7 @@ public class GetData implements Runnable
 			// spTrader. Fix it by teamviewer
 
 			// should be put inside isRunning
-			if (getTimeInt() > 91420 && getTimeInt() < 91500 && Global.getOpen() == 0)
-			{
-				setOpenPrice();
-				Global.addLog("Open: " + Global.getOpen());
-			}
+		
 
 			if (Global.isTradeTime())
 			{
@@ -220,48 +152,11 @@ public class GetData implements Runnable
 				if (!getIndex())
 					continue;
 
-				// gap is 0 at the first time, so this must run at first time
-				// When market opens, gap is 0 means the feeder may not be
-				// functioning, so it will keep trying to get the open and gap
-//				if (gap == 0 && Global.getOpen() == 0)
-//				{
-//					gap = Float.valueOf(qp.getChange()); // getChange is moving,
-															// when it comes
-															// back to previous
-															// close, the gap
-															// becomes 0, so
-															// Global.open is
-															// added to the
-															// clause
-
-//					Global.setGap(gap);
-					// Global.setOpen(Double.parseDouble(qp.getDeal()));
-					// Not setting open manually because this is faster, want to
-					// catch the first wave
-					// open needs to be set manually, difference can be large
-
-					// Global.addLog("Open @ " + Global.getOpen());
-//					Global.addLog("Gap: " + gap);
-//					Global.addLog(" ");
-//
-//				}
-
-				// if (previousClose == 0){
-				// previousClose = deal - gap;
-				// Global.addLog("PreviousClose: " + previousClose);
-				// Global.setPreviousClose(previousClose);
-				// }
-
 				min = new Integer(time.substring(3, 5));
 
-				// if (deal >= bid && deal <= ask)
+		
 				point = deal;
-				// else if (deal < bid)
-				// point = bid;
-				// else if (deal > ask)
-				// point = ask;
-
-	
+					
 				shortData.getHighLow();
 				shortData.getOpen();
 
@@ -396,11 +291,11 @@ public class GetData implements Runnable
 					}
 
 
-					if (Global.getpHigh() == 0)
-					{
-						setOHLC();
-
-					}
+//					if (Global.getpHigh() == 0)
+//					{
+//						setOHLC();
+//
+//					}
 
 					// get noonOpen, check every minutes
 //					if (Global.isNoonOpened)
@@ -598,28 +493,7 @@ public class GetData implements Runnable
 		return shortTB.EMAs[5];
 	}
 
-	private void setOHLC()
-	{
-
-		// XMLReader ohlc = new XMLReader(Global.getToday());
-		Global.setpHigh(ohlc.getpHigh());
-		Global.setpLow(ohlc.getpLow());
-		Global.setpOpen(ohlc.getpOpen());
-		Global.setpClose(ohlc.getpClose());
-		Global.setpFluc(ohlc.getpFluc());
-		
-		Global.setKkResist(ohlc.getKkResist());
-		Global.setKkSupport(ohlc.getKkSupport());
-
-		if (Global.getpHigh() != 0)
-		{
-			Global.addLog("-------------------------------------");
-			Global.addLog("P.High: " + Global.getpHigh());
-			Global.addLog("P.Low: " + Global.getpLow());
-			Global.addLog("-------------------------------------");
-		}
-
-	}
+	
 
 
 //	private void setNoonOpen()

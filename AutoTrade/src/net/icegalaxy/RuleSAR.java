@@ -4,57 +4,48 @@ package net.icegalaxy;
 
 //Use the OPEN Line
 
-public class RuleDanny250Pena4 extends Rules
+public class RuleSAR extends Rules
 {
 
 
-	private double cutLoss;
-	private double OHLC;
-	private double refHigh;
-	private double refLow;
-	private boolean trendReversed;
-
-	public RuleDanny250Pena4(boolean globalRunRule)
+	private double SAR = 0;
+	private double cutLoss = 0;
+	private double stopEarn = 0;
+	private double reverse = 0;
+	private boolean buying;
+	private boolean selling;
+	
+	public RuleSAR(boolean globalRunRule)
 	{
 		super(globalRunRule);
-		setOrderTime(93000, 103000, 150000, 160000, 230000, 230000);
+		setOrderTime(93000, 113000, 130100, 160000, 230000, 230000);
 		// wait for EMA6, that's why 0945
 	}
 
 	public void openContract()
 	{
-		
-		refHigh = 0;
-		refLow = 99999;
-
-
-		
-		if (!isOrderTime() || Global.getNoOfContracts() != 0 || GetData.getLongTB().getEma5().getEMA() == 0 || shutdown
-				|| Global.balance < -30)
+			
+		if (!isOrderTime() || Global.getNoOfContracts() != 0)
 			return;
 		
-
-
-		if (GetData.getLongTB().getEma5().getPreviousEMA(1) < GetData.getLongTB().getEma250().getPreviousEMA(1)
-				&& GetData.getLongTB().getEma5().getEMA() > GetData.getLongTB().getEma250().getEMA())
+		while (SAR == 0)
 		{
-		
 			
-			longContract();
-			refLow = buyingPoint;
-			cutLoss = buyingPoint - refLow;
+			sleep(60000);
 			
-		}else if (GetData.getLongTB().getEma5().getPreviousEMA(1) > GetData.getLongTB().getEma250().getPreviousEMA(1)
-				&& GetData.getLongTB().getEma5().getEMA() < GetData.getLongTB().getEma250().getEMA())
-		{	
+			SAR = XMLWatcher.SAR;
+			cutLoss = XMLWatcher.cutLoss;
+			stopEarn = XMLWatcher.stopEarn;
+			reverse = XMLWatcher.reverse;
+			buying = XMLWatcher.buying;
+			selling = XMLWatcher.selling;
 			
+			if (SAR !=0)
+			{
+				Global.addLog("UpdatedSAR: " + SAR);
+			}
 			
-			shortContract();	
-			refHigh = buyingPoint;
-			cutLoss = refHigh - buyingPoint;
 		}
-		
-		sleep(1000);
 	}
 	
 	public double getCurrentClose(){

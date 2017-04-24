@@ -10,14 +10,10 @@ public class RuleRange extends Rules
 	private double rangeResist = 0;
 	private double rangeSupport = 0;
 
-	IntraDayReader intraDay;
-
 	public RuleRange(boolean globalRunRule)
 	{
 		super(globalRunRule);
 		setOrderTime(103000, 114500, 130100, 150000, 231500, 231500);
-		intraDay = new IntraDayReader(Global.getToday(), "C:\\Users\\joech\\Dropbox\\TradeData\\Intraday.xml");
-
 	}
 
 	public void openContract()
@@ -27,38 +23,21 @@ public class RuleRange extends Rules
 		
 		if (!isOrderTime() || Global.getNoOfContracts() != 0)
 			return;
+		
+		rangeResist = XMLWatcher.rangeResist;
+		rangeSupport = XMLWatcher.rangeSupport;
 
 		if (shutdown || isOutOfRange() || trendReversed)
 		{
-			intraDay.findElementOfToday();
-			intraDay.updateNode("rangeResist", "0");
-			intraDay.updateNode("rangeSupport", "0");
+			XMLWatcher.updateIntraDayXML("rangeResist", "0");
+			XMLWatcher.updateIntraDayXML("rangeSupport", "0");
 			Global.addLog("Shut down ruleRange");
 			rangeResist = 0;
 			rangeSupport = 0;
 			trendReversed = false;
 			shutdown = false;
 		}
-
-		while (rangeResist == 0 && rangeSupport ==0)
-		{
-			
-			intraDay.findElementOfToday();
-			intraDay.findOHLC();
-			rangeResist = intraDay.rangeResist;
-			rangeSupport = intraDay.rangeSupport;
-
-			if (rangeResist != 0 || rangeSupport != 0)
-			{
-				Global.addLog("RangeResist: " + rangeResist);
-				Global.addLog("RangeSupport: " + rangeSupport);
-				break;
-			}
-			
-			sleep(60000);
-		}
-
-		
+	
 
 		if (rangeSupport != 0)
 		{
@@ -133,9 +112,9 @@ public class RuleRange extends Rules
 	{
 
 		if (Global.getNoOfContracts() > 0)
-			return Global.getCurrentPoint() < rangeSupport - 5;
+			return Global.getCurrentPoint() < rangeSupport;
 		else
-			return Global.getCurrentPoint() > rangeResist + 5;
+			return Global.getCurrentPoint() > rangeResist;
 	}
 
 	double getStopEarnPt()

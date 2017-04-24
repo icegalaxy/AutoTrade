@@ -201,28 +201,29 @@ public class Setting extends JFrame {
 //		RuleMABackup backup	= new RuleMABackup(false);
 		
 //		ruleMACD ruleMACD = new ruleMACD(Global.runRuleMACD);
-		RuleRSI rsi = new RuleRSI(false);
+//		RuleRSI rsi = new RuleRSI(false);
 //		LoginThread login = new LoginThread();
 		TimePeriodDecider tpd = new TimePeriodDecider();
 		GetData gd = new GetData();
 //		RuleAOH aoh = new RuleAOH(true);
 //		RuleAOL aol = new RuleAOL(true);
-		RulePClose pClose = new RulePClose(false);
-		RuleDanny250Pena danny250 = new RuleDanny250Pena(false);
-		RuleDanny250Pena2 danny2502 = new RuleDanny250Pena2(false);
-		RuleDanny250Pena3 danny2503 = new RuleDanny250Pena3(false);
+//		RulePClose pClose = new RulePClose(false);
+//		RuleDanny250Pena danny250 = new RuleDanny250Pena(false);
+//		RuleDanny250Pena2 danny2502 = new RuleDanny250Pena2(false);
+//		RuleDanny250Pena3 danny2503 = new RuleDanny250Pena3(false);
 		RuleRange range = new RuleRange(true);
 		RuleBreakThrough breakThrough = new RuleBreakThrough(true);
+		RuleSAR sar = new RuleSAR(true);
 //		RuleDanny2 danny2 = new RuleDanny2(false);
 //		RuleDanny240 danny240 = new RuleDanny240(true);
 //		RuleDanny50 danny50 = new RuleDanny50(true);
 //		RuleNoonOpen noonOpen = new RuleNoonOpen(true);
 //		RuleSilvia silvia = new RuleSilvia(true);
 //		RuleEMA56 ema56 = new RuleEMA56(false);
-		RuleIBT2 ibt2 = new RuleIBT2(false);
+		XMLWatcher xmlWatcher = new XMLWatcher();
 //		RuleChasing chasing = new RuleChasing(true);
 		
-		Runnable[] r = { gd, tpd, danny250, danny2502, danny2503, range, breakThrough, ibt2, rebound, pLow, pClose, rsi};
+		Runnable[] r = { gd, tpd, range, breakThrough, xmlWatcher, rebound, sar};
 
 		Thread[] t = new Thread[r.length];
 		for (int i = 0; i < r.length; i++) {
