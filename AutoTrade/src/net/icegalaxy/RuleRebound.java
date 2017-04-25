@@ -27,12 +27,14 @@ public class RuleRebound extends Rules {
 		if (!isOrderTime() || Global.getNoOfContracts() != 0 || shutdown || Global.balance < -30)
 			return;
 		
-		if (ohlcs == null)
+		if (ohlcs == null){
 			ohlcs = new OHLC[]
-				{XMLWatcher.open, XMLWatcher.pHigh, XMLWatcher.pLow, XMLWatcher.pClose, GetData.AOL, GetData.AOH, XMLWatcher.mySupport, XMLWatcher.myResist, XMLWatcher.mySAR};
+				{XMLWatcher.open, XMLWatcher.mySupport, XMLWatcher.myResist, XMLWatcher.pHigh, XMLWatcher.pLow, XMLWatcher.pClose, GetData.AOL, GetData.AOH, XMLWatcher.mySAR};
 
 		ohlcs[0].setOrderTime(93000, 103000, 160000, 160000);
-	
+		ohlcs[1].setOrderTime(93000, 114500, 130100, 160000);
+		ohlcs[2].setOrderTime(93000, 114500, 130100, 160000);
+		}
 
 		for (OHLC item : ohlcs)
 		{
