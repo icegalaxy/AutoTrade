@@ -1,5 +1,6 @@
 package net.icegalaxy;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
@@ -10,6 +11,7 @@ public class XMLWatcher implements Runnable
 
 	public static IntraDayReader intraDay;
 	XMLReader ohlc;
+	static String intraDayXMLPath = "C:\\Users\\joech\\Dropbox\\TradeData\\Intraday.xml";
 
 	public static double rangeResist = 0;
 	public static double rangeSupport = 0;
@@ -21,22 +23,24 @@ public class XMLWatcher implements Runnable
 	public static OHLC mySupport;
 	public static OHLC myResist;
 	public static OHLC mySAR;
-	
-	
+
 	public static double SAR = 0;
 	public static double cutLoss = 0;
 	public static double stopEarn = 0;
 	public static double reverse = 0;
 	public static boolean buying;
 	public static boolean selling;
-	
-	
+
+	private long fileModifiedTime;
+
 	private int secCounter;
 
 	public XMLWatcher()
 	{
 
-		intraDay = new IntraDayReader(Global.getToday(), "C:\\Users\\joech\\Dropbox\\TradeData\\Intraday.xml");
+		fileModifiedTime = new File("FHIdata.xml").lastModified();
+
+		intraDay = new IntraDayReader(Global.getToday(), intraDayXMLPath);
 
 		open = new OHLC();
 		open.name = "Open";
@@ -70,31 +74,52 @@ public class XMLWatcher implements Runnable
 				setOpenPrice();
 				Global.addLog("Open: " + Global.getOpen());
 			}
-			
-			
+
 			if (secCounter >= 60)
 			{
 				secCounter = 0;
-				
-				intraDay.findElementOfToday();
-				intraDay.findOHLC();
-				
-				rangeResist = intraDay.rangeResist;
-				rangeSupport = intraDay.rangeSupport;
-				SAR = Double.parseDouble(intraDay.getValueOfNode("SAR"));
-				cutLoss = Double.parseDouble(intraDay.getValueOfNode("cutLoss"));
-				stopEarn = Double.parseDouble(intraDay.getValueOfNode("stopEarn"));
-				reverse = Double.parseDouble(intraDay.getValueOfNode("reverse"));
-				buying = Boolean.parseBoolean(intraDay.getValueOfNode("buying"));
-				selling = Boolean.parseBoolean(intraDay.getValueOfNode("selling"));
-				
-				mySAR.position = SAR;
-						
+
+				if (isFileModified())
+				{
+					intraDay.findElementOfToday();
+					intraDay.findOHLC();
+
+					rangeResist = intraDay.rangeResist;
+					rangeSupport = intraDay.rangeSupport;
+					SAR = Double.parseDouble(intraDay.getValueOfNode("SAR"));
+					cutLoss = Double.parseDouble(intraDay.getValueOfNode("cutLoss"));
+					stopEarn = Double.parseDouble(intraDay.getValueOfNode("stopEarn"));
+					reverse = Double.parseDouble(intraDay.getValueOfNode("reverse"));
+					buying = Boolean.parseBoolean(intraDay.getValueOfNode("buying"));
+					selling = Boolean.parseBoolean(intraDay.getValueOfNode("selling"));
+
+					mySAR.position = SAR;
+					
+					Global.addLog("--------------------");
+					Global.addLog("RangeResist/Support: " + rangeResist + "/" + rangeSupport);				
+					Global.addLog("SAR: " + SAR);
+					Global.addLog("--------------------");
+				}
+
 			}
-			
+
 			secCounter++;
 			sleep(1000);
 		}
+	}
+
+	private boolean isFileModified()
+	{
+
+		if (fileModifiedTime == new File(intraDayXMLPath).lastModified())
+			return false;
+		else
+		{
+			fileModifiedTime = new File(intraDayXMLPath).lastModified();
+			Global.addLog("XML file updated");
+			return true;
+		}
+
 	}
 
 	private void setOpenPrice()
@@ -133,9 +158,9 @@ public class XMLWatcher implements Runnable
 		// return openPrice;
 
 	}
-	
+
 	public static void updateIntraDayXML(String node, String value)
-	{	
+	{
 		intraDay.updateNode(node, value);
 		Global.addLog("Updated Node: " + node + ", value: " + value);
 	}
