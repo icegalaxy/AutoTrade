@@ -103,14 +103,18 @@ public class XMLReader
 
 	public String getValueOfNode(String node)
 	{
+		String value = "";
+	
 		try
 		{
-		return eElement.getElementsByTagName(node).item(0).getTextContent();
+		value = eElement.getElementsByTagName(node).item(0).getTextContent();
 		}catch(Exception e)
 		{
 			e.printStackTrace();
 			Global.addLog("Cannot find node: " + node);
 		}
+		
+		return value;
 	}
 	
 	public void findOHLC()
