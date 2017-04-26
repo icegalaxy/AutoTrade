@@ -96,13 +96,21 @@ public class XMLReader
 		} catch (Exception e)
 		{
 			System.out.println(e);
+			Global.addLog("Cannot find node of today");
 		}
 
 	}
 
 	public String getValueOfNode(String node)
 	{
+		try
+		{
 		return eElement.getElementsByTagName(node).item(0).getTextContent();
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+			Global.addLog("Cannot find node: " + node);
+		}
 	}
 	
 	public void findOHLC()

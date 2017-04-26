@@ -22,7 +22,8 @@ public class IntraDayReader extends XMLReader
 		}
 		catch (Exception e)
 		{
-			System.out.print(".");
+			e.printStackTrace();
+			Global.addLog("Cannot find rangeTag");
 		}
 	}
 
