@@ -75,7 +75,7 @@ public class XMLWatcher implements Runnable
 				Global.addLog("Open: " + Global.getOpen());
 			}
 
-			if (secCounter >= 60)
+			if (secCounter >= 10)
 			{
 				secCounter = 0;
 
