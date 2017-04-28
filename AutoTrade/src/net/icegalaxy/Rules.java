@@ -61,7 +61,7 @@ public abstract class Rules implements Runnable
 		} else
 		{
 
-			Global.addLog(className + " Acivated");
+			Global.addLog(className + " Activated");
 
 			while (Global.isRunning())
 			{

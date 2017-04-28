@@ -194,7 +194,7 @@ public class Setting extends JFrame {
 		
 //		RuleSuddenBreakThrough sudden = new RuleSuddenBreakThrough(false);
 //		RuleSuddenBreakThrough2 sudden2 = new RuleSuddenBreakThrough2(false);
-		RuleRebound rebound = new RuleRebound(false);
+		RuleRebound rebound = new RuleRebound(true);
 		RulePLow pLow = new RulePLow(false);
 //		RuleRSI2 rsi2 = new RuleRSI2(false);
 		
@@ -212,7 +212,7 @@ public class Setting extends JFrame {
 //		RuleDanny250Pena2 danny2502 = new RuleDanny250Pena2(false);
 //		RuleDanny250Pena3 danny2503 = new RuleDanny250Pena3(false);
 		RuleRange range = new RuleRange(true);
-		RuleBreakThrough breakThrough = new RuleBreakThrough(false);
+		RuleBreakThrough breakThrough = new RuleBreakThrough(true);
 		RuleSAR sar = new RuleSAR(true);
 //		RuleDanny2 danny2 = new RuleDanny2(false);
 //		RuleDanny240 danny240 = new RuleDanny240(true);
