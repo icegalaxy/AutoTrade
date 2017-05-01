@@ -12,6 +12,7 @@ public class XMLWatcher implements Runnable
 	public static IntraDayReader intraDay;
 	XMLReader ohlc;
 	static String intraDayXMLPath = "C:\\Users\\joech\\Dropbox\\TradeData\\Intraday.xml";
+	static String OHLCPath = "C:\\Users\\joech\\Dropbox\\TradeData\\FHIdata.xml";
 
 	public static double rangeResist = 0;
 	public static double rangeSupport = 0;
@@ -57,7 +58,7 @@ public class XMLWatcher implements Runnable
 		mySAR = new OHLC();
 		mySAR.name = "SAR";
 
-		ohlc = new XMLReader(Global.getToday(), "TradeData\\FHIdata.xml");
+		ohlc = new XMLReader(Global.getToday(), OHLCPath);
 		ohlc.findOHLC();
 	}
 
