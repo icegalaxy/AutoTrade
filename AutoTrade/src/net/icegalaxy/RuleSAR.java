@@ -49,13 +49,13 @@ public class RuleSAR extends Rules
 		
 		if (buying)
 		{
-			if (Global.getCurrentPoint() < SAR + 5 && Global.getCurrentPoint() > SAR)
+			if (Global.getCurrentPoint() < SAR + 5 && Global.getCurrentPoint() > SAR && !Global.isRapidDrop())
 			{
 				longContract();
 			}	
 		}else if (selling)
 		{
-			if (Global.getCurrentPoint() > SAR - 5 && Global.getCurrentPoint() < SAR)
+			if (Global.getCurrentPoint() > SAR - 5 && Global.getCurrentPoint() < SAR && !Global.isRapidRise())
 			{
 				shortContract();
 			}
@@ -82,15 +82,29 @@ public class RuleSAR extends Rules
 	@Override
 	protected void cutLoss()
 	{
-
-		if (Global.getNoOfContracts() > 0 && Global.getCurrentPoint() < tempCutLoss)
+		
+		if (Global.getNoOfContracts() > 0)
 		{
+			
+			if (getProfit() > 20 && tempCutLoss < buyingPoint + 5)
+				tempCutLoss = buyingPoint + 5;
+			
+			if (Global.getCurrentPoint() < tempCutLoss)
+			{
 			closeContract(className + ": CutLoss, short @ " + Global.getCurrentBid());
 			shutdown = true;
-		} else if (Global.getNoOfContracts() < 0 && Global.getCurrentPoint() > tempCutLoss)
+			}
+		} else if (Global.getNoOfContracts() < 0)
 		{
+			
+			if (getProfit() > 20 && tempCutLoss > buyingPoint - 5)
+				tempCutLoss = buyingPoint - 5;
+			
+			if (Global.getCurrentPoint() > tempCutLoss)
+			{
 			closeContract(className + ": CutLoss, long @ " + Global.getCurrentAsk());
 			shutdown = true;
+			}
 
 		}
 
@@ -111,6 +125,8 @@ public class RuleSAR extends Rules
 	{
 		
 		stopEarn = XMLWatcher.stopEarn;
+		
+		
 		
 		if (trendReversed)
 			return 10;
