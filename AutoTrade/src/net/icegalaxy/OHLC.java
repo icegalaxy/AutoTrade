@@ -11,8 +11,12 @@ public class OHLC
 	int nightClose = 231500;
 	
 	
+	
 	public String name;
 	public double position = 0;
+	public double stopEarn = 0;
+	public double cutLoss = 0;
+	
 	public boolean testedBreakThrough;
 	public boolean testedRebound;
 	public boolean breakThroughValid;

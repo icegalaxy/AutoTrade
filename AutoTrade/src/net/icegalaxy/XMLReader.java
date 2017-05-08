@@ -117,6 +117,22 @@ public class XMLReader
 		return value;
 	}
 	
+	public String getValueOfChildNode(String node, int item)
+	{
+		String value = "";
+	
+		try
+		{
+		value = eElement.getElementsByTagName(node).item(0).getChildNodes().item(item).getTextContent();
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+			Global.addLog("Cannot find node: " + node);
+		}
+		
+		return value;
+	}
+	
 	public void findOHLC()
 	{
 

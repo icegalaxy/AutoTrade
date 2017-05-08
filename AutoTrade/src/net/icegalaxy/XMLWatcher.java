@@ -25,6 +25,8 @@ public class XMLWatcher implements Runnable
 	public static OHLC myResist;
 	public static OHLC mySAR;
 
+	public static OHLC[] ohlcs;
+
 	public static double SAR = 0;
 	public static double cutLoss = 0;
 	public static double stopEarn = 0;
@@ -46,20 +48,28 @@ public class XMLWatcher implements Runnable
 		open = new OHLC();
 		open.name = "Open";
 		pHigh = new OHLC();
-		pHigh.name = "P.High";
+		pHigh.name = "pHigh";
 		pLow = new OHLC();
-		pLow.name = "P.Low";
+		pLow.name = "pLow";
 		pClose = new OHLC();
-		pClose.name = "P.Close";
+		pClose.name = "pClose";
 		mySupport = new OHLC();
-		mySupport.name = "MySupport";
+		mySupport.name = "mySupport";
 		myResist = new OHLC();
-		myResist.name = "MyResist";
+		myResist.name = "myResist";
 		mySAR = new OHLC();
 		mySAR.name = "SAR";
 
 		ohlc = new XMLReader(Global.getToday(), OHLCPath);
-		ohlc.findOHLC();
+		ohlcs = new OHLC[5];
+
+		ohlcs[0] = pHigh;
+		ohlcs[1] = pLow;
+		ohlcs[2] = pClose;
+		ohlcs[3] = mySupport;
+		ohlcs[4] = myResist;
+
+		// ohlc.findOHLC();
 	}
 
 	public void run()
@@ -95,9 +105,9 @@ public class XMLWatcher implements Runnable
 					selling = Boolean.parseBoolean(intraDay.getValueOfNode("selling"));
 
 					mySAR.position = SAR;
-					
+
 					Global.addLog("--------------------");
-					Global.addLog("RangeResist/Support: " + rangeResist + "/" + rangeSupport);				
+					Global.addLog("RangeResist/Support: " + rangeResist + "/" + rangeSupport);
 					Global.addLog("SAR: " + SAR);
 					Global.addLog("--------------------");
 				}
@@ -180,6 +190,27 @@ public class XMLWatcher implements Runnable
 
 	private void setOHLC()
 	{
+
+		for (int i = 0; i < 3; i++)
+		{
+			for (int j = 0; j < 5; j++)
+			{
+				switch (i)
+				{
+				case 0:
+					ohlcs[j].position = Double.parseDouble(ohlc.getValueOfChildNode(ohlcs[j].name, i));
+					break;
+				case 1:
+					ohlcs[j].stopEarn = Double.parseDouble(ohlc.getValueOfChildNode(ohlcs[j].name, i));
+					break;
+				case 2:
+					ohlcs[j].cutLoss = Double.parseDouble(ohlc.getValueOfChildNode(ohlcs[j].name, i));
+					break;
+				}
+
+			}
+
+		}
 
 		// XMLReader ohlc = new XMLReader(Global.getToday());
 		Global.setpHigh(ohlc.getpHigh());
