@@ -69,7 +69,7 @@ public class XMLWatcher implements Runnable
 		ohlcs[3] = mySupport;
 		ohlcs[4] = myResist;
 
-		// ohlc.findOHLC();
+		ohlc.findOHLC();
 	}
 
 	public void run()
@@ -213,20 +213,20 @@ public class XMLWatcher implements Runnable
 		}
 
 		// XMLReader ohlc = new XMLReader(Global.getToday());
-		Global.setpHigh(ohlc.getpHigh());
-		Global.setpLow(ohlc.getpLow());
-		Global.setpOpen(ohlc.getpOpen());
-		Global.setpClose(ohlc.getpClose());
-		Global.setpFluc(ohlc.getpFluc());
+//		Global.setpHigh(ohlc.getpHigh());
+//		Global.setpLow(ohlc.getpLow());
+//		Global.setpOpen(ohlc.getpOpen());
+//		Global.setpClose(ohlc.getpClose());
+//		Global.setpFluc(ohlc.getpFluc());
+//
+//		Global.setKkResist(ohlc.getKkResist());
+//		Global.setKkSupport(ohlc.getKkSupport());
 
-		Global.setKkResist(ohlc.getKkResist());
-		Global.setKkSupport(ohlc.getKkSupport());
-
-		if (Global.getpHigh() != 0)
+		if (pHigh.position != 0)
 		{
 			Global.addLog("-------------------------------------");
-			Global.addLog("P.High: " + Global.getpHigh());
-			Global.addLog("P.Low: " + Global.getpLow());
+			Global.addLog("P.High: " + pHigh.position);
+			Global.addLog("P.Low: " + pLow.position);
 			Global.addLog("-------------------------------------");
 		}
 

@@ -214,6 +214,7 @@ public class Setting extends JFrame {
 		RuleRange range = new RuleRange(true);
 		RuleBreakThrough breakThrough = new RuleBreakThrough(true);
 		RuleSAR sar = new RuleSAR(true);
+		RuleRR rr = new RuleRR(true);
 //		RuleDanny2 danny2 = new RuleDanny2(false);
 //		RuleDanny240 danny240 = new RuleDanny240(true);
 //		RuleDanny50 danny50 = new RuleDanny50(true);
@@ -223,7 +224,7 @@ public class Setting extends JFrame {
 		XMLWatcher xmlWatcher = new XMLWatcher();
 //		RuleChasing chasing = new RuleChasing(true);
 		
-		Runnable[] r = { gd, tpd, range, breakThrough, xmlWatcher, rebound, sar};
+		Runnable[] r = { gd, tpd, range, breakThrough, xmlWatcher, rebound, sar, rr};
 
 		Thread[] t = new Thread[r.length];
 		for (int i = 0; i < r.length; i++) {
