@@ -69,7 +69,7 @@ public class XMLWatcher implements Runnable
 		ohlcs[3] = mySupport;
 		ohlcs[4] = myResist;
 
-		ohlc.findOHLC();
+//		ohlc.findOHLC();
 	}
 
 	public void run()
