@@ -10,7 +10,7 @@ public class RuleRR extends Rules
 	public RuleRR(boolean globalRunRule)
 	{
 		super(globalRunRule);
-		setOrderTime(93000, 113000, 130100, 160000, 230000, 230000);
+		setOrderTime(91600, 113000, 130100, 160000, 230000, 230000);
 		// wait for EMA6, that's why 0945
 	}
 
@@ -153,9 +153,9 @@ public class RuleRR extends Rules
 		if (intraDayStopEarn == 0)
 		{
 			if (Global.getNoOfContracts() > 0)
-				return currentOHLC.stopEarn - buyingPoint - 10;
+				return Math.max(10, currentOHLC.stopEarn - buyingPoint - 10);
 			else
-				return buyingPoint - currentOHLC.stopEarn - 10;
+				return Math.max(10, buyingPoint - currentOHLC.stopEarn - 10);
 		} else
 		{
 			if (Global.getNoOfContracts() > 0)
