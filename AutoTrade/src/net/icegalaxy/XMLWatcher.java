@@ -159,12 +159,12 @@ public class XMLWatcher implements Runnable
 
 		// wait for open price to add them together
 		open.position = Global.getOpen();
-		pHigh.position = Global.getpHigh();
-		pLow.position = Global.getpLow();
-		pClose.position = Global.getpClose();
-
-		mySupport.position = Global.getKkSupport();
-		myResist.position = Global.getKkResist();
+//		pHigh.position = Global.getpHigh();
+//		pLow.position = Global.getpLow();
+//		pClose.position = Global.getpClose();
+//
+//		mySupport.position = Global.getKkSupport();
+//		myResist.position = Global.getKkResist();
 
 		// return openPrice;
 
@@ -222,13 +222,13 @@ public class XMLWatcher implements Runnable
 //		Global.setKkResist(ohlc.getKkResist());
 //		Global.setKkSupport(ohlc.getKkSupport());
 
-		if (pHigh.position != 0)
-		{
+//		if (pHigh.position != 0)
+//		{
 			Global.addLog("-------------------------------------");
 			Global.addLog("P.High: " + pHigh.position);
 			Global.addLog("P.Low: " + pLow.position);
 			Global.addLog("-------------------------------------");
-		}
+//		}
 
 	}
 
