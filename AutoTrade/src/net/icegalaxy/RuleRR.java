@@ -34,21 +34,25 @@ public class RuleRR extends Rules
 			if (currentOHLC.shutdown)
 				continue;
 
-			if (GetData.getEma5().getEMA() > currentOHLC.cutLoss && Global.getCurrentPoint() < currentOHLC.cutLoss + 10
+			if (GetData.getLongTB().getEma5().getEMA() > currentOHLC.cutLoss && Global.getCurrentPoint() < currentOHLC.cutLoss + 10
 					&& Global.getCurrentPoint() > currentOHLC.cutLoss)
 			{
 
+				Global.addLog("Reached " + currentOHLC.name);
+				
 				while (Global.isRapidDrop()
 						|| getTimeBase().getLatestCandle().getOpen() > getTimeBase().getLatestCandle().getClose())
 				{
 
-					if (GetData.getEma5().getEMA() < currentOHLC.cutLoss + 10)
+					if (GetData.getLongTB().getEma5().getEMA() < currentOHLC.cutLoss)
 					{
+						Global.addLog("EMA5 out of range");
 						return;
 					}
 
-					if (Global.getCurrentPoint() < currentOHLC.cutLoss)
+					if (Global.getCurrentPoint() < currentOHLC.cutLoss - 10)
 					{
+						Global.addLog("Current point out of range");
 						return;
 					}
 
@@ -59,22 +63,26 @@ public class RuleRR extends Rules
 				Global.addLog("OHLC: " + currentOHLC.name);
 				return;
 
-			} else if (GetData.getEma5().getEMA() < currentOHLC.cutLoss
+			} else if (GetData.getLongTB().getEma5().getEMA() < currentOHLC.cutLoss
 					&& Global.getCurrentPoint() > currentOHLC.cutLoss - 10
 					&& Global.getCurrentPoint() < currentOHLC.cutLoss)
 			{
+				
+				Global.addLog("Reached " + currentOHLC.name);
 
 				while (Global.isRapidRise()
 						|| getTimeBase().getLatestCandle().getOpen() < getTimeBase().getLatestCandle().getClose())
 				{
 
-					if (GetData.getEma5().getEMA() > currentOHLC.cutLoss - 10)
+					if (GetData.getLongTB().getEma5().getEMA() > currentOHLC.cutLoss)
 					{
+						Global.addLog("EMA5 out of range");
 						return;
 					}
 
-					if (Global.getCurrentPoint() > currentOHLC.cutLoss)
+					if (Global.getCurrentPoint() > currentOHLC.cutLoss + 10)
 					{
+						Global.addLog("Current point out of range");
 						return;
 					}
 
@@ -95,11 +103,34 @@ public class RuleRR extends Rules
 	{
 
 		if (Global.getNoOfContracts() > 0)
-			return buyingPoint - currentOHLC.cutLoss + 10;
+			return Math.max(20, buyingPoint - currentOHLC.cutLoss + 10);
 		else
-			return currentOHLC.cutLoss - buyingPoint + 10;
+			return Math.max(20, currentOHLC.cutLoss - buyingPoint + 10);
 	}
 
+	@Override
+	void stopEarn()
+	{
+		if (Global.getNoOfContracts() > 0)
+		{
+
+			if (Global.getCurrentPoint() < buyingPoint + 5)
+				closeContract(className + ": Break even, short @ " + Global.getCurrentBid());
+			else if (GetData.getShortTB().getLatestCandle().getClose() < tempCutLoss)
+				closeContract(className + ": StopEarn, short @ " + Global.getCurrentBid());
+			
+
+		} else if (Global.getNoOfContracts() < 0)
+		{
+
+			if (Global.getCurrentPoint() > buyingPoint - 5)
+				closeContract(className + ": Break even, long @ " + Global.getCurrentAsk());
+			else if (GetData.getShortTB().getLatestCandle().getClose() > tempCutLoss)
+				closeContract(className + ": StopEarn, long @ " + Global.getCurrentAsk());
+			
+		}
+	}
+	
 	// @Override
 	// protected void cutLoss()
 	// {
