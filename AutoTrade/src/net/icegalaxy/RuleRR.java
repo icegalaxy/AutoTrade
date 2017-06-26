@@ -34,7 +34,7 @@ public class RuleRR extends Rules
 			if (currentOHLC.shutdown)
 				continue;
 
-			if (GetData.getLongTB().getEma5().getEMA() > currentOHLC.cutLoss && Global.getCurrentPoint() < currentOHLC.cutLoss + 10
+			if (GetData.getLongTB().getEma5().getEMA() > currentOHLC.cutLoss && Global.getCurrentPoint() < currentOHLC.cutLoss + 15
 					&& Global.getCurrentPoint() > currentOHLC.cutLoss)
 			{
 
@@ -64,7 +64,7 @@ public class RuleRR extends Rules
 				return;
 
 			} else if (GetData.getLongTB().getEma5().getEMA() < currentOHLC.cutLoss
-					&& Global.getCurrentPoint() > currentOHLC.cutLoss - 10
+					&& Global.getCurrentPoint() > currentOHLC.cutLoss - 15
 					&& Global.getCurrentPoint() < currentOHLC.cutLoss)
 			{
 				
