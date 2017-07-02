@@ -1,17 +1,17 @@
 package net.icegalaxy;
 
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 
 import com.sun.jna.Callback;
-import com.sun.jna.Library;
 
 import com.sun.jna.Native;
 
 import com.sun.jna.Structure;
+import com.sun.jna.win32.StdCallLibrary;
+import com.sun.jna.win32.StdCallLibrary.StdCallCallback;
 
 import net.icegalaxy.SPApi.SPApiDll.SPApiOrder;
 import net.icegalaxy.SPApi.SPApiDll.SPApiPrice;
@@ -41,13 +41,13 @@ public class SPApi
 	 static String password = "00000000";
 	 static String server = "demo.spsystem.info";*/
 
-	public static interface SPApiDll extends Library
+	public static interface SPApiDll extends StdCallLibrary
 	{
 		public static SPApiDll INSTANCE = (SPApiDll) Native.loadLibrary("spapidllm64", SPApiDll.class);
 
 		int SPAPI_Initialize();
 
-		void SPAPI_Uninitialize();
+		void SPAPI_Uninitialize(String userID);
 		
 		int SPAPI_DeleteAllOrders(String user_id, String acc_no);
 
@@ -223,47 +223,47 @@ public class SPApi
 
 	}
 	
-	public interface RegisterOrder extends Callback
+	public interface RegisterOrder extends StdCallCallback
 	{
 		void invoke(long rec_no, SPApiOrder order);
 	}
 	
-	public interface RegisterOrderFail extends Callback
+	public interface RegisterOrderFail extends StdCallCallback
 	{
 		void invoke(int action, SPApiOrder order, long err_code, String err_msg);
 	}
 	
-	public interface RegisterPriceUpdate extends Callback
+	public interface RegisterPriceUpdate extends StdCallCallback
 	{
 		void invoke(SPApiPrice price);
 	}
 
-	public interface AccLoginReply extends Callback
+	public interface AccLoginReply extends StdCallCallback
 	{
 		void invoke(String accNo, long ret_code, String ret_msg);
 	}
 
-	public interface RegisterConn extends Callback
+	public interface RegisterConn extends StdCallCallback
 	{
 		void invoke(long host_type, long con_status);
 	}
 
-	public interface RegisterError extends Callback
+	public interface RegisterError extends StdCallCallback
 	{
 		void invoke(short host_id, long link_err);
 	}
 
-	public interface RegisterLoginReply extends Callback
+	public interface RegisterLoginReply extends StdCallCallback
 	{
 		void printLoginStatus(long ret_code, String ret_msg);
 	}
 
-	public interface RegisterLoginStatusUpdate extends Callback
+	public interface RegisterLoginStatusUpdate extends StdCallCallback
 	{
 		void printStatus(long login_status);
 	}
 	
-	public interface RegisterTradeReport extends Callback
+	public interface RegisterTradeReport extends StdCallCallback
 	{
 		void invoke(long rec_no, SPApiTrade trade);
 	}
@@ -511,7 +511,7 @@ public class SPApi
 
 		status += SPApiDll.INSTANCE.SPAPI_SubscribePrice(userid, product, 0);
 		status += SPApiDll.INSTANCE.SPAPI_Logout(userid);
-		SPApiDll.INSTANCE.SPAPI_Uninitialize();
+		SPApiDll.INSTANCE.SPAPI_Uninitialize(userid);
 
 		return status;
 

@@ -10,7 +10,7 @@ public class RuleRR extends Rules
 	public RuleRR(boolean globalRunRule)
 	{
 		super(globalRunRule);
-		setOrderTime(91600, 113000, 130100, 160000, 230000, 230000);
+		setOrderTime(91600, 113000, 150000, 160000, 230000, 230000);
 		// wait for EMA6, that's why 0945
 	}
 
@@ -23,7 +23,7 @@ public class RuleRR extends Rules
 		for (OHLC item : XMLWatcher.ohlcs)
 		{
 			currentOHLC = item;
-			setOrderTime(item.getOrderTime());
+//			setOrderTime(item.getOrderTime());
 
 			if (Global.getNoOfContracts() != 0)
 				return;
