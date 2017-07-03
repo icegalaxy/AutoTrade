@@ -47,7 +47,7 @@ public class SPApi
 
 		int SPAPI_Initialize();
 
-		void SPAPI_Uninitialize(String userID);
+		int SPAPI_Uninitialize(String userID);
 		
 		int SPAPI_DeleteAllOrders(String user_id, String acc_no);
 
