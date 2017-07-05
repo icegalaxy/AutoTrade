@@ -10,7 +10,7 @@ public class RuleRR extends Rules
 	public RuleRR(boolean globalRunRule)
 	{
 		super(globalRunRule);
-		setOrderTime(91600, 113000, 150000, 160000, 230000, 230000);
+		setOrderTime(91600, 115800, 130100, 160000, 230000, 230000);
 		// wait for EMA6, that's why 0945
 	}
 
@@ -34,7 +34,9 @@ public class RuleRR extends Rules
 			if (currentOHLC.shutdown)
 				continue;
 
-			if (GetData.getLongTB().getEma5().getEMA() > currentOHLC.cutLoss && Global.getCurrentPoint() < currentOHLC.cutLoss + 15
+			if (GetData.getLongTB().getEma5().getEMA() > currentOHLC.cutLoss
+					&& currentOHLC.stopEarn > currentOHLC.cutLoss
+					&& Global.getCurrentPoint() < currentOHLC.cutLoss + 15
 					&& Global.getCurrentPoint() > currentOHLC.cutLoss)
 			{
 
@@ -64,6 +66,7 @@ public class RuleRR extends Rules
 				return;
 
 			} else if (GetData.getLongTB().getEma5().getEMA() < currentOHLC.cutLoss
+					&& currentOHLC.stopEarn < currentOHLC.cutLoss
 					&& Global.getCurrentPoint() > currentOHLC.cutLoss - 15
 					&& Global.getCurrentPoint() < currentOHLC.cutLoss)
 			{
