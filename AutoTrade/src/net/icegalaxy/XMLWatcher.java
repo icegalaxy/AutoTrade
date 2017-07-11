@@ -60,7 +60,9 @@ public class XMLWatcher implements Runnable
 		mySAR = new OHLC();
 		mySAR.name = "SAR";
 
-		ohlc = new XMLReader(Global.getToday(), OHLCPath);
+		//ohlc = new XMLReader(Global.getToday(), OHLCPath);
+		//using today
+		ohlc = new XMLReader("Today", OHLCPath);
 		ohlcs = new OHLC[5];
 
 		ohlcs[0] = pHigh;

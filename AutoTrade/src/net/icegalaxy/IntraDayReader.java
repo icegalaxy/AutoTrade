@@ -9,7 +9,9 @@ public class IntraDayReader extends XMLReader
 
 	public IntraDayReader(String tradeDate, String filePath)
 	{
-		super(tradeDate, filePath);
+	//	super(tradeDate, filePath);
+		// using "Today" instead of tradeDate
+		super("Today", filePath);
 	}
 	
 	public void findOHLC()
