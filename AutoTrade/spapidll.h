@@ -336,8 +336,8 @@ typedef void (SPDLLCALL *ApiLoadTradeReadyPushAddr)(long rec_no, SPApiTrade *tra
 typedef void (SPDLLCALL *ApiPriceUpdateAddr)(SPApiPrice *price);
 typedef void (SPDLLCALL *ApiTickerUpdateAddr)(SPApiTicker *ticker);
 typedef void (SPDLLCALL *PswChangeReplyAddr)(long ret_code, char *ret_msg);
-typedef void (SPDLLCALL *ProductListByCodeReplyAddr)(char *inst_code, bool is_ready, char *ret_msg);
-typedef void (SPDLLCALL *InstrumentListReplyAddr)(bool is_ready, char *ret_msg);
+typedef void (SPDLLCALL *ProductListByCodeReplyAddr)(long req_id, char *inst_code, bool is_ready, char *ret_msg);
+typedef void (SPDLLCALL *InstrumentListReplyAddr)(long req_id, bool is_ready, char *ret_msg);
 typedef void (SPDLLCALL *BusinessDateReplyAddr)(long business_date);
 typedef void (SPDLLCALL *ApiMMOrderBeforeSendReportAddr)(SPApiMMOrder *mm_order);
 typedef void (SPDLLCALL *ApiMMOrderRequestFailedAddr)(SPApiMMOrder *mm_order, long err_code, char *err_msg);
@@ -406,6 +406,7 @@ typedef int (SPDLLCALL *p_SPAPI_GetAccInfo)(char *user_id, SPApiAccInfo *acc_inf
 typedef int (SPDLLCALL *p_SPAPI_GetPriceByCode)(char *user_id, char *prod_code, SPApiPrice *price);
 typedef int (SPDLLCALL *p_SPAPI_SetApiLogPath)(char *path);
 
+typedef int (SPDLLCALL *p_SPAPI_LoadProductInfoListByMarket)(char *market_code);
 typedef int (SPDLLCALL *p_SPAPI_LoadProductInfoListByCode)(char *inst_code);
 typedef int (SPDLLCALL *p_SPAPI_GetProductCount)();
 typedef int (SPDLLCALL *p_SPAPI_GetProduct)(vector<SPApiProduct>& apiProdList);

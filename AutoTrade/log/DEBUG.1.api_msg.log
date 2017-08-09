@@ -1,23 +1,47 @@
-2017-07-24T08:37:42.657078: Set Connect (Host: futures.bsgroup.com.hk:8080)...
-2017-07-24T08:37:42.758743: Logging in ...
-2017-07-24T08:37:44.045512: Login OK !>>> (UserId#T865829 systemTime:1500856665)systemid:PROXY0
-2017-07-24T08:37:44.045512: WebLink: Id>>> 0 ,URL:http://spsystem.info/autoupgrade/
-2017-07-24T08:37:44.045512: WebLink: Id>>> 1 ,URL:http://spsystem.info/splinker/index.php?action=webchart
-2017-07-24T08:37:44.045512: WebLink: Id>>> 2 ,URL:http://spsystem.info/splinker/index.php?action=sphelp
-2017-07-24T08:37:44.045512: WebLink: Id>>> 3 ,URL:http://spsystem.info/splinker/index.php?action=splogo
-2017-07-24T08:37:44.045512: WebLink: Id>>> 4 ,URL:http://spsystem.info/splinker/index.php?action=spprodinfo
-2017-07-24T08:37:44.045512: WebLink: Id>>> 9 ,URL:https://mobilefs1.bsgroup.com.hk/sptrader/
-2017-07-24T08:37:44.045512: WebLink: Id>>> 20 ,URL:spsystem.info/splinker/index.php?a=1
-2017-07-24T08:37:44.045512: WebLink: Id>>> 21 ,URL:spsystem.info/splinker/index.php?a=2
-2017-07-24T08:37:44.046012: WebLink: Id>>> 24 ,URL:103.241.165.206:80/spmobile_api/spwebapi/
-2017-07-24T08:37:44.046012: WebLink: Id>>> 28 ,URL:http://spsystem.info/spmobile_service/spwebapi
-2017-07-24T08:37:44.046012: WebLink: Id>>> 29 ,URL:http://spsystem.info/spproduct_mobile/index.php?referer=mobile&format=json
-2017-07-24T08:37:44.057532: WebLink: Id>>> 30 ,URL:http://spsystem.info/document/
-2017-07-24T08:37:44.057532: WebLink: Id>>> 32 ,URL:https://mobilef.bsgroup.com.hk/spmobile_api/spwebapi/
-2017-07-24T08:37:44.057532: WebLink: Id>>> 33 ,URL:http://profile1.spsystem.info
-2017-07-24T08:37:44.057532: WebLink: Id>>> 34 ,URL:http://profile2.spsystem.info
-2017-07-24T08:37:44.058033: WebLink: Id>>> 35 ,URL:http://profile3.spsystem.info
-2017-07-24T08:37:44.058033: WebLink: Id>>> 36 ,URL:http://profile4.spsystem.info
-2017-07-24T08:37:44.058033: WebLink: Id>>> 37 ,URL:http://profile5.spsystem.info
-2017-07-24T08:37:44.058033: WebLink: Id>>> 100 ,URL:
-2017-07-24T16:30:01.306310: Start Logout ...
+2017-08-07T08:47:25.489812: Set Connect (Host: futures.bsgroup.com.hk:8080)...
+2017-08-07T08:47:25.539109: Logging in ...
+2017-08-07T08:47:26.746224: Login OK !>>> (UserId#T865829 systemTime:1502066888)systemid:PROXY0
+2017-08-07T08:47:26.774223: WebLink: Id>>> 0 ,URL:http://spsystem.info/autoupgrade/
+2017-08-07T08:47:26.774223: WebLink: Id>>> 1 ,URL:http://spsystem.info/splinker/index.php?action=webchart
+2017-08-07T08:47:26.774223: WebLink: Id>>> 2 ,URL:http://spsystem.info/splinker/index.php?action=sphelp
+2017-08-07T08:47:26.775223: WebLink: Id>>> 3 ,URL:http://spsystem.info/splinker/index.php?action=splogo
+2017-08-07T08:47:26.775223: WebLink: Id>>> 4 ,URL:http://spsystem.info/splinker/index.php?action=spprodinfo
+2017-08-07T08:47:26.775223: WebLink: Id>>> 9 ,URL:https://mobilefs1.bsgroup.com.hk/sptrader/
+2017-08-07T08:47:26.775223: WebLink: Id>>> 20 ,URL:spsystem.info/splinker/index.php?a=1
+2017-08-07T08:47:26.775223: WebLink: Id>>> 21 ,URL:spsystem.info/splinker/index.php?a=2
+2017-08-07T08:47:26.775223: WebLink: Id>>> 24 ,URL:103.241.165.206:80/spmobile_api/spwebapi/
+2017-08-07T08:47:26.775223: WebLink: Id>>> 28 ,URL:http://spsystem.info/spmobile_service/spwebapi
+2017-08-07T08:47:26.775223: WebLink: Id>>> 29 ,URL:http://spsystem.info/spproduct_mobile/index.php?referer=mobile&format=json
+2017-08-07T08:47:26.775223: WebLink: Id>>> 30 ,URL:http://spsystem.info/document/
+2017-08-07T08:47:26.775223: WebLink: Id>>> 32 ,URL:https://mobilef.bsgroup.com.hk/spmobile_api/spwebapi/
+2017-08-07T08:47:26.775223: WebLink: Id>>> 33 ,URL:http://profile1.spsystem.info
+2017-08-07T08:47:26.780223: WebLink: Id>>> 34 ,URL:http://profile2.spsystem.info
+2017-08-07T08:47:26.780223: WebLink: Id>>> 35 ,URL:http://profile3.spsystem.info
+2017-08-07T08:47:26.780223: WebLink: Id>>> 36 ,URL:http://profile4.spsystem.info
+2017-08-07T08:47:26.780223: WebLink: Id>>> 37 ,URL:http://profile5.spsystem.info
+2017-08-07T08:47:26.780223: WebLink: Id>>> 100 ,URL:
+2017-08-07T11:13:38.040220: Start Logout ...
+2017-08-07T12:30:22.308544: Set Connect (Host: futures.bsgroup.com.hk:8080)...
+2017-08-07T12:30:22.348572: Logging in ...
+2017-08-07T12:30:23.593309: Login OK !>>> (UserId#T865829 systemTime:1502080265)systemid:PROXY0
+2017-08-07T12:30:23.593309: WebLink: Id>>> 0 ,URL:http://spsystem.info/autoupgrade/
+2017-08-07T12:30:23.594307: WebLink: Id>>> 1 ,URL:http://spsystem.info/splinker/index.php?action=webchart
+2017-08-07T12:30:23.595308: WebLink: Id>>> 2 ,URL:http://spsystem.info/splinker/index.php?action=sphelp
+2017-08-07T12:30:23.595308: WebLink: Id>>> 3 ,URL:http://spsystem.info/splinker/index.php?action=splogo
+2017-08-07T12:30:23.595308: WebLink: Id>>> 4 ,URL:http://spsystem.info/splinker/index.php?action=spprodinfo
+2017-08-07T12:30:23.595308: WebLink: Id>>> 9 ,URL:https://mobilefs1.bsgroup.com.hk/sptrader/
+2017-08-07T12:30:23.595308: WebLink: Id>>> 20 ,URL:spsystem.info/splinker/index.php?a=1
+2017-08-07T12:30:23.595308: WebLink: Id>>> 21 ,URL:spsystem.info/splinker/index.php?a=2
+2017-08-07T12:30:23.595308: WebLink: Id>>> 24 ,URL:103.241.165.206:80/spmobile_api/spwebapi/
+2017-08-07T12:30:23.595308: WebLink: Id>>> 28 ,URL:http://spsystem.info/spmobile_service/spwebapi
+2017-08-07T12:30:23.595308: WebLink: Id>>> 29 ,URL:http://spsystem.info/spproduct_mobile/index.php?referer=mobile&format=json
+2017-08-07T12:30:23.601307: WebLink: Id>>> 30 ,URL:http://spsystem.info/document/
+2017-08-07T12:30:23.601307: WebLink: Id>>> 32 ,URL:https://mobilef.bsgroup.com.hk/spmobile_api/spwebapi/
+2017-08-07T12:30:23.601307: WebLink: Id>>> 33 ,URL:http://profile1.spsystem.info
+2017-08-07T12:30:23.601307: WebLink: Id>>> 34 ,URL:http://profile2.spsystem.info
+2017-08-07T12:30:23.601307: WebLink: Id>>> 35 ,URL:http://profile3.spsystem.info
+2017-08-07T12:30:23.601307: WebLink: Id>>> 36 ,URL:http://profile4.spsystem.info
+2017-08-07T12:30:23.601307: WebLink: Id>>> 37 ,URL:http://profile5.spsystem.info
+2017-08-07T12:30:23.601307: WebLink: Id>>> 100 ,URL:
+2017-08-07T12:32:25.790980: TServer Login Error >>> (Host:) 3101:User already login!
+2017-08-07T16:30:02.827918: Start Logout ...
