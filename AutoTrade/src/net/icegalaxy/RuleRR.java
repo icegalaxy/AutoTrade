@@ -19,10 +19,25 @@ public class RuleRR extends Rules
 
 		if (!isOrderTime() || Global.getNoOfContracts() != 0 || Global.balance < -30)
 			return;
-
-		for (OHLC item : XMLWatcher.ohlcs)
+		
+		
+		// if cutLoss, shutdown the ohlc
+		if (shutdown)
 		{
-			currentOHLC = item;
+			for (int i=0; i<XMLWatcher.ohlcs.length; i++)	
+			{
+				if (currentOHLC.name.equals(XMLWatcher.ohlcs[i].name))
+					XMLWatcher.ohlcs[i].shutdown = true;				
+			}
+			shutdown = false;
+		}
+			
+
+//		for (OHLC item : XMLWatcher.ohlcs)
+			
+		for (int i=0; i<XMLWatcher.ohlcs.length; i++)	
+		{
+			currentOHLC = XMLWatcher.ohlcs[i];
 //			setOrderTime(item.getOrderTime());
 
 			if (Global.getNoOfContracts() != 0)
@@ -33,6 +48,15 @@ public class RuleRR extends Rules
 
 			if (currentOHLC.shutdown)
 				continue;
+			
+			if (currentOHLC.stopEarn > currentOHLC.cutLoss)
+			{
+			
+			}else if (currentOHLC.stopEarn < currentOHLC.cutLoss)
+			{
+				
+			}
+			
 
 			if (GetData.getLongTB().getEma5().getEMA() > currentOHLC.cutLoss
 					&& currentOHLC.stopEarn > currentOHLC.cutLoss
@@ -46,6 +70,9 @@ public class RuleRR extends Rules
 						|| getTimeBase().getLatestCandle().getOpen() > getTimeBase().getLatestCandle().getClose())
 				{
 
+					if (Global.getCurrentPoint() < currentOHLC.cutLoss - 35)
+						 XMLWatcher.ohlcs[i].shutdown = true;
+					
 					if (GetData.getLongTB().getEma5().getEMA() < currentOHLC.cutLoss)
 					{
 						Global.addLog("EMA5 out of range");
@@ -77,6 +104,9 @@ public class RuleRR extends Rules
 						|| getTimeBase().getLatestCandle().getOpen() < getTimeBase().getLatestCandle().getClose())
 				{
 
+					if (Global.getCurrentPoint() > currentOHLC.cutLoss + 35)
+						 XMLWatcher.ohlcs[i].shutdown = true;
+					
 					if (GetData.getLongTB().getEma5().getEMA() > currentOHLC.cutLoss)
 					{
 						Global.addLog("EMA5 out of range");
@@ -125,7 +155,7 @@ public class RuleRR extends Rules
 
 		} else if (Global.getNoOfContracts() < 0)
 		{
-
+			
 			if (Global.getCurrentPoint() > buyingPoint - 5)
 				closeContract(className + ": Break even, long @ " + Global.getCurrentAsk());
 			else if (GetData.getShortTB().getLatestCandle().getClose() > tempCutLoss)
