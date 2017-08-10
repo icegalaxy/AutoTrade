@@ -136,9 +136,9 @@ public class RuleRR extends Rules
 	{
 
 		if (Global.getNoOfContracts() > 0)
-			return Math.max(20, buyingPoint - currentOHLC.cutLoss + 10);
+			return Math.max(20, buyingPoint - currentOHLC.cutLoss + 15);
 		else
-			return Math.max(20, currentOHLC.cutLoss - buyingPoint + 10);
+			return Math.max(20, currentOHLC.cutLoss - buyingPoint + 15);
 	}
 
 	@Override
