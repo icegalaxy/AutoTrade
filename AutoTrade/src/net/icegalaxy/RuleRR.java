@@ -17,7 +17,9 @@ public class RuleRR extends Rules
 	public void openContract()
 	{
 
-		if (!isOrderTime() || Global.getNoOfContracts() != 0 || Global.balance < -30)
+		if (!isOrderTime() || Global.getNoOfContracts() != 0 
+				//|| Global.balance < -30
+				)
 			return;
 		
 		

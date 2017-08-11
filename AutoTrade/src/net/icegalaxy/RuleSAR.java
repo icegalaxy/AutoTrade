@@ -28,11 +28,7 @@ public class RuleSAR extends Rules
 		
 		if (shutdown || trendReversed)
 		{
-			XMLWatcher.updateIntraDayXML("buying", "false");
-			XMLWatcher.updateIntraDayXML("selling", "false");
-			Global.addLog("Shut down RuleSAR");
-			buying = false;
-			selling = false;
+			shutDownSAR();
 			trendReversed = false;
 			shutdown = false;
 			
@@ -47,19 +43,78 @@ public class RuleSAR extends Rules
 		buying = XMLWatcher.buying;
 		selling = XMLWatcher.selling;
 		
-		if (buying)
+		if (GetData.getLongTB().getEma5().getEMA() > cutLoss
+				&& buying
+				&& Global.getCurrentPoint() < cutLoss + 15
+				&& Global.getCurrentPoint() > cutLoss)
 		{
 			if (Global.getCurrentPoint() < SAR + 5 && Global.getCurrentPoint() > SAR && !Global.isRapidDrop())
 			{
+				while (Global.isRapidDrop()
+						|| getTimeBase().getLatestCandle().getOpen() > getTimeBase().getLatestCandle().getClose())
+				{
+
+					if (Global.getCurrentPoint() < cutLoss - 35)
+						shutDownSAR();
+					
+					if (GetData.getLongTB().getEma5().getEMA() < cutLoss)
+					{
+						Global.addLog("EMA5 out of range");
+						return;
+					}
+
+					if (Global.getCurrentPoint() < cutLoss - 10)
+					{
+						Global.addLog("Current point out of range");
+						return;
+					}
+
+					sleep(1000);
+				}
+
 				longContract();
 			}	
-		}else if (selling)
+		}else if (GetData.getLongTB().getEma5().getEMA() < cutLoss
+				&& selling
+				&& Global.getCurrentPoint() > cutLoss - 15
+				&& Global.getCurrentPoint() < cutLoss)
 		{
 			if (Global.getCurrentPoint() > SAR - 5 && Global.getCurrentPoint() < SAR && !Global.isRapidRise())
 			{
+				while (Global.isRapidRise()
+						|| getTimeBase().getLatestCandle().getOpen() < getTimeBase().getLatestCandle().getClose())
+				{
+
+					if (Global.getCurrentPoint() > cutLoss + 35)
+						 shutDownSAR();
+					
+					if (GetData.getLongTB().getEma5().getEMA() > cutLoss)
+					{
+						Global.addLog("EMA5 out of range");
+						return;
+					}
+
+					if (Global.getCurrentPoint() > cutLoss + 10)
+					{
+						Global.addLog("Current point out of range");
+						return;
+					}
+
+					sleep(1000);
+				}
+
 				shortContract();
 			}
 		}
+	}
+
+	private void shutDownSAR()
+	{
+		XMLWatcher.updateIntraDayXML("buying", "false");
+		XMLWatcher.updateIntraDayXML("selling", "false");
+		Global.addLog("Shut down RuleSAR");
+		buying = false;
+		selling = false;
 	}
 
 
