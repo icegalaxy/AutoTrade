@@ -216,6 +216,7 @@ public class RuleRR extends Rules
 
 		double intraDayStopEarn = XMLWatcher.stopEarn;
 
+		//***
 		if (intraDayStopEarn == 0)
 		{
 			if (Global.getNoOfContracts() > 0)

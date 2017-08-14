@@ -118,91 +118,55 @@ public class RuleSAR extends Rules
 	}
 
 
-	
-
-	// use 1min instead of 5min
 	double getCutLossPt()
 	{
-		
-		cutLoss = XMLWatcher.cutLoss;
-		
-		if (cutLoss == 0)
-			return 15;
-		else if (Global.getNoOfContracts() > 0)
-			return buyingPoint - cutLoss + 3;
+
+		if (Global.getNoOfContracts() > 0)
+			return Math.max(20, buyingPoint - cutLoss + 15);
 		else
-			return cutLoss - buyingPoint + 3;
+			return Math.max(20, cutLoss - buyingPoint + 15);
 	}
 
-	@Override
-	protected void cutLoss()
+	// use 1min instead of 5min
+	double getStopEarnPt()
 	{
+
+	
+			if (Global.getNoOfContracts() > 0)
+				return Math.max(10, stopEarn - buyingPoint - 10);
+			else
+				return Math.max(10, buyingPoint - stopEarn - 10);
 		
+	}
+	
+	@Override
+	void stopEarn()
+	{
 		if (Global.getNoOfContracts() > 0)
 		{
+
+			if (Global.getCurrentPoint() < buyingPoint + 5)
+				closeContract(className + ": Break even, short @ " + Global.getCurrentBid());
+			else if (GetData.getShortTB().getLatestCandle().getClose() < tempCutLoss)
+				closeContract(className + ": StopEarn, short @ " + Global.getCurrentBid());
 			
-			if (getProfit() > 20 && tempCutLoss < buyingPoint + 5)
-				tempCutLoss = buyingPoint + 5;
-			
-			if (Global.getCurrentPoint() < tempCutLoss)
-			{
-			closeContract(className + ": CutLoss, short @ " + Global.getCurrentBid());
-			shutdown = true;
-			}
+
 		} else if (Global.getNoOfContracts() < 0)
 		{
 			
-			if (getProfit() > 20 && tempCutLoss > buyingPoint - 5)
-				tempCutLoss = buyingPoint - 5;
+			if (Global.getCurrentPoint() > buyingPoint - 5)
+				closeContract(className + ": Break even, long @ " + Global.getCurrentAsk());
+			else if (GetData.getShortTB().getLatestCandle().getClose() > tempCutLoss)
+				closeContract(className + ": StopEarn, long @ " + Global.getCurrentAsk());
 			
-			if (Global.getCurrentPoint() > tempCutLoss)
-			{
-			closeContract(className + ": CutLoss, long @ " + Global.getCurrentAsk());
-			shutdown = true;
-			}
-
 		}
-
 	}
 
-	@Override
-	boolean trendReversed()
-	{
-		if (reverse == 0)
-			return false;
-		else if (Global.getNoOfContracts() > 0)
-			return Global.getCurrentPoint() < reverse;
-		else
-			return Global.getCurrentPoint() > reverse;
-	}
-
-	double getStopEarnPt()
-	{
-		
-		stopEarn = XMLWatcher.stopEarn;
-		
-		
-		
-		if (trendReversed)
-			return 10;
-		else if(stopEarn == 0)
-			return 30;
-		else if (Global.getNoOfContracts() > 0)
-			return stopEarn - buyingPoint - 5;
-		else
-			return buyingPoint - stopEarn -5;
-	}
-
-	@Override
-	public void trendReversedAction()
-	{
-
-		trendReversed = true;
-	}
+	
 
 	@Override
 	public TimeBase getTimeBase()
 	{
-		return GetData.getLongTB();
+		return GetData.getShortTB();
 	}
 }
