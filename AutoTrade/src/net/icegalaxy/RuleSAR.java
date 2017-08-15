@@ -120,8 +120,14 @@ public class RuleSAR extends Rules
 
 	double getCutLossPt()
 	{
+		
+		double stair = XMLWatcher.stair;
 
 		if (Global.getNoOfContracts() > 0){
+			
+			if (stair != 0 && tempCutLoss < stair)
+				tempCutLoss = stair;
+			
 			if (buyingPoint > tempCutLoss && getProfit() > 50)
 			{
 				Global.addLog("Free trade");
@@ -131,6 +137,10 @@ public class RuleSAR extends Rules
 		}
 		else
 		{
+			
+			if (stair != 0 && tempCutLoss > stair)
+				tempCutLoss = stair;
+			
 			if (buyingPoint < tempCutLoss && getProfit() > 50)
 			{
 				Global.addLog("Free trade");

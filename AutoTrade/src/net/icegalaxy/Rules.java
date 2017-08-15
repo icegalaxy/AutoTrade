@@ -202,17 +202,33 @@ public abstract class Rules implements Runnable
 
 		double refPt = 0;
 
-		if (isInsideDay())
-			refPt = GetData.getLongTB().getLatestCandle().getClose();
-		else
+//		if (isInsideDay())
+//			refPt = GetData.getLongTB().getLatestCandle().getClose();
+//		else
 			refPt = GetData.getShortTB().getLatestCandle().getClose();
+		
+	
 
 		if (Global.getNoOfContracts() > 0 && refPt < tempCutLoss)
 		{
+			
+			if (getProfit() > 10)
+			{
+				stopEarn();
+				return;
+			}
+			
 			closeContract(className + ": CutLoss, short @ " + Global.getCurrentBid());
 			shutdown = true;
 		} else if (Global.getNoOfContracts() < 0 && refPt > tempCutLoss)
 		{
+			
+			if (getProfit() > 10)
+			{
+				stopEarn();
+				return;
+			}
+			
 			closeContract(className + ": CutLoss, long @ " + Global.getCurrentAsk());
 			shutdown = true;
 		}

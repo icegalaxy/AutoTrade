@@ -33,6 +33,7 @@ public class XMLWatcher implements Runnable
 	public static double reverse = 0;
 	public static boolean buying;
 	public static boolean selling;
+	public static double stair = 0;
 
 	private long fileModifiedTime;
 
@@ -97,6 +98,7 @@ public class XMLWatcher implements Runnable
 					intraDay.findElementOfToday();
 					intraDay.findOHLC();
 
+					stair = Double.parseDouble(intraDay.getValueOfNode("stair"));
 					rangeResist = intraDay.rangeResist;
 					rangeSupport = intraDay.rangeSupport;
 					SAR = Double.parseDouble(intraDay.getValueOfNode("SAR"));

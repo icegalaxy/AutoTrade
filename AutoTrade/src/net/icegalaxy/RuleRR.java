@@ -137,16 +137,27 @@ public class RuleRR extends Rules
 	double getCutLossPt()
 	{
 
+		double stair = XMLWatcher.stair;
+		
 		if (Global.getNoOfContracts() > 0){
+			
+			if (stair != 0 && tempCutLoss < stair)
+				tempCutLoss = stair;
+			
 			if (buyingPoint > tempCutLoss && getProfit() > 50)
 			{
 				Global.addLog("Free trade");
 				tempCutLoss = buyingPoint + 10;
 			}
+
 			return Math.max(20, buyingPoint - currentOHLC.cutLoss + 15);
 		}
 		else
 		{
+			
+			if (stair != 0 && tempCutLoss > stair)
+				tempCutLoss = stair;
+			
 			if (buyingPoint < tempCutLoss && getProfit() > 50)
 			{
 				Global.addLog("Free trade");
