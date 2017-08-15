@@ -104,6 +104,12 @@ public class Setting extends JFrame {
 				
 				SPApi.init();
 				
+				//reset XMLWatcher
+				XMLWatcher.updateIntraDayXML("cutLoss", "0");
+				XMLWatcher.updateIntraDayXML("stopEarn", "0");
+				XMLWatcher.updateIntraDayXML("buying", "false");
+				XMLWatcher.updateIntraDayXML("selling", "false");
+				
 				while (!Global.isConnectionOK())
 					try
 					{
