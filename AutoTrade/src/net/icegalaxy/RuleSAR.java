@@ -125,7 +125,7 @@ public class RuleSAR extends Rules
 
 		if (Global.getNoOfContracts() > 0){
 			
-			if (stair != 0 && tempCutLoss < stair)
+			if (stair != 0 && tempCutLoss < stair && Global.getCurrentPoint() > stair)
 				tempCutLoss = stair;
 			
 			if (buyingPoint > tempCutLoss && getProfit() > 50)
@@ -138,7 +138,7 @@ public class RuleSAR extends Rules
 		else
 		{
 			
-			if (stair != 0 && tempCutLoss > stair)
+			if (stair != 0 && tempCutLoss > stair && Global.getCurrentPoint() < stair)
 				tempCutLoss = stair;
 			
 			if (buyingPoint < tempCutLoss && getProfit() > 50)
