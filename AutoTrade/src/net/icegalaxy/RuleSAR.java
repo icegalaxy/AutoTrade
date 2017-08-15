@@ -121,10 +121,23 @@ public class RuleSAR extends Rules
 	double getCutLossPt()
 	{
 
-		if (Global.getNoOfContracts() > 0)
+		if (Global.getNoOfContracts() > 0){
+			if (buyingPoint > tempCutLoss && getProfit() > 50)
+			{
+				Global.addLog("Free trade");
+				tempCutLoss = buyingPoint + 10;
+			}
 			return Math.max(20, buyingPoint - cutLoss + 15);
+		}
 		else
+		{
+			if (buyingPoint < tempCutLoss && getProfit() > 50)
+			{
+				Global.addLog("Free trade");
+				tempCutLoss = buyingPoint - 10;
+			}
 			return Math.max(20, cutLoss - buyingPoint + 15);
+		}
 	}
 
 	// use 1min instead of 5min
