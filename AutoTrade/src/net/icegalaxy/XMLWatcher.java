@@ -92,7 +92,7 @@ public class XMLWatcher implements Runnable
 			{
 				secCounter = 0;
 
-				if (isFileModified())
+				if (isFileModified(intraDayXMLPath))
 				{
 					intraDay.findElementOfToday();
 					intraDay.findOHLC();
@@ -113,6 +113,9 @@ public class XMLWatcher implements Runnable
 					Global.addLog("SAR: " + SAR);
 					Global.addLog("--------------------");
 				}
+				
+				if (isFileModified(OHLCPath))
+					setOHLC();
 
 			}
 
@@ -121,14 +124,14 @@ public class XMLWatcher implements Runnable
 		}
 	}
 
-	private boolean isFileModified()
+	private boolean isFileModified(String filePath)
 	{
 
-		if (fileModifiedTime == new File(intraDayXMLPath).lastModified())
+		if (fileModifiedTime == new File(filePath).lastModified())
 			return false;
 		else
 		{
-			fileModifiedTime = new File(intraDayXMLPath).lastModified();
+			fileModifiedTime = new File(filePath).lastModified();
 			Global.addLog("XML file updated");
 			return true;
 		}

@@ -229,21 +229,12 @@ public class RuleRR extends Rules
 
 		double intraDayStopEarn = XMLWatcher.stopEarn;
 
-		//***
-		if (intraDayStopEarn == 0)
-		{
+	
 			if (Global.getNoOfContracts() > 0)
 				return Math.max(10, currentOHLC.stopEarn - buyingPoint - 10);
 			else
 				return Math.max(10, buyingPoint - currentOHLC.stopEarn - 10);
-		} else
-		{
-			if (Global.getNoOfContracts() > 0)
-				return Math.max(10, intraDayStopEarn - buyingPoint - 10);
-			else
-				return Math.max(10, buyingPoint - intraDayStopEarn - 10);
-
-		}
+		
 	}
 
 	// @Override
