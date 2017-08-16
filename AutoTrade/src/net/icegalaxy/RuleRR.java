@@ -34,6 +34,7 @@ public class RuleRR extends Rules
 			shutdown = false;
 		}
 			
+		XMLWatcher.updateIntraDayXML("stair", "0");
 
 //		for (OHLC item : XMLWatcher.ohlcs)
 			
