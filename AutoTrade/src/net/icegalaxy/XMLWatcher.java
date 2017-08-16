@@ -35,15 +35,17 @@ public class XMLWatcher implements Runnable
 	public static boolean selling;
 	public static double stair = 0;
 
-	private long fileModifiedTime;
+	private long intraDayModifiedTime;
+	private long FHIDataModifiedTime;
 
 	private int secCounter;
 
 	public XMLWatcher()
 	{
 
-		fileModifiedTime = new File("FHIdata.xml").lastModified();
-
+		intraDayModifiedTime = new File(intraDayXMLPath).lastModified();
+		FHIDataModifiedTime = new File(OHLCPath).lastModified();
+		
 		intraDay = new IntraDayReader(Global.getToday(), intraDayXMLPath);
 
 		open = new OHLC();
@@ -101,7 +103,7 @@ public class XMLWatcher implements Runnable
 			{
 				secCounter = 0;
 
-				if (isFileModified(intraDayXMLPath))
+				if (isIntraDayModified(intraDayXMLPath))
 				{
 					intraDay.findElementOfToday();
 					intraDay.findOHLC();
@@ -119,12 +121,11 @@ public class XMLWatcher implements Runnable
 					mySAR.position = SAR;
 
 					Global.addLog("--------------------");
-					Global.addLog("RangeResist/Support: " + rangeResist + "/" + rangeSupport);
-					Global.addLog("SAR: " + SAR);
+					Global.addLog("CutLoss/StopEarn: " + cutLoss + "/" + stopEarn);
 					Global.addLog("--------------------");
 				}
 				
-				if (isFileModified(OHLCPath))
+				if (isFHIModified(OHLCPath))
 					setOHLC();
 
 			}
@@ -134,14 +135,28 @@ public class XMLWatcher implements Runnable
 		}
 	}
 
-	private boolean isFileModified(String filePath)
+	private boolean isFHIModified(String filePath)
 	{
 
-		if (fileModifiedTime == new File(filePath).lastModified())
+		if (FHIDataModifiedTime == new File(filePath).lastModified())
 			return false;
 		else
 		{
-			fileModifiedTime = new File(filePath).lastModified();
+			FHIDataModifiedTime = new File(filePath).lastModified();
+			Global.addLog("XML file updated");
+			return true;
+		}
+
+	}
+	
+	private boolean isIntraDayModified(String filePath)
+	{
+
+		if (intraDayModifiedTime == new File(filePath).lastModified())
+			return false;
+		else
+		{
+			intraDayModifiedTime = new File(filePath).lastModified();
 			Global.addLog("XML file updated");
 			return true;
 		}
