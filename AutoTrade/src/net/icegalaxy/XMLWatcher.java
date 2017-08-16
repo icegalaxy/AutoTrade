@@ -78,6 +78,14 @@ public class XMLWatcher implements Runnable
 	public void run()
 	{
 
+		//reset XMLWatcher
+		XMLWatcher.updateIntraDayXML("stair", "0");
+		XMLWatcher.updateIntraDayXML("cutLoss", "0");
+		XMLWatcher.updateIntraDayXML("stopEarn", "0");
+		XMLWatcher.updateIntraDayXML("buying", "false");
+		XMLWatcher.updateIntraDayXML("selling", "false");
+		
+		
 		setOHLC();
 
 		while (Global.isRunning())
