@@ -35,7 +35,7 @@ public class RuleSAR extends Rules
 			sleep(60000);
 		}
 		
-		XMLWatcher.updateIntraDayXML("stair", "0");
+		if (XMLWatcher.stair != 0) XMLWatcher.updateIntraDayXML("stair", "0");
 		
 
 		SAR = XMLWatcher.SAR;
