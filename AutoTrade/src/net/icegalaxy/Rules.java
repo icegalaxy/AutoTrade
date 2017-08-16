@@ -202,9 +202,9 @@ public abstract class Rules implements Runnable
 
 		double refPt = 0;
 
-//		if (isInsideDay())
-//			refPt = GetData.getLongTB().getLatestCandle().getClose();
-//		else
+		if (isInsideDay())
+			refPt = GetData.getLongTB().getLatestCandle().getClose();
+		else
 			refPt = GetData.getShortTB().getLatestCandle().getClose();
 		
 	
