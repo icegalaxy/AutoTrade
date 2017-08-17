@@ -82,9 +82,10 @@ public class RuleRR extends Rules
 						return;
 					}
 
-					if (Global.getCurrentPoint() < currentOHLC.cutLoss - 10)
+					if (Global.getCurrentPoint() < currentOHLC.cutLoss - 15)
 					{
 						Global.addLog("Current point out of range");
+						XMLWatcher.ohlcs[i].shutdown = true;
 						return;
 					}
 
@@ -116,9 +117,10 @@ public class RuleRR extends Rules
 						return;
 					}
 
-					if (Global.getCurrentPoint() > currentOHLC.cutLoss + 10)
+					if (Global.getCurrentPoint() > currentOHLC.cutLoss + 15)
 					{
 						Global.addLog("Current point out of range");
+						XMLWatcher.ohlcs[i].shutdown = true;
 						return;
 					}
 
