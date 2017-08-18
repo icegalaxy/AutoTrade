@@ -35,7 +35,9 @@ public class RuleSAR extends Rules
 			sleep(60000);
 		}
 		
-		if (XMLWatcher.stair != 0) XMLWatcher.updateIntraDayXML("stair", "0");
+	
+		// stair should not be reseted in this area or it wont function
+		//if (XMLWatcher.stair != 0) XMLWatcher.updateIntraDayXML("stair", "0");
 		
 
 		SAR = XMLWatcher.SAR;
@@ -50,8 +52,11 @@ public class RuleSAR extends Rules
 				&& Global.getCurrentPoint() < cutLoss + 15
 				&& Global.getCurrentPoint() > cutLoss)
 		{
-			if (Global.getCurrentPoint() < SAR + 5 && Global.getCurrentPoint() > SAR && !Global.isRapidDrop())
-			{
+			
+			// below is not correct
+//			if (Global.getCurrentPoint() < SAR + 5 && Global.getCurrentPoint() > SAR && !Global.isRapidDrop())
+//			{
+				
 				while (Global.isRapidDrop()
 						|| getTimeBase().getLatestCandle().getOpen() > getTimeBase().getLatestCandle().getClose())
 				{
@@ -74,14 +79,16 @@ public class RuleSAR extends Rules
 				}
 
 				longContract();
-			}	
+//			}	
 		}else if (GetData.getShortTB().getEma5().getEMA() < cutLoss
 				&& selling
 				&& Global.getCurrentPoint() > cutLoss - 15
 				&& Global.getCurrentPoint() < cutLoss)
 		{
-			if (Global.getCurrentPoint() > SAR - 5 && Global.getCurrentPoint() < SAR && !Global.isRapidRise())
-			{
+			
+			// below is not correct
+//			if (Global.getCurrentPoint() > SAR - 5 && Global.getCurrentPoint() < SAR && !Global.isRapidRise())
+//			{
 				while (Global.isRapidRise()
 						|| getTimeBase().getLatestCandle().getOpen() < getTimeBase().getLatestCandle().getClose())
 				{
@@ -104,7 +111,7 @@ public class RuleSAR extends Rules
 				}
 
 				shortContract();
-			}
+//			}
 		}
 	}
 

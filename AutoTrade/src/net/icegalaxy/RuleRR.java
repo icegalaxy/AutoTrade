@@ -34,7 +34,9 @@ public class RuleRR extends Rules
 			shutdown = false;
 		}
 			
-		if (XMLWatcher.stair != 0) XMLWatcher.updateIntraDayXML("stair", "0");
+		// stair should not be reseted in this area or it wont function
+		//if (XMLWatcher.stair != 0) XMLWatcher.updateIntraDayXML("stair", "0");
+		
 
 //		for (OHLC item : XMLWatcher.ohlcs)
 			
