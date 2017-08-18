@@ -61,7 +61,7 @@ public class RuleRR extends Rules
 			}
 			
 
-			if (GetData.getLongTB().getEma5().getEMA() > currentOHLC.cutLoss
+			if (GetData.getShortTB().getEma5().getEMA() > currentOHLC.cutLoss
 					&& currentOHLC.stopEarn > currentOHLC.cutLoss
 					&& Global.getCurrentPoint() < currentOHLC.cutLoss + 15
 					&& Global.getCurrentPoint() > currentOHLC.cutLoss)
@@ -73,12 +73,11 @@ public class RuleRR extends Rules
 						|| getTimeBase().getLatestCandle().getOpen() > getTimeBase().getLatestCandle().getClose())
 				{
 
-					if (Global.getCurrentPoint() < currentOHLC.cutLoss - 35)
-						 XMLWatcher.ohlcs[i].shutdown = true;
 					
-					if (GetData.getLongTB().getEma5().getEMA() < currentOHLC.cutLoss)
+					if (GetData.getShortTB().getEma5().getEMA() < currentOHLC.cutLoss)
 					{
 						Global.addLog("EMA5 out of range");
+						XMLWatcher.ohlcs[i].shutdown = true;
 						return;
 					}
 
@@ -96,7 +95,7 @@ public class RuleRR extends Rules
 				Global.addLog("OHLC: " + currentOHLC.name);
 				return;
 
-			} else if (GetData.getLongTB().getEma5().getEMA() < currentOHLC.cutLoss
+			} else if (GetData.getShortTB().getEma5().getEMA() < currentOHLC.cutLoss
 					&& currentOHLC.stopEarn < currentOHLC.cutLoss
 					&& Global.getCurrentPoint() > currentOHLC.cutLoss - 15
 					&& Global.getCurrentPoint() < currentOHLC.cutLoss)
@@ -107,13 +106,12 @@ public class RuleRR extends Rules
 				while (Global.isRapidRise()
 						|| getTimeBase().getLatestCandle().getOpen() < getTimeBase().getLatestCandle().getClose())
 				{
-
-					if (Global.getCurrentPoint() > currentOHLC.cutLoss + 35)
-						 XMLWatcher.ohlcs[i].shutdown = true;
 					
-					if (GetData.getLongTB().getEma5().getEMA() > currentOHLC.cutLoss)
+					
+					if (GetData.getShortTB().getEma5().getEMA() > currentOHLC.cutLoss)
 					{
 						Global.addLog("EMA5 out of range");
+						 XMLWatcher.ohlcs[i].shutdown = true;
 						return;
 					}
 

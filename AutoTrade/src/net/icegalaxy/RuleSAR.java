@@ -45,7 +45,7 @@ public class RuleSAR extends Rules
 		buying = XMLWatcher.buying;
 		selling = XMLWatcher.selling;
 		
-		if (GetData.getLongTB().getEma5().getEMA() > cutLoss
+		if (GetData.getShortTB().getEma5().getEMA() > cutLoss
 				&& buying
 				&& Global.getCurrentPoint() < cutLoss + 15
 				&& Global.getCurrentPoint() > cutLoss)
@@ -55,13 +55,11 @@ public class RuleSAR extends Rules
 				while (Global.isRapidDrop()
 						|| getTimeBase().getLatestCandle().getOpen() > getTimeBase().getLatestCandle().getClose())
 				{
-
-					if (Global.getCurrentPoint() < cutLoss - 35)
-						shutDownSAR();
 					
-					if (GetData.getLongTB().getEma5().getEMA() < cutLoss)
+					if (GetData.getShortTB().getEma5().getEMA() < cutLoss)
 					{
 						Global.addLog("EMA5 out of range");
+						shutDownSAR();
 						return;
 					}
 
@@ -77,7 +75,7 @@ public class RuleSAR extends Rules
 
 				longContract();
 			}	
-		}else if (GetData.getLongTB().getEma5().getEMA() < cutLoss
+		}else if (GetData.getShortTB().getEma5().getEMA() < cutLoss
 				&& selling
 				&& Global.getCurrentPoint() > cutLoss - 15
 				&& Global.getCurrentPoint() < cutLoss)
@@ -87,13 +85,11 @@ public class RuleSAR extends Rules
 				while (Global.isRapidRise()
 						|| getTimeBase().getLatestCandle().getOpen() < getTimeBase().getLatestCandle().getClose())
 				{
-
-					if (Global.getCurrentPoint() > cutLoss + 35)
-						 shutDownSAR();
 					
-					if (GetData.getLongTB().getEma5().getEMA() > cutLoss)
+					if (GetData.getShortTB().getEma5().getEMA() > cutLoss)
 					{
 						Global.addLog("EMA5 out of range");
+						shutDownSAR();
 						return;
 					}
 
