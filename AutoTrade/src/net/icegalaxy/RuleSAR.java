@@ -68,7 +68,7 @@ public class RuleSAR extends Rules
 						return;
 					}
 
-					if (Global.getCurrentPoint() < cutLoss - 15)
+					if (Global.getCurrentPoint() < cutLoss - 10)
 					{
 						Global.addLog("Current point out of range");
 						shutDownSAR();
@@ -100,7 +100,7 @@ public class RuleSAR extends Rules
 						return;
 					}
 
-					if (Global.getCurrentPoint() > cutLoss + 15)
+					if (Global.getCurrentPoint() > cutLoss + 10)
 					{
 						Global.addLog("Current point out of range");
 						shutDownSAR();
