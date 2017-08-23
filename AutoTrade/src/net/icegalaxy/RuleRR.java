@@ -173,6 +173,44 @@ public class RuleRR extends Rules
 			return Math.max(20, currentOHLC.cutLoss - buyingPoint + 50);
 		}
 	}
+	
+	@Override
+	void updateStopEarn()
+	{
+
+		if (Global.getNoOfContracts() > 0)
+		{
+
+			if (GetData.getShortTB().getLatestCandle().getLow() > tempCutLoss)
+			{
+				
+				if (GetData.getShortTB().getLatestCandle().getLow() < currentOHLC.stopEarn)
+					tempCutLoss = GetData.getShortTB().getLatestCandle().getLow();
+				else
+					tempCutLoss = currentOHLC.stopEarn;
+				// usingMA20 = false;
+				// usingMA10 = false;
+				// usingMA5 = false;
+			}
+//			if (GetData.getLongTB().getEMA(5) < GetData.getLongTB().getEMA(6))
+//				tempCutLoss = 99999;
+
+		} else if (Global.getNoOfContracts() < 0)
+		{
+
+			if (GetData.getShortTB().getLatestCandle().getHigh() < tempCutLoss)
+			{
+				
+				if (GetData.getShortTB().getLatestCandle().getHigh() > currentOHLC.stopEarn)
+					tempCutLoss = GetData.getShortTB().getLatestCandle().getHigh();
+				else
+					tempCutLoss = currentOHLC.stopEarn;
+			}
+//			if (GetData.getLongTB().getEMA(5) > GetData.getLongTB().getEMA(6))
+//				tempCutLoss = 0;
+		}
+
+	}
 
 	@Override
 	void stopEarn()
