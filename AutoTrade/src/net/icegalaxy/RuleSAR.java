@@ -143,7 +143,7 @@ public class RuleSAR extends Rules
 				Global.addLog("Free trade");
 				tempCutLoss = buyingPoint + 10;
 			}
-			return Math.max(20, buyingPoint - cutLoss + 15);
+			return Math.max(20, buyingPoint - cutLoss + 50);
 		}
 		else
 		{
@@ -159,7 +159,7 @@ public class RuleSAR extends Rules
 				Global.addLog("Free trade");
 				tempCutLoss = buyingPoint - 10;
 			}
-			return Math.max(20, cutLoss - buyingPoint + 15);
+			return Math.max(20, cutLoss - buyingPoint + 50);
 		}
 	}
 
@@ -169,9 +169,25 @@ public class RuleSAR extends Rules
 
 	
 			if (Global.getNoOfContracts() > 0)
-				return Math.max(10, stopEarn - buyingPoint - 10);
+			{
+				if (refLow < cutLoss - 15)
+				{
+					Global.addLog("Line unclear, trying to take little profit");
+					shutdown = true;
+					return 20;
+				}else 
+					return Math.max(10, stopEarn - buyingPoint - 10);
+			}
 			else
+			{
+				if (refHigh > cutLoss + 15)
+				{
+					Global.addLog("Line unclear, trying to take little profit");
+					shutdown = true;
+					return 20;
+				}
 				return Math.max(10, buyingPoint - stopEarn - 10);
+			}
 		
 	}
 	

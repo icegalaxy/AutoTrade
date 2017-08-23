@@ -155,7 +155,7 @@ public class RuleRR extends Rules
 				tempCutLoss = buyingPoint + 10;
 			}
 
-			return Math.max(20, buyingPoint - currentOHLC.cutLoss + 15);
+			return Math.max(20, buyingPoint - currentOHLC.cutLoss + 50);
 		}
 		else
 		{
@@ -170,7 +170,7 @@ public class RuleRR extends Rules
 				Global.addLog("Free trade");
 				tempCutLoss = buyingPoint - 10;
 			}
-			return Math.max(20, currentOHLC.cutLoss - buyingPoint + 15);
+			return Math.max(20, currentOHLC.cutLoss - buyingPoint + 50);
 		}
 	}
 
@@ -245,13 +245,27 @@ public class RuleRR extends Rules
 	double getStopEarnPt()
 	{
 
-		double intraDayStopEarn = XMLWatcher.stopEarn;
-
-	
 			if (Global.getNoOfContracts() > 0)
-				return Math.max(10, currentOHLC.stopEarn - buyingPoint - 10);
+			{	
+				if (refLow < currentOHLC.cutLoss - 15)
+				{
+					Global.addLog("Line unclear, trying to take little profit");
+					shutdown = true;
+					return 20;
+				}
+				else
+					return Math.max(10, currentOHLC.stopEarn - buyingPoint - 10);		
+			}
 			else
+			{
+				if (refHigh > currentOHLC.cutLoss + 15)
+				{
+					Global.addLog("Line unclear, trying to take little profit");
+					shutdown = true;
+					return 20;
+				}
 				return Math.max(10, buyingPoint - currentOHLC.stopEarn - 10);
+			}
 		
 	}
 
