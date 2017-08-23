@@ -188,12 +188,9 @@ public class RuleRR extends Rules
 					tempCutLoss = GetData.getShortTB().getLatestCandle().getLow();
 				else
 					tempCutLoss = currentOHLC.stopEarn;
-				// usingMA20 = false;
-				// usingMA10 = false;
-				// usingMA5 = false;
 			}
-//			if (GetData.getLongTB().getEMA(5) < GetData.getLongTB().getEMA(6))
-//				tempCutLoss = 99999;
+			if (GetData.getLongTB().getEMA(5) < GetData.getLongTB().getEMA(6))
+				tempCutLoss = 99999;
 
 		} else if (Global.getNoOfContracts() < 0)
 		{
@@ -206,8 +203,8 @@ public class RuleRR extends Rules
 				else
 					tempCutLoss = currentOHLC.stopEarn;
 			}
-//			if (GetData.getLongTB().getEMA(5) > GetData.getLongTB().getEMA(6))
-//				tempCutLoss = 0;
+			if (GetData.getLongTB().getEMA(5) > GetData.getLongTB().getEMA(6))
+				tempCutLoss = 0;
 		}
 
 	}
