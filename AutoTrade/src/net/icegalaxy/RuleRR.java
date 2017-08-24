@@ -155,7 +155,7 @@ public class RuleRR extends Rules
 				tempCutLoss = buyingPoint + 10;
 			}
 
-			return Math.max(20, buyingPoint - currentOHLC.cutLoss + 50);
+			return Math.max(20, buyingPoint - currentOHLC.cutLoss + 30);
 		}
 		else
 		{
@@ -170,7 +170,7 @@ public class RuleRR extends Rules
 				Global.addLog("Free trade");
 				tempCutLoss = buyingPoint - 10;
 			}
-			return Math.max(20, currentOHLC.cutLoss - buyingPoint + 50);
+			return Math.max(20, currentOHLC.cutLoss - buyingPoint + 30);
 		}
 	}
 	
@@ -188,12 +188,10 @@ public class RuleRR extends Rules
 					tempCutLoss = GetData.getShortTB().getLatestCandle().getLow();
 				else
 					tempCutLoss = currentOHLC.stopEarn;
-				// usingMA20 = false;
-				// usingMA10 = false;
-				// usingMA5 = false;
+				
 			}
-//			if (GetData.getLongTB().getEMA(5) < GetData.getLongTB().getEMA(6))
-//				tempCutLoss = 99999;
+			if (GetData.getLongTB().getEMA(5) < GetData.getLongTB().getEMA(6))
+				tempCutLoss = 99999;
 
 		} else if (Global.getNoOfContracts() < 0)
 		{
@@ -206,8 +204,8 @@ public class RuleRR extends Rules
 				else
 					tempCutLoss = currentOHLC.stopEarn;
 			}
-//			if (GetData.getLongTB().getEMA(5) > GetData.getLongTB().getEMA(6))
-//				tempCutLoss = 0;
+			if (GetData.getLongTB().getEMA(5) > GetData.getLongTB().getEMA(6))
+				tempCutLoss = 0;
 		}
 
 	}
@@ -289,7 +287,7 @@ public class RuleRR extends Rules
 				{
 					Global.addLog("Line unclear, trying to take little profit");
 					shutdown = true;
-					return 20;
+					return 15;
 				}
 				else
 					return Math.max(10, currentOHLC.stopEarn - buyingPoint - 10);		
@@ -300,7 +298,7 @@ public class RuleRR extends Rules
 				{
 					Global.addLog("Line unclear, trying to take little profit");
 					shutdown = true;
-					return 20;
+					return 15;
 				}
 				return Math.max(10, buyingPoint - currentOHLC.stopEarn - 10);
 			}

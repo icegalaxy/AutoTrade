@@ -143,7 +143,7 @@ public class RuleSAR extends Rules
 				Global.addLog("Free trade");
 				tempCutLoss = buyingPoint + 10;
 			}
-			return Math.max(20, buyingPoint - cutLoss + 50);
+			return Math.max(20, buyingPoint - cutLoss + 30);
 		}
 		else
 		{
@@ -159,7 +159,7 @@ public class RuleSAR extends Rules
 				Global.addLog("Free trade");
 				tempCutLoss = buyingPoint - 10;
 			}
-			return Math.max(20, cutLoss - buyingPoint + 50);
+			return Math.max(20, cutLoss - buyingPoint + 30);
 		}
 	}
 
@@ -174,7 +174,7 @@ public class RuleSAR extends Rules
 				{
 					Global.addLog("Line unclear, trying to take little profit");
 					shutdown = true;
-					return 20;
+					return 15;
 				}else 
 					return Math.max(10, stopEarn - buyingPoint - 10);
 			}
@@ -184,7 +184,7 @@ public class RuleSAR extends Rules
 				{
 					Global.addLog("Line unclear, trying to take little profit");
 					shutdown = true;
-					return 20;
+					return 15;
 				}
 				return Math.max(10, buyingPoint - stopEarn - 10);
 			}
@@ -212,6 +212,43 @@ public class RuleSAR extends Rules
 				closeContract(className + ": StopEarn, long @ " + Global.getCurrentAsk());
 			
 		}
+	}
+	
+	@Override
+	void updateStopEarn()
+	{
+
+		if (Global.getNoOfContracts() > 0)
+		{
+
+			if (GetData.getShortTB().getLatestCandle().getLow() > tempCutLoss)
+			{
+				
+				if (GetData.getShortTB().getLatestCandle().getLow() < stopEarn)
+					tempCutLoss = GetData.getShortTB().getLatestCandle().getLow();
+				else
+					tempCutLoss = stopEarn;
+			}
+			
+			if (GetData.getLongTB().getEMA(5) < GetData.getLongTB().getEMA(6))
+				tempCutLoss = 99999;
+
+		} else if (Global.getNoOfContracts() < 0)
+		{
+
+			if (GetData.getShortTB().getLatestCandle().getHigh() < tempCutLoss)
+			{
+				
+				if (GetData.getShortTB().getLatestCandle().getHigh() > stopEarn)
+					tempCutLoss = GetData.getShortTB().getLatestCandle().getHigh();
+				else
+					tempCutLoss = stopEarn;
+			}
+			
+			if (GetData.getLongTB().getEMA(5) > GetData.getLongTB().getEMA(6))
+				tempCutLoss = 0;
+		}
+
 	}
 
 	
