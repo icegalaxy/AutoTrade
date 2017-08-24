@@ -177,9 +177,17 @@ public class RuleRR extends Rules
 	@Override
 	void updateStopEarn()
 	{
+		double stair = XMLWatcher.stair;
 
 		if (Global.getNoOfContracts() > 0)
 		{
+			
+			// update stair
+			if (stair != 0 && tempCutLoss < stair && Global.getCurrentPoint() > stair)
+			{
+				Global.addLog("Stair updated: " + stair);
+				tempCutLoss = stair;
+			}
 
 			if (GetData.getShortTB().getLatestCandle().getLow() > tempCutLoss)
 			{
@@ -195,6 +203,12 @@ public class RuleRR extends Rules
 
 		} else if (Global.getNoOfContracts() < 0)
 		{
+			
+			if (stair != 0 && tempCutLoss > stair && Global.getCurrentPoint() < stair)
+			{
+				Global.addLog("Stair updated: " + stair);
+				tempCutLoss = stair;
+			}
 
 			if (GetData.getShortTB().getLatestCandle().getHigh() < tempCutLoss)
 			{
@@ -283,7 +297,7 @@ public class RuleRR extends Rules
 
 			if (Global.getNoOfContracts() > 0)
 			{	
-				if (refLow < currentOHLC.cutLoss - 15)
+				if (shutdown == false && refLow < currentOHLC.cutLoss - 15)
 				{
 					Global.addLog("Line unclear, trying to take little profit");
 					shutdown = true;
@@ -294,7 +308,7 @@ public class RuleRR extends Rules
 			}
 			else
 			{
-				if (refHigh > currentOHLC.cutLoss + 15)
+				if (shutdown == false && refHigh > currentOHLC.cutLoss + 15)
 				{
 					Global.addLog("Line unclear, trying to take little profit");
 					shutdown = true;

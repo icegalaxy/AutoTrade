@@ -17,8 +17,8 @@ public abstract class Rules implements Runnable
 	double stopEarnPt;
 	double cutLossPt;
 	
-	double refHigh;
-	double refLow;
+	double refHigh = 0;
+	double refLow = 99999;
 
 	public int lossTimes;
 
@@ -75,6 +75,8 @@ public abstract class Rules implements Runnable
 					closeContract();
 				} else
 				{
+					refHigh = 0;
+					refLow = 99999;
 					openContract();
 				}
 
