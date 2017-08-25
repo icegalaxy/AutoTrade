@@ -49,7 +49,7 @@ public class RuleSAR extends Rules
 		
 		if (GetData.getShortTB().getEma5().getEMA() > cutLoss
 				&& buying
-				&& Global.getCurrentPoint() < cutLoss + 15
+				&& Global.getCurrentPoint() < cutLoss + 10
 				&& Global.getCurrentPoint() > cutLoss)
 		{
 			
@@ -82,7 +82,7 @@ public class RuleSAR extends Rules
 //			}	
 		}else if (GetData.getShortTB().getEma5().getEMA() < cutLoss
 				&& selling
-				&& Global.getCurrentPoint() > cutLoss - 15
+				&& Global.getCurrentPoint() > cutLoss - 10
 				&& Global.getCurrentPoint() < cutLoss)
 		{
 			
@@ -170,21 +170,21 @@ public class RuleSAR extends Rules
 	
 			if (Global.getNoOfContracts() > 0)
 			{
-				if (shutdown == false && refLow < cutLoss - 15)
+				if (refLow < cutLoss - 15)
 				{
-					Global.addLog("Line unclear, trying to take little profit");
-					shutdown = true;
-					return 15;
+//					Global.addLog("Line unclear, trying to take little profit");
+//					shutdown = true;
+					return 30;
 				}else 
 					return Math.max(10, stopEarn - buyingPoint - 10);
 			}
 			else
 			{
-				if (shutdown == false && refHigh > cutLoss + 15)
+				if (refHigh > cutLoss + 15)
 				{
-					Global.addLog("Line unclear, trying to take little profit");
-					shutdown = true;
-					return 15;
+//					Global.addLog("Line unclear, trying to take little profit");
+//					shutdown = true;
+					return 30;
 				}
 				return Math.max(10, buyingPoint - stopEarn - 10);
 			}
@@ -238,8 +238,8 @@ public class RuleSAR extends Rules
 					tempCutLoss = stopEarn;
 			}
 			
-			if (GetData.getLongTB().getEMA(5) < GetData.getLongTB().getEMA(6))
-				tempCutLoss = 99999;
+//			if (GetData.getLongTB().getEMA(5) < GetData.getLongTB().getEMA(6))
+//				tempCutLoss = 99999;
 
 		} else if (Global.getNoOfContracts() < 0)
 		{
@@ -259,8 +259,8 @@ public class RuleSAR extends Rules
 					tempCutLoss = stopEarn;
 			}
 			
-			if (GetData.getLongTB().getEMA(5) > GetData.getLongTB().getEMA(6))
-				tempCutLoss = 0;
+//			if (GetData.getLongTB().getEMA(5) > GetData.getLongTB().getEMA(6))
+//				tempCutLoss = 0;
 		}
 
 	}

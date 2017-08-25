@@ -65,7 +65,7 @@ public class RuleRR extends Rules
 
 			if (GetData.getShortTB().getEma5().getEMA() > currentOHLC.cutLoss
 					&& currentOHLC.stopEarn > currentOHLC.cutLoss
-					&& Global.getCurrentPoint() < currentOHLC.cutLoss + 15
+					&& Global.getCurrentPoint() < currentOHLC.cutLoss + 10
 					&& Global.getCurrentPoint() > currentOHLC.cutLoss)
 			{
 
@@ -99,7 +99,7 @@ public class RuleRR extends Rules
 
 			} else if (GetData.getShortTB().getEma5().getEMA() < currentOHLC.cutLoss
 					&& currentOHLC.stopEarn < currentOHLC.cutLoss
-					&& Global.getCurrentPoint() > currentOHLC.cutLoss - 15
+					&& Global.getCurrentPoint() > currentOHLC.cutLoss - 10
 					&& Global.getCurrentPoint() < currentOHLC.cutLoss)
 			{
 				
@@ -198,8 +198,8 @@ public class RuleRR extends Rules
 					tempCutLoss = currentOHLC.stopEarn;
 				
 			}
-			if (GetData.getLongTB().getEMA(5) < GetData.getLongTB().getEMA(6))
-				tempCutLoss = 99999;
+//			if (GetData.getLongTB().getEMA(5) < GetData.getLongTB().getEMA(6))
+//				tempCutLoss = 99999;
 
 		} else if (Global.getNoOfContracts() < 0)
 		{
@@ -218,8 +218,8 @@ public class RuleRR extends Rules
 				else
 					tempCutLoss = currentOHLC.stopEarn;
 			}
-			if (GetData.getLongTB().getEMA(5) > GetData.getLongTB().getEMA(6))
-				tempCutLoss = 0;
+//			if (GetData.getLongTB().getEMA(5) > GetData.getLongTB().getEMA(6))
+//				tempCutLoss = 0;
 		}
 
 	}
@@ -297,22 +297,21 @@ public class RuleRR extends Rules
 
 			if (Global.getNoOfContracts() > 0)
 			{	
-				if (shutdown == false && refLow < currentOHLC.cutLoss - 15)
+				if (refLow < currentOHLC.cutLoss - 15)
 				{
-					Global.addLog("Line unclear, trying to take little profit");
-					shutdown = true;
-					return 15;
+//					Global.addLog("Line unclear, trying to take little profit");
+//					shutdown = true;
+					return 30;
 				}
-				else
-					return Math.max(10, currentOHLC.stopEarn - buyingPoint - 10);		
+				return Math.max(10, currentOHLC.stopEarn - buyingPoint - 10);
 			}
 			else
 			{
-				if (shutdown == false && refHigh > currentOHLC.cutLoss + 15)
+				if (refHigh > currentOHLC.cutLoss + 15)
 				{
-					Global.addLog("Line unclear, trying to take little profit");
-					shutdown = true;
-					return 15;
+//					Global.addLog("Line unclear, trying to take little profit");
+//					shutdown = true;
+					return 30;
 				}
 				return Math.max(10, buyingPoint - currentOHLC.stopEarn - 10);
 			}
