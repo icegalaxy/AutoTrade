@@ -77,6 +77,12 @@ public class RuleSAR extends Rules
 
 					sleep(1000);
 				}
+				
+				if (Global.getCurrentPoint() > cutLoss + 30)
+				{
+					Global.addLog("Rise to fast");
+					return;
+				}
 
 				longContract();
 //			}	
@@ -108,6 +114,12 @@ public class RuleSAR extends Rules
 					}
 
 					sleep(1000);
+				}
+				
+				if (Global.getCurrentPoint() > cutLoss + 30)
+				{
+					Global.addLog("Drop to fast");
+					return;
 				}
 
 				shortContract();

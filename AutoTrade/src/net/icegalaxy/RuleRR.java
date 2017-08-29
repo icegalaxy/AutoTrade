@@ -92,6 +92,12 @@ public class RuleRR extends Rules
 
 					sleep(1000);
 				}
+				
+				if (Global.getCurrentPoint() > currentOHLC.cutLoss + 30)
+				{
+					Global.addLog("Rise to fast");
+					return;
+				}
 
 				longContract();
 				Global.addLog("OHLC: " + currentOHLC.name);
@@ -125,6 +131,12 @@ public class RuleRR extends Rules
 					}
 
 					sleep(1000);
+				}
+				
+				if (Global.getCurrentPoint() < currentOHLC.cutLoss - 30)
+				{
+					Global.addLog("Drop to fast");
+					return;
 				}
 
 				shortContract();
