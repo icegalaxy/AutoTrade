@@ -75,6 +75,13 @@ public class RuleRR extends Rules
 						|| getTimeBase().getLatestCandle().getOpen() > getTimeBase().getLatestCandle().getClose())
 				{
 
+					if (GetData.getShortTB().getLatestCandle().getClose() < GetData.getLongTB().getEma250().getEMA())
+					{
+						Global.addLog("M1 < EMA250");
+						XMLWatcher.ohlcs[i].shutdown = true;
+						return;	
+					}
+					
 					
 					if (GetData.getShortTB().getEma5().getEMA() < currentOHLC.cutLoss)
 					{
@@ -115,6 +122,12 @@ public class RuleRR extends Rules
 						|| getTimeBase().getLatestCandle().getOpen() < getTimeBase().getLatestCandle().getClose())
 				{
 					
+					if (GetData.getShortTB().getLatestCandle().getClose() > GetData.getLongTB().getEma250().getEMA())
+					{
+						Global.addLog("M1 > EMA250");
+						XMLWatcher.ohlcs[i].shutdown = true;
+						return;	
+					}
 					
 					if (GetData.getShortTB().getEma5().getEMA() > currentOHLC.cutLoss)
 					{

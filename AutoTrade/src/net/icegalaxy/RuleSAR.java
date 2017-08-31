@@ -61,6 +61,13 @@ public class RuleSAR extends Rules
 						|| getTimeBase().getLatestCandle().getOpen() > getTimeBase().getLatestCandle().getClose())
 				{
 					
+					if (GetData.getShortTB().getLatestCandle().getClose() < GetData.getLongTB().getEma250().getEMA())
+					{
+						Global.addLog("M1 < EMA250");
+						shutDownSAR();
+						return;	
+					}
+					
 					if (GetData.getShortTB().getEma5().getEMA() < cutLoss)
 					{
 						Global.addLog("EMA5 out of range");
@@ -98,6 +105,14 @@ public class RuleSAR extends Rules
 				while (Global.isRapidRise()
 						|| getTimeBase().getLatestCandle().getOpen() < getTimeBase().getLatestCandle().getClose())
 				{
+					
+					if (GetData.getShortTB().getLatestCandle().getClose() > GetData.getLongTB().getEma250().getEMA())
+					{
+						Global.addLog("M1 > EMA250");
+						shutDownSAR();
+						return;	
+					}
+					
 					
 					if (GetData.getShortTB().getEma5().getEMA() > cutLoss)
 					{
