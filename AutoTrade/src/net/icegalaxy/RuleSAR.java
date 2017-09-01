@@ -61,9 +61,9 @@ public class RuleSAR extends Rules
 						|| getTimeBase().getLatestCandle().getOpen() > getTimeBase().getLatestCandle().getClose())
 				{
 					
-					if (GetData.getShortTB().getLatestCandle().getClose() < GetData.getLongTB().getEma250().getEMA())
+					if (isDownTrend())
 					{
-						Global.addLog("M1 < EMA250");
+						Global.addLog("Down Trend");
 						shutDownSAR();
 						return;	
 					}
@@ -106,9 +106,9 @@ public class RuleSAR extends Rules
 						|| getTimeBase().getLatestCandle().getOpen() < getTimeBase().getLatestCandle().getClose())
 				{
 					
-					if (GetData.getShortTB().getLatestCandle().getClose() > GetData.getLongTB().getEma250().getEMA())
+					if (isUpTrend())
 					{
-						Global.addLog("M1 > EMA250");
+						Global.addLog("Up Trend");
 						shutDownSAR();
 						return;	
 					}

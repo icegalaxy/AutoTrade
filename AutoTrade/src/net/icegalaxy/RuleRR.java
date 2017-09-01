@@ -75,9 +75,9 @@ public class RuleRR extends Rules
 						|| getTimeBase().getLatestCandle().getOpen() > getTimeBase().getLatestCandle().getClose())
 				{
 
-					if (GetData.getShortTB().getLatestCandle().getClose() < GetData.getLongTB().getEma250().getEMA())
+					if (isDownTrend())
 					{
-						Global.addLog("M1 < EMA250");
+						Global.addLog("Down Trend");
 						XMLWatcher.ohlcs[i].shutdown = true;
 						return;	
 					}
@@ -122,9 +122,9 @@ public class RuleRR extends Rules
 						|| getTimeBase().getLatestCandle().getOpen() < getTimeBase().getLatestCandle().getClose())
 				{
 					
-					if (GetData.getShortTB().getLatestCandle().getClose() > GetData.getLongTB().getEma250().getEMA())
+					if (isUpTrend())
 					{
-						Global.addLog("M1 > EMA250");
+						Global.addLog("Up Trend");
 						XMLWatcher.ohlcs[i].shutdown = true;
 						return;	
 					}
