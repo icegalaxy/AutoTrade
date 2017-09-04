@@ -197,20 +197,32 @@ public class RuleSAR extends Rules
 	
 			if (Global.getNoOfContracts() > 0)
 			{
-				if (refLow < cutLoss - 15)
+				
+				if (refLow < cutLoss - 20){
+					shutdown = true;
+					return Math.min(20, refHigh - buyingPoint - 5);
+				}
+				
+				if (refLow < cutLoss - 10)
 				{
 //					Global.addLog("Line unclear, trying to take little profit");
-//					shutdown = true;
+					shutdown = true;
 					return 30;
 				}else 
 					return Math.max(10, stopEarn - buyingPoint - 10);
 			}
 			else
 			{
-				if (refHigh > cutLoss + 15)
+				
+				if (refHigh > cutLoss + 20){
+					shutdown = true;
+					return Math.min(20, buyingPoint - refLow - 5);
+				}
+				
+				if (refHigh > cutLoss + 10)
 				{
 //					Global.addLog("Line unclear, trying to take little profit");
-//					shutdown = true;
+					shutdown = true;
 					return 30;
 				}
 				return Math.max(10, buyingPoint - stopEarn - 10);

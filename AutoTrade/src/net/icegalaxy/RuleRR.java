@@ -322,20 +322,32 @@ public class RuleRR extends Rules
 
 			if (Global.getNoOfContracts() > 0)
 			{	
-				if (refLow < currentOHLC.cutLoss - 15)
+				
+				if (refLow < currentOHLC.cutLoss - 20){
+					shutdown = true;
+					return Math.min(20, refHigh - buyingPoint - 5);
+				}
+				
+				if (refLow < currentOHLC.cutLoss - 10)
 				{
 //					Global.addLog("Line unclear, trying to take little profit");
-//					shutdown = true;
+					shutdown = true;
 					return 30;
 				}
 				return Math.max(10, currentOHLC.stopEarn - buyingPoint - 10);
 			}
 			else
 			{
-				if (refHigh > currentOHLC.cutLoss + 15)
+				
+				if (refHigh > currentOHLC.cutLoss + 20){
+					shutdown = true;
+					return Math.min(20, buyingPoint - refLow - 5);
+				}
+				
+				if (refHigh > currentOHLC.cutLoss + 10)
 				{
 //					Global.addLog("Line unclear, trying to take little profit");
-//					shutdown = true;
+					shutdown = true;
 					return 30;
 				}
 				return Math.max(10, buyingPoint - currentOHLC.stopEarn - 10);
