@@ -169,6 +169,10 @@ public class RuleRR extends Rules
 		
 		if (Global.getNoOfContracts() > 0){
 			
+			// first profit then loss
+			if (tempCutLoss < currentOHLC.cutLoss - 10 && refHigh > currentOHLC.cutLoss + 30)
+				tempCutLoss = currentOHLC.cutLoss - 10; 
+			
 			if (stair != 0 && tempCutLoss < stair && Global.getCurrentPoint() > stair)
 			{
 				Global.addLog("Stair updated: " + stair);
@@ -184,6 +188,9 @@ public class RuleRR extends Rules
 		}
 		else
 		{
+			// first profit then loss
+			if (tempCutLoss > currentOHLC.cutLoss + 10 && refLow < currentOHLC.cutLoss - 30)
+				tempCutLoss = currentOHLC.cutLoss + 10; 
 			
 			if (stair != 0 && tempCutLoss > stair && Global.getCurrentPoint() < stair)
 			{
