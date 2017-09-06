@@ -169,7 +169,7 @@ public class RuleRR extends Rules
 		
 		if (Global.getNoOfContracts() > 0){
 			
-			if (stair != 0 && tempCutLoss < stair && Global.getCurrentPoint() > stair)
+			if (stair != 0 && tempCutLoss < stair && GetData.getShortTB().getLatestCandle().getClose() > stair)
 			{
 				Global.addLog("Stair updated: " + stair);
 				tempCutLoss = stair;
@@ -185,7 +185,7 @@ public class RuleRR extends Rules
 		else
 		{
 			
-			if (stair != 0 && tempCutLoss > stair && Global.getCurrentPoint() < stair)
+			if (stair != 0 && tempCutLoss > stair && GetData.getShortTB().getLatestCandle().getClose() < stair)
 			{
 				Global.addLog("Stair updated: " + stair);
 				tempCutLoss = stair;

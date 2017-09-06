@@ -262,7 +262,7 @@ public class RuleSAR extends Rules
 		if (Global.getNoOfContracts() > 0)
 		{
 			
-			if (stair != 0 && tempCutLoss < stair && Global.getCurrentPoint() > stair)
+			if (stair != 0 && tempCutLoss < stair && GetData.getShortTB().getLatestCandle().getClose() > stair)
 			{
 				Global.addLog("Stair updated: " + stair);
 				tempCutLoss = stair;
@@ -283,7 +283,7 @@ public class RuleSAR extends Rules
 		} else if (Global.getNoOfContracts() < 0)
 		{
 
-			if (stair != 0 && tempCutLoss > stair && Global.getCurrentPoint() < stair)
+			if (stair != 0 && tempCutLoss > stair && GetData.getShortTB().getLatestCandle().getClose() < stair)
 			{
 				Global.addLog("Stair updated: " + stair);
 				tempCutLoss = stair;
