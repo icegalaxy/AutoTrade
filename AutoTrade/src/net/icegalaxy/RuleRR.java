@@ -10,7 +10,7 @@ public class RuleRR extends Rules
 	public RuleRR(boolean globalRunRule)
 	{
 		super(globalRunRule);
-		setOrderTime(91600, 115800, 130100, 160000, 230000, 230000);
+		setOrderTime(91800, 115800, 130100, 160000, 230000, 230000); // need to observe the first 3min
 		// wait for EMA6, that's why 0945
 	}
 
