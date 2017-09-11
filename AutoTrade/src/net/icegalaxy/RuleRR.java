@@ -173,7 +173,7 @@ public class RuleRR extends Rules
 			if (tempCutLoss < currentOHLC.cutLoss - 10 && refHigh > currentOHLC.cutLoss + 30)
 				tempCutLoss = currentOHLC.cutLoss - 10; 
 			
-			if (stair != 0 && tempCutLoss < stair && Global.getCurrentPoint() > stair)
+			if (stair != 0 && tempCutLoss < stair && GetData.getShortTB().getLatestCandle().getClose() > stair)
 			{
 				Global.addLog("Stair updated: " + stair);
 				tempCutLoss = stair;
@@ -192,7 +192,7 @@ public class RuleRR extends Rules
 			if (tempCutLoss > currentOHLC.cutLoss + 10 && refLow < currentOHLC.cutLoss - 30)
 				tempCutLoss = currentOHLC.cutLoss + 10; 
 			
-			if (stair != 0 && tempCutLoss > stair && Global.getCurrentPoint() < stair)
+			if (stair != 0 && tempCutLoss > stair && GetData.getShortTB().getLatestCandle().getClose() < stair)
 			{
 				Global.addLog("Stair updated: " + stair);
 				tempCutLoss = stair;
