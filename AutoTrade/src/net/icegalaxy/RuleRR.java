@@ -72,7 +72,7 @@ public class RuleRR extends Rules
 				Global.addLog("Reached " + currentOHLC.name);
 				
 				while (Global.isRapidDrop()
-						|| getTimeBase().getLatestCandle().getOpen() > getTimeBase().getLatestCandle().getClose())
+						|| getTimeBase().getLatestCandle().getOpen() > getTimeBase().getLatestCandle().getClose() - 5) // need five pt to confirm
 				{
 
 					if (isDownTrend())
@@ -119,7 +119,7 @@ public class RuleRR extends Rules
 				Global.addLog("Reached " + currentOHLC.name);
 
 				while (Global.isRapidRise()
-						|| getTimeBase().getLatestCandle().getOpen() < getTimeBase().getLatestCandle().getClose())
+						|| getTimeBase().getLatestCandle().getOpen() < getTimeBase().getLatestCandle().getClose() + 5)
 				{
 					
 					if (isUpTrend())

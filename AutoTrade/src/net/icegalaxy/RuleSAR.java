@@ -58,7 +58,7 @@ public class RuleSAR extends Rules
 //			{
 				
 				while (Global.isRapidDrop()
-						|| getTimeBase().getLatestCandle().getOpen() > getTimeBase().getLatestCandle().getClose())
+						|| getTimeBase().getLatestCandle().getOpen() > getTimeBase().getLatestCandle().getClose() - 5)
 				{
 					
 					if (isDownTrend())
@@ -103,7 +103,7 @@ public class RuleSAR extends Rules
 //			if (Global.getCurrentPoint() > SAR - 5 && Global.getCurrentPoint() < SAR && !Global.isRapidRise())
 //			{
 				while (Global.isRapidRise()
-						|| getTimeBase().getLatestCandle().getOpen() < getTimeBase().getLatestCandle().getClose())
+						|| getTimeBase().getLatestCandle().getOpen() < getTimeBase().getLatestCandle().getClose() + 5)
 				{
 					
 					if (isUpTrend())
