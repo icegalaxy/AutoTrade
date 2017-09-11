@@ -10,7 +10,7 @@ public class RuleRR extends Rules
 	public RuleRR(boolean globalRunRule)
 	{
 		super(globalRunRule);
-		setOrderTime(91600, 115800, 130100, 160000, 230000, 230000);
+		setOrderTime(91800, 115800, 130100, 160000, 230000, 230000); // need to observe the first 3min
 		// wait for EMA6, that's why 0945
 	}
 
@@ -72,7 +72,7 @@ public class RuleRR extends Rules
 				Global.addLog("Reached " + currentOHLC.name);
 				
 				while (Global.isRapidDrop()
-						|| getTimeBase().getLatestCandle().getOpen() > getTimeBase().getLatestCandle().getClose())
+						|| getTimeBase().getLatestCandle().getOpen() > getTimeBase().getLatestCandle().getClose() - 5) // need five pt to confirm
 				{
 
 					if (isDownTrend())
@@ -119,7 +119,7 @@ public class RuleRR extends Rules
 				Global.addLog("Reached " + currentOHLC.name);
 
 				while (Global.isRapidRise()
-						|| getTimeBase().getLatestCandle().getOpen() < getTimeBase().getLatestCandle().getClose())
+						|| getTimeBase().getLatestCandle().getOpen() < getTimeBase().getLatestCandle().getClose() + 5)
 				{
 					
 					if (isUpTrend())
@@ -169,7 +169,11 @@ public class RuleRR extends Rules
 		
 		if (Global.getNoOfContracts() > 0){
 			
-			if (stair != 0 && tempCutLoss < stair && GetData.getShortTB().getLatestCandle().getClose() > stair)
+			// first profit then loss
+			if (tempCutLoss < currentOHLC.cutLoss - 10 && refHigh > currentOHLC.cutLoss + 30)
+				tempCutLoss = currentOHLC.cutLoss - 10; 
+			
+			if (stair != 0 && tempCutLoss < stair && Global.getCurrentPoint() > stair)
 			{
 				Global.addLog("Stair updated: " + stair);
 				tempCutLoss = stair;
@@ -184,8 +188,11 @@ public class RuleRR extends Rules
 		}
 		else
 		{
+			// first profit then loss
+			if (tempCutLoss > currentOHLC.cutLoss + 10 && refLow < currentOHLC.cutLoss - 30)
+				tempCutLoss = currentOHLC.cutLoss + 10; 
 			
-			if (stair != 0 && tempCutLoss > stair && GetData.getShortTB().getLatestCandle().getClose() < stair)
+			if (stair != 0 && tempCutLoss > stair && Global.getCurrentPoint() < stair)
 			{
 				Global.addLog("Stair updated: " + stair);
 				tempCutLoss = stair;

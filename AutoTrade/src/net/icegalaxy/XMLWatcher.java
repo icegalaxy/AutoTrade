@@ -65,14 +65,14 @@ public class XMLWatcher implements Runnable
 
 		//ohlc = new XMLReader(Global.getToday(), OHLCPath);
 		//using today
-		ohlc = new XMLReader("Today", OHLCPath);
-		ohlcs = new OHLC[5];
-
-		ohlcs[0] = pHigh;
-		ohlcs[1] = pLow;
-		ohlcs[2] = pClose;
-		ohlcs[3] = mySupport;
-		ohlcs[4] = myResist;
+//		ohlc = new XMLReader("Today", OHLCPath);
+//		ohlcs = new OHLC[5];
+//
+//		ohlcs[0] = pHigh;
+//		ohlcs[1] = pLow;
+//		ohlcs[2] = pClose;
+//		ohlcs[3] = mySupport;
+//		ohlcs[4] = myResist;
 
 //		ohlc.findOHLC();
 	}
@@ -220,6 +220,16 @@ public class XMLWatcher implements Runnable
 
 	private void setOHLC()
 	{
+		
+		ohlc = new XMLReader("Today", OHLCPath);
+		ohlcs = new OHLC[5];
+
+		ohlcs[0] = pHigh;
+		ohlcs[1] = pLow;
+		ohlcs[2] = pClose;
+		ohlcs[3] = mySupport;
+		ohlcs[4] = myResist;
+		
 
 		for (int i = 0; i < 3; i++)
 		{

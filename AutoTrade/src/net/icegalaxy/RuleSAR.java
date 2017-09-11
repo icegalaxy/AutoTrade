@@ -16,7 +16,7 @@ public class RuleSAR extends Rules
 	public RuleSAR(boolean globalRunRule)
 	{
 		super(globalRunRule);
-		setOrderTime(93000, 113000, 130100, 160000, 230000, 230000);
+		setOrderTime(91800, 113000, 130100, 160000, 230000, 230000); // need to observe the first 3min
 		// wait for EMA6, that's why 0945
 	}
 
@@ -58,7 +58,7 @@ public class RuleSAR extends Rules
 //			{
 				
 				while (Global.isRapidDrop()
-						|| getTimeBase().getLatestCandle().getOpen() > getTimeBase().getLatestCandle().getClose())
+						|| getTimeBase().getLatestCandle().getOpen() > getTimeBase().getLatestCandle().getClose() - 5)
 				{
 					
 					if (isDownTrend())
@@ -103,7 +103,7 @@ public class RuleSAR extends Rules
 //			if (Global.getCurrentPoint() > SAR - 5 && Global.getCurrentPoint() < SAR && !Global.isRapidRise())
 //			{
 				while (Global.isRapidRise()
-						|| getTimeBase().getLatestCandle().getOpen() < getTimeBase().getLatestCandle().getClose())
+						|| getTimeBase().getLatestCandle().getOpen() < getTimeBase().getLatestCandle().getClose() + 5)
 				{
 					
 					if (isUpTrend())
@@ -159,6 +159,10 @@ public class RuleSAR extends Rules
 
 		if (Global.getNoOfContracts() > 0){
 			
+			// first profit then loss
+			if (tempCutLoss < cutLoss - 10 && refHigh > cutLoss + 30)
+				tempCutLoss = cutLoss - 10; 
+			
 			if (stair != 0 && tempCutLoss < stair && Global.getCurrentPoint() > stair)
 			{
 				Global.addLog("Stair updated: " + stair);
@@ -174,6 +178,10 @@ public class RuleSAR extends Rules
 		}
 		else
 		{
+			
+			// first profit then loss
+			if (tempCutLoss > cutLoss + 10 && refLow < cutLoss - 30)
+				tempCutLoss = cutLoss + 10; 
 			
 			if (stair != 0 && tempCutLoss > stair && Global.getCurrentPoint() < stair)
 			{
