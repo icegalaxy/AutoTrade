@@ -132,6 +132,10 @@ public class GetData implements Runnable
 	
 		getPreviousData();
 
+		XMLWatcher xmlWatcher = new XMLWatcher();
+		Thread t = new Thread(xmlWatcher);
+		t.start();
+		
 		// Auto getOpen
 
 		while (Global.isRunning())

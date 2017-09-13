@@ -89,6 +89,13 @@ public class XMLWatcher implements Runnable
 		
 		
 		setOHLC();
+		
+		RuleSAR sar = new RuleSAR(true);
+		RuleRR rr = new RuleRR(true);
+		Thread s = new Thread(sar);
+		s.start();
+		Thread r = new Thread(rr);
+		r.start();
 
 		while (Global.isRunning())
 		{
