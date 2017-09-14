@@ -45,11 +45,11 @@ public class RuleRange extends Rules
 
 		if (rangeSupport != 0)
 		{
-			if (Global.getCurrentPoint() < rangeSupport + 5 && Global.getCurrentPoint() > rangeSupport)
+			if (Global.getCurrentPoint() < rangeSupport + 3 && Global.getCurrentPoint() > rangeSupport)
 				longContract();
 		} else if (rangeResist != 0)
 		{
-			if (Global.getCurrentPoint() > rangeResist - 5 && Global.getCurrentPoint() < rangeResist)
+			if (Global.getCurrentPoint() > rangeResist - 3 && Global.getCurrentPoint() < rangeResist)
 				shortContract();
 		}
 
@@ -91,7 +91,10 @@ public class RuleRange extends Rules
 
 	double getCutLossPt()
 	{
-		return 25;
+		if (Global.getNoOfContracts() > 0)
+			return Math.max(10, buyingPoint - rangeSupport + 10);
+		else
+			return Math.max(10, rangeResist - buyingPoint + 10);
 	}
 
 	@Override
