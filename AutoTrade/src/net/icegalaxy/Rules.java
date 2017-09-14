@@ -856,9 +856,9 @@ public abstract class Rules implements Runnable
 	public void waitForANewCandle()
 	{
 
-		int currentSize = GetData.getLongTB().getCandles().size();
+		int currentSize = getTimeBase().getCandles().size();
 
-		while (currentSize == GetData.getLongTB().getCandles().size())
+		while (currentSize == getTimeBase().getCandles().size())
 			sleep(1000);
 
 	}

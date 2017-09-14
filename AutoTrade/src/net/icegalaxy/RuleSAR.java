@@ -56,6 +56,8 @@ public class RuleSAR extends Rules
 			// below is not correct
 //			if (Global.getCurrentPoint() < SAR + 5 && Global.getCurrentPoint() > SAR && !Global.isRapidDrop())
 //			{
+			
+			waitForANewCandle();
 				
 				while (Global.isRapidDrop()
 						|| getTimeBase().getLatestCandle().getOpen() > getTimeBase().getLatestCandle().getClose() - 5)
@@ -102,6 +104,9 @@ public class RuleSAR extends Rules
 			// below is not correct
 //			if (Global.getCurrentPoint() > SAR - 5 && Global.getCurrentPoint() < SAR && !Global.isRapidRise())
 //			{
+			
+			waitForANewCandle();
+			
 				while (Global.isRapidRise()
 						|| getTimeBase().getLatestCandle().getOpen() < getTimeBase().getLatestCandle().getClose() + 5)
 				{

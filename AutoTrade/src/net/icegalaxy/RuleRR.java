@@ -71,6 +71,8 @@ public class RuleRR extends Rules
 
 				Global.addLog("Reached " + currentOHLC.name);
 				
+				waitForANewCandle();
+				
 				while (Global.isRapidDrop()
 						|| getTimeBase().getLatestCandle().getOpen() > getTimeBase().getLatestCandle().getClose() - 5) // need five pt to confirm
 				{
@@ -118,6 +120,8 @@ public class RuleRR extends Rules
 				
 				Global.addLog("Reached " + currentOHLC.name);
 
+				waitForANewCandle();
+				
 				while (Global.isRapidRise()
 						|| getTimeBase().getLatestCandle().getOpen() < getTimeBase().getLatestCandle().getClose() + 5)
 				{
