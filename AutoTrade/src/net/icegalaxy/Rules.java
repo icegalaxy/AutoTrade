@@ -204,17 +204,18 @@ public abstract class Rules implements Runnable
 
 		double refPt = 0;
 
-		if (isInsideDay())
-			refPt = GetData.getLongTB().getLatestCandle().getClose();
-		else
-			refPt = GetData.getShortTB().getLatestCandle().getClose();
+//		if (isInsideDay())
+//			refPt = GetData.getLongTB().getLatestCandle().getClose();
+//		else
+//			refPt = GetData.getShortTB().getLatestCandle().getClose();
+
+		refPt = Global.getCurrentPoint();
 		
-	
 
 		if (Global.getNoOfContracts() > 0 && refPt < tempCutLoss)
 		{
 			
-			if (getProfit() > 10)
+			if (getProfit() > 5)
 			{
 				stopEarn();
 				return;
@@ -225,7 +226,7 @@ public abstract class Rules implements Runnable
 		} else if (Global.getNoOfContracts() < 0 && refPt > tempCutLoss)
 		{
 			
-			if (getProfit() > 10)
+			if (getProfit() > 5)
 			{
 				stopEarn();
 				return;
