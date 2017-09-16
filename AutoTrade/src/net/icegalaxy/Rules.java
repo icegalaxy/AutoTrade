@@ -239,7 +239,7 @@ public abstract class Rules implements Runnable
 
 	void stopEarn()
 	{
-		if (Global.getNoOfContracts() > 0 && GetData.getShortTB().getLatestCandle().getClose() < tempCutLoss)
+		if (Global.getNoOfContracts() > 0 && Global.getCurrentPoint() < tempCutLoss)
 		{
 
 			if (Global.getCurrentPoint() < buyingPoint)
@@ -252,7 +252,7 @@ public abstract class Rules implements Runnable
 			if (lossTimes > 0)
 				lossTimes--;
 
-		} else if (Global.getNoOfContracts() < 0 && GetData.getShortTB().getLatestCandle().getClose() > tempCutLoss)
+		} else if (Global.getNoOfContracts() < 0 && Global.getCurrentPoint()  > tempCutLoss)
 		{
 
 			if (Global.getCurrentPoint() > buyingPoint)

@@ -190,7 +190,11 @@ public class RuleRR extends Rules
 		if (Global.getNoOfContracts() > 0){
 			
 			// first profit then loss
-			if (tempCutLoss < currentOHLC.cutLoss - 10 && refHigh > currentOHLC.cutLoss + 30)
+//			if (tempCutLoss < currentOHLC.cutLoss - 10 && refHigh > currentOHLC.cutLoss + 30)
+//				tempCutLoss = currentOHLC.cutLoss - 10; 
+			
+			// set 10 pts below cutLoss
+			if (tempCutLoss < currentOHLC.cutLoss - 10)
 				tempCutLoss = currentOHLC.cutLoss - 10; 
 			
 			if (stair != 0 && tempCutLoss < stair && GetData.getShortTB().getLatestCandle().getClose() > stair)
@@ -198,18 +202,25 @@ public class RuleRR extends Rules
 				Global.addLog("Stair updated: " + stair);
 				tempCutLoss = stair;
 			}
-			if (buyingPoint > tempCutLoss && getProfit() > 50)
+			
+			if (buyingPoint > tempCutLoss && getProfit() > 30)
 			{
 				Global.addLog("Free trade");
-				tempCutLoss = buyingPoint + 10;
+				tempCutLoss = buyingPoint + 5;
 			}
 
-			return Math.max(20, buyingPoint - currentOHLC.cutLoss + 30);
+//			return Math.max(20, buyingPoint - currentOHLC.cutLoss + 30);
+			
+			//just in case, should be stopped by tempCutLoss first
+			return buyingPoint - currentOHLC.cutLoss + 15;
 		}
 		else
 		{
 			// first profit then loss
-			if (tempCutLoss > currentOHLC.cutLoss + 10 && refLow < currentOHLC.cutLoss - 30)
+//			if (tempCutLoss > currentOHLC.cutLoss + 10 && refLow < currentOHLC.cutLoss - 30)
+//				tempCutLoss = currentOHLC.cutLoss + 10; 
+			
+			if (tempCutLoss > currentOHLC.cutLoss + 10)
 				tempCutLoss = currentOHLC.cutLoss + 10; 
 			
 			if (stair != 0 && tempCutLoss > stair && GetData.getShortTB().getLatestCandle().getClose() < stair)
@@ -217,12 +228,16 @@ public class RuleRR extends Rules
 				Global.addLog("Stair updated: " + stair);
 				tempCutLoss = stair;
 			}
-			if (buyingPoint < tempCutLoss && getProfit() > 50)
+			
+			if (buyingPoint < tempCutLoss && getProfit() > 30)
 			{
 				Global.addLog("Free trade");
-				tempCutLoss = buyingPoint - 10;
+				tempCutLoss = buyingPoint - 5;
 			}
-			return Math.max(20, currentOHLC.cutLoss - buyingPoint + 30);
+//			return Math.max(20, currentOHLC.cutLoss - buyingPoint + 30);
+			
+			//just in case, should be stopped by tempCutLoss first
+			return currentOHLC.cutLoss - buyingPoint + 15;
 		}
 	}
 	

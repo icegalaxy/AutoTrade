@@ -182,7 +182,10 @@ public class RuleSAR extends Rules
 		if (Global.getNoOfContracts() > 0){
 			
 			// first profit then loss
-			if (tempCutLoss < cutLoss - 10 && refHigh > cutLoss + 30)
+//			if (tempCutLoss < cutLoss - 10 && refHigh > cutLoss + 30)
+//				tempCutLoss = cutLoss - 10; 
+			
+			if (tempCutLoss < cutLoss - 10)
 				tempCutLoss = cutLoss - 10; 
 			
 			if (stair != 0 && tempCutLoss < stair && Global.getCurrentPoint() > stair)
@@ -191,19 +194,21 @@ public class RuleSAR extends Rules
 				tempCutLoss = stair;
 			}
 			
-			if (buyingPoint > tempCutLoss && getProfit() > 50)
+			if (buyingPoint > tempCutLoss && getProfit() > 30)
 			{
 				Global.addLog("Free trade");
 				tempCutLoss = buyingPoint + 10;
 			}
-			return Math.max(20, buyingPoint - cutLoss + 30);
+			
+			return buyingPoint - cutLoss + 15;
 		}
 		else
 		{
 			
-			// first profit then loss
-			if (tempCutLoss > cutLoss + 10 && refLow < cutLoss - 30)
+			if (tempCutLoss > cutLoss + 10)
 				tempCutLoss = cutLoss + 10; 
+			
+			
 			
 			if (stair != 0 && tempCutLoss > stair && Global.getCurrentPoint() < stair)
 			{
@@ -216,7 +221,7 @@ public class RuleSAR extends Rules
 				Global.addLog("Free trade");
 				tempCutLoss = buyingPoint - 10;
 			}
-			return Math.max(20, cutLoss - buyingPoint + 30);
+			return  cutLoss - buyingPoint + 15;
 		}
 	}
 
