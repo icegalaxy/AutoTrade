@@ -53,15 +53,7 @@ public class RuleRR extends Rules
 
 			if (currentOHLC.shutdown)
 				continue;
-			
-			if (currentOHLC.stopEarn > currentOHLC.cutLoss)
-			{
-			
-			}else if (currentOHLC.stopEarn < currentOHLC.cutLoss)
-			{
-				
-			}
-			
+						
 
 			if (GetData.getShortTB().getEma5().getEMA() > currentOHLC.cutLoss
 					&& currentOHLC.stopEarn > currentOHLC.cutLoss

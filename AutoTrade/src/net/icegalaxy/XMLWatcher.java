@@ -16,6 +16,9 @@ public class XMLWatcher implements Runnable
 
 	public static double rangeResist = 0;
 	public static double rangeSupport = 0;
+	
+	public static boolean ibtRise;
+	public static boolean ibtDrop;
 
 	public static OHLC open;
 	public static OHLC pHigh;
@@ -229,6 +232,16 @@ public class XMLWatcher implements Runnable
 	{
 		
 		ohlc = new XMLReader("Today", OHLCPath);
+		
+		try{
+			ibtRise = Boolean.parseBoolean(ohlc.getValueOfNode("ibtRise"));
+			ibtDrop = Boolean.parseBoolean(ohlc.getValueOfNode("ibtDrop"));
+		}catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		
+		
 		ohlcs = new OHLC[5];
 
 		ohlcs[0] = pHigh;
