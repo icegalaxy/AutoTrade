@@ -185,6 +185,11 @@ public class RuleSAR extends Rules
 //			if (tempCutLoss < cutLoss - 10 && refHigh > cutLoss + 30)
 //				tempCutLoss = cutLoss - 10; 
 			
+			//Expected profit
+			if (getHoldingTime() > 300 && getProfit() > getExpectedProfit() + 5 && getProfit() <  16)
+				if (tempCutLoss < buyingPoint + getExpectedProfit())
+					tempCutLoss = buyingPoint + getExpectedProfit();
+			
 			if (tempCutLoss < cutLoss - 10)
 				tempCutLoss = cutLoss - 10; 
 			
@@ -205,10 +210,14 @@ public class RuleSAR extends Rules
 		else
 		{
 			
+			//Expected profit
+			if (getHoldingTime() > 300 && getProfit() > getExpectedProfit() + 5 && getProfit() <  16)
+				if (tempCutLoss > buyingPoint - getExpectedProfit())
+					tempCutLoss = buyingPoint - getExpectedProfit();
+			
 			if (tempCutLoss > cutLoss + 10)
 				tempCutLoss = cutLoss + 10; 
-			
-			
+	
 			
 			if (stair != 0 && tempCutLoss > stair && Global.getCurrentPoint() < stair)
 			{

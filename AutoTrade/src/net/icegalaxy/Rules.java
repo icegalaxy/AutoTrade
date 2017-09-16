@@ -17,6 +17,8 @@ public abstract class Rules implements Runnable
 	double stopEarnPt;
 	double cutLossPt;
 	
+	int buyingTime;
+	
 	double refHigh = 0;
 	double refLow = 99999;
 
@@ -457,6 +459,8 @@ public abstract class Rules implements Runnable
 		}
 		hasContract = true;
 		Global.addLog(className + ": Short @ " + Global.getCurrentBid());
+		
+		buyingTime = GetData.getTimeInt();
 		buyingPoint = Global.getCurrentBid();
 		balance += buyingPoint;
 	}
@@ -491,8 +495,18 @@ public abstract class Rules implements Runnable
 		}
 		hasContract = true;
 		Global.addLog(className + ": Long @" + Global.getCurrentAsk());
+		
+		buyingTime = GetData.getTimeInt();
 		buyingPoint = Global.getCurrentAsk();
 		balance -= buyingPoint;
+	}
+	
+	public int getHoldingTime(){
+		return GetData.getTimeInt() - buyingTime;
+	}
+	
+	public double getExpectedProfit(){
+		return getHoldingTime() / 100;
 	}
 
 	public abstract void openContract();

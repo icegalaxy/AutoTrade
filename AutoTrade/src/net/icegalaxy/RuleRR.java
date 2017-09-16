@@ -189,6 +189,12 @@ public class RuleRR extends Rules
 		
 		if (Global.getNoOfContracts() > 0){
 			
+			//Expected profit
+			if (getHoldingTime() > 300 && getProfit() > getExpectedProfit() + 5 && getProfit() <  16)
+				if (tempCutLoss < buyingPoint + getExpectedProfit())
+					tempCutLoss = buyingPoint + getExpectedProfit();
+				
+
 			// first profit then loss
 //			if (tempCutLoss < currentOHLC.cutLoss - 10 && refHigh > currentOHLC.cutLoss + 30)
 //				tempCutLoss = currentOHLC.cutLoss - 10; 
@@ -219,6 +225,11 @@ public class RuleRR extends Rules
 			// first profit then loss
 //			if (tempCutLoss > currentOHLC.cutLoss + 10 && refLow < currentOHLC.cutLoss - 30)
 //				tempCutLoss = currentOHLC.cutLoss + 10; 
+			
+			//Expected profit
+			if (getHoldingTime() > 300 && getProfit() > getExpectedProfit() + 5 && getProfit() <  16)
+				if (tempCutLoss > buyingPoint - getExpectedProfit())
+					tempCutLoss = buyingPoint - getExpectedProfit();
 			
 			if (tempCutLoss > currentOHLC.cutLoss + 10)
 				tempCutLoss = currentOHLC.cutLoss + 10; 
