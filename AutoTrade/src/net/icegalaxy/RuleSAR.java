@@ -216,7 +216,7 @@ public class RuleSAR extends Rules
 				tempCutLoss = stair;
 			}
 				
-			if (buyingPoint < tempCutLoss && getProfit() > 50)
+			if (buyingPoint < tempCutLoss && getProfit() > 30)
 			{
 				Global.addLog("Free trade");
 				tempCutLoss = buyingPoint - 10;
