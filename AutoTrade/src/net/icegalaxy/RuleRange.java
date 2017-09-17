@@ -1,11 +1,9 @@
 package net.icegalaxy;
 
-import java.util.ArrayList;
 
 public class RuleRange extends Rules
 {
 
-	private boolean trendReversed;
 
 	private double rangeResist = 0;
 	private double rangeSupport = 0;
@@ -24,14 +22,13 @@ public class RuleRange extends Rules
 		if (!isOrderTime() || Global.getNoOfContracts() != 0)
 			return;
 		
-		if (shutdown || isOutOfRange() || trendReversed)
+		if (shutdown)
 		{
 			XMLWatcher.updateIntraDayXML("rangeResist", "0");
 			XMLWatcher.updateIntraDayXML("rangeSupport", "0");
 			Global.addLog("Shut down ruleRange");
 			rangeResist = 0;
 			rangeSupport = 0;
-			trendReversed = false;
 			shutdown = false;
 			
 			sleep(60000);
@@ -45,127 +42,163 @@ public class RuleRange extends Rules
 
 		if (rangeSupport != 0)
 		{
-			if (Global.getCurrentPoint() < rangeSupport + 3 && Global.getCurrentPoint() > rangeSupport)
+			if (Global.getCurrentPoint() < rangeSupport + 5 && Global.getCurrentPoint() > rangeSupport)
+			{	
+				Global.addLog("Reached rangeSupport");
+			
+			waitForANewCandle();
+			
+			while (Global.isRapidDrop()
+					|| getTimeBase().getLatestCandle().getOpen() > getTimeBase().getLatestCandle().getClose() - 2) // need five pt to confirm
+			{
+	
+
+				if (Global.getCurrentPoint() < rangeSupport - 5)
+				{
+					Global.addLog("Current point out of range");
+					shutdown = true;
+					return;
+				}
+
+				sleep(1000);
+			}
+			
+			if  (Global.getCurrentPoint() > rangeSupport + 5)
+				Global.addLog("Rise to fast, waiting for a pull back");
+			
+			
+			while (Global.getCurrentPoint() > rangeSupport + 5)
+			{
+				if  (Global.getCurrentPoint() > rangeSupport + 20)
+				{
+					Global.addLog("Too far away");
+					return;
+				}				
+				sleep(1000);		
+			}
+							
 				longContract();
-		} else if (rangeResist != 0)
+			}
+		
+		}
+		
+		if (rangeResist != 0)
 		{
-			if (Global.getCurrentPoint() > rangeResist - 3 && Global.getCurrentPoint() < rangeResist)
+			if (Global.getCurrentPoint() > rangeResist - 5 && Global.getCurrentPoint() < rangeResist)
+			{	
+				Global.addLog("Reached rangeResist");
+
+			waitForANewCandle();
+			
+			while (Global.isRapidRise()
+					|| getTimeBase().getLatestCandle().getOpen() < getTimeBase().getLatestCandle().getClose() + 2)
+			{
+				
+
+				if (Global.getCurrentPoint() > rangeResist + 5)
+				{
+					Global.addLog("Current point out of range");
+					shutdown = true;
+					return;
+				}
+
+				sleep(1000);
+			}
+			
+			if (Global.getCurrentPoint() < rangeResist - 5)
+				Global.addLog("Rise to fast, waiting for a pull back");
+			
+			while (Global.getCurrentPoint() < rangeResist - 5)
+			{
+				if (Global.getCurrentPoint() < rangeResist - 20)
+				{
+					Global.addLog("Too far away");
+					return;
+				}
+				
+				sleep(1000);
+			}
+				
 				shortContract();
+		
+			}
 		}
 
 	}
 
-	private boolean isOutOfRange()
-	{
-		if (rangeResist != 0 && Global.getCurrentPoint() > rangeResist + 20)
-			return true;
-		else if (rangeSupport != 0 && Global.getCurrentPoint() < rangeSupport - 20)
-			return true;
-
-		return false;
-	}
-
-	public double getCurrentClose()
-	{
-		return GetData.getShortTB().getLatestCandle().getClose();
-	}
+	
 
 	// use 1min instead of 5min
 	void updateStopEarn()
 	{
 		if (Global.getNoOfContracts() > 0)
 		{
-			if (rangeResist == 0 || trendReversed)
-				tempCutLoss = 99999;
-			else
-				super.updateStopEarn();
-		} else
-		{
-			if (rangeSupport == 0 || trendReversed)
-				tempCutLoss = 0;
-			else
-				super.updateStopEarn();
-		}
 
+			if (Global.getCurrentPoint() > tempCutLoss)
+				tempCutLoss = Global.getCurrentPoint();
+
+		} else if (Global.getNoOfContracts() < 0)
+		{
+
+			if (Global.getCurrentPoint() < tempCutLoss)
+				tempCutLoss = Global.getCurrentPoint();
+		}
 	}
 
 	double getCutLossPt()
 	{
 		if (Global.getNoOfContracts() > 0)
-			return Math.max(10, buyingPoint - rangeSupport + 10);
-		else
-			return Math.max(10, rangeResist - buyingPoint + 10);
-	}
-
-	@Override
-	protected void cutLoss()
-	{
-
-		if (Global.getNoOfContracts() > 0 && Global.getCurrentPoint() < tempCutLoss)
 		{
-			closeContract(className + ": CutLoss, short @ " + Global.getCurrentBid());
-			shutdown = true;
-		} else if (Global.getNoOfContracts() < 0 && Global.getCurrentPoint() > tempCutLoss)
-		{
-			closeContract(className + ": CutLoss, long @ " + Global.getCurrentAsk());
-			shutdown = true;
-
+			
+			//Expected profit
+			if (getHoldingTime() > 300 && getProfit() > getExpectedProfit() + 5 && getProfit() <  16)
+				if (tempCutLoss < buyingPoint + getExpectedProfit())
+					tempCutLoss = buyingPoint + getExpectedProfit();
+		
+		}else
+		{	
+			//Expected profit
+			if (getHoldingTime() > 300 && getProfit() > getExpectedProfit() + 5 && getProfit() <  16)
+				if (tempCutLoss > buyingPoint - getExpectedProfit())
+					tempCutLoss = buyingPoint - getExpectedProfit();
+			
 		}
-
+		
+		return Math.abs(buyingPoint - Global.getOpen()) + 5;
 	}
 
-	@Override
-	boolean trendReversed()
-	{
+//	@Override
+//	protected void cutLoss()
+//	{
+//
+//		if (Global.getNoOfContracts() > 0 && Global.getCurrentPoint() < tempCutLoss)
+//		{
+//			closeContract(className + ": CutLoss, short @ " + Global.getCurrentBid());
+//			shutdown = true;
+//		} else if (Global.getNoOfContracts() < 0 && Global.getCurrentPoint() > tempCutLoss)
+//		{
+//			closeContract(className + ": CutLoss, long @ " + Global.getCurrentAsk());
+//			shutdown = true;
+//
+//		}
+//
+//	}
 
-		if (Global.getNoOfContracts() > 0)
-			return Global.getCurrentPoint() < rangeSupport;
-		else
-			return Global.getCurrentPoint() > rangeResist;
-	}
 
 	double getStopEarnPt()
 	{
-
-		if (trendReversed)
-			return 5;
 		
-		
-
-		if (Global.getNoOfContracts() > 0)
-		{
-
-			if (GetData.getShortTB().getRSI() > 60)
-				return 10;
-			
-			if (rangeResist != 0)
-				return Math.max(10, rangeResist - buyingPoint - 3);
-			else
-				return 10;
-		} else
-		{
-
-			if (GetData.getShortTB().getRSI() < 40)
-				return 10;
-			
-			if (rangeSupport != 0)
-				return Math.max(10, buyingPoint - rangeSupport - 3);
-			else
-				return 10;
-		}
+		if (XMLWatcher.SAR == 0)
+			return 20;
+		else
+			return Math.abs(XMLWatcher.SAR - buyingPoint);
 
 	}
-
-	@Override
-	public void trendReversedAction()
-	{
-
-		trendReversed = true;
-	}
+	
 
 	@Override
 	public TimeBase getTimeBase()
 	{
-		return GetData.getLongTB();
+		return GetData.getShortTB();
 	}
 }

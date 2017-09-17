@@ -145,44 +145,35 @@ public class RuleIBT extends Rules
 	// use 1min instead of 5min
 	void updateStopEarn()
 	{
-		double ema5;
-		double ema6;
-		//
-		// if (getProfit() < 100)
-		// {
-		ema5 = GetData.getShortTB().getLatestCandle().getClose();
-		ema6 = GetData.getLongTB().getEMA(5);
-		// } else
-		// {
-		// ema5 = GetData.getLongTB().getEMA(5);
-		// ema6 = GetData.getLongTB().getEMA(6);
-		// }
+		double stair = XMLWatcher.stair;
 
 		if (Global.getNoOfContracts() > 0)
 		{
-
-			// if (ema5 < ema6)
-			// tempCutLoss = buyingPoint + 5;
-
-			if (ema5 < ema6)
+			
+			// update stair
+			if (stair != 0 && tempCutLoss < stair && Global.getCurrentPoint() > stair)
 			{
-				tempCutLoss = 99999;
-				// if (getProfit() > 0)
-				chasing.setChaseUp(true);
+				Global.addLog("Stair updated: " + stair);
+				tempCutLoss = stair;
 			}
+
+			if (stair == 0 && GetData.getShortTB().getLatestCandle().getLow() > tempCutLoss)
+				tempCutLoss = GetData.getShortTB().getLatestCandle().getLow();
+			
+
 
 		} else if (Global.getNoOfContracts() < 0)
 		{
-
-			// if (ema5 > ema6)
-			// tempCutLoss = buyingPoint - 5;
-
-			if (ema5 > ema6)
+			
+			if (stair != 0 && tempCutLoss > stair && Global.getCurrentPoint() < stair)
 			{
-				tempCutLoss = 0;
-				// if (getProfit() > 0)
-				chasing.setChaseDown(true);
+				Global.addLog("Stair updated: " + stair);
+				tempCutLoss = stair;
 			}
+
+			if (stair == 0 && GetData.getShortTB().getLatestCandle().getHigh() < tempCutLoss)
+				tempCutLoss = GetData.getShortTB().getLatestCandle().getHigh();
+
 		}
 
 	}
@@ -190,56 +181,88 @@ public class RuleIBT extends Rules
 	// use 1min instead of 5min
 	double getCutLossPt()
 	{
-		return cutLoss + 10;
-	}
-
-	@Override
-	protected void cutLoss()
-	{
-
-		if (Global.getNoOfContracts() > 0 && Global.getCurrentPoint() < tempCutLoss)
+		
+		double stair = XMLWatcher.stair;
+		
+		if (Global.getNoOfContracts() > 0)
 		{
-			closeContract(className + ": CutLoss, short @ " + Global.getCurrentBid());
-			shutdown = true;
-		} else if (Global.getNoOfContracts() < 0 && Global.getCurrentPoint() > tempCutLoss)
+			
+			//Expected profit
+			if (getHoldingTime() > 300 && getProfit() > getExpectedProfit() + 5 && getProfit() <  16)
+				if (tempCutLoss < buyingPoint + getExpectedProfit())
+					tempCutLoss = buyingPoint + getExpectedProfit();
+			
+					
+			if (stair != 0 && tempCutLoss < stair && GetData.getShortTB().getLatestCandle().getClose() > stair)
+			{
+				Global.addLog("Stair updated: " + stair);
+				tempCutLoss = stair;
+			}
+			
+			if (buyingPoint > tempCutLoss && getProfit() > 30)
+			{
+				Global.addLog("Free trade");
+				tempCutLoss = buyingPoint + 5;
+			}
+		}else
 		{
-			closeContract(className + ": CutLoss, long @ " + Global.getCurrentAsk());
-			shutdown = true;
-
+			
+			//Expected profit
+			if (getHoldingTime() > 300 && getProfit() > getExpectedProfit() + 5 && getProfit() <  16)
+				if (tempCutLoss > buyingPoint - getExpectedProfit())
+					tempCutLoss = buyingPoint - getExpectedProfit();
+			
+			
+			if (stair != 0 && tempCutLoss > stair && GetData.getShortTB().getLatestCandle().getClose() < stair)
+			{
+				Global.addLog("Stair updated: " + stair);
+				tempCutLoss = stair;
+			}
+			
+			if (buyingPoint < tempCutLoss && getProfit() > 30)
+			{
+				Global.addLog("Free trade");
+				tempCutLoss = buyingPoint - 5;
+			}
 		}
-
-		if (Global.getCurrentPoint() > chasing.getRefHigh())
-			chasing.setRefHigh(Global.getCurrentPoint());
-		if (Global.getCurrentPoint() < chasing.getRefLow())
-			chasing.setRefLow(Global.getCurrentPoint());
-
+		
+		return Math.abs(buyingPoint - Global.getOpen()) + 10;
 	}
+
+//	@Override
+//	protected void cutLoss()
+//	{
+//
+//		if (Global.getNoOfContracts() > 0 && Global.getCurrentPoint() < tempCutLoss)
+//		{
+//			closeContract(className + ": CutLoss, short @ " + Global.getCurrentBid());
+//			shutdown = true;
+//		} else if (Global.getNoOfContracts() < 0 && Global.getCurrentPoint() > tempCutLoss)
+//		{
+//			closeContract(className + ": CutLoss, long @ " + Global.getCurrentAsk());
+//			shutdown = true;
+//
+//		}
+//
+//		if (Global.getCurrentPoint() > chasing.getRefHigh())
+//			chasing.setRefHigh(Global.getCurrentPoint());
+//		if (Global.getCurrentPoint() < chasing.getRefLow())
+//			chasing.setRefLow(Global.getCurrentPoint());
+//
+//	}
 
 	double getStopEarnPt()
 	{
-		// if (Global.getNoOfContracts() > 0)
-		// {
-		// if (GetData.getShortTB().getLatestCandle().getClose() >
-		// getTimeBase().getEMA(5))
-		// return -100;
-		//
-		//
-		//
-		//
-		// } else if (Global.getNoOfContracts() < 0)
-		// {
-		// if (GetData.getShortTB().getLatestCandle().getClose() <
-		// getTimeBase().getEMA(6))
-		// return -100;
-		// }
-
-		return 30;
+		if (XMLWatcher.stair == 0)
+			return 50;
+		else
+			return Math.abs(XMLWatcher.stair - buyingPoint);
 	}
 
 	@Override
 	public TimeBase getTimeBase()
 	{
-		return GetData.getLongTB();
+		return GetData.getShortTB();
 	}
 
 }

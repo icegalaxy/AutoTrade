@@ -95,10 +95,16 @@ public class XMLWatcher implements Runnable
 		
 		RuleSAR sar = new RuleSAR(true);
 		RuleRR rr = new RuleRR(true);
+		RuleIBT ibt = new RuleIBT(true);
+		RuleRange range = new RuleRange(true);
 		Thread s = new Thread(sar);
 		s.start();
 		Thread r = new Thread(rr);
 		r.start();
+		Thread i = new Thread(ibt);
+		i.start();
+		Thread ran = new Thread(range);
+		ran.start();
 
 		while (Global.isRunning())
 		{
