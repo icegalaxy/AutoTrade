@@ -134,14 +134,22 @@ public class RuleRange extends Rules
 		if (Global.getNoOfContracts() > 0)
 		{
 
-			if (Global.getCurrentPoint() > tempCutLoss)
-				tempCutLoss = Global.getCurrentPoint();
-
+			if (GetData.getShortTB().getLatestCandle().getLow() > tempCutLoss 
+					&& tempCutLoss < XMLWatcher.SAR)
+				tempCutLoss = GetData.getShortTB().getLatestCandle().getLow();
+			
+			if (XMLWatcher.rangeResist !=0 && GetData.getShortTB().getLatestCandle().getLow() > XMLWatcher.rangeResist - 10)
+				tempCutLoss = GetData.getShortTB().getLatestCandle().getLow();
+				
 		} else if (Global.getNoOfContracts() < 0)
 		{
 
-			if (Global.getCurrentPoint() < tempCutLoss)
-				tempCutLoss = Global.getCurrentPoint();
+			if (GetData.getShortTB().getLatestCandle().getHigh() < tempCutLoss
+					&& tempCutLoss > XMLWatcher.SAR)
+				tempCutLoss = GetData.getShortTB().getLatestCandle().getHigh();
+			
+			if (XMLWatcher.rangeSupport !=0 && GetData.getShortTB().getLatestCandle().getHigh() < XMLWatcher.rangeSupport + 10)
+				tempCutLoss = GetData.getShortTB().getLatestCandle().getHigh();
 		}
 	}
 

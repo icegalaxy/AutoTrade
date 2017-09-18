@@ -87,13 +87,13 @@ public class RuleSAR extends Rules
 					sleep(1000);
 				}
 				
-				if  (Global.getCurrentPoint() > cutLoss + 20)
+				if  (Global.getCurrentPoint() > cutLoss + 10)
 					Global.addLog("Rise to fast, waiting for a pull back");
 				
 				
 				while (Global.getCurrentPoint() > cutLoss + 10)
 				{
-					if  (Global.getCurrentPoint() > cutLoss + 50)
+					if  (Global.getCurrentPoint() > cutLoss + 30)
 					{
 						Global.addLog("Too far away");
 						return;
@@ -145,12 +145,12 @@ public class RuleSAR extends Rules
 				}
 				
 				
-				if (Global.getCurrentPoint() < cutLoss - 20)
+				if (Global.getCurrentPoint() < cutLoss - 10)
 					Global.addLog("Rise to fast, waiting for a pull back");
 				
 				while (Global.getCurrentPoint() < cutLoss - 10)
 				{
-					if (Global.getCurrentPoint() < cutLoss - 50)
+					if (Global.getCurrentPoint() < cutLoss - 30)
 					{
 						Global.addLog("Too far away");
 						return;

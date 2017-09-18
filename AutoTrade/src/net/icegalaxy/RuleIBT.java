@@ -62,12 +62,12 @@ public class RuleIBT extends Rules
 				sleep(1000);
 			}
 
-			if (Global.getCurrentPoint() > Global.getOpen() + 20)
+			if (Global.getCurrentPoint() > Global.getOpen() + 10)
 				Global.addLog("Rise to fast, waiting for a pull back");
 
 			while (Global.getCurrentPoint() > Global.getOpen() + 10)
 			{
-				if (Global.getCurrentPoint() > Global.getOpen() + 50)
+				if (Global.getCurrentPoint() > Global.getOpen() + 30)
 				{
 					Global.addLog("Too far away");
 					return;
@@ -115,12 +115,12 @@ public class RuleIBT extends Rules
 				sleep(1000);
 			}
 
-			if (Global.getCurrentPoint() < Global.getOpen() - 20)
+			if (Global.getCurrentPoint() < Global.getOpen() - 10)
 				Global.addLog("Drop to fast, waiting for a pull back");
 
 			while (Global.getCurrentPoint() < Global.getOpen() - 10)
 			{
-				if (Global.getCurrentPoint() < Global.getOpen() - 50)
+				if (Global.getCurrentPoint() < Global.getOpen() - 30)
 				{
 					Global.addLog("Too far away");
 					return;

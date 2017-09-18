@@ -94,13 +94,13 @@ public class RuleRR extends Rules
 					sleep(1000);
 				}
 				
-				if  (Global.getCurrentPoint() > currentOHLC.cutLoss + 20)
+				if  (Global.getCurrentPoint() > currentOHLC.cutLoss + 10)
 					Global.addLog("Rise to fast, waiting for a pull back");
 				
 				
 				while (Global.getCurrentPoint() > currentOHLC.cutLoss + 10)
 				{
-					if  (Global.getCurrentPoint() > currentOHLC.cutLoss + 50)
+					if  (Global.getCurrentPoint() > currentOHLC.cutLoss + 30)
 					{
 						Global.addLog("Too far away");
 						return;

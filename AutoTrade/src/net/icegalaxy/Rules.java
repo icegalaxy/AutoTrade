@@ -377,6 +377,8 @@ public abstract class Rules implements Runnable
 				closeContract("Force Sell");
 				return;
 			}
+			
+			updateHighLow();
 
 			updateCutLoss();
 			cutLoss();
