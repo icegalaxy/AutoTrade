@@ -87,6 +87,9 @@ public class XMLWatcher implements Runnable
 		XMLWatcher.updateIntraDayXML("stair", "0");
 		XMLWatcher.updateIntraDayXML("cutLoss", "0");
 		XMLWatcher.updateIntraDayXML("stopEarn", "0");
+		XMLWatcher.updateIntraDayXML("rangeResist", "0");
+		XMLWatcher.updateIntraDayXML("rangeSupport", "0");
+		XMLWatcher.updateIntraDayXML("SAR", "0");
 		XMLWatcher.updateIntraDayXML("buying", "false");
 		XMLWatcher.updateIntraDayXML("selling", "false");
 		
