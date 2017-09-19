@@ -293,6 +293,7 @@ public class XMLWatcher implements Runnable
 			Global.addLog("-------------------------------------");
 			Global.addLog("P.High: " + pHigh.position);
 			Global.addLog("P.Low: " + pLow.position);
+			Global.addLog("IBT Rise: " + ibtRise);
 			Global.addLog("-------------------------------------");
 //		}
 
