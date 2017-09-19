@@ -98,13 +98,21 @@ public class RuleRR extends Rules
 					Global.addLog("Rise to fast, waiting for a pull back");
 				
 				
-				while (Global.getCurrentPoint() > currentOHLC.cutLoss + 10)
+				while (Global.getCurrentPoint() > currentOHLC.cutLoss + 10 || Global.isRapidDrop())
 				{
 					if  (Global.getCurrentPoint() > currentOHLC.cutLoss + 30)
 					{
 						Global.addLog("Too far away");
 						return;
-					}				
+					}		
+					
+					if (Global.getCurrentPoint() < currentOHLC.cutLoss - 10)
+					{
+						Global.addLog("Current point out of range");
+						XMLWatcher.ohlcs[i].shutdown = true;
+						return;
+					}
+					
 					sleep(1000);		
 				}
 
@@ -150,14 +158,21 @@ public class RuleRR extends Rules
 					sleep(1000);
 				}
 				
-				if (Global.getCurrentPoint() < currentOHLC.cutLoss - 20)
+				if (Global.getCurrentPoint() < currentOHLC.cutLoss - 10)
 					Global.addLog("Rise to fast, waiting for a pull back");
 				
-				while (Global.getCurrentPoint() < currentOHLC.cutLoss - 10)
+				while (Global.getCurrentPoint() < currentOHLC.cutLoss - 10 || Global.isRapidRise())
 				{
-					if (Global.getCurrentPoint() < currentOHLC.cutLoss - 50)
+					if (Global.getCurrentPoint() < currentOHLC.cutLoss - 30)
 					{
 						Global.addLog("Too far away");
+						return;
+					}
+					
+					if (Global.getCurrentPoint() > currentOHLC.cutLoss + 10)
+					{
+						Global.addLog("Current point out of range");
+						XMLWatcher.ohlcs[i].shutdown = true;
 						return;
 					}
 					
@@ -210,7 +225,7 @@ public class RuleRR extends Rules
 //			return Math.max(20, buyingPoint - currentOHLC.cutLoss + 30);
 			
 			//just in case, should be stopped by tempCutLoss first
-			return buyingPoint - currentOHLC.cutLoss + 15;
+			return Math.max(10, buyingPoint - currentOHLC.cutLoss + 15);
 		}
 		else
 		{
@@ -240,7 +255,7 @@ public class RuleRR extends Rules
 //			return Math.max(20, currentOHLC.cutLoss - buyingPoint + 30);
 			
 			//just in case, should be stopped by tempCutLoss first
-			return currentOHLC.cutLoss - buyingPoint + 15;
+			return Math.max(10, currentOHLC.cutLoss - buyingPoint + 15);
 		}
 	}
 	

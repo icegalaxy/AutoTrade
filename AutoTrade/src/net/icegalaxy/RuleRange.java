@@ -67,13 +67,21 @@ public class RuleRange extends Rules
 				Global.addLog("Rise to fast, waiting for a pull back");
 			
 			
-			while (Global.getCurrentPoint() > rangeSupport + 5)
+			while (Global.getCurrentPoint() > rangeSupport + 5 || Global.isRapidDrop())
 			{
 				if  (Global.getCurrentPoint() > rangeSupport + 20)
 				{
 					Global.addLog("Too far away");
 					return;
-				}				
+				}		
+				
+				if (Global.getCurrentPoint() < rangeSupport - 5)
+				{
+					Global.addLog("Current point out of range");
+					shutdown = true;
+					return;
+				}
+				
 				sleep(1000);		
 			}
 							
@@ -108,11 +116,18 @@ public class RuleRange extends Rules
 			if (Global.getCurrentPoint() < rangeResist - 5)
 				Global.addLog("Rise to fast, waiting for a pull back");
 			
-			while (Global.getCurrentPoint() < rangeResist - 5)
+			while (Global.getCurrentPoint() < rangeResist - 5 || Global.isRapidRise())
 			{
 				if (Global.getCurrentPoint() < rangeResist - 20)
 				{
 					Global.addLog("Too far away");
+					return;
+				}
+				
+				if (Global.getCurrentPoint() > rangeResist + 5)
+				{
+					Global.addLog("Current point out of range");
+					shutdown = true;
 					return;
 				}
 				
@@ -172,7 +187,9 @@ public class RuleRange extends Rules
 			
 		}
 		
-		return Math.abs(buyingPoint - Global.getOpen()) + 5;
+		return 10;
+		
+//		return Math.abs(buyingPoint - Global.getOpen()) + 5;
 	}
 
 //	@Override

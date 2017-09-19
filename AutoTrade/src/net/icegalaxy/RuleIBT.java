@@ -26,17 +26,30 @@ public class RuleIBT extends Rules
 		// chasing = new Chasing();
 		// }
 
-		if (!isOrderTime() || Global.getNoOfContracts() != 0 || shutdown || TimePeriodDecider.getTime() > 93000
+		if (!isOrderTime() || Global.getNoOfContracts() != 0 || shutdown || TimePeriodDecider.getTime() > 91800
 				|| Global.getOpen() == 0 || traded)
 			return;
 
 		if (GetData.getShortTB().getLatestCandle().getClose() > Global.getOpen() + 10 
 				&& XMLWatcher.ibtRise
 				&& Global.getOpen() > Global.getpClose() + 10 
-				&& TimePeriodDecider.getTime() > 91600
-				&& Global.getCurrentPoint() < Global.getOpen() + 10 
-				&& Global.getCurrentPoint() > Global.getOpen())
+				&& TimePeriodDecider.getTime() > 91600)
+				
 		{
+			Global.addLog("IBT UP confirmed");
+					
+			while (Global.getCurrentPoint() > Global.getOpen() + 10 
+					&& Global.getCurrentPoint() < Global.getOpen())
+			{
+				sleep(1000);
+				
+				if (TimePeriodDecider.getTime() > 93000)
+				{
+					Global.addLog(">93000");
+					return;
+				}
+					
+			}		
 
 			Global.addLog("Reached Open");
 
@@ -65,13 +78,21 @@ public class RuleIBT extends Rules
 			if (Global.getCurrentPoint() > Global.getOpen() + 10)
 				Global.addLog("Rise to fast, waiting for a pull back");
 
-			while (Global.getCurrentPoint() > Global.getOpen() + 10)
+			while (Global.getCurrentPoint() > Global.getOpen() + 10 || Global.isRapidDrop())
 			{
 				if (Global.getCurrentPoint() > Global.getOpen() + 30)
 				{
 					Global.addLog("Too far away");
 					return;
 				}
+				
+				if (Global.getCurrentPoint() < Global.getOpen() - 10)
+				{
+					Global.addLog("Current point out of range");
+					shutdown = true;
+					return;
+				}
+				
 				sleep(1000);
 			}
 
@@ -85,12 +106,27 @@ public class RuleIBT extends Rules
 		else if (GetData.getShortTB().getLatestCandle().getClose() < Global.getOpen() - 10
 				&& Global.getOpen() - 10 < Global.getpClose() 
 				&& XMLWatcher.ibtDrop
-				&& TimePeriodDecider.getTime() > 91600
+				&& TimePeriodDecider.getTime() > 91600)
 
-				&& Global.getCurrentPoint() > Global.getOpen() - 10 
-				&& Global.getCurrentPoint() < Global.getOpen())
 		{
 
+			
+			Global.addLog("IBT Down confirmed");
+			
+			while (Global.getCurrentPoint() < Global.getOpen() - 10 
+					&& Global.getCurrentPoint() > Global.getOpen())
+			{
+				sleep(1000);
+				
+				if (TimePeriodDecider.getTime() > 93000)
+				{
+					Global.addLog(">93000");
+					return;
+				}
+					
+			}	
+			
+			
 			Global.addLog("Reached Open");
 
 			waitForANewCandle();
@@ -118,13 +154,22 @@ public class RuleIBT extends Rules
 			if (Global.getCurrentPoint() < Global.getOpen() - 10)
 				Global.addLog("Drop to fast, waiting for a pull back");
 
-			while (Global.getCurrentPoint() < Global.getOpen() - 10)
+			while (Global.getCurrentPoint() < Global.getOpen() - 10 || Global.isRapidRise())
 			{
 				if (Global.getCurrentPoint() < Global.getOpen() - 30)
 				{
 					Global.addLog("Too far away");
 					return;
 				}
+				
+				if (Global.getCurrentPoint() > Global.getOpen() + 10)
+				{
+					Global.addLog("Current point out of range");
+					shutdown = true;
+					return;
+				}
+
+				
 				sleep(1000);
 
 			}
@@ -226,7 +271,7 @@ public class RuleIBT extends Rules
 			}
 		}
 		
-		return Math.abs(buyingPoint - Global.getOpen()) + 10;
+		return Math.min(20, Math.abs(buyingPoint - Global.getOpen()) + 10);
 	}
 
 //	@Override

@@ -91,13 +91,21 @@ public class RuleSAR extends Rules
 					Global.addLog("Rise to fast, waiting for a pull back");
 				
 				
-				while (Global.getCurrentPoint() > cutLoss + 10)
+				while (Global.getCurrentPoint() > cutLoss + 10 || Global.isRapidDrop())
 				{
 					if  (Global.getCurrentPoint() > cutLoss + 30)
 					{
 						Global.addLog("Too far away");
 						return;
 					}				
+					
+					if (Global.getCurrentPoint() < cutLoss - 10)
+					{
+						Global.addLog("Current point out of range");
+						shutDownSAR();
+						return;
+					}
+					
 					sleep(1000);		
 				}
 
@@ -148,11 +156,18 @@ public class RuleSAR extends Rules
 				if (Global.getCurrentPoint() < cutLoss - 10)
 					Global.addLog("Rise to fast, waiting for a pull back");
 				
-				while (Global.getCurrentPoint() < cutLoss - 10)
+				while (Global.getCurrentPoint() < cutLoss - 10 || Global.isRapidRise())
 				{
 					if (Global.getCurrentPoint() < cutLoss - 30)
 					{
 						Global.addLog("Too far away");
+						return;
+					}
+					
+					if (Global.getCurrentPoint() > cutLoss + 10)
+					{
+						Global.addLog("Current point out of range");
+						shutDownSAR();
 						return;
 					}
 					
@@ -205,7 +220,7 @@ public class RuleSAR extends Rules
 				tempCutLoss = buyingPoint + 10;
 			}
 			
-			return buyingPoint - cutLoss + 15;
+			return Math.max(10, buyingPoint - cutLoss + 15);
 		}
 		else
 		{
@@ -230,7 +245,7 @@ public class RuleSAR extends Rules
 				Global.addLog("Free trade");
 				tempCutLoss = buyingPoint - 10;
 			}
-			return  cutLoss - buyingPoint + 15;
+			return  Math.max(10, cutLoss - buyingPoint + 15);
 		}
 	}
 
