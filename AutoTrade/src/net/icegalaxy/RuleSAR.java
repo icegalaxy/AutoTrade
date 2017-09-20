@@ -58,10 +58,14 @@ public class RuleSAR extends Rules
 //			{
 			
 			waitForANewCandle();
+			
+			updateHighLow();
 				
 				while (Global.isRapidDrop()
 						|| getTimeBase().getLatestCandle().getOpen() > getTimeBase().getLatestCandle().getClose() - 5)
 				{
+					
+					updateHighLow();
 					
 					if (isDownTrend())
 					{
@@ -87,13 +91,16 @@ public class RuleSAR extends Rules
 					sleep(1000);
 				}
 				
-				if  (Global.getCurrentPoint() > cutLoss + 10)
+				if  (Global.getCurrentPoint() > refLow + 15)
 					Global.addLog("Rise to fast, waiting for a pull back");
 				
 				
-				while (Global.getCurrentPoint() > cutLoss + 10 || Global.isRapidDrop())
+				while (Global.getCurrentPoint() > refLow + 15 || Global.isRapidDrop())
 				{
-					if  (Global.getCurrentPoint() > cutLoss + 30)
+					
+					updateHighLow();
+					
+					if  (Global.getCurrentPoint() > refLow + 50)
 					{
 						Global.addLog("Too far away");
 						return;
@@ -110,6 +117,10 @@ public class RuleSAR extends Rules
 				}
 
 				longContract();
+				
+				Global.addLog("Ref Low: " + refLow);
+				cutLoss = refLow;
+				
 //			}	
 		}else if (GetData.getShortTB().getEma5().getEMA() < cutLoss
 				&& selling
@@ -123,9 +134,13 @@ public class RuleSAR extends Rules
 			
 			waitForANewCandle();
 			
+			updateHighLow();
+			
 				while (Global.isRapidRise()
 						|| getTimeBase().getLatestCandle().getOpen() < getTimeBase().getLatestCandle().getClose() + 5)
 				{
+					
+					updateHighLow();
 					
 					if (isUpTrend())
 					{
@@ -153,12 +168,14 @@ public class RuleSAR extends Rules
 				}
 				
 				
-				if (Global.getCurrentPoint() < cutLoss - 10)
+				if (Global.getCurrentPoint() < refHigh - 15)
 					Global.addLog("Rise to fast, waiting for a pull back");
 				
-				while (Global.getCurrentPoint() < cutLoss - 10 || Global.isRapidRise())
+				while (Global.getCurrentPoint() < refHigh - 15 || Global.isRapidRise())
 				{
-					if (Global.getCurrentPoint() < cutLoss - 30)
+					updateHighLow();
+					
+					if (Global.getCurrentPoint() < refHigh - 50)
 					{
 						Global.addLog("Too far away");
 						return;
@@ -175,6 +192,9 @@ public class RuleSAR extends Rules
 				}
 
 				shortContract();
+				
+				Global.addLog("Ref High: " + refHigh);
+				cutLoss = refHigh;
 //			}
 		}
 	}
@@ -220,7 +240,7 @@ public class RuleSAR extends Rules
 				tempCutLoss = buyingPoint + 10;
 			}
 			
-			return Math.max(10, buyingPoint - cutLoss + 15);
+			return Math.max(10, buyingPoint - cutLoss + 5);
 		}
 		else
 		{
@@ -245,7 +265,7 @@ public class RuleSAR extends Rules
 				Global.addLog("Free trade");
 				tempCutLoss = buyingPoint - 10;
 			}
-			return  Math.max(10, cutLoss - buyingPoint + 15);
+			return  Math.max(10, cutLoss - buyingPoint + 5);
 		}
 	}
 

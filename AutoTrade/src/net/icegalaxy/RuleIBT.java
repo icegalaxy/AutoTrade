@@ -41,6 +41,7 @@ public class RuleIBT extends Rules
 			while (Global.getCurrentPoint() > Global.getOpen() + 10 
 					&& Global.getCurrentPoint() < Global.getOpen())
 			{
+				
 				sleep(1000);
 				
 				if (TimePeriodDecider.getTime() > 93000)
@@ -54,10 +55,13 @@ public class RuleIBT extends Rules
 			Global.addLog("Reached Open");
 
 			waitForANewCandle();
+			
+			updateHighLow();
 
 			while (getTimeBase().getLatestCandle().getOpen() > getTimeBase().getLatestCandle().getClose() - 5) 
 																											
 			{
+				
 
 				if (TimePeriodDecider.getTime() > 93000)
 				{
@@ -73,14 +77,19 @@ public class RuleIBT extends Rules
 				}
 
 				sleep(1000);
+				
+				updateHighLow();
 			}
 
-			if (Global.getCurrentPoint() > Global.getOpen() + 10)
+			if (Global.getCurrentPoint() > refLow + 15)
 				Global.addLog("Rise to fast, waiting for a pull back");
 
-			while (Global.getCurrentPoint() > Global.getOpen() + 10 || Global.isRapidDrop())
+			while (Global.getCurrentPoint() > refLow + 15 || Global.isRapidDrop())
 			{
-				if (Global.getCurrentPoint() > Global.getOpen() + 30)
+				
+				updateHighLow();
+				
+				if (Global.getCurrentPoint() > refLow + 30)
 				{
 					Global.addLog("Too far away");
 					return;
@@ -98,8 +107,8 @@ public class RuleIBT extends Rules
 
 			longContract();
 			traded = true;
-			cutLoss = Math.abs(buyingPoint - Global.getOpen());
-			Global.addLog("cutLoss: " + cutLoss);
+			cutLoss = refLow;
+			Global.addLog("refLow: " + cutLoss);
 
 		}
 
@@ -130,6 +139,8 @@ public class RuleIBT extends Rules
 			Global.addLog("Reached Open");
 
 			waitForANewCandle();
+			
+			updateHighLow();
 
 			while (getTimeBase().getLatestCandle().getOpen() < getTimeBase().getLatestCandle().getClose() + 5) 
 																												
@@ -149,14 +160,19 @@ public class RuleIBT extends Rules
 				}
 
 				sleep(1000);
+				
+				updateHighLow();
 			}
 
-			if (Global.getCurrentPoint() < Global.getOpen() - 10)
+			if (Global.getCurrentPoint() < refHigh - 15)
 				Global.addLog("Drop to fast, waiting for a pull back");
 
-			while (Global.getCurrentPoint() < Global.getOpen() - 10 || Global.isRapidRise())
+			while (Global.getCurrentPoint() < refHigh - 15 || Global.isRapidRise())
 			{
-				if (Global.getCurrentPoint() < Global.getOpen() - 30)
+				
+				updateHighLow();
+				
+				if (Global.getCurrentPoint() < refHigh - 30)
 				{
 					Global.addLog("Too far away");
 					return;
@@ -176,8 +192,8 @@ public class RuleIBT extends Rules
 
 			shortContract();
 			traded = true;
-			cutLoss = Math.abs(buyingPoint - Global.getOpen());
-			Global.addLog("cutLoss: " + cutLoss);
+			cutLoss = refHigh;
+			Global.addLog("refHigh: " + cutLoss);
 
 		}
 
@@ -271,7 +287,7 @@ public class RuleIBT extends Rules
 			}
 		}
 		
-		return Math.min(20, Math.abs(buyingPoint - Global.getOpen()) + 10);
+		return Math.max(10, Math.abs(buyingPoint - cutLoss) + 5);
 	}
 
 //	@Override

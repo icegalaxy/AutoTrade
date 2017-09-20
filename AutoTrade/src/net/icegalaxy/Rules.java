@@ -403,7 +403,7 @@ public abstract class Rules implements Runnable
 		closeContract(className + ": Trend Reversed");
 	}
 	
-	private void updateHighLow()
+	void updateHighLow()
 	{
 		if (Global.getCurrentPoint() > refHigh)
 			refHigh = Global.getCurrentPoint();
