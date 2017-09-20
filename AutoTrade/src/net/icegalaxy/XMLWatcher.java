@@ -1,8 +1,7 @@
 package net.icegalaxy;
 
 import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
+
 
 //Use the OPEN Line
 
@@ -282,9 +281,9 @@ public class XMLWatcher implements Runnable
 		}
 
 		// XMLReader ohlc = new XMLReader(Global.getToday());
-//		Global.setpHigh(ohlc.getpHigh());
-//		Global.setpLow(ohlc.getpLow());
-//		Global.setpOpen(ohlc.getpOpen());
+		Global.setpHigh(ohlcs[0].position);
+		Global.setpLow(ohlcs[1].position);
+		Global.setpClose(ohlcs[2].position);
 //		Global.setpClose(ohlc.getpClose());
 //		Global.setpFluc(ohlc.getpFluc());
 //
@@ -294,8 +293,10 @@ public class XMLWatcher implements Runnable
 //		if (pHigh.position != 0)
 //		{
 			Global.addLog("-------------------------------------");
-			Global.addLog("P.High: " + pHigh.position);
-			Global.addLog("P.Low: " + pLow.position);
+			Global.addLog("P.High: " + Global.getpHigh());
+			Global.addLog("P.Low: " + Global.getpLow());
+			Global.addLog("P.Close: " + Global.getpClose());
+			Global.addLog("IBT Rise: " + ibtRise);
 			Global.addLog("-------------------------------------");
 //		}
 
