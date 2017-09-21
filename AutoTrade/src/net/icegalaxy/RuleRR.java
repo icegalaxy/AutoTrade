@@ -114,15 +114,18 @@ public class RuleRR extends Rules
 						Global.addLog("Too far away");
 						return;
 					}		
-					
-					if (Global.getCurrentPoint() < currentOHLC.cutLoss - 10)
-					{
-						Global.addLog("Current point out of range");
-						XMLWatcher.ohlcs[i].shutdown = true;
-						return;
-					}
+	
 					
 					sleep(1000);		
+				}
+				
+				trailingDown(2);
+				
+				if (Global.getCurrentPoint() < currentOHLC.cutLoss - 10)
+				{
+					Global.addLog("Current point out of range");
+					XMLWatcher.ohlcs[i].shutdown = true;
+					return;
 				}
 
 				longContract();
@@ -181,20 +184,26 @@ public class RuleRR extends Rules
 					
 					updateHighLow();
 					
+				
+					
 					if (Global.getCurrentPoint() < refHigh - 50)
 					{
 						Global.addLog("Too far away");
 						return;
 					}
 					
-					if (Global.getCurrentPoint() > currentOHLC.cutLoss + 10)
-					{
-						Global.addLog("Current point out of range");
-						XMLWatcher.ohlcs[i].shutdown = true;
-						return;
-					}
+				
 					
 					sleep(1000);
+				}
+				
+				trailingUp(2);
+				
+				if (Global.getCurrentPoint() > currentOHLC.cutLoss + 10)
+				{
+					Global.addLog("Current point out of range");
+					XMLWatcher.ohlcs[i].shutdown = true;
+					return;
 				}
 
 				shortContract();

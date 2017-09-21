@@ -86,6 +86,39 @@ public abstract class Rules implements Runnable
 			}
 		}
 	}
+	
+	void trailingDown(int points)
+	{
+		double refLow = 99999;
+
+		
+		while (Global.getCurrentPoint() < refLow + points)
+		{
+			if (Global.getCurrentPoint() < refLow){
+				refLow = Global.getCurrentPoint();
+				Global.addLog("RefLow updated: " + refLow);
+			}
+			
+			updateHighLow();
+			sleep(1000);
+		}
+	}
+	
+	void trailingUp(int points)
+	{
+		double refHigh = 0;
+		
+		while (Global.getCurrentPoint() > refHigh - points)
+		{
+			if (Global.getCurrentPoint() > refHigh){
+				refHigh = Global.getCurrentPoint();
+				Global.addLog("RefHigh updated: " + refHigh);
+			}
+			
+			updateHighLow();
+			sleep(1000);
+		}
+	}
 
 	protected boolean reachGreatProfitPt()
 	{
@@ -217,7 +250,7 @@ public abstract class Rules implements Runnable
 		if (Global.getNoOfContracts() > 0 && refPt < tempCutLoss)
 		{
 			
-			if (getProfit() > 5)
+			if (getProfit() > 0)
 			{
 				stopEarn();
 				return;
@@ -228,7 +261,7 @@ public abstract class Rules implements Runnable
 		} else if (Global.getNoOfContracts() < 0 && refPt > tempCutLoss)
 		{
 			
-			if (getProfit() > 5)
+			if (getProfit() > 0)
 			{
 				stopEarn();
 				return;

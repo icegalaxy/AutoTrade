@@ -105,15 +105,17 @@ public class RuleSAR extends Rules
 						Global.addLog("Too far away");
 						return;
 					}				
-					
-					if (Global.getCurrentPoint() < cutLoss - 10)
-					{
-						Global.addLog("Current point out of range");
-						shutDownSAR();
-						return;
-					}
-					
+										
 					sleep(1000);		
+				}
+				
+				trailingDown(2);
+				
+				if (Global.getCurrentPoint() < cutLoss - 10)
+				{
+					Global.addLog("Current point out of range");
+					shutDownSAR();
+					return;
 				}
 
 				longContract();
@@ -169,7 +171,7 @@ public class RuleSAR extends Rules
 				
 				
 				if (Global.getCurrentPoint() < refHigh - 15)
-					Global.addLog("Rise to fast, waiting for a pull back");
+					Global.addLog("Drop to fast, waiting for a pull back");
 				
 				while (Global.getCurrentPoint() < refHigh - 15 || Global.isRapidRise())
 				{
@@ -181,14 +183,18 @@ public class RuleSAR extends Rules
 						return;
 					}
 					
-					if (Global.getCurrentPoint() > cutLoss + 10)
-					{
-						Global.addLog("Current point out of range");
-						shutDownSAR();
-						return;
-					}
+				
 					
 					sleep(1000);
+				}
+				
+				trailingUp(2);
+				
+				if (Global.getCurrentPoint() > cutLoss + 10)
+				{
+					Global.addLog("Current point out of range");
+					shutDownSAR();
+					return;
 				}
 
 				shortContract();

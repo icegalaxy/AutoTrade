@@ -95,16 +95,20 @@ public class RuleIBT extends Rules
 					return;
 				}
 				
-				if (Global.getCurrentPoint() < Global.getOpen() - 10)
-				{
-					Global.addLog("Current point out of range");
-					shutdown = true;
-					return;
-				}
+			
 				
 				sleep(1000);
 			}
 
+			trailingDown(2);
+			
+			if (Global.getCurrentPoint() < Global.getOpen() - 10)
+			{
+				Global.addLog("Current point out of range");
+				shutdown = true;
+				return;
+			}
+			
 			longContract();
 			traded = true;
 			cutLoss = refLow;
@@ -178,16 +182,20 @@ public class RuleIBT extends Rules
 					return;
 				}
 				
-				if (Global.getCurrentPoint() > Global.getOpen() + 10)
-				{
-					Global.addLog("Current point out of range");
-					shutdown = true;
-					return;
-				}
+			
 
 				
 				sleep(1000);
 
+			}
+			
+			trailingUp(2);
+			
+			if (Global.getCurrentPoint() > Global.getOpen() + 10)
+			{
+				Global.addLog("Current point out of range");
+				shutdown = true;
+				return;
 			}
 
 			shortContract();
