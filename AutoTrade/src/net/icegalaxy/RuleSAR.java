@@ -213,6 +213,12 @@ public class RuleSAR extends Rules
 	{
 		
 		double stair = XMLWatcher.stair;
+		
+		long max = 0;
+		if (getExpectedProfit() > 10)
+			max = 10;
+		else
+			max = getExpectedProfit();
 
 		if (Global.getNoOfContracts() > 0){
 			
@@ -221,9 +227,15 @@ public class RuleSAR extends Rules
 //				tempCutLoss = cutLoss - 10; 
 			
 			//Expected profit
-			if (getHoldingTime() > 300 && getProfit() > getExpectedProfit() + 5 && getProfit() <  16)
-				if (tempCutLoss < buyingPoint + getExpectedProfit())
-					tempCutLoss = buyingPoint + getExpectedProfit();
+			if (getHoldingTime() > 300 
+					&& getProfit() > tempCutLoss - buyingPoint + 5
+				//	&& getProfit() <= 16
+					&& getProfit() > max + 5
+					&& tempCutLoss < buyingPoint + max)
+			{
+					tempCutLoss = buyingPoint + max;
+					Global.addLog("Expected profit updated: " + (buyingPoint + max));
+			}
 			
 			if (tempCutLoss < cutLoss - 10)
 				tempCutLoss = cutLoss - 10; 
@@ -246,9 +258,15 @@ public class RuleSAR extends Rules
 		{
 			
 			//Expected profit
-			if (getHoldingTime() > 300 && getProfit() > getExpectedProfit() + 5 && getProfit() <  16)
-				if (tempCutLoss > buyingPoint - getExpectedProfit())
-					tempCutLoss = buyingPoint - getExpectedProfit();
+			if (getHoldingTime() > 300 
+					&& getProfit() > buyingPoint - tempCutLoss + 5 
+			//		&& getProfit() <=  16
+					&& getProfit() > max + 5
+					&& tempCutLoss > buyingPoint - max)
+				{
+					tempCutLoss = buyingPoint - max;
+					Global.addLog("Expected profit updated: " + (buyingPoint - max));
+				}
 			
 			if (tempCutLoss > cutLoss + 10)
 				tempCutLoss = cutLoss + 10; 

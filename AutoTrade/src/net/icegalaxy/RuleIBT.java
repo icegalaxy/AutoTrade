@@ -243,15 +243,27 @@ public class RuleIBT extends Rules
 	double getCutLossPt()
 	{
 		
-		double stair = XMLWatcher.stair;
+		double stair = XMLWatcher.SAR;
+		
+		long max = 0;
+		if (getExpectedProfit() > 10)
+			max = 10;
+		else
+			max = getExpectedProfit();
 		
 		if (Global.getNoOfContracts() > 0)
 		{
 			
 			//Expected profit
-			if (getHoldingTime() > 300 && getProfit() > getExpectedProfit() + 5 && getProfit() <  16)
-				if (tempCutLoss < buyingPoint + getExpectedProfit())
-					tempCutLoss = buyingPoint + getExpectedProfit();
+			if (getHoldingTime() > 300 
+					&& getProfit() > tempCutLoss - buyingPoint + 5
+				//	&& getProfit() <= 16
+					&& getProfit() > max + 5
+					&& tempCutLoss < buyingPoint + max)
+			{
+					tempCutLoss = buyingPoint + max;
+					Global.addLog("Expected profit updated: " + (buyingPoint + max));
+			}
 			
 					
 			if (stair != 0 && tempCutLoss < stair && GetData.getShortTB().getLatestCandle().getClose() > stair)
@@ -269,9 +281,15 @@ public class RuleIBT extends Rules
 		{
 			
 			//Expected profit
-			if (getHoldingTime() > 300 && getProfit() > getExpectedProfit() + 5 && getProfit() <  16)
-				if (tempCutLoss > buyingPoint - getExpectedProfit())
-					tempCutLoss = buyingPoint - getExpectedProfit();
+			if (getHoldingTime() > 300 
+					&& getProfit() > buyingPoint - tempCutLoss + 5 
+			//		&& getProfit() <=  16
+					&& getProfit() > max + 5
+					&& tempCutLoss > buyingPoint - max)
+				{
+					tempCutLoss = buyingPoint - max;
+					Global.addLog("Expected profit updated: " + (buyingPoint - max));
+				}
 			
 			
 			if (stair != 0 && tempCutLoss > stair && GetData.getShortTB().getLatestCandle().getClose() < stair)

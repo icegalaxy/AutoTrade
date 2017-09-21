@@ -569,6 +569,13 @@ public class GetData implements Runnable
 		return new Integer(time.replaceAll(":", ""));
 
 	}
+	
+	public static long getTimeInSec()
+	{
+		Calendar now = Calendar.getInstance();
+		long timeInMillis = now.getTimeInMillis();
+		return timeInMillis / 1000;
+	}
 
 	public static void sleep(int miniSecond)
 	{
