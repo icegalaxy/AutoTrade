@@ -26,8 +26,13 @@ public class RuleIBT extends Rules
 		// chasing = new Chasing();
 		// }
 
-		if (!isOrderTime() || Global.getNoOfContracts() != 0 || shutdown || TimePeriodDecider.getTime() > 91800
-				|| Global.getOpen() == 0 || traded)
+		if (!isOrderTime() 
+				|| Global.getNoOfContracts() != 0 
+				|| shutdown 
+				|| TimePeriodDecider.getTime() > 91800
+				|| Global.getOpen() == 0 
+//				|| traded
+				)
 			return;
 
 		if (GetData.getShortTB().getLatestCandle().getClose() > Global.getOpen() + 10 
