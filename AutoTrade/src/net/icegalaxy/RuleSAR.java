@@ -311,8 +311,9 @@ public class RuleSAR extends Rules
 //					Global.addLog("Line unclear, trying to take little profit");
 					shutdown = true;
 					return 30;
-				}else 
-					return Math.max(10, stopEarn - buyingPoint - 10);
+				} 
+					
+				return Math.max(10, stopEarn - buyingPoint - 10);
 			}
 			else
 			{
@@ -328,6 +329,7 @@ public class RuleSAR extends Rules
 					shutdown = true;
 					return 30;
 				}
+				
 				return Math.max(10, buyingPoint - stopEarn - 10);
 			}
 		
@@ -341,7 +343,7 @@ public class RuleSAR extends Rules
 
 			if (Global.getCurrentPoint() < buyingPoint + 5)
 				closeContract(className + ": Break even, short @ " + Global.getCurrentBid());
-			else if (GetData.getShortTB().getLatestCandle().getClose() < tempCutLoss)
+			else if (Global.getCurrentPoint() < tempCutLoss)
 				closeContract(className + ": StopEarn, short @ " + Global.getCurrentBid());
 			
 
@@ -350,7 +352,7 @@ public class RuleSAR extends Rules
 			
 			if (Global.getCurrentPoint() > buyingPoint - 5)
 				closeContract(className + ": Break even, long @ " + Global.getCurrentAsk());
-			else if (GetData.getShortTB().getLatestCandle().getClose() > tempCutLoss)
+			else if (Global.getCurrentPoint() > tempCutLoss)
 				closeContract(className + ": StopEarn, long @ " + Global.getCurrentAsk());
 			
 		}

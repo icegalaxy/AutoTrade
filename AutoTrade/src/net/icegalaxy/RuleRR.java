@@ -364,7 +364,7 @@ public class RuleRR extends Rules
 
 			if (Global.getCurrentPoint() < buyingPoint + 5)
 				closeContract(className + ": Break even, short @ " + Global.getCurrentBid());
-			else if (GetData.getShortTB().getLatestCandle().getClose() < tempCutLoss)
+			else if (Global.getCurrentPoint() < tempCutLoss)
 				closeContract(className + ": StopEarn, short @ " + Global.getCurrentBid());
 			
 
@@ -373,7 +373,7 @@ public class RuleRR extends Rules
 			
 			if (Global.getCurrentPoint() > buyingPoint - 5)
 				closeContract(className + ": Break even, long @ " + Global.getCurrentAsk());
-			else if (GetData.getShortTB().getLatestCandle().getClose() > tempCutLoss)
+			else if (Global.getCurrentPoint() > tempCutLoss)
 				closeContract(className + ": StopEarn, long @ " + Global.getCurrentAsk());
 			
 		}
