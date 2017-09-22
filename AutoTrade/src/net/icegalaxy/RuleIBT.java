@@ -43,8 +43,7 @@ public class RuleIBT extends Rules
 		{
 			Global.addLog("IBT UP confirmed");
 					
-			while (Global.getCurrentPoint() > Global.getOpen() + 10 
-					&& Global.getCurrentPoint() < Global.getOpen())
+			while (Global.getCurrentPoint() > Global.getOpen() + 10)
 			{
 				
 				sleep(1000);
@@ -131,8 +130,7 @@ public class RuleIBT extends Rules
 			
 			Global.addLog("IBT Down confirmed");
 			
-			while (Global.getCurrentPoint() < Global.getOpen() - 10 
-					&& Global.getCurrentPoint() > Global.getOpen())
+			while (Global.getCurrentPoint() < Global.getOpen() - 10)
 			{
 				sleep(1000);
 				
