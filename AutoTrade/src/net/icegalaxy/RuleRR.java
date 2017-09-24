@@ -233,9 +233,9 @@ public class RuleRR extends Rules
 			
 			//Expected profit
 			if (getHoldingTime() > 300 
-					&& getProfit() > tempCutLoss - buyingPoint + 5
+					&& getProfit() > tempCutLoss - buyingPoint + 10
 				//	&& getProfit() <= 16
-					&& getProfit() > max + 5
+					&& getProfit() > max + 10
 					&& tempCutLoss < buyingPoint + max)
 			{
 					tempCutLoss = buyingPoint + max;
@@ -276,9 +276,9 @@ public class RuleRR extends Rules
 			
 			//Expected profit
 			if (getHoldingTime() > 300 
-					&& getProfit() > buyingPoint - tempCutLoss + 5 
+					&& getProfit() > buyingPoint - tempCutLoss + 10 
 			//		&& getProfit() <=  16
-					&& getProfit() > max + 5
+					&& getProfit() > max + 10
 					&& tempCutLoss > buyingPoint - max)
 				{
 					tempCutLoss = buyingPoint - max;

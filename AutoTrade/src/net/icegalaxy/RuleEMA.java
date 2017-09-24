@@ -2,7 +2,7 @@ package net.icegalaxy;
 
 //Use the OPEN Line
 
-public class RuleSAR extends Rules
+public class RuleEMA extends Rules
 {
 
 	private double SAR = 0;
@@ -13,7 +13,7 @@ public class RuleSAR extends Rules
 	private boolean selling;
 	private boolean trendReversed;
 
-	public RuleSAR(boolean globalRunRule)
+	public RuleEMA(boolean globalRunRule)
 	{
 		super(globalRunRule);
 		setOrderTime(91800, 113000, 130100, 160000, 230000, 230000); // need to observe the first 3min
@@ -234,9 +234,9 @@ public class RuleSAR extends Rules
 			
 			//Expected profit
 			if (getHoldingTime() > 300 
-					&& getProfit() > tempCutLoss - buyingPoint + 10
+					&& getProfit() > tempCutLoss - buyingPoint + 5
 				//	&& getProfit() <= 16
-					&& getProfit() > max + 10
+					&& getProfit() > max + 5
 					&& tempCutLoss < buyingPoint + max)
 			{
 					tempCutLoss = buyingPoint + max;
@@ -265,9 +265,9 @@ public class RuleSAR extends Rules
 			
 			//Expected profit
 			if (getHoldingTime() > 300 
-					&& getProfit() > buyingPoint - tempCutLoss + 10
+					&& getProfit() > buyingPoint - tempCutLoss + 5 
 			//		&& getProfit() <=  16
-					&& getProfit() > max + 10
+					&& getProfit() > max + 5
 					&& tempCutLoss > buyingPoint - max)
 				{
 					tempCutLoss = buyingPoint - max;
