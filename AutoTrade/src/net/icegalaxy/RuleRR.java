@@ -65,12 +65,12 @@ public class RuleRR extends Rules
 				
 					
 				
-				waitForANewCandle();
+//				waitForANewCandle();
 				
 				updateHighLow();	
 				
 				while (Global.isRapidDrop()
-						|| getTimeBase().getLatestCandle().getOpen() > getTimeBase().getLatestCandle().getClose() - 5) // need five pt to confirm
+						|| Global.getCurrentPoint() <= refLow + 5)
 				{
 					
 					updateHighLow();
@@ -100,16 +100,16 @@ public class RuleRR extends Rules
 					sleep(1000);
 				}
 				
-				if  (Global.getCurrentPoint() > refLow + 15)
+				if  (Global.getCurrentPoint() > currentOHLC.cutLoss + 10)
 					Global.addLog("Rise to fast, waiting for a pull back");
 				
 				
-				while (Global.getCurrentPoint() > refLow + 15 || Global.isRapidDrop())
+				while (Global.getCurrentPoint() > currentOHLC.cutLoss + 10 || Global.isRapidDrop())
 				{
 					
 					updateHighLow();
 					
-					if  (Global.getCurrentPoint() > refLow + 50)
+					if  (Global.getCurrentPoint() > currentOHLC.cutLoss + 50)
 					{
 						Global.addLog("Too far away");
 						return;
@@ -142,12 +142,12 @@ public class RuleRR extends Rules
 				
 				Global.addLog("Reached " + currentOHLC.name);
 				
-				waitForANewCandle();
+//				waitForANewCandle();
 				
 				updateHighLow();
 				
 				while (Global.isRapidRise()
-						|| getTimeBase().getLatestCandle().getOpen() < getTimeBase().getLatestCandle().getClose() + 5)
+						|| Global.getCurrentPoint() >= refHigh - 5)
 				{
 					
 					updateHighLow();
@@ -176,17 +176,16 @@ public class RuleRR extends Rules
 					sleep(1000);
 				}
 				
-				if (Global.getCurrentPoint() < refHigh - 15)
+				if (Global.getCurrentPoint() < currentOHLC.cutLoss - 10)
 					Global.addLog("Drop to fast, waiting for a pull back");
 				
-				while (Global.getCurrentPoint() < refHigh - 15 || Global.isRapidRise())
+				while (Global.getCurrentPoint() < currentOHLC.cutLoss - 10 || Global.isRapidRise())
 				{
 					
-					updateHighLow();
-					
+					updateHighLow();					
 				
 					
-					if (Global.getCurrentPoint() < refHigh - 50)
+					if (Global.getCurrentPoint() < currentOHLC.cutLoss - 50)
 					{
 						Global.addLog("Too far away");
 						return;

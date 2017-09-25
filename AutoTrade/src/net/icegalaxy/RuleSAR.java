@@ -57,12 +57,12 @@ public class RuleSAR extends Rules
 //			if (Global.getCurrentPoint() < SAR + 5 && Global.getCurrentPoint() > SAR && !Global.isRapidDrop())
 //			{
 			
-			waitForANewCandle();
+//			waitForANewCandle();
 			
 			updateHighLow();
 				
 				while (Global.isRapidDrop()
-						|| getTimeBase().getLatestCandle().getOpen() > getTimeBase().getLatestCandle().getClose() - 5)
+						|| Global.getCurrentPoint() <= refLow + 5)
 				{
 					
 					updateHighLow();
@@ -91,16 +91,16 @@ public class RuleSAR extends Rules
 					sleep(1000);
 				}
 				
-				if  (Global.getCurrentPoint() > refLow + 15)
+				if  (Global.getCurrentPoint() > cutLoss + 10)
 					Global.addLog("Rise to fast, waiting for a pull back");
 				
 				
-				while (Global.getCurrentPoint() > refLow + 15 || Global.isRapidDrop())
+				while (Global.getCurrentPoint() > cutLoss + 10 || Global.isRapidDrop())
 				{
 					
 					updateHighLow();
 					
-					if  (Global.getCurrentPoint() > refLow + 50)
+					if  (Global.getCurrentPoint() > cutLoss + 50)
 					{
 						Global.addLog("Too far away");
 						return;
@@ -134,12 +134,12 @@ public class RuleSAR extends Rules
 //			if (Global.getCurrentPoint() > SAR - 5 && Global.getCurrentPoint() < SAR && !Global.isRapidRise())
 //			{
 			
-			waitForANewCandle();
+//			waitForANewCandle();
 			
 			updateHighLow();
 			
 				while (Global.isRapidRise()
-						|| getTimeBase().getLatestCandle().getOpen() < getTimeBase().getLatestCandle().getClose() + 5)
+						|| Global.getCurrentPoint() >= refHigh - 5)
 				{
 					
 					updateHighLow();
@@ -170,14 +170,14 @@ public class RuleSAR extends Rules
 				}
 				
 				
-				if (Global.getCurrentPoint() < refHigh - 15)
+				if (Global.getCurrentPoint() < cutLoss - 10)
 					Global.addLog("Drop to fast, waiting for a pull back");
 				
-				while (Global.getCurrentPoint() < refHigh - 15 || Global.isRapidRise())
+				while (Global.getCurrentPoint() < cutLoss - 10 || Global.isRapidRise())
 				{
 					updateHighLow();
 					
-					if (Global.getCurrentPoint() < refHigh - 50)
+					if (Global.getCurrentPoint() < cutLoss - 50)
 					{
 						Global.addLog("Too far away");
 						return;
