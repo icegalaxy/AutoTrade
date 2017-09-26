@@ -130,7 +130,7 @@ public class RuleRR extends Rules
 
 				longContract();
 				Global.addLog("Ref Low: " + refLow);
-				currentOHLC.cutLoss = refLow;
+//				currentOHLC.cutLoss = refLow;
 				Global.addLog("OHLC: " + currentOHLC.name);
 				return;
 
@@ -207,7 +207,7 @@ public class RuleRR extends Rules
 
 				shortContract();
 				Global.addLog("Ref High: " + refHigh);
-				currentOHLC.cutLoss = refHigh;
+//				currentOHLC.cutLoss = refHigh;
 				Global.addLog("OHLC: " + currentOHLC.name);
 				return;
 

@@ -121,7 +121,7 @@ public class RuleSAR extends Rules
 				longContract();
 				
 				Global.addLog("Ref Low: " + refLow);
-				cutLoss = refLow;
+//				cutLoss = refLow;
 				
 //			}	
 		}else if (GetData.getShortTB().getEma5().getEMA() < cutLoss
@@ -200,7 +200,7 @@ public class RuleSAR extends Rules
 				shortContract();
 				
 				Global.addLog("Ref High: " + refHigh);
-				cutLoss = refHigh;
+//				cutLoss = refHigh;
 //			}
 		}
 	}
