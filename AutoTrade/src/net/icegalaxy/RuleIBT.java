@@ -5,8 +5,6 @@ public class RuleIBT extends Rules
 
 	// private double refEMA;
 	private boolean traded;
-	private double cutLoss;
-	private Chasing chasing;
 
 	public RuleIBT(boolean globalRunRule)
 	{
@@ -14,7 +12,6 @@ public class RuleIBT extends Rules
 		// setOrderTime(91500, 110000, 133000, 160000);
 		// wait for EMA6, that's why 0945
 		setOrderTime(91600, 93000, 160000, 160000, 230000, 230000);
-		chasing = new Chasing();
 	}
 
 	public void openContract()
@@ -31,13 +28,13 @@ public class RuleIBT extends Rules
 				|| shutdown 
 				|| TimePeriodDecider.getTime() > 91800
 				|| Global.getOpen() == 0 
-//				|| traded
+				|| traded
 				)
 			return;
 
-		if (GetData.getShortTB().getLatestCandle().getClose() > Global.getOpen() + 10 
+		if (GetData.getShortTB().getLatestCandle().getClose() > Global.getOpen() 
 				&& XMLWatcher.ibtRise
-				&& Global.getOpen() > Global.getpClose() + 10 
+//				&& Global.getOpen() > Global.getpClose() + 10 
 				&& TimePeriodDecider.getTime() > 91600)
 				
 		{
@@ -45,6 +42,8 @@ public class RuleIBT extends Rules
 					
 			while (Global.getCurrentPoint() > Global.getOpen() + 10)
 			{
+				
+				updateHighLow();
 				
 				sleep(1000);
 				
@@ -58,51 +57,9 @@ public class RuleIBT extends Rules
 
 			Global.addLog("Reached Open");
 
-			waitForANewCandle();
+//			waitForANewCandle();
 			
 			updateHighLow();
-
-			while (getTimeBase().getLatestCandle().getOpen() > getTimeBase().getLatestCandle().getClose() - 5) 
-																											
-			{
-				
-
-				if (TimePeriodDecider.getTime() > 93000)
-				{
-					Global.addLog(">93000");
-					return;
-				}
-
-				if (Global.getCurrentPoint() < Global.getOpen() - 10)
-				{
-					Global.addLog("Current point out of range");
-					shutdown = true;
-					return;
-				}
-
-				sleep(1000);
-				
-				updateHighLow();
-			}
-
-			if (Global.getCurrentPoint() > refLow + 15)
-				Global.addLog("Rise to fast, waiting for a pull back");
-
-			while (Global.getCurrentPoint() > refLow + 15 || Global.isRapidDrop())
-			{
-				
-				updateHighLow();
-				
-				if (Global.getCurrentPoint() > refLow + 30)
-				{
-					Global.addLog("Too far away");
-					return;
-				}
-				
-			
-				
-				sleep(1000);
-			}
 
 			trailingDown(2);
 			
@@ -115,13 +72,13 @@ public class RuleIBT extends Rules
 			
 			longContract();
 			traded = true;
-			cutLoss = refLow;
-			Global.addLog("refLow: " + cutLoss);
+//			cutLoss = refLow;
+			Global.addLog("refLow: " + refLow);
 
 		}
 
-		else if (GetData.getShortTB().getLatestCandle().getClose() < Global.getOpen() - 10
-				&& Global.getOpen() - 10 < Global.getpClose() 
+		else if (GetData.getShortTB().getLatestCandle().getClose() < Global.getOpen()
+//				&& Global.getOpen() - 10 < Global.getpClose() 
 				&& XMLWatcher.ibtDrop
 				&& TimePeriodDecider.getTime() > 91600)
 
@@ -132,6 +89,9 @@ public class RuleIBT extends Rules
 			
 			while (Global.getCurrentPoint() < Global.getOpen() - 10)
 			{
+				
+				updateHighLow();
+				
 				sleep(1000);
 				
 				if (TimePeriodDecider.getTime() > 93000)
@@ -145,52 +105,9 @@ public class RuleIBT extends Rules
 			
 			Global.addLog("Reached Open");
 
-			waitForANewCandle();
+//			waitForANewCandle();
 			
 			updateHighLow();
-
-			while (getTimeBase().getLatestCandle().getOpen() < getTimeBase().getLatestCandle().getClose() + 5) 
-																												
-			{
-
-				if (TimePeriodDecider.getTime() > 93000)
-				{
-					Global.addLog(">93000");
-					return;
-				}
-
-				if (Global.getCurrentPoint() > Global.getOpen() + 10)
-				{
-					Global.addLog("Current point out of range");
-					shutdown = true;
-					return;
-				}
-
-				sleep(1000);
-				
-				updateHighLow();
-			}
-
-			if (Global.getCurrentPoint() < refHigh - 15)
-				Global.addLog("Drop to fast, waiting for a pull back");
-
-			while (Global.getCurrentPoint() < refHigh - 15 || Global.isRapidRise())
-			{
-				
-				updateHighLow();
-				
-				if (Global.getCurrentPoint() < refHigh - 30)
-				{
-					Global.addLog("Too far away");
-					return;
-				}
-				
-			
-
-				
-				sleep(1000);
-
-			}
 			
 			trailingUp(2);
 			
@@ -203,8 +120,8 @@ public class RuleIBT extends Rules
 
 			shortContract();
 			traded = true;
-			cutLoss = refHigh;
-			Global.addLog("refHigh: " + cutLoss);
+//			cutLoss = refHigh;
+			Global.addLog("refHigh: " + refHigh);
 
 		}
 
@@ -217,7 +134,7 @@ public class RuleIBT extends Rules
 	// use 1min instead of 5min
 	void updateStopEarn()
 	{
-		double stair = XMLWatcher.stair;
+		double stair = XMLWatcher.SAR;
 
 		if (Global.getNoOfContracts() > 0)
 		{
@@ -228,9 +145,15 @@ public class RuleIBT extends Rules
 				Global.addLog("Stair updated: " + stair);
 				tempCutLoss = stair;
 			}
+			
+			if (GetData.getShortTB().getLatestCandle().getLow() > tempCutLoss
+					&& tempCutLoss < buyingPoint + getStopEarnPt())
+					tempCutLoss = Math.min(buyingPoint + getStopEarnPt(), GetData.getShortTB().getLatestCandle().getLow());	
 
-			if (stair == 0 && GetData.getShortTB().getLatestCandle().getLow() > tempCutLoss)
-				tempCutLoss = GetData.getShortTB().getLatestCandle().getLow();
+			if (stair == 0 
+					&& GetData.getLongTB().getEma5().getEMA() > tempCutLoss
+					&& GetData.getShortTB().getLatestCandle().getClose() > GetData.getLongTB().getEma5().getEMA())
+				tempCutLoss = GetData.getLongTB().getEma5().getEMA();
 			
 
 
@@ -242,9 +165,15 @@ public class RuleIBT extends Rules
 				Global.addLog("Stair updated: " + stair);
 				tempCutLoss = stair;
 			}
+			
+			if (GetData.getShortTB().getLatestCandle().getHigh() < tempCutLoss
+					&& tempCutLoss > buyingPoint - getStopEarnPt())
+				tempCutLoss = Math.max(buyingPoint - getStopEarnPt(), GetData.getShortTB().getLatestCandle().getHigh());
 
-			if (stair == 0 && GetData.getShortTB().getLatestCandle().getHigh() < tempCutLoss)
-				tempCutLoss = GetData.getShortTB().getLatestCandle().getHigh();
+			if (stair == 0 
+					&& GetData.getLongTB().getEma5().getEMA() < tempCutLoss
+					&& GetData.getShortTB().getLatestCandle().getClose() < GetData.getLongTB().getEma5().getEMA())
+				tempCutLoss = GetData.getLongTB().getEma5().getEMA();
 
 		}
 
@@ -316,7 +245,7 @@ public class RuleIBT extends Rules
 			}
 		}
 		
-		return Math.max(10, Math.abs(buyingPoint - cutLoss) + 5);
+		return Math.max(10, Math.abs(buyingPoint - Global.getOpen()) + 10);
 	}
 
 //	@Override
@@ -343,10 +272,10 @@ public class RuleIBT extends Rules
 
 	double getStopEarnPt()
 	{
-		if (XMLWatcher.stair == 0)
+		if (XMLWatcher.SAR == 0)
 			return 50;
 		else
-			return Math.abs(XMLWatcher.stair - buyingPoint);
+			return Math.abs(XMLWatcher.SAR - buyingPoint);
 	}
 
 	@Override

@@ -373,14 +373,9 @@ public class RuleSAR extends Rules
 				tempCutLoss = stair;
 			}
 
-			if (GetData.getShortTB().getLatestCandle().getLow() > tempCutLoss)
-			{
-				
-				if (GetData.getShortTB().getLatestCandle().getLow() < stopEarn)
-					tempCutLoss = GetData.getShortTB().getLatestCandle().getLow();
-				else
-					tempCutLoss = stopEarn;
-			}
+			if (GetData.getShortTB().getLatestCandle().getLow() > tempCutLoss
+					&& tempCutLoss < stopEarn)		
+					tempCutLoss = Math.min(stopEarn, GetData.getShortTB().getLatestCandle().getLow());
 			
 //			if (GetData.getLongTB().getEMA(5) < GetData.getLongTB().getEMA(6))
 //				tempCutLoss = 99999;
@@ -394,14 +389,9 @@ public class RuleSAR extends Rules
 				tempCutLoss = stair;
 			}
 			
-			if (GetData.getShortTB().getLatestCandle().getHigh() < tempCutLoss)
-			{
-				
-				if (GetData.getShortTB().getLatestCandle().getHigh() > stopEarn)
-					tempCutLoss = GetData.getShortTB().getLatestCandle().getHigh();
-				else
-					tempCutLoss = stopEarn;
-			}
+			if (GetData.getShortTB().getLatestCandle().getHigh() < tempCutLoss
+					&& tempCutLoss > stopEarn)
+				tempCutLoss = Math.max(stopEarn, GetData.getShortTB().getLatestCandle().getHigh());
 			
 //			if (GetData.getLongTB().getEMA(5) > GetData.getLongTB().getEMA(6))
 //				tempCutLoss = 0;

@@ -320,15 +320,10 @@ public class RuleRR extends Rules
 				tempCutLoss = stair;
 			}
 
-			if (GetData.getShortTB().getLatestCandle().getLow() > tempCutLoss)
-			{
+			if (GetData.getShortTB().getLatestCandle().getLow() > tempCutLoss
+					&& tempCutLoss < currentOHLC.stopEarn)		
+					tempCutLoss = Math.min(currentOHLC.stopEarn, GetData.getShortTB().getLatestCandle().getLow());
 				
-				if (GetData.getShortTB().getLatestCandle().getLow() < currentOHLC.stopEarn)
-					tempCutLoss = GetData.getShortTB().getLatestCandle().getLow();
-				else
-					tempCutLoss = currentOHLC.stopEarn;
-				
-			}
 //			if (GetData.getLongTB().getEMA(5) < GetData.getLongTB().getEMA(6))
 //				tempCutLoss = 99999;
 
@@ -341,14 +336,10 @@ public class RuleRR extends Rules
 				tempCutLoss = stair;
 			}
 
-			if (GetData.getShortTB().getLatestCandle().getHigh() < tempCutLoss)
-			{
-				
-				if (GetData.getShortTB().getLatestCandle().getHigh() > currentOHLC.stopEarn)
-					tempCutLoss = GetData.getShortTB().getLatestCandle().getHigh();
-				else
-					tempCutLoss = currentOHLC.stopEarn;
-			}
+			if (GetData.getShortTB().getLatestCandle().getHigh() < tempCutLoss
+					&& tempCutLoss > currentOHLC.stopEarn)
+				tempCutLoss = Math.max(currentOHLC.stopEarn, GetData.getShortTB().getLatestCandle().getHigh());
+
 //			if (GetData.getLongTB().getEMA(5) > GetData.getLongTB().getEMA(6))
 //				tempCutLoss = 0;
 		}
