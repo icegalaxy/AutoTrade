@@ -9,9 +9,20 @@ public class XMLWatcher implements Runnable
 {
 
 	public static IntraDayReader intraDay;
+	public static IntraDayReader ema;
 	XMLReader ohlc;
 	static String intraDayXMLPath = "C:\\Users\\joech\\Dropbox\\TradeData\\Intraday.xml";
 	static String OHLCPath = "C:\\Users\\joech\\Dropbox\\TradeData\\FHIdata.xml";
+	static String EMAPath = "C:\\Users\\joech\\Dropbox\\TradeData\\EMA.xml";
+	
+	
+	public static boolean M5EMA50;
+	public static boolean M5EMA250;
+	public static boolean EMAbuying;
+	public static boolean EMAselling;
+	public static double EMAstair = 0;
+	public static double EMAstopEarn = 0;
+	
 
 	public static double rangeResist = 0;
 	public static double rangeSupport = 0;
@@ -39,6 +50,7 @@ public class XMLWatcher implements Runnable
 
 	private long intraDayModifiedTime;
 	private long FHIDataModifiedTime;
+	private long EMAModifiedTime;
 
 	private int secCounter;
 
@@ -47,6 +59,7 @@ public class XMLWatcher implements Runnable
 
 		intraDayModifiedTime = new File(intraDayXMLPath).lastModified();
 		FHIDataModifiedTime = new File(OHLCPath).lastModified();
+		EMAModifiedTime = new File(EMAPath).lastModified();
 		
 		intraDay = new IntraDayReader(Global.getToday(), intraDayXMLPath);
 
@@ -64,6 +77,12 @@ public class XMLWatcher implements Runnable
 		myResist.name = "myResist";
 		mySAR = new OHLC();
 		mySAR.name = "SAR";
+		
+		
+		ema = new IntraDayReader(Global.getToday(), EMAPath);
+		
+
+		
 
 		//ohlc = new XMLReader(Global.getToday(), OHLCPath);
 		//using today
@@ -92,6 +111,16 @@ public class XMLWatcher implements Runnable
 		XMLWatcher.updateIntraDayXML("buying", "false");
 		XMLWatcher.updateIntraDayXML("selling", "false");
 		
+		try{
+		updateEMAXML("stair", "0");
+		updateEMAXML("stopEarn", "0");
+		updateEMAXML("buying", "false");
+		updateEMAXML("selling", "false");
+		updateEMAXML("M5EMA50", "false");
+		updateEMAXML("M5EMA250", "false");
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 		
 		setOHLC();
 		
@@ -99,6 +128,7 @@ public class XMLWatcher implements Runnable
 		RuleRR rr = new RuleRR(true);
 		RuleIBT ibt = new RuleIBT(true);
 		RuleRange range = new RuleRange(true);
+		RuleM5EMA m5ema = new RuleM5EMA(true);
 		Thread s = new Thread(sar);
 		s.start();
 		Thread r = new Thread(rr);
@@ -107,6 +137,8 @@ public class XMLWatcher implements Runnable
 		i.start();
 		Thread ran = new Thread(range);
 		ran.start();
+		Thread e = new Thread(m5ema);
+		e.start();
 
 		while (Global.isRunning())
 		{
@@ -143,14 +175,43 @@ public class XMLWatcher implements Runnable
 					Global.addLog("--------------------");
 				}
 				
+				
 				if (isFHIModified(OHLCPath))
 					setOHLC();
+				
+				try
+				{
+					if (isEMAModified(EMAPath))
+						setEMA();
+				}catch(Exception x)
+				{
+					x.printStackTrace();
+				}
 
 			}
 
 			secCounter++;
 			sleep(1000);
 		}
+	}
+
+	private void setEMA()
+	{
+		ema.findElementOfToday();
+		ema.findOHLC();
+		
+		M5EMA50 = Boolean.parseBoolean(ema.getValueOfNode("M5EMA50"));
+		M5EMA250 = Boolean.parseBoolean(ema.getValueOfNode("M5EMA250"));
+		EMAbuying = Boolean.parseBoolean(ema.getValueOfNode("buying"));
+		EMAselling = Boolean.parseBoolean(ema.getValueOfNode("selling"));
+		EMAstair = Double.parseDouble(ema.getValueOfNode("stair"));
+		EMAstopEarn = Double.parseDouble(ema.getValueOfNode("stopEarn"));
+
+		Global.addLog("--------------------");
+		Global.addLog("EMA50: " + M5EMA50);
+		Global.addLog("EMA50: " + M5EMA250);
+		Global.addLog("StopEarn: " + EMAstopEarn);
+		Global.addLog("--------------------");
 	}
 
 	private boolean isFHIModified(String filePath)
@@ -161,7 +222,7 @@ public class XMLWatcher implements Runnable
 		else
 		{
 			FHIDataModifiedTime = new File(filePath).lastModified();
-			Global.addLog("XML file updated");
+			Global.addLog("OHLC XML file updated");
 			return true;
 		}
 
@@ -175,7 +236,21 @@ public class XMLWatcher implements Runnable
 		else
 		{
 			intraDayModifiedTime = new File(filePath).lastModified();
-			Global.addLog("XML file updated");
+			Global.addLog("IntraDay XML file updated");
+			return true;
+		}
+
+	}
+	
+	private boolean isEMAModified(String filePath)
+	{
+
+		if (EMAModifiedTime == new File(filePath).lastModified())
+			return false;
+		else
+		{
+			EMAModifiedTime = new File(filePath).lastModified();
+			Global.addLog("EMA XML file updated");
 			return true;
 		}
 
@@ -221,6 +296,12 @@ public class XMLWatcher implements Runnable
 	public static void updateIntraDayXML(String node, String value)
 	{
 		intraDay.updateNode(node, value);
+		Global.addLog("Updated Node: " + node + ", value: " + value);
+	}
+	
+	public static void updateEMAXML(String node, String value)
+	{
+		ema.updateNode(node, value);
 		Global.addLog("Updated Node: " + node + ", value: " + value);
 	}
 
