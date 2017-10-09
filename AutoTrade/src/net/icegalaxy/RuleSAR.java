@@ -255,10 +255,10 @@ public class RuleSAR extends Rules
 			if (buyingPoint > tempCutLoss && getProfit() > 30)
 			{
 				Global.addLog("Free trade");
-				tempCutLoss = buyingPoint + 10;
+				tempCutLoss = buyingPoint + 5;
 			}
 			
-			return Math.max(10, buyingPoint - cutLoss + 5);
+			return Math.max(10, buyingPoint - cutLoss + 10);
 		}
 		else
 		{
@@ -287,9 +287,9 @@ public class RuleSAR extends Rules
 			if (buyingPoint < tempCutLoss && getProfit() > 30)
 			{
 				Global.addLog("Free trade");
-				tempCutLoss = buyingPoint - 10;
+				tempCutLoss = buyingPoint - 5;
 			}
-			return  Math.max(10, cutLoss - buyingPoint + 5);
+			return  Math.max(10, cutLoss - buyingPoint + 10);
 		}
 	}
 
