@@ -119,6 +119,55 @@ public abstract class Rules implements Runnable
 			sleep(1000);
 		}
 	}
+	
+	void updateExpectedProfit(long buffer){
+		
+		long max = 0;
+		if (getExpectedProfit() > 10)
+			max = 10;
+		else
+			max = getExpectedProfit();
+		
+		if (Global.getNoOfContracts() > 0)
+		{
+			if (getHoldingTime() > 300)
+			{
+
+				if (getProfit() > max + buffer && tempCutLoss < buyingPoint + max)
+				{
+					tempCutLoss = buyingPoint + max;
+					Global.addLog("Expected profit updated: " + (buyingPoint + max));
+				}
+
+				else if (getProfit() < max + buffer && getProfit() >= buffer+2 && tempCutLoss < buyingPoint + getProfit() - buffer)
+				{
+					tempCutLoss = buyingPoint + getProfit() - buffer;
+					Global.addLog("Expected profit updated: " + (buyingPoint + getProfit() - buffer));
+				}
+
+			}
+		}else
+		{			
+			if (getHoldingTime() > 300)
+			{
+
+				if (getProfit() > max + buffer && tempCutLoss > buyingPoint - max)
+				{
+					tempCutLoss = buyingPoint - max;
+					Global.addLog("Expected profit updated: " + (buyingPoint - max));
+				}
+
+				else if (getProfit() < max + buffer && getProfit() >= buffer+2 && tempCutLoss > buyingPoint - getProfit() + buffer)
+				{
+					tempCutLoss = buyingPoint - getProfit() + buffer;
+					Global.addLog("Expected profit updated: " + (buyingPoint - getProfit() + buffer));
+				}
+
+			}
+				
+		}
+		
+	}
 
 	protected boolean reachGreatProfitPt()
 	{

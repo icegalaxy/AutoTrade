@@ -185,26 +185,11 @@ public class RuleIBT extends Rules
 		
 		double stair = XMLWatcher.SAR;
 		
-		long max = 0;
-		if (getExpectedProfit() > 10)
-			max = 10;
-		else
-			max = getExpectedProfit();
+		updateExpectedProfit(10);
 		
 		if (Global.getNoOfContracts() > 0)
 		{
-			
-			//Expected profit
-			if (getHoldingTime() > 300 
-					&& getProfit() > tempCutLoss - buyingPoint + 5
-				//	&& getProfit() <= 16
-					&& getProfit() > max + 5
-					&& tempCutLoss < buyingPoint + max)
-			{
-					tempCutLoss = buyingPoint + max;
-					Global.addLog("Expected profit updated: " + (buyingPoint + max));
-			}
-			
+						
 					
 			if (stair != 0 && tempCutLoss < stair && GetData.getShortTB().getLatestCandle().getClose() > stair)
 			{
@@ -219,18 +204,6 @@ public class RuleIBT extends Rules
 			}
 		}else
 		{
-			
-			//Expected profit
-			if (getHoldingTime() > 300 
-					&& getProfit() > buyingPoint - tempCutLoss + 5 
-			//		&& getProfit() <=  16
-					&& getProfit() > max + 5
-					&& tempCutLoss > buyingPoint - max)
-				{
-					tempCutLoss = buyingPoint - max;
-					Global.addLog("Expected profit updated: " + (buyingPoint - max));
-				}
-			
 			
 			if (stair != 0 && tempCutLoss > stair && GetData.getShortTB().getLatestCandle().getClose() < stair)
 			{

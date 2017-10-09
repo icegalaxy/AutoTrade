@@ -171,42 +171,8 @@ public class RuleRange extends Rules
 	double getCutLossPt()
 	{
 		
-		long max = 0;
-		
-		if (getExpectedProfit() > 10)
-			max = 10;
-		else
-			max = getExpectedProfit();
-		
-		
-		if (Global.getNoOfContracts() > 0)
-		{
-			//Expected profit
-			if (getHoldingTime() > 300 
-					&& getProfit() > tempCutLoss - buyingPoint + 5
-				//	&& getProfit() <= 16
-					&& getProfit() > max + 5
-					&& tempCutLoss < buyingPoint + max)
-			{
-					tempCutLoss = buyingPoint + max;
-					Global.addLog("Expected profit updated: " + (buyingPoint + max));
-			}
-		
-		}else
-		{	
-			//Expected profit
-			if (getHoldingTime() > 300 
-					&& getProfit() > buyingPoint - tempCutLoss + 5 
-			//		&& getProfit() <=  16
-					&& getProfit() > max + 5
-					&& tempCutLoss > buyingPoint - max)
-				{
-					tempCutLoss = buyingPoint - max;
-					Global.addLog("Expected profit updated: " + (buyingPoint - max));
-				}
-			
-		}
-		
+		updateExpectedProfit(5);
+				
 		return 10;
 		
 //		return Math.abs(buyingPoint - Global.getOpen()) + 5;

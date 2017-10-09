@@ -220,11 +220,7 @@ public class RuleSAR extends Rules
 		
 		double stair = XMLWatcher.stair;
 		
-		long max = 0;
-		if (getExpectedProfit() > 10)
-			max = 10;
-		else
-			max = getExpectedProfit();
+		updateExpectedProfit(10);
 
 		if (Global.getNoOfContracts() > 0){
 			
@@ -232,16 +228,6 @@ public class RuleSAR extends Rules
 //			if (tempCutLoss < cutLoss - 10 && refHigh > cutLoss + 30)
 //				tempCutLoss = cutLoss - 10; 
 			
-			//Expected profit
-			if (getHoldingTime() > 300 
-					&& getProfit() > tempCutLoss - buyingPoint + 10
-				//	&& getProfit() <= 16
-					&& getProfit() > max + 10
-					&& tempCutLoss < buyingPoint + max)
-			{
-					tempCutLoss = buyingPoint + max;
-					Global.addLog("Expected profit updated: " + (buyingPoint + max));
-			}
 			
 			if (tempCutLoss < cutLoss - 10)
 				tempCutLoss = cutLoss - 10; 
@@ -263,16 +249,6 @@ public class RuleSAR extends Rules
 		else
 		{
 			
-			//Expected profit
-			if (getHoldingTime() > 300 
-					&& getProfit() > buyingPoint - tempCutLoss + 10
-			//		&& getProfit() <=  16
-					&& getProfit() > max + 10
-					&& tempCutLoss > buyingPoint - max)
-				{
-					tempCutLoss = buyingPoint - max;
-					Global.addLog("Expected profit updated: " + (buyingPoint - max));
-				}
 			
 			if (tempCutLoss > cutLoss + 10)
 				tempCutLoss = cutLoss + 10; 

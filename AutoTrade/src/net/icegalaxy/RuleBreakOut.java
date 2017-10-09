@@ -216,29 +216,10 @@ public class RuleBreakOut extends Rules
 
 		double stair = XMLWatcher.stair;
 		
-		long max = 0;
-		if (getExpectedProfit() > 10)
-			max = 10;
-		else
-			max = getExpectedProfit();
+		updateExpectedProfit(10);
 		
 		if (Global.getNoOfContracts() > 0){
 			
-			//Expected profit
-			if (getHoldingTime() > 300 
-					&& getProfit() > tempCutLoss - buyingPoint + 10
-				//	&& getProfit() <= 16
-					&& getProfit() > max + 10
-					&& tempCutLoss < buyingPoint + max)
-			{
-					tempCutLoss = buyingPoint + max;
-					Global.addLog("Expected profit updated: " + (buyingPoint + max));
-			}
-				
-
-			// first profit then loss
-//			if (tempCutLoss < currentOHLC.cutLoss - 10 && refHigh > currentOHLC.cutLoss + 30)
-//				tempCutLoss = currentOHLC.cutLoss - 10; 
 			
 			// set 10 pts below cutLoss
 			if (tempCutLoss < currentOHLC.cutLoss - 10)
@@ -263,20 +244,7 @@ public class RuleBreakOut extends Rules
 		}
 		else
 		{
-			// first profit then loss
-//			if (tempCutLoss > currentOHLC.cutLoss + 10 && refLow < currentOHLC.cutLoss - 30)
-//				tempCutLoss = currentOHLC.cutLoss + 10; 
 			
-			//Expected profit
-			if (getHoldingTime() > 300 
-					&& getProfit() > buyingPoint - tempCutLoss + 10 
-			//		&& getProfit() <=  16
-					&& getProfit() > max + 10
-					&& tempCutLoss > buyingPoint - max)
-				{
-					tempCutLoss = buyingPoint - max;
-					Global.addLog("Expected profit updated: " + (buyingPoint - max));
-				}
 			
 			if (tempCutLoss > currentOHLC.cutLoss + 10)
 				tempCutLoss = currentOHLC.cutLoss + 10; 
