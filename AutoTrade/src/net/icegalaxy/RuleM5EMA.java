@@ -231,11 +231,7 @@ public class RuleM5EMA extends Rules
 		
 		double stair = XMLWatcher.EMAstair;
 		
-		long max = 0;
-		if (getExpectedProfit() > 10)
-			max = 10;
-		else
-			max = getExpectedProfit();
+	
 
 		if (Global.getNoOfContracts() > 0){
 			
@@ -243,16 +239,8 @@ public class RuleM5EMA extends Rules
 //			if (tempCutLoss < cutLoss - 10 && refHigh > cutLoss + 30)
 //				tempCutLoss = cutLoss - 10; 
 			
-			//Expected profit
-			if (getHoldingTime() > 300 
-					&& getProfit() > tempCutLoss - buyingPoint + 10
-				//	&& getProfit() <= 16
-					&& getProfit() > max + 10
-					&& tempCutLoss < buyingPoint + max)
-			{
-					tempCutLoss = buyingPoint + max;
-					Global.addLog("Expected profit updated: " + (buyingPoint + max));
-			}
+	
+			updateExpectedProfit(10);
 			
 			if (tempCutLoss < cutLoss - 10)
 				tempCutLoss = cutLoss - 10; 
@@ -274,16 +262,7 @@ public class RuleM5EMA extends Rules
 		else
 		{
 			
-			//Expected profit
-			if (getHoldingTime() > 300 
-					&& getProfit() > buyingPoint - tempCutLoss + 10
-			//		&& getProfit() <=  16
-					&& getProfit() > max + 10
-					&& tempCutLoss > buyingPoint - max)
-				{
-					tempCutLoss = buyingPoint - max;
-					Global.addLog("Expected profit updated: " + (buyingPoint - max));
-				}
+			
 			
 			if (tempCutLoss > cutLoss + 10)
 				tempCutLoss = cutLoss + 10; 
