@@ -72,6 +72,12 @@ public class RuleRR extends Rules
 				{
 
 					updateHighLow();
+					
+					if (Global.getCurrentPoint() < currentOHLC.cutLoss)
+					{
+						Global.addLog("Touched " + currentOHLC.name);
+						break;
+					}
 
 					if (isDownTrend())
 					{
@@ -144,6 +150,12 @@ public class RuleRR extends Rules
 				{
 
 					updateHighLow();
+					
+					if (Global.getCurrentPoint() > currentOHLC.cutLoss)
+					{
+						Global.addLog("Touched " + currentOHLC.name);
+						break;
+					}
 
 					if (isUpTrend())
 					{
