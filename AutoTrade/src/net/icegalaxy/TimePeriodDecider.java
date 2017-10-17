@@ -15,7 +15,7 @@ public class TimePeriodDecider implements Runnable
 	public final int morningOrderStop = 103000;
 	public final int afternoonOrderStart = 150000;
 	public final int afternoonOrderStop = 160000;
-	public final int nightOrderStart = 231500;
+	public final int nightOrderStart = 171800;
 	public final int nightOrderStop = 231500;
 
 	public final int forceSell = 162500;
@@ -32,8 +32,8 @@ public class TimePeriodDecider implements Runnable
 		System.out.println("Program Started");
 		
 
-//		while (getTime() < nightClose)
-		while (getTime() < dayClose)
+		while (getTime() < nightClose)
+//		while (getTime() < dayClose)
 		{
 
 			// if (Global.shutDown){

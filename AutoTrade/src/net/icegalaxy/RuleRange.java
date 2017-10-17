@@ -11,7 +11,7 @@ public class RuleRange extends Rules
 	public RuleRange(boolean globalRunRule)
 	{
 		super(globalRunRule);
-		setOrderTime(103000, 114500, 130100, 150000, 231500, 231500);
+		setOrderTime(103000, 114500, 130100, 150000, 171800, 231500);
 	}
 
 	public void openContract()

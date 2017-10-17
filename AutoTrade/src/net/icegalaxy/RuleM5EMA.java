@@ -14,7 +14,7 @@ public class RuleM5EMA extends Rules
 	public RuleM5EMA(boolean globalRunRule)
 	{
 		super(globalRunRule);
-		setOrderTime(91800, 113000, 130100, 160000, 230000, 230000); // need to observe the first 3min
+		setOrderTime(91800, 113000, 130100, 160000, 171800, 230000); // need to observe the first 3min
 		// wait for EMA6, that's why 0945
 	}
 

@@ -10,7 +10,7 @@ public class RuleRR extends Rules
 	public RuleRR(boolean globalRunRule)
 	{
 		super(globalRunRule);
-		setOrderTime(91800, 115800, 130100, 160000, 230000, 230000); // need to
+		setOrderTime(91800, 115800, 130100, 160000, 171800, 230000); // need to
 																		// observe
 																		// the
 																		// first
