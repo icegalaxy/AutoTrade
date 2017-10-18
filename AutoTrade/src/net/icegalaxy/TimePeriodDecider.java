@@ -23,7 +23,7 @@ public class TimePeriodDecider implements Runnable
 	private boolean noonClosed;
 	private boolean noonOpened;
 	private boolean dayClosed;
-	private boolean nightOpened;
+	public static boolean nightOpened;
 
 	@Override
 	public void run()

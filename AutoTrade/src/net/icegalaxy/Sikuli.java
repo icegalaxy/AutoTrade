@@ -120,7 +120,10 @@ public class Sikuli {
 //			liquidate();
 //		}
 		
-		status = SPApi.addOrder((byte) 'B');
+		if (TimePeriodDecider.nightOpened)
+			status = SPApi.addOrder((byte) 'B', true);
+		else
+			status = SPApi.addOrder((byte) 'B', false);
 		
 		if (status == 0)
 			Global.addLog("Long order sent");
@@ -193,7 +196,10 @@ public class Sikuli {
 //			liquidate();
 //		}
 
-		status = SPApi.addOrder((byte) 'S');
+		if (TimePeriodDecider.nightOpened)
+			status = SPApi.addOrder((byte) 'S', true);
+		else
+			status = SPApi.addOrder((byte) 'S', false);
 		
 		if (status == 0)
 			Global.addLog("Short order sent");

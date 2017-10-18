@@ -268,7 +268,7 @@ public class SPApi
 		void invoke(long rec_no, SPApiTrade trade);
 	}
 
-	public static int addOrder(byte buy_sell)
+	public static int addOrder(byte buy_sell, boolean t1)
 	{
 		int rc;
 		
@@ -293,6 +293,9 @@ public class SPApi
 		order.DecInPrice = 0;
 
 		order.OrderType = 0;
+		
+		if (t1)
+			order.OrderOptions = 1;
 		
 		if (buy_sell == 'B')
 			order.Price = Global.getCurrentPoint() + 20;  //chase 20 pts
