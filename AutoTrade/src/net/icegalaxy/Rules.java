@@ -124,7 +124,7 @@ public abstract class Rules implements Runnable
 		
 		long max = 0;
 		if (getExpectedProfit() > 10)
-			max = 30;
+			max = 100;
 		else
 			max = getExpectedProfit();
 		
