@@ -318,7 +318,10 @@ public class RuleSAR extends Rules
 		{
 
 			if (Global.getCurrentPoint() < buyingPoint + 5)
+			{
 				closeContract(className + ": Break even, short @ " + Global.getCurrentBid());
+				shutdown = true;
+			}
 			else if (Global.getCurrentPoint() < tempCutLoss)
 				closeContract(className + ": StopEarn, short @ " + Global.getCurrentBid());
 			
@@ -327,7 +330,10 @@ public class RuleSAR extends Rules
 		{
 			
 			if (Global.getCurrentPoint() > buyingPoint - 5)
+			{
 				closeContract(className + ": Break even, long @ " + Global.getCurrentAsk());
+				shutdown = true;
+			}
 			else if (Global.getCurrentPoint() > tempCutLoss)
 				closeContract(className + ": StopEarn, long @ " + Global.getCurrentAsk());
 			

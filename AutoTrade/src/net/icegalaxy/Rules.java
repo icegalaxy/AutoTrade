@@ -299,7 +299,7 @@ public abstract class Rules implements Runnable
 		if (Global.getNoOfContracts() > 0 && refPt < tempCutLoss)
 		{
 			
-			if (getProfit() > 0)
+			if (getProfit() > 5)
 			{
 				stopEarn();
 				return;
@@ -310,7 +310,7 @@ public abstract class Rules implements Runnable
 		} else if (Global.getNoOfContracts() < 0 && refPt > tempCutLoss)
 		{
 			
-			if (getProfit() > 0)
+			if (getProfit() > 5)
 			{
 				stopEarn();
 				return;
@@ -326,7 +326,7 @@ public abstract class Rules implements Runnable
 		if (Global.getNoOfContracts() > 0 && Global.getCurrentPoint() < tempCutLoss)
 		{
 
-			if (getProfit() < 0)
+			if (getProfit() < 5)
 			{
 				cutLoss();
 				return;
@@ -339,7 +339,7 @@ public abstract class Rules implements Runnable
 		} else if (Global.getNoOfContracts() < 0 && Global.getCurrentPoint()  > tempCutLoss)
 		{
 
-			if (getProfit() < 0)
+			if (getProfit() < 5)
 			{
 				cutLoss();
 				return;
