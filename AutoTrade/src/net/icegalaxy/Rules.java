@@ -123,9 +123,9 @@ public abstract class Rules implements Runnable
 	void updateExpectedProfit(long buffer){
 		
 		long max = 0;
-		if (getExpectedProfit() > 10)
-			max = 100;
-		else
+//		if (getExpectedProfit() > 100)
+//			max = 100;
+//		else
 			max = getExpectedProfit();
 		
 		if (Global.getNoOfContracts() > 0)
