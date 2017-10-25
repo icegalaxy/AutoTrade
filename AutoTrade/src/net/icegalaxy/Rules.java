@@ -122,50 +122,117 @@ public abstract class Rules implements Runnable
 	
 	void updateExpectedProfit(long buffer){
 		
-		long max = 0;
+//		long max = 0;
 //		if (getExpectedProfit() > 100)
 //			max = 100;
 //		else
-			max = getExpectedProfit();
-		
+//			max = getExpectedProfit();
+			
+		double range = refHigh - refLow;
+
 		if (Global.getNoOfContracts() > 0)
 		{
-			if (getHoldingTime() > 300)
+			double profitLine;
+			
+			if (getProfit() > 50)
 			{
-
-				if (getProfit() > max + buffer && tempCutLoss < buyingPoint + max)
-				{
-					tempCutLoss = buyingPoint + max;
-					Global.addLog("Expected profit updated: " + (buyingPoint + max));
-				}
-
-				else if (getProfit() < max + buffer && getProfit() >= buffer+2 && tempCutLoss < buyingPoint + getProfit() - buffer)
-				{
-					tempCutLoss = buyingPoint + getProfit() - buffer;
-					Global.addLog("Expected profit updated: " + (buyingPoint + getProfit() - buffer));
-				}
-
-			}
-		}else
-		{			
-			if (getHoldingTime() > 300)
-			{
-
-				if (getProfit() > max + buffer && tempCutLoss > buyingPoint - max)
-				{
-					tempCutLoss = buyingPoint - max;
-					Global.addLog("Expected profit updated: " + (buyingPoint - max));
-				}
-
-				else if (getProfit() < max + buffer && getProfit() >= buffer+2 && tempCutLoss > buyingPoint - getProfit() + buffer)
-				{
-					tempCutLoss = buyingPoint - getProfit() + buffer;
-					Global.addLog("Expected profit updated: " + (buyingPoint - getProfit() + buffer));
-				}
-
-			}
+				profitLine = refHigh - (range * 0.5) - 5;
 				
+				if (tempCutLoss < profitLine)
+				{
+					tempCutLoss = profitLine;
+					Global.addLog("Expected profit updated: " + profitLine);
+				}
+				
+			}else if (getProfit() > 100)
+			{
+				
+				profitLine = refHigh - (range * 0.24) - 5;
+				
+				if (tempCutLoss < profitLine)
+				{
+					tempCutLoss = profitLine;
+					Global.addLog("Expected profit updated: " + profitLine);
+				}
+				
+				
+			}
+			
+			
+		}else
+		{
+			double profitLine;
+			
+			if (getProfit() > 50)
+			{
+				profitLine = refLow + (range * 0.5) + 5;
+				
+				if (tempCutLoss > profitLine)
+				{
+					tempCutLoss = profitLine;
+					Global.addLog("Expected profit updated: " + profitLine);
+				}
+				
+			}else if (getProfit() > 100)
+			{
+				
+				profitLine = refLow + (range * 0.24) + 5;
+				
+				if (tempCutLoss > profitLine)
+				{
+					tempCutLoss = profitLine;
+					Global.addLog("Expected profit updated: " + profitLine);
+				}
+				
+				
+			}
+			
+			
+			
+			
 		}
+		
+		
+//		if (Global.getNoOfContracts() > 0)
+//		{
+//			if (getHoldingTime() > 300)
+//			{
+//
+//				if (getProfit() > max + buffer && tempCutLoss < buyingPoint + max)
+//				{
+//					tempCutLoss = buyingPoint + max;
+//					Global.addLog("Expected profit updated: " + (buyingPoint + max));
+//				}
+//
+//				else if (getProfit() < max + buffer && getProfit() >= buffer+2 && tempCutLoss < buyingPoint + getProfit() - buffer)
+//				{
+//					tempCutLoss = buyingPoint + getProfit() - buffer;
+//					Global.addLog("Expected profit updated: " + (buyingPoint + getProfit() - buffer));
+//				}
+//
+//			}
+//		}else
+//		{			
+//			if (getHoldingTime() > 300)
+//			{
+//
+//				if (getProfit() > max + buffer && tempCutLoss > buyingPoint - max)
+//				{
+//					tempCutLoss = buyingPoint - max;
+//					Global.addLog("Expected profit updated: " + (buyingPoint - max));
+//				}
+//
+//				else if (getProfit() < max + buffer && getProfit() >= buffer+2 && tempCutLoss > buyingPoint - getProfit() + buffer)
+//				{
+//					tempCutLoss = buyingPoint - getProfit() + buffer;
+//					Global.addLog("Expected profit updated: " + (buyingPoint - getProfit() + buffer));
+//				}
+//
+//			}
+//				
+//		}
+		
+		
 		
 	}
 
