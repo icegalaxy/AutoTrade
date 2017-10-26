@@ -231,16 +231,14 @@ public class RuleM5EMA extends Rules
 		
 		double stair = XMLWatcher.EMAstair;
 		
-	
+		updateExpectedProfit(10);
 
 		if (Global.getNoOfContracts() > 0){
 			
 			// first profit then loss
 //			if (tempCutLoss < cutLoss - 10 && refHigh > cutLoss + 30)
 //				tempCutLoss = cutLoss - 10; 
-			
-	
-			updateExpectedProfit(10);
+				
 			
 			if (tempCutLoss < cutLoss - 10)
 				tempCutLoss = cutLoss - 10; 
