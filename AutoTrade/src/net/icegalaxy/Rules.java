@@ -79,6 +79,7 @@ public abstract class Rules implements Runnable
 				{
 					refHigh = 0;
 					refLow = 99999;
+					Global.shutDownRaising = false;
 					openContract();
 				}
 
@@ -134,8 +135,23 @@ public abstract class Rules implements Runnable
 		{
 			double profitLine;
 			
-			if (getProfit() > 50)
+			if (getProfit() > 50 && getProfit() < 100)
 			{
+				
+				if (Math.abs(Global.getNoOfContracts()) < 2
+						&& !Global.shutDownRaising
+						&& Global.getCurrentPoint() < refHigh - (range * 0.31))
+				{
+					Raising raise = new Raising();
+					raise.buying = true;
+					raise.cutLoss = Math.max(refHigh - (range * 0.5), 15);
+					raise.noOfContracts = 1;	
+					
+					RuleRaising raising = new RuleRaising(raise);
+					Thread r = new Thread (raising);
+					r.start();
+				}
+				
 				profitLine = refHigh - (range * 0.5) - 5;
 				
 				if (tempCutLoss < profitLine)
@@ -147,7 +163,21 @@ public abstract class Rules implements Runnable
 			}else if (getProfit() > 100)
 			{
 				
-				profitLine = refHigh - (range * 0.24) - 5;
+				if (Math.abs(Global.getNoOfContracts()) < 3
+						&& !Global.shutDownRaising
+						&& Global.getCurrentPoint() < refHigh - (range * 0.31))
+				{
+					Raising raise = new Raising();
+					raise.buying = true;
+					raise.cutLoss = Math.max(refHigh - (range * 0.5), 15);
+					raise.noOfContracts = 2;	
+					
+					RuleRaising raising = new RuleRaising(raise);
+					Thread r = new Thread (raising);
+					r.start();
+				}
+				
+				profitLine = refHigh - (range * 0.32) - 5;
 				
 				if (tempCutLoss < profitLine)
 				{
@@ -161,10 +191,28 @@ public abstract class Rules implements Runnable
 			
 		}else
 		{
+			
+			
+			
 			double profitLine;
 			
-			if (getProfit() > 50)
+			if (getProfit() > 50 && getProfit() < 100)
 			{
+				
+				if (Math.abs(Global.getNoOfContracts()) < 2
+						&& !Global.shutDownRaising
+						&& Global.getCurrentPoint() > refLow + (range * 0.31))
+				{
+					Raising raise = new Raising();
+					raise.selling = true;
+					raise.cutLoss = Math.max(refLow + (range * 0.5), 15);
+					raise.noOfContracts = 1;	
+					
+					RuleRaising raising = new RuleRaising(raise);
+					Thread r = new Thread (raising);
+					r.start();
+				}
+				
 				profitLine = refLow + (range * 0.5) + 5;
 				
 				if (tempCutLoss > profitLine)
@@ -175,6 +223,20 @@ public abstract class Rules implements Runnable
 				
 			}else if (getProfit() > 100)
 			{
+				
+				if (Math.abs(Global.getNoOfContracts()) < 3
+						&& !Global.shutDownRaising
+						&& Global.getCurrentPoint() > refLow + (range * 0.31))
+				{
+					Raising raise = new Raising();
+					raise.selling = true;
+					raise.cutLoss = Math.max(refLow + (range * 0.5), 15);
+					raise.noOfContracts = 2;	
+					
+					RuleRaising raising = new RuleRaising(raise);
+					Thread r = new Thread (raising);
+					r.start();
+				}
 				
 				profitLine = refLow + (range * 0.24) + 5;
 				

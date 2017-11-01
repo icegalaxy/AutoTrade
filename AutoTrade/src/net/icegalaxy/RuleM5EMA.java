@@ -49,7 +49,7 @@ public class RuleM5EMA extends Rules
 		
 		if (GetData.getShortTB().getEma5().getEMA() > cutLoss
 				&& buying
-				&& Global.getCurrentPoint() < cutLoss + 5
+				&& Global.getCurrentPoint() < cutLoss + 10
 				&& Global.getCurrentPoint() > cutLoss)
 		{
 			
@@ -130,7 +130,7 @@ public class RuleM5EMA extends Rules
 //			}	
 		}else if (GetData.getShortTB().getEma5().getEMA() < cutLoss
 				&& selling
-				&& Global.getCurrentPoint() > cutLoss - 5
+				&& Global.getCurrentPoint() > cutLoss - 10
 				&& Global.getCurrentPoint() < cutLoss)
 		{
 			
@@ -255,7 +255,7 @@ public class RuleM5EMA extends Rules
 				tempCutLoss = buyingPoint + 10;
 			}
 			
-			return Math.max(10, buyingPoint - cutLoss + 5);
+			return Math.max(10, buyingPoint - cutLoss + 20);
 		}
 		else
 		{

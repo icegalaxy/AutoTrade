@@ -21,7 +21,7 @@ public class SPApi
 {
 	static int counter;
 	static long status = 0;
-	static byte[] product = getBytes("HSIX7", 16);
+	static byte[] product = getBytes("MHIX7", 16);
 	
 //	static ArrayList<SPApiOrder> orders = new ArrayList<SPApiOrder>();
 
@@ -280,6 +280,46 @@ public class SPApi
 		order.BuySell = buy_sell;
 
 		order.Qty = 1;
+
+		order.ProdCode = product;
+
+		setBytes(order.Ref, "JAVA");
+		setBytes(order.Ref2, "TRADERAPI");
+		setBytes(order.GatewayCode, "");
+
+		order.CondType = 0; // normal type
+		setBytes(order.ClOrderId, "0");
+		order.ValidType = 0; // 0= valid all day, 2= deal all or cancel all
+		order.DecInPrice = 0;
+
+		order.OrderType = 0;
+		
+		if (t1)
+			order.OrderOptions = 1;
+		
+		if (buy_sell == 'B')
+			order.Price = Global.getCurrentPoint() + 20;  //chase 20 pts
+		else
+			order.Price = Global.getCurrentPoint() - 20;
+
+		rc = SPApiDll.INSTANCE.SPAPI_AddOrder(order);
+
+		return rc;
+
+	}
+	
+	public static int addOrder(byte buy_sell, int noOfOrders, boolean t1)
+	{
+		int rc;
+		
+		SPApiOrder order = new SPApiOrder();
+		//orders.add(order);
+
+		setBytes(order.AccNo, userid);
+		setBytes(order.Initiator, userid);
+		order.BuySell = buy_sell;
+
+		order.Qty = noOfOrders;
 
 		order.ProdCode = product;
 

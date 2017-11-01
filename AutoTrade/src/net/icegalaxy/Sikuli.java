@@ -98,13 +98,89 @@ public class Sikuli {
 		sleep(5000);
 	}
 */
+	
+	
+	public static synchronized boolean longContract(int noOfContracts) {
+		
+		int status = 0;
+
+		if (Global.maxContracts - Math.abs(Global.getNoOfContracts()) < noOfContracts) {
+			Global.addLog("> max no. of contract");
+			return false;
+		}
+		
+		if (TimePeriodDecider.nightOpened)
+			status = SPApi.addOrder((byte) 'B',noOfContracts, true);
+		else
+			status = SPApi.addOrder((byte) 'B',noOfContracts, false);
+		
+		if (status == 0)
+			Global.addLog("Long order sent");
+		else
+		{
+			Global.addLog("Fail to send long order");
+			return false;
+		}
+		
+//		Global.balance -= Global.getCurrentAsk();
+//		Global.noOfTrades += 1;
+		Global.setNoOfContracts(Global.getNoOfContracts() + noOfContracts);
+		
+//		if (Global.getNoOfContracts() == 0) { //means closing contract
+//			Rules.setBalance(0);
+//			}
+//			Global.setTradedQty(0);
+			return true;			
+	}
+	
+	public static synchronized boolean shortContract(int noOfContracts) {
+		
+		int status = 0;
+
+		if (Global.maxContracts - Math.abs(Global.getNoOfContracts()) < noOfContracts) {
+			Global.addLog("> max no. of contract");
+			return false;
+		}
+
+
+		if (TimePeriodDecider.nightOpened)
+			status = SPApi.addOrder((byte) 'S', noOfContracts, true);
+		else
+			status = SPApi.addOrder((byte) 'S', noOfContracts, false);
+		
+		if (status == 0)
+			Global.addLog("Short order sent");
+		else
+		{
+			Global.addLog("Fail to send short order");
+			return false;
+		}
+		
+//			Global.balance += Global.getCurrentBid();
+//			Global.noOfTrades += 1;
+			Global.setNoOfContracts(Global.getNoOfContracts() - noOfContracts);
+//			if (Global.getNoOfContracts() == 0) {
+//				Rules.setBalance(0);
+//			}
+//			Global.setTradedQty(0);
+			return true;			
+	//	}
+	}
+	
 	public static synchronized boolean longContract() {
 		
 		int status = 0;
+		
+		int noOfContracts = 1;
 
 		if (Global.getNoOfContracts() >= Global.maxContracts) {
 			Global.addLog("> max no. of contract");
 			return false;
+		}
+		
+		if (Global.getNoOfContracts() != 0) //means closing, because only main rules are using this method
+		{
+			noOfContracts = Global.getNoOfContracts();		
 		}
 
 //		Global.addLog("Long at " + Global.getCurrentAsk());
@@ -121,9 +197,9 @@ public class Sikuli {
 //		}
 		
 		if (TimePeriodDecider.nightOpened)
-			status = SPApi.addOrder((byte) 'B', true);
+			status = SPApi.addOrder((byte) 'B', noOfContracts, true);
 		else
-			status = SPApi.addOrder((byte) 'B', false);
+			status = SPApi.addOrder((byte) 'B', noOfContracts, false);
 		
 		if (status == 0)
 			Global.addLog("Long order sent");
@@ -165,7 +241,7 @@ public class Sikuli {
 		{*/
 			Global.balance -= Global.getCurrentAsk();
 			Global.noOfTrades += 1;
-			Global.setNoOfContracts(Global.getNoOfContracts() + 1);
+			Global.setNoOfContracts(Global.getNoOfContracts() + noOfContracts);
 			if (Global.getNoOfContracts() == 0) { //means closing contract
 				Rules.setBalance(0);
 			}
@@ -173,14 +249,23 @@ public class Sikuli {
 			return true;			
 	//	}
 	}
+	
+	
 
 	public static synchronized boolean shortContract() {
 		
 		int status = 0;
+		
+		int noOfContracts = 1;
 
 		if (Global.getNoOfContracts() <= Global.maxContracts * -1) {
 			Global.addLog("> max no. of contract");
 			return false;
+		}
+		
+		if (Global.getNoOfContracts() != 0) //means closing, because only main rules are using this method
+		{
+			noOfContracts = Global.getNoOfContracts();		
 		}
 
 //		Global.addLog("Short at " + Global.getCurrentBid());
@@ -197,9 +282,9 @@ public class Sikuli {
 //		}
 
 		if (TimePeriodDecider.nightOpened)
-			status = SPApi.addOrder((byte) 'S', true);
+			status = SPApi.addOrder((byte) 'S', noOfContracts, true);
 		else
-			status = SPApi.addOrder((byte) 'S', false);
+			status = SPApi.addOrder((byte) 'S', noOfContracts, false);
 		
 		if (status == 0)
 			Global.addLog("Short order sent");
@@ -240,7 +325,7 @@ public class Sikuli {
 		{*/
 			Global.balance += Global.getCurrentBid();
 			Global.noOfTrades += 1;
-			Global.setNoOfContracts(Global.getNoOfContracts() - 1);
+			Global.setNoOfContracts(Global.getNoOfContracts() - noOfContracts);
 			if (Global.getNoOfContracts() == 0) {
 				Rules.setBalance(0);
 			}

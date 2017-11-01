@@ -248,7 +248,7 @@ public class RuleRR extends Rules
 			// return Math.max(20, buyingPoint - currentOHLC.cutLoss + 30);
 
 			// just in case, should be stopped by tempCutLoss first
-			return Math.max(10, buyingPoint - currentOHLC.cutLoss + 10);
+			return Math.max(10, buyingPoint - currentOHLC.cutLoss + 20);
 		} else
 		{
 			// first profit then loss
@@ -274,7 +274,7 @@ public class RuleRR extends Rules
 			// return Math.max(20, currentOHLC.cutLoss - buyingPoint + 30);
 
 			// just in case, should be stopped by tempCutLoss first
-			return Math.max(10, currentOHLC.cutLoss - buyingPoint + 10);
+			return Math.max(10, currentOHLC.cutLoss - buyingPoint + 20);
 		}
 	}
 

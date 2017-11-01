@@ -212,7 +212,7 @@ public class XMLWatcher implements Runnable
 
 		Global.addLog("--------------------");
 		Global.addLog("EMA50: " + M5EMA50);
-		Global.addLog("EMA50: " + M5EMA250);
+		Global.addLog("EMA250: " + M5EMA250);
 		Global.addLog("StopEarn: " + EMAstopEarn);
 		Global.addLog("--------------------");
 	}

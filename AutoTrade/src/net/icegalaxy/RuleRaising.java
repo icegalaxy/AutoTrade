@@ -21,40 +21,88 @@ public class RuleRaising implements Runnable
 	@Override
 	public void run()
 	{
-		if (Global.maxContracts - Global.noOfTrades >= noOfContracts)
+		if (Global.maxContracts - Math.abs(Global.getNoOfContracts()) >= noOfContracts)
 		{
 			if (buying)
 			{
-				trailingDown(2);
-				longContract(noOfContracts);
+//				trailingDown(2);
+				longContract();
 			}else if (selling)
 			{
-				trailingUp(2);
-				shortContract(noOfContracts);			
+//				trailingUp(2);
+				shortContract();			
 			}
-			
-			
+				
 		}else{
 			Global.addLog("> Max conctracts");
 			return;
 		}
 		
+		while (Global.getNoOfContracts() != 0)
+		{
+			
+			if (Global.getNoOfContracts() > 0)
+			{
+				if (Global.getCurrentPoint() < cutLoss)
+				{
+					shortContract();
+					Global.shutDownRaising = true;
+					Global.addLog("Shut down raising");
+					return;	
+				}
+			}else
+			{
+				if (Global.getCurrentPoint() > cutLoss)
+				{
+					longContract();
+					Global.shutDownRaising = true;
+					Global.addLog("Shut down raising");
+					return;
+				}
+				
+			}
+			
+			sleep(1000);
+		}
+		
+		Global.addLog("Rule raising: No. of contracts = 0");
+		
 	}
 	
-	private void shortContract(int noOfContracts2)
+	private void shortContract()
 	{
-		
+				
+				if (!Global.isConnectionOK())
+				{
+					Global.addLog("Rule chasing : Connection probelm");
+					return;
+				}
+
+				if (Global.maxContracts - Math.abs(Global.getNoOfContracts()) < noOfContracts)
+				{
+					Global.addLog("Rule chasing : > Max Contracts");
+					return;
+				}
+
+				boolean b = Sikuli.shortContract(noOfContracts);
+				if (!b)
+				{
+					Global.addLog("Rule chasing : Fail to short");
+					return;
+				}
+				Global.addLog("Rule chasing : Short @ " + Global.getCurrentBid() + " X " + noOfContracts);
+				
 				
 	}
 
 
-	private void longContract(int noOfContracts2)
+	private void longContract()
 	{
-		if (!isOrderTime())
-		{
-			Global.addLog("Rule chasing : not order time");
-			return;
-		}
+//		if (!isOrderTime())
+//		{
+//			Global.addLog("Rule chasing : not order time");
+//			return;
+//		}
 		
 		if (!Global.isConnectionOK())
 		{
@@ -62,7 +110,7 @@ public class RuleRaising implements Runnable
 			return;
 		}
 
-		if (Global.maxContracts - Global.noOfTrades >= noOfContracts)
+		if (Global.maxContracts - Math.abs(Global.getNoOfContracts()) < noOfContracts)
 		{
 			Global.addLog("Rule chasing : > Max Contracts");
 			return;
@@ -71,7 +119,7 @@ public class RuleRaising implements Runnable
 		boolean b = Sikuli.longContract(noOfContracts);
 		if (!b)
 		{
-			Global.addLog("Rule chasing :  Fail to long");
+			Global.addLog("Rule chasing : Fail to long");
 			return;
 		}
 		
