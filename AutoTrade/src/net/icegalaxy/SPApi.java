@@ -22,6 +22,7 @@ public class SPApi
 	static int counter;
 	static long status = 0;
 	static byte[] product = getBytes("MHIX7", 16);
+	static byte[] watchingProduct = getBytes("HSIX7", 16);
 	
 //	static ArrayList<SPApiOrder> orders = new ArrayList<SPApiOrder>();
 
@@ -413,7 +414,7 @@ public class SPApi
 	{
 		SPApiPrice price = new SPApiPrice();
 
-		int i = SPApiDll.INSTANCE.SPAPI_GetPriceByCode(userid, product, price);
+		int i = SPApiDll.INSTANCE.SPAPI_GetPriceByCode(userid, watchingProduct, price);
 
 		if (i == 0)
 		{
@@ -440,7 +441,7 @@ public class SPApi
 	public static SPApiPrice getAPIPrice()
 	{
 		SPApiPrice price = new SPApiPrice();
-		int i = SPApiDll.INSTANCE.SPAPI_GetPriceByCode(userid, product, price);
+		int i = SPApiDll.INSTANCE.SPAPI_GetPriceByCode(userid, watchingProduct, price);
 		
 		if (i == 0)
 			return price;
@@ -473,12 +474,12 @@ public class SPApi
 	public static int subscribePrice()
 	{
 
-		int status = SPApiDll.INSTANCE.SPAPI_SubscribePrice(userid, product, 1);
+		int status = SPApiDll.INSTANCE.SPAPI_SubscribePrice(userid, watchingProduct, 1);
 
 		if (status == 0)
-			System.out.println("Subscribed price: " + Native.toString(product) + ", Succeed[" + status + "]");
+			System.out.println("Subscribed price: " + Native.toString(watchingProduct) + ", Succeed[" + status + "]");
 		else
-			System.out.println("Subscribed price: " + Native.toString(product) + ", Failed[" + status + "]");
+			System.out.println("Subscribed price: " + Native.toString(watchingProduct) + ", Failed[" + status + "]");
 
 		return status;
 	}
