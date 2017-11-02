@@ -111,7 +111,7 @@ public class RuleRR extends Rules
 
 					updateHighLow();
 
-					if (Global.getCurrentPoint() > refLow + 50)
+					if (Global.getCurrentPoint() > refLow + (currentOHLC.stopEarn - refLow) / 2)
 					{
 						Global.addLog("Too far away");
 						return;
@@ -189,7 +189,7 @@ public class RuleRR extends Rules
 
 					updateHighLow();
 
-					if (Global.getCurrentPoint() < refHigh - 50)
+					if (Global.getCurrentPoint() < refHigh - (refHigh - currentOHLC.stopEarn) / 2)
 					{
 						Global.addLog("Too far away");
 						return;
