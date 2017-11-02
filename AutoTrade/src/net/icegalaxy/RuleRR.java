@@ -58,7 +58,7 @@ public class RuleRR extends Rules
 				continue;
 
 			if (GetData.getShortTB().getEma5().getEMA() > currentOHLC.cutLoss
-					&& currentOHLC.stopEarn > currentOHLC.cutLoss && Global.getCurrentPoint() < currentOHLC.cutLoss + 10
+					&& currentOHLC.stopEarn > currentOHLC.cutLoss && Global.getCurrentPoint() < currentOHLC.cutLoss + 20
 					&& Global.getCurrentPoint() > currentOHLC.cutLoss)
 			{
 
@@ -86,14 +86,14 @@ public class RuleRR extends Rules
 						return;
 					}
 
-					if (GetData.getShortTB().getEma5().getEMA() < currentOHLC.cutLoss)
-					{
-						Global.addLog("EMA5 out of range");
-						XMLWatcher.ohlcs[i].shutdown = true;
-						return;
-					}
+//					if (GetData.getShortTB().getEma5().getEMA() < currentOHLC.cutLoss)
+//					{
+//						Global.addLog("EMA5 out of range");
+//						XMLWatcher.ohlcs[i].shutdown = true;
+//						return;
+//					}
 
-					if (Global.getCurrentPoint() < currentOHLC.cutLoss - 10)
+					if (Global.getCurrentPoint() < currentOHLC.cutLoss - 30)
 					{
 						Global.addLog("Current point out of range");
 						XMLWatcher.ohlcs[i].shutdown = true;
@@ -122,7 +122,7 @@ public class RuleRR extends Rules
 
 				trailingDown(2);
 
-				if (Global.getCurrentPoint() < currentOHLC.cutLoss - 10)
+				if (Global.getCurrentPoint() < currentOHLC.cutLoss - 30)
 				{
 					Global.addLog("Current point out of range");
 					XMLWatcher.ohlcs[i].shutdown = true;
@@ -136,7 +136,7 @@ public class RuleRR extends Rules
 				return;
 
 			} else if (GetData.getShortTB().getEma5().getEMA() < currentOHLC.cutLoss
-					&& currentOHLC.stopEarn < currentOHLC.cutLoss && Global.getCurrentPoint() > currentOHLC.cutLoss - 10
+					&& currentOHLC.stopEarn < currentOHLC.cutLoss && Global.getCurrentPoint() > currentOHLC.cutLoss - 20
 					&& Global.getCurrentPoint() < currentOHLC.cutLoss)
 			{
 
@@ -164,14 +164,14 @@ public class RuleRR extends Rules
 						return;
 					}
 
-					if (GetData.getShortTB().getEma5().getEMA() > currentOHLC.cutLoss)
-					{
-						Global.addLog("EMA5 out of range");
-						XMLWatcher.ohlcs[i].shutdown = true;
-						return;
-					}
+//					if (GetData.getShortTB().getEma5().getEMA() > currentOHLC.cutLoss)
+//					{
+//						Global.addLog("EMA5 out of range");
+//						XMLWatcher.ohlcs[i].shutdown = true;
+//						return;
+//					}
 
-					if (Global.getCurrentPoint() > currentOHLC.cutLoss + 10)
+					if (Global.getCurrentPoint() > currentOHLC.cutLoss + 30)
 					{
 						Global.addLog("Current point out of range");
 						XMLWatcher.ohlcs[i].shutdown = true;
@@ -200,7 +200,7 @@ public class RuleRR extends Rules
 
 				trailingUp(2);
 
-				if (Global.getCurrentPoint() > currentOHLC.cutLoss + 10)
+				if (Global.getCurrentPoint() > currentOHLC.cutLoss + 30)
 				{
 					Global.addLog("Current point out of range");
 					XMLWatcher.ohlcs[i].shutdown = true;
@@ -230,8 +230,8 @@ public class RuleRR extends Rules
 		{
 
 			// set 10 pts below cutLoss
-			if (tempCutLoss < currentOHLC.cutLoss - 10)
-				tempCutLoss = currentOHLC.cutLoss - 10;
+			if (tempCutLoss < currentOHLC.cutLoss - 20)
+				tempCutLoss = currentOHLC.cutLoss - 20;
 
 			if (stair != 0 && tempCutLoss < stair && GetData.getShortTB().getLatestCandle().getClose() > stair)
 			{
@@ -257,8 +257,8 @@ public class RuleRR extends Rules
 			// tempCutLoss = currentOHLC.cutLoss + 10;
 
 
-			if (tempCutLoss > currentOHLC.cutLoss + 10)
-				tempCutLoss = currentOHLC.cutLoss + 10;
+			if (tempCutLoss > currentOHLC.cutLoss + 20)
+				tempCutLoss = currentOHLC.cutLoss + 20;
 
 			if (stair != 0 && tempCutLoss > stair && GetData.getShortTB().getLatestCandle().getClose() < stair)
 			{
