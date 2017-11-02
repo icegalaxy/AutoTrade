@@ -21,6 +21,8 @@ public abstract class Rules implements Runnable
 	
 	double refHigh = 0;
 	double refLow = 99999;
+	
+	int waitingTime = 500;
 
 	public int lossTimes;
 
@@ -83,7 +85,7 @@ public abstract class Rules implements Runnable
 					openContract();
 				}
 
-				sleep(1000);
+				sleep(waitingTime);
 			}
 		}
 	}
@@ -101,7 +103,7 @@ public abstract class Rules implements Runnable
 			}
 			
 			updateHighLow();
-			sleep(1000);
+			sleep(waitingTime);
 		}
 	}
 	
@@ -117,7 +119,7 @@ public abstract class Rules implements Runnable
 			}
 			
 			updateHighLow();
-			sleep(1000);
+			sleep(waitingTime);
 		}
 	}
 	
@@ -552,7 +554,7 @@ public abstract class Rules implements Runnable
 				Global.addLog(className + ": Suddenly !hasContract");
 				break;
 			}
-			sleep(1000);
+			sleep(waitingTime);
 		}
 		
 		Global.addLog(className + ": broke out the first loop");
@@ -599,7 +601,7 @@ public abstract class Rules implements Runnable
 
 			// System.out.println("Temp Stop Earn" + tempCutLoss);
 
-			sleep(1000);
+			sleep(waitingTime);
 		}
 	}
 
@@ -1011,7 +1013,7 @@ public abstract class Rules implements Runnable
 			Global.addLog("");
 
 			while (Global.getCurrentPoint() <= ohlc + 20 && Global.getCurrentPoint() >= ohlc - 20)
-				sleep(1000);
+				sleep(waitingTime);
 
 			if (Global.getCurrentPoint() > ohlc + 20 && isSideWay())
 			{
@@ -1034,7 +1036,7 @@ public abstract class Rules implements Runnable
 
 			// wait until it standing firmly
 			while (Math.abs(GetData.getLongTB().getLatestCandle().getClose() - ohlc) <= 5)
-				sleep(1000);
+				sleep(waitingTime);
 
 			Global.addLog(className + ": Waiting for a pull back");
 			// in case it get too fast, wait until it come back, just like
@@ -1047,7 +1049,7 @@ public abstract class Rules implements Runnable
 					return;
 				}
 
-				sleep(1000);
+				sleep(waitingTime);
 			}
 
 			// for outside
@@ -1084,12 +1086,16 @@ public abstract class Rules implements Runnable
 	public void waitForANewCandle()
 	{
 
-		updateHighLow();
+		
 		
 		int currentSize = getTimeBase().getCandles().size();
 
 		while (currentSize == getTimeBase().getCandles().size())
-			sleep(1000);
+		{
+			
+			updateHighLow();
+			sleep(waitingTime);
+		}
 
 	}
 

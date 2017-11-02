@@ -68,16 +68,16 @@ public class RuleRR extends Rules
 
 //				updateHighLow();
 
-				while (Global.isRapidDrop() || GetData.getShortTB().getLatestCandle().getClose() - GetData.getShortTB().getLatestCandle().getOpen() < 5)
+				while (Global.isRapidDrop() || getTimeBase().getLatestCandle().getClose() - getTimeBase().getLatestCandle().getOpen() < 5)
 				{
 
 					updateHighLow();
 					
-					if (Global.getCurrentPoint() < currentOHLC.cutLoss)
-					{
-						Global.addLog("Touched " + currentOHLC.name);
-						break;
-					}
+//					if (Global.getCurrentPoint() < currentOHLC.cutLoss)
+//					{
+//						Global.addLog("Touched " + currentOHLC.name);
+//						break;
+//					}
 
 					if (isDownTrend())
 					{
@@ -100,24 +100,24 @@ public class RuleRR extends Rules
 						return;
 					}
 
-					sleep(1000);
+					sleep(waitingTime);
 				}
 
-				if (Global.getCurrentPoint() > currentOHLC.cutLoss + 10)
+				if (Global.getCurrentPoint() > refLow + 20)
 					Global.addLog("Rise to fast, waiting for a pull back");
 
-				while (Global.getCurrentPoint() > currentOHLC.cutLoss + 10 || Global.isRapidDrop())
+				while (Global.getCurrentPoint() > refLow + 20 || Global.isRapidDrop())
 				{
 
 					updateHighLow();
 
-					if (Global.getCurrentPoint() > currentOHLC.cutLoss + 50)
+					if (Global.getCurrentPoint() > refLow + 50)
 					{
 						Global.addLog("Too far away");
 						return;
 					}
 
-					sleep(1000);
+					sleep(waitingTime);
 				}
 
 				trailingDown(2);
@@ -131,7 +131,7 @@ public class RuleRR extends Rules
 
 				longContract();
 				Global.addLog("Ref Low: " + refLow);
-				// currentOHLC.cutLoss = refLow;
+				currentOHLC.cutLoss = refLow;
 				Global.addLog("OHLC: " + currentOHLC.name);
 				return;
 
@@ -146,16 +146,16 @@ public class RuleRR extends Rules
 
 //				updateHighLow();
 
-				while (Global.isRapidRise() || GetData.getShortTB().getLatestCandle().getOpen() - GetData.getShortTB().getLatestCandle().getClose() < 5)
+				while (Global.isRapidRise() || getTimeBase().getLatestCandle().getOpen() - getTimeBase().getLatestCandle().getClose() < 5)
 				{
 
 					updateHighLow();
 					
-					if (Global.getCurrentPoint() > currentOHLC.cutLoss)
-					{
-						Global.addLog("Touched " + currentOHLC.name);
-						break;
-					}
+//					if (Global.getCurrentPoint() > currentOHLC.cutLoss)
+//					{
+//						Global.addLog("Touched " + currentOHLC.name);
+//						break;
+//					}
 
 					if (isUpTrend())
 					{
@@ -178,24 +178,24 @@ public class RuleRR extends Rules
 						return;
 					}
 
-					sleep(1000);
+					sleep(waitingTime);
 				}
 
-				if (Global.getCurrentPoint() < currentOHLC.cutLoss - 10)
+				if (Global.getCurrentPoint() < refHigh - 20)
 					Global.addLog("Drop to fast, waiting for a pull back");
 
-				while (Global.getCurrentPoint() < currentOHLC.cutLoss - 10 || Global.isRapidRise())
+				while (Global.getCurrentPoint() < refHigh - 20 || Global.isRapidRise())
 				{
 
 					updateHighLow();
 
-					if (Global.getCurrentPoint() < currentOHLC.cutLoss - 50)
+					if (Global.getCurrentPoint() < refHigh - 50)
 					{
 						Global.addLog("Too far away");
 						return;
 					}
 
-					sleep(1000);
+					sleep(waitingTime);
 				}
 
 				trailingUp(2);
@@ -209,7 +209,7 @@ public class RuleRR extends Rules
 
 				shortContract();
 				Global.addLog("Ref High: " + refHigh);
-				// currentOHLC.cutLoss = refHigh;
+				currentOHLC.cutLoss = refHigh;
 				Global.addLog("OHLC: " + currentOHLC.name);
 				return;
 
@@ -441,6 +441,6 @@ public class RuleRR extends Rules
 	@Override
 	public TimeBase getTimeBase()
 	{
-		return GetData.getShortTB();
+		return GetData.getLongTB();
 	}
 }
