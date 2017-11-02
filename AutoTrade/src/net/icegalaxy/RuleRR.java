@@ -64,11 +64,11 @@ public class RuleRR extends Rules
 
 				Global.addLog("Reached " + currentOHLC.name);
 
-				// waitForANewCandle();
+				waitForANewCandle();
 
-				updateHighLow();
+//				updateHighLow();
 
-				while (Global.isRapidDrop() || Global.getCurrentPoint() <= refLow + 5)
+				while (Global.isRapidDrop() || GetData.getShortTB().getLatestCandle().getClose() - GetData.getShortTB().getLatestCandle().getOpen() < 5)
 				{
 
 					updateHighLow();
@@ -142,11 +142,11 @@ public class RuleRR extends Rules
 
 				Global.addLog("Reached " + currentOHLC.name);
 
-				// waitForANewCandle();
+				waitForANewCandle();
 
-				updateHighLow();
+//				updateHighLow();
 
-				while (Global.isRapidRise() || Global.getCurrentPoint() >= refHigh - 5)
+				while (Global.isRapidRise() || GetData.getShortTB().getLatestCandle().getOpen() - GetData.getShortTB().getLatestCandle().getClose() < 5)
 				{
 
 					updateHighLow();

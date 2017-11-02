@@ -135,7 +135,7 @@ public abstract class Rules implements Runnable
 		{
 			double profitLine;
 			
-			if (getProfit() > 50 && getProfit() < 100)
+			if (range > 60 && range < 100)
 			{
 				
 				if (Math.abs(Global.getNoOfContracts()) < 2
@@ -160,7 +160,7 @@ public abstract class Rules implements Runnable
 					Global.addLog("Expected profit updated: " + profitLine);
 				}
 				
-			}else if (getProfit() > 100)
+			}else if (range > 100)
 			{
 				
 				if (Math.abs(Global.getNoOfContracts()) < 3
@@ -170,7 +170,7 @@ public abstract class Rules implements Runnable
 					Raising raise = new Raising();
 					raise.buying = true;
 					raise.cutLoss = Math.max(refHigh - (range * 0.5), 15);
-					raise.noOfContracts = 2;	
+					raise.noOfContracts = 1;	
 					
 					RuleRaising raising = new RuleRaising(raise);
 					Thread r = new Thread (raising);
@@ -1084,6 +1084,8 @@ public abstract class Rules implements Runnable
 	public void waitForANewCandle()
 	{
 
+		updateHighLow();
+		
 		int currentSize = getTimeBase().getCandles().size();
 
 		while (currentSize == getTimeBase().getCandles().size())
