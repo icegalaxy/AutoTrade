@@ -320,7 +320,7 @@ public class SPApi
 		setBytes(order.Initiator, userid);
 		order.BuySell = buy_sell;
 
-		order.Qty = noOfOrders;
+		order.Qty = Math.abs(noOfOrders);
 
 		order.ProdCode = product;
 

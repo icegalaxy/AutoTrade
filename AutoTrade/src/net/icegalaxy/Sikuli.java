@@ -180,7 +180,7 @@ public class Sikuli {
 		
 		if (Global.getNoOfContracts() != 0) //means closing, because only main rules are using this method
 		{
-			noOfContracts = Global.getNoOfContracts();		
+			noOfContracts = Math.abs(Global.getNoOfContracts());		
 		}
 
 //		Global.addLog("Long at " + Global.getCurrentAsk());
@@ -265,7 +265,7 @@ public class Sikuli {
 		
 		if (Global.getNoOfContracts() != 0) //means closing, because only main rules are using this method
 		{
-			noOfContracts = Global.getNoOfContracts();		
+			noOfContracts = Math.abs(Global.getNoOfContracts());		
 		}
 
 //		Global.addLog("Short at " + Global.getCurrentBid());
