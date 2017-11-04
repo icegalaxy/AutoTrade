@@ -6,6 +6,7 @@ public class RuleRR extends Rules
 {
 
 	OHLC currentOHLC;
+	double cutLoss;
 
 	public RuleRR(boolean globalRunRule)
 	{
@@ -131,7 +132,9 @@ public class RuleRR extends Rules
 
 				longContract();
 				Global.addLog("Ref Low: " + refLow);
-				currentOHLC.cutLoss = refLow;
+				
+				cutLoss = Math.min(refLow -20, currentOHLC.cutLoss - 10);
+				
 				Global.addLog("OHLC: " + currentOHLC.name);
 				return;
 
@@ -209,7 +212,9 @@ public class RuleRR extends Rules
 
 				shortContract();
 				Global.addLog("Ref High: " + refHigh);
-				currentOHLC.cutLoss = refHigh;
+				
+				cutLoss = Math.max(refHigh + 20, currentOHLC.cutLoss + 10);
+				
 				Global.addLog("OHLC: " + currentOHLC.name);
 				return;
 
@@ -230,8 +235,10 @@ public class RuleRR extends Rules
 		{
 
 			// set 10 pts below cutLoss
-			if (tempCutLoss < currentOHLC.cutLoss - 20)
-				tempCutLoss = currentOHLC.cutLoss - 20;
+			
+			
+			if (tempCutLoss < cutLoss)
+				tempCutLoss = cutLoss;
 
 			if (stair != 0 && tempCutLoss < stair && GetData.getShortTB().getLatestCandle().getClose() > stair)
 			{
@@ -248,7 +255,7 @@ public class RuleRR extends Rules
 			// return Math.max(20, buyingPoint - currentOHLC.cutLoss + 30);
 
 			// just in case, should be stopped by tempCutLoss first
-			return Math.max(10, buyingPoint - currentOHLC.cutLoss + 20);
+			return Math.max(10, buyingPoint - cutLoss);
 		} else
 		{
 			// first profit then loss
@@ -257,8 +264,8 @@ public class RuleRR extends Rules
 			// tempCutLoss = currentOHLC.cutLoss + 10;
 
 
-			if (tempCutLoss > currentOHLC.cutLoss + 20)
-				tempCutLoss = currentOHLC.cutLoss + 20;
+			if (tempCutLoss > cutLoss)
+				tempCutLoss = cutLoss;
 
 			if (stair != 0 && tempCutLoss > stair && GetData.getShortTB().getLatestCandle().getClose() < stair)
 			{
@@ -274,7 +281,7 @@ public class RuleRR extends Rules
 			// return Math.max(20, currentOHLC.cutLoss - buyingPoint + 30);
 
 			// just in case, should be stopped by tempCutLoss first
-			return Math.max(10, currentOHLC.cutLoss - buyingPoint + 20);
+			return Math.max(10, cutLoss - buyingPoint);
 		}
 	}
 
