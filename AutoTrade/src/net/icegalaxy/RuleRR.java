@@ -94,9 +94,9 @@ public class RuleRR extends Rules
 //						return;
 //					}
 
-					if (Global.getCurrentPoint() < currentOHLC.cutLoss - 20)
+					if (refLow < currentOHLC.cutLoss - 20)
 					{
-						Global.addLog("Current point out of range");
+						Global.addLog("refLow out of range");
 						XMLWatcher.ohlcs[i].shutdown = true;
 						return;
 					}
@@ -123,9 +123,9 @@ public class RuleRR extends Rules
 
 				trailingDown(2);
 
-				if (Global.getCurrentPoint() < currentOHLC.cutLoss - 20)
+				if (refLow < currentOHLC.cutLoss - 20)
 				{
-					Global.addLog("Current point out of range");
+					Global.addLog("refLow out of range");
 					XMLWatcher.ohlcs[i].shutdown = true;
 					return;
 				}
@@ -174,9 +174,9 @@ public class RuleRR extends Rules
 //						return;
 //					}
 
-					if (Global.getCurrentPoint() > currentOHLC.cutLoss + 20)
+					if (refHigh > currentOHLC.cutLoss + 20)
 					{
-						Global.addLog("Current point out of range");
+						Global.addLog("RefHigh out of range");
 						XMLWatcher.ohlcs[i].shutdown = true;
 						return;
 					}
@@ -203,9 +203,9 @@ public class RuleRR extends Rules
 
 				trailingUp(2);
 
-				if (Global.getCurrentPoint() > currentOHLC.cutLoss + 20)
+				if (refHigh > currentOHLC.cutLoss + 20)
 				{
-					Global.addLog("Current point out of range");
+					Global.addLog("RefHigh out of range");
 					XMLWatcher.ohlcs[i].shutdown = true;
 					return;
 				}
