@@ -129,7 +129,7 @@ public class XMLWatcher implements Runnable
 		RuleIBT ibt = new RuleIBT(true);
 		RuleRange range = new RuleRange(true);
 		RuleM5EMA m5ema = new RuleM5EMA(true);
-		RuleBreakOut breakOut = new RuleBreakOut(true);
+//		RuleBreakOut breakOut = new RuleBreakOut(true);
 		Thread s = new Thread(sar);
 		s.start();
 		Thread r = new Thread(rr);
@@ -140,8 +140,8 @@ public class XMLWatcher implements Runnable
 		ran.start();
 		Thread e = new Thread(m5ema);
 		e.start();
-		Thread b = new Thread(breakOut);
-		b.start();
+//		Thread b = new Thread(breakOut);
+//		b.start();
 
 		while (Global.isRunning())
 		{
