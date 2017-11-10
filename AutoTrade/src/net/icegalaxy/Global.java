@@ -597,7 +597,7 @@ public class Global {
 	public static boolean runRuleMACD;
 	
 	public static boolean shutDown;
-	public static int maxContracts = 6;
+	public static int maxContracts = 5;
 	
 	public static int noOfTrades = 0;
 

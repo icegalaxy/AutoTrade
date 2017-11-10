@@ -48,7 +48,7 @@ public class Setting extends JFrame {
 
 		result = new JTextArea();
 		greatProfit = new JTextField("40", 40);
-		maxContracts = new JTextField("1", 40);
+		maxContracts = new JTextField("5", 40);
 		startBtn = new JButton("Start");
 		stopBtn = new JButton("Stop");
 
