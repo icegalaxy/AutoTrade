@@ -17,6 +17,8 @@ public abstract class Rules implements Runnable
 	double stopEarnPt;
 	double cutLossPt;
 	
+	boolean shutDownRaising;
+	
 	long buyingTime;
 	
 	double refHigh = 0;
@@ -81,7 +83,7 @@ public abstract class Rules implements Runnable
 				{
 					refHigh = 0;
 					refLow = 99999;
-					Global.shutDownRaising = false;
+					shutDownRaising = false;
 					openContract();
 				}
 
@@ -130,6 +132,12 @@ public abstract class Rules implements Runnable
 //			max = 100;
 //		else
 //			max = getExpectedProfit();
+		
+		if (Global.shutDownRaising)
+		{
+			shutDownRaising = true;
+			Global.shutDownRaising = false;
+		}
 			
 		double range = refHigh - refLow;
 
@@ -141,8 +149,9 @@ public abstract class Rules implements Runnable
 			{
 				
 				if (Math.abs(Global.getNoOfContracts()) < 2
-						&& !Global.shutDownRaising
-						&& Global.getCurrentPoint() < refHigh - (range * 0.31))
+						&& !shutDownRaising
+						&& Global.getCurrentPoint() < refHigh - (range * 0.31)
+						&& Global.getCurrentPoint() > refHigh - (range * 0.5))
 				{
 					Raising raise = new Raising();
 					raise.buying = true;
@@ -166,8 +175,9 @@ public abstract class Rules implements Runnable
 			{
 				
 				if (Math.abs(Global.getNoOfContracts()) < 3
-						&& !Global.shutDownRaising
-						&& Global.getCurrentPoint() < refHigh - (range * 0.31))
+						&& !shutDownRaising
+						&& Global.getCurrentPoint() < refHigh - (range * 0.31)
+						&& Global.getCurrentPoint() > refHigh - (range * 0.5))
 				{
 					Raising raise = new Raising();
 					raise.buying = true;
@@ -202,8 +212,9 @@ public abstract class Rules implements Runnable
 			{
 				
 				if (Math.abs(Global.getNoOfContracts()) < 2
-						&& !Global.shutDownRaising
-						&& Global.getCurrentPoint() > refLow + (range * 0.31))
+						&& !shutDownRaising
+						&& Global.getCurrentPoint() > refLow + (range * 0.31)
+						&& Global.getCurrentPoint() < refLow + (range * 0.5))
 				{
 					Raising raise = new Raising();
 					raise.selling = true;
@@ -227,8 +238,9 @@ public abstract class Rules implements Runnable
 			{
 				
 				if (Math.abs(Global.getNoOfContracts()) < 3
-						&& !Global.shutDownRaising
-						&& Global.getCurrentPoint() > refLow + (range * 0.31))
+						&& !shutDownRaising
+						&& Global.getCurrentPoint() > refLow + (range * 0.31)
+						&& Global.getCurrentPoint() < refLow + (range * 0.5))
 				{
 					Raising raise = new Raising();
 					raise.selling = true;
