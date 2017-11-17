@@ -151,7 +151,7 @@ public class RuleRange extends Rules
 
 			if (GetData.getShortTB().getLatestCandle().getLow() > tempCutLoss 
 					&& tempCutLoss < XMLWatcher.SAR)
-				tempCutLoss = GetData.getShortTB().getLatestCandle().getLow();
+				tempCutLoss = GetData.getLongTB().getLatestCandle().getLow();
 			
 			if (XMLWatcher.rangeResist !=0 && GetData.getShortTB().getLatestCandle().getLow() > XMLWatcher.rangeResist - 10)
 				tempCutLoss = GetData.getShortTB().getLatestCandle().getLow();
@@ -161,7 +161,7 @@ public class RuleRange extends Rules
 
 			if (GetData.getShortTB().getLatestCandle().getHigh() < tempCutLoss
 					&& tempCutLoss > XMLWatcher.SAR)
-				tempCutLoss = GetData.getShortTB().getLatestCandle().getHigh();
+				tempCutLoss = GetData.getLongTB().getLatestCandle().getHigh();
 			
 			if (XMLWatcher.rangeSupport !=0 && GetData.getShortTB().getLatestCandle().getHigh() < XMLWatcher.rangeSupport + 10)
 				tempCutLoss = GetData.getShortTB().getLatestCandle().getHigh();
