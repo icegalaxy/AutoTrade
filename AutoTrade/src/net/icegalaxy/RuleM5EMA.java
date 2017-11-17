@@ -386,6 +386,209 @@ public class RuleM5EMA extends Rules
 		}
 
 	}
+	
+	@Override
+	void updateExpectedProfit(long buffer){
+		
+//		long max = 0;
+//		if (getExpectedProfit() > 100)
+//			max = 100;
+//		else
+//			max = getExpectedProfit();
+		
+		if (Global.shutDownRaising)
+		{
+			shutDownRaising = true;
+			Global.shutDownRaising = false;
+		}
+			
+		double range = refHigh - refLow;
+
+		if (Global.getNoOfContracts() > 0)
+		{
+			double profitLine;
+			double ema = 0;
+			
+			if (refHigh > GetData.getLongTB().getEma50().getEMA() + 30)
+				ema = GetData.getLongTB().getEma50().getEMA();
+			else if (refHigh > GetData.getLongTB().getEma250().getEMA() + 30)
+				ema = GetData.getLongTB().getEma250().getEMA();
+			
+			if (range > 60 && range < 100)
+			{
+				
+				if (Math.abs(Global.getNoOfContracts()) < 2
+						&& !shutDownRaising
+						&& Global.getCurrentPoint() > ema
+						&& Global.getCurrentPoint() < ema + 5
+						&& ema != 0)
+				{
+					Raising raise = new Raising();
+					raise.buying = true;
+					raise.cutLoss = ema - 5;
+					raise.noOfContracts = 1;	
+					
+					RuleRaising raising = new RuleRaising(raise);
+					Thread r = new Thread (raising);
+					r.start();
+				}
+				
+				profitLine = ema - 10;
+				
+				if (tempCutLoss < profitLine)
+				{
+					tempCutLoss = profitLine;
+					Global.addLog("Expected profit updated: " + profitLine);
+				}
+				
+			}else if (range > 100)
+			{
+				
+				if (Math.abs(Global.getNoOfContracts()) < 3
+						&& !shutDownRaising
+						&& Global.getCurrentPoint() > ema
+						&& Global.getCurrentPoint() < ema + 5
+						&& ema != 0)
+				{
+					Raising raise = new Raising();
+					raise.buying = true;
+					raise.cutLoss = ema - 5;
+					raise.noOfContracts = 1;	
+					
+					RuleRaising raising = new RuleRaising(raise);
+					Thread r = new Thread (raising);
+					r.start();
+				}
+				
+				profitLine = ema - 10;
+				
+				if (tempCutLoss < profitLine)
+				{
+					tempCutLoss = profitLine;
+					Global.addLog("Expected profit updated: " + profitLine);
+				}
+				
+				
+			}
+			
+			
+		}else
+		{
+			
+			double profitLine;
+			
+			double ema = 0;
+			
+			if (refLow < GetData.getLongTB().getEma50().getEMA() - 30)
+				ema = GetData.getLongTB().getEma50().getEMA();
+			else if (refLow < GetData.getLongTB().getEma250().getEMA() - 30)
+				ema = GetData.getLongTB().getEma250().getEMA();
+			
+			if (getProfit() > 50 && getProfit() < 100)
+			{
+				
+				if (Math.abs(Global.getNoOfContracts()) < 2
+						&& !shutDownRaising
+						&& Global.getCurrentPoint() < ema
+						&& Global.getCurrentPoint() > ema - 5
+						&& ema != 0)
+				{
+					Raising raise = new Raising();
+					raise.selling = true;
+					raise.cutLoss = ema + 5;
+					raise.noOfContracts = 1;	
+					
+					RuleRaising raising = new RuleRaising(raise);
+					Thread r = new Thread (raising);
+					r.start();
+				}
+				
+				profitLine = ema + 10;
+				
+				if (tempCutLoss > profitLine)
+				{
+					tempCutLoss = profitLine;
+					Global.addLog("Expected profit updated: " + profitLine);
+				}
+				
+			}else if (getProfit() > 100)
+			{
+				
+				if (Math.abs(Global.getNoOfContracts()) < 3
+						&& !shutDownRaising
+						&& Global.getCurrentPoint() < ema
+						&& Global.getCurrentPoint() > ema - 5
+						&& ema != 0)
+				{
+					Raising raise = new Raising();
+					raise.selling = true;
+					raise.cutLoss = ema + 5;
+					raise.noOfContracts = 2;	
+					
+					RuleRaising raising = new RuleRaising(raise);
+					Thread r = new Thread (raising);
+					r.start();
+				}
+				
+				profitLine = ema + 10;
+				
+				if (tempCutLoss > profitLine)
+				{
+					tempCutLoss = profitLine;
+					Global.addLog("Expected profit updated: " + profitLine);
+				}
+				
+				
+			}
+			
+			
+			
+			
+		}
+		
+		
+//		if (Global.getNoOfContracts() > 0)
+//		{
+//			if (getHoldingTime() > 300)
+//			{
+//
+//				if (getProfit() > max + buffer && tempCutLoss < buyingPoint + max)
+//				{
+//					tempCutLoss = buyingPoint + max;
+//					Global.addLog("Expected profit updated: " + (buyingPoint + max));
+//				}
+//
+//				else if (getProfit() < max + buffer && getProfit() >= buffer+2 && tempCutLoss < buyingPoint + getProfit() - buffer)
+//				{
+//					tempCutLoss = buyingPoint + getProfit() - buffer;
+//					Global.addLog("Expected profit updated: " + (buyingPoint + getProfit() - buffer));
+//				}
+//
+//			}
+//		}else
+//		{			
+//			if (getHoldingTime() > 300)
+//			{
+//
+//				if (getProfit() > max + buffer && tempCutLoss > buyingPoint - max)
+//				{
+//					tempCutLoss = buyingPoint - max;
+//					Global.addLog("Expected profit updated: " + (buyingPoint - max));
+//				}
+//
+//				else if (getProfit() < max + buffer && getProfit() >= buffer+2 && tempCutLoss > buyingPoint - getProfit() + buffer)
+//				{
+//					tempCutLoss = buyingPoint - getProfit() + buffer;
+//					Global.addLog("Expected profit updated: " + (buyingPoint - getProfit() + buffer));
+//				}
+//
+//			}
+//				
+//		}
+		
+		
+		
+	}
 
 	
 
