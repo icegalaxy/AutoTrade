@@ -100,19 +100,27 @@ public class RuleRR extends Rules
 						XMLWatcher.ohlcs[i].shutdown = true;
 						return;
 					}
+					
+					if (Global.getCurrentPoint() > refLow + 20
+							&& refLow < currentOHLC.cutLoss)
+						{
+							Global.addLog("Rebounded 20 points");
+							break;
+						}
+					
 
 					sleep(waitingTime);
 				}
 
-				if (Global.getCurrentPoint() > refLow + 20)
+				if (Global.getCurrentPoint() > currentOHLC.cutLoss + 20)
 					Global.addLog("Rise to fast, waiting for a pull back");
 
-				while (Global.getCurrentPoint() > refLow + 20 || Global.isRapidDrop())
+				while (Global.getCurrentPoint() > currentOHLC.cutLoss + 20 || Global.isRapidDrop())
 				{
 
 					updateHighLow();
 
-					if (Global.getCurrentPoint() > refLow + (currentOHLC.stopEarn - refLow) / 2)
+					if (Global.getCurrentPoint() > refLow + (currentOHLC.stopEarn - refLow) * 0.7)
 					{
 						Global.addLog("Too far away");
 						XMLWatcher.ohlcs[i].shutdown = true;
@@ -181,19 +189,26 @@ public class RuleRR extends Rules
 						XMLWatcher.ohlcs[i].shutdown = true;
 						return;
 					}
+					
+					if (Global.getCurrentPoint() < refHigh - 20
+							&& refHigh > currentOHLC.cutLoss)
+						{
+							Global.addLog("Rebounded 20 points");
+							break;
+						}
 
 					sleep(waitingTime);
 				}
 
-				if (Global.getCurrentPoint() < refHigh - 20)
+				if (Global.getCurrentPoint() < currentOHLC.cutLoss - 20)
 					Global.addLog("Drop to fast, waiting for a pull back");
 
-				while (Global.getCurrentPoint() < refHigh - 20 || Global.isRapidRise())
+				while (Global.getCurrentPoint() < currentOHLC.cutLoss - 20 || Global.isRapidRise())
 				{
 
 					updateHighLow();
 
-					if (Global.getCurrentPoint() < refHigh - (refHigh - currentOHLC.stopEarn) / 2)
+					if (Global.getCurrentPoint() < refHigh - (refHigh - currentOHLC.stopEarn) * 0.7)
 					{
 						Global.addLog("Too far away");
 						XMLWatcher.ohlcs[i].shutdown = true;
