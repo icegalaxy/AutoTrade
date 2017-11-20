@@ -59,7 +59,7 @@ public class RuleRR extends Rules
 				continue;
 
 			if (getTimeBase().getEma5().getEMA() > currentOHLC.cutLoss
-					&& currentOHLC.stopEarn > currentOHLC.cutLoss && Global.getCurrentPoint() < currentOHLC.cutLoss + 20
+					&& currentOHLC.stopEarn > currentOHLC.cutLoss && Global.getCurrentPoint() < currentOHLC.cutLoss + 10
 					&& Global.getCurrentPoint() > currentOHLC.cutLoss)
 			{
 
@@ -115,6 +115,7 @@ public class RuleRR extends Rules
 					if (Global.getCurrentPoint() > refLow + (currentOHLC.stopEarn - refLow) / 2)
 					{
 						Global.addLog("Too far away");
+						XMLWatcher.ohlcs[i].shutdown = true;
 						return;
 					}
 
@@ -139,7 +140,7 @@ public class RuleRR extends Rules
 				return;
 
 			} else if (getTimeBase().getEma5().getEMA() < currentOHLC.cutLoss
-					&& currentOHLC.stopEarn < currentOHLC.cutLoss && Global.getCurrentPoint() > currentOHLC.cutLoss - 20
+					&& currentOHLC.stopEarn < currentOHLC.cutLoss && Global.getCurrentPoint() > currentOHLC.cutLoss - 10
 					&& Global.getCurrentPoint() < currentOHLC.cutLoss)
 			{
 
@@ -195,6 +196,7 @@ public class RuleRR extends Rules
 					if (Global.getCurrentPoint() < refHigh - (refHigh - currentOHLC.stopEarn) / 2)
 					{
 						Global.addLog("Too far away");
+						XMLWatcher.ohlcs[i].shutdown = true;
 						return;
 					}
 
