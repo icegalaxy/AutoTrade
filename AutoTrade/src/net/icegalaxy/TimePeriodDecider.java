@@ -9,7 +9,7 @@ public class TimePeriodDecider implements Runnable
 	public final int noonOpen = 125959;
 	public final int dayClose = 163001;
 	public final int nightOpen = 171500;
-	public final int nightClose = 234500;
+	public final int nightClose = 235959;
 
 	public final int morningOrderStart = 91500;
 	public final int morningOrderStop = 103000;
@@ -19,7 +19,7 @@ public class TimePeriodDecider implements Runnable
 	public final int nightOrderStop = 231500;
 
 	public final int forceSell = 162500;
-	public final int forceSell2 = 234000;
+	public final int forceSell2 = 235500;
 	private boolean noonClosed;
 	private boolean noonOpened;
 	private boolean dayClosed;
@@ -61,9 +61,9 @@ public class TimePeriodDecider implements Runnable
 					Global.setNoonOpened(true);
 					noonOpened = true;
 				}
-				Global.setTradeTime(true);
-				if (time >= forceSell)
-					Global.setForceSellTime(true);
+//				Global.setTradeTime(true);
+//				if (time >= forceSell)
+//					Global.setForceSellTime(true);
 
 			} else if (time > dayClose && time < nightOpen)
 			{

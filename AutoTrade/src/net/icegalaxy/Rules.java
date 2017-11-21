@@ -550,7 +550,7 @@ public abstract class Rules implements Runnable
 
 			if (Global.isForceSellTime())
 			{
-				Global.addLog(className + ": Force sell");
+				Global.addLog(className + ": Force sell @ " + Global.getCurrentPoint());
 				closeContract("Force Sell");
 				return;
 			}
@@ -599,6 +599,7 @@ public abstract class Rules implements Runnable
 
 			if (Global.isForceSellTime())
 			{
+				Global.addLog(className + ": Force sell @ " + Global.getCurrentPoint());
 				closeContract("Force Sell");
 				return;
 			}
