@@ -94,19 +94,19 @@ public class RuleRR extends Rules
 //						return;
 //					}
 
-					if (refLow < currentOHLC.cutLoss - 20)
+					if (refLow < currentOHLC.cutLoss - 10)
 					{
 						Global.addLog("refLow out of range");
 						XMLWatcher.ohlcs[i].shutdown = true;
 						return;
 					}
 					
-					if (Global.getCurrentPoint() > refLow + 20
-							&& refLow < currentOHLC.cutLoss)
-						{
-							Global.addLog("Rebounded 20 points");
-							break;
-						}
+//					if (Global.getCurrentPoint() > refLow + 20
+//							&& refLow < currentOHLC.cutLoss)
+//						{
+//							Global.addLog("Rebounded 20 points");
+//							break;
+//						}
 					
 
 					sleep(waitingTime);
@@ -132,7 +132,7 @@ public class RuleRR extends Rules
 
 				trailingDown(2);
 
-				if (refLow < currentOHLC.cutLoss - 20)
+				if (refLow < currentOHLC.cutLoss - 10)
 				{
 					Global.addLog("refLow out of range");
 					XMLWatcher.ohlcs[i].shutdown = true;
@@ -183,19 +183,19 @@ public class RuleRR extends Rules
 //						return;
 //					}
 
-					if (refHigh > currentOHLC.cutLoss + 20)
+					if (refHigh > currentOHLC.cutLoss + 10)
 					{
 						Global.addLog("RefHigh out of range");
 						XMLWatcher.ohlcs[i].shutdown = true;
 						return;
 					}
 					
-					if (Global.getCurrentPoint() < refHigh - 20
-							&& refHigh > currentOHLC.cutLoss)
-						{
-							Global.addLog("Rebounded 20 points");
-							break;
-						}
+//					if (Global.getCurrentPoint() < refHigh - 20
+//							&& refHigh > currentOHLC.cutLoss)
+//						{
+//							Global.addLog("Rebounded 20 points");
+//							break;
+//						}
 
 					sleep(waitingTime);
 				}
@@ -220,7 +220,7 @@ public class RuleRR extends Rules
 
 				trailingUp(2);
 
-				if (refHigh > currentOHLC.cutLoss + 20)
+				if (refHigh > currentOHLC.cutLoss + 10)
 				{
 					Global.addLog("RefHigh out of range");
 					XMLWatcher.ohlcs[i].shutdown = true;
