@@ -50,4 +50,19 @@ public class Candle {
 	public double getRsi(){
 		return this.rsi;
 	}
+	
+	public boolean isYinCandle()
+	{
+		return getClose() < getOpen();
+	
+	}
+	
+	public boolean isYangCandle()
+	{
+		return getClose() > getOpen();
+	
+	}
+	
+	
+	
 }

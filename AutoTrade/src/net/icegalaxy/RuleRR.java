@@ -108,6 +108,14 @@ public class RuleRR extends Rules
 //							break;
 //						}
 					
+					if (GetData.getShortTB().getPreviousCandle(1).isYinCandle()
+							&& GetData.getShortTB().getLatestCandle().getClose() > 
+								GetData.getShortTB().getPreviousCandle(1).getOpen())
+					{
+						Global.addLog("1min break previous open");
+						break;			
+					}
+					
 
 					sleep(waitingTime);
 				}
@@ -196,6 +204,14 @@ public class RuleRR extends Rules
 //							Global.addLog("Rebounded 20 points");
 //							break;
 //						}
+					
+					if (GetData.getShortTB().getPreviousCandle(1).isYangCandle()
+							&& GetData.getShortTB().getLatestCandle().getClose() < 
+								GetData.getShortTB().getPreviousCandle(1).getOpen())
+					{
+						Global.addLog("1min break previous open");
+						break;			
+					}
 
 					sleep(waitingTime);
 				}
