@@ -436,7 +436,7 @@ public abstract class Rules implements Runnable
 //		else
 //			refPt = GetData.getShortTB().getLatestCandle().getClose();
 
-		refPt = Global.getCurrentPoint();
+		refPt = GetData.getShortTB().getLatestCandle().getClose();
 		
 
 		if (Global.getNoOfContracts() > 0 && refPt < tempCutLoss)

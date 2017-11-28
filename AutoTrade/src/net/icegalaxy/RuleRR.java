@@ -7,6 +7,9 @@ public class RuleRR extends Rules
 
 	OHLC currentOHLC;
 	double cutLoss;
+	
+	double refHL;
+
 
 	public RuleRR(boolean globalRunRule)
 	{
@@ -64,8 +67,17 @@ public class RuleRR extends Rules
 			{
 
 				Global.addLog("Reached " + currentOHLC.name);
+				
+//				refHL = getTimeBase().getLatestCandle().getOpen();
+				
+//				int currentShortCandleSize = GetData.getShortTB().getCandles().size();
+//				int currentLongCandleSize = GetData.getLongTB().getCandles().size();
 
+//				waitForANewCandle(GetData.getShortTB(), currentShortCandleSize, true);
+				
 				waitForANewCandle();
+				
+//				if (getTimeBase().getLatestCandle().getOpen() < refHL)
 
 //				updateHighLow();
 
@@ -108,13 +120,13 @@ public class RuleRR extends Rules
 //							break;
 //						}
 					
-					if (GetData.getShortTB().getPreviousCandle(1).isYinCandle()
-							&& GetData.getShortTB().getLatestCandle().getClose() > 
-								GetData.getShortTB().getPreviousCandle(1).getOpen())
-					{
-						Global.addLog("1min break previous open");
-						break;			
-					}
+//					if (GetData.getShortTB().getPreviousCandle(1).isYinCandle()
+//							&& GetData.getShortTB().getLatestCandle().getClose() > 
+//								GetData.getShortTB().getPreviousCandle(1).getOpen())
+//					{
+//						Global.addLog("1min break previous open");
+//						break;			
+//					}
 					
 
 					sleep(waitingTime);
@@ -205,13 +217,13 @@ public class RuleRR extends Rules
 //							break;
 //						}
 					
-					if (GetData.getShortTB().getPreviousCandle(1).isYangCandle()
-							&& GetData.getShortTB().getLatestCandle().getClose() < 
-								GetData.getShortTB().getPreviousCandle(1).getOpen())
-					{
-						Global.addLog("1min break previous open");
-						break;			
-					}
+//					if (GetData.getShortTB().getPreviousCandle(1).isYangCandle()
+//							&& GetData.getShortTB().getLatestCandle().getClose() < 
+//								GetData.getShortTB().getPreviousCandle(1).getOpen())
+//					{
+//						Global.addLog("1min break previous open");
+//						break;			
+//					}
 
 					sleep(waitingTime);
 				}
@@ -470,6 +482,32 @@ public class RuleRR extends Rules
 		}
 
 	}
+	
+	public void waitForANewCandle(TimeBase tb, int currentSize, boolean buying)
+	{
+
+		
+		
+		currentSize = tb.getCandles().size();
+
+		while (currentSize == tb.getCandles().size())
+		{
+			
+			updateHighLow();
+			sleep(waitingTime);
+			
+			if (buying)
+			{
+				if (GetData.getShortTB().getLatestCandle().getClose() > GetData.getShortTB().getPreviousCandle(1).getOpen())
+				{
+					Global.addLog("Break previous open");
+					break;	
+				}
+			}
+			
+		}
+
+	}
 
 	// @Override
 	// public void trendReversedAction()
@@ -481,6 +519,6 @@ public class RuleRR extends Rules
 	@Override
 	public TimeBase getTimeBase()
 	{
-		return GetData.getLongTB();
+		return GetData.getShortTB();
 	}
 }
