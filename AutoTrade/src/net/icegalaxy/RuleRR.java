@@ -68,7 +68,7 @@ public class RuleRR extends Rules
 
 				Global.addLog("Reached " + currentOHLC.name);
 				
-//				refHL = getTimeBase().getLatestCandle().getOpen();
+				refHL = getTimeBase().getLatestCandle().getOpen();
 				
 //				int currentShortCandleSize = GetData.getShortTB().getCandles().size();
 //				int currentLongCandleSize = GetData.getLongTB().getCandles().size();
@@ -77,7 +77,11 @@ public class RuleRR extends Rules
 				
 				waitForANewCandle();
 				
-//				if (getTimeBase().getLatestCandle().getOpen() < refHL)
+				if (getTimeBase().getLatestCandle().isYinCandle())
+					refHL = getTimeBase().getLatestCandle().getOpen();
+				
+				//else 跟上面
+				
 
 //				updateHighLow();
 
@@ -131,6 +135,14 @@ public class RuleRR extends Rules
 
 					sleep(waitingTime);
 				}
+				
+				if (getTimeBase().getLatestCandle().getClose() < refHL)
+				{
+					Global.addLog("Not enough energy, wait for next time");
+					waitForANewCandle();
+					return;
+					//Not shutting down
+				}
 
 				if (Global.getCurrentPoint() > currentOHLC.cutLoss + 20)
 					Global.addLog("Rise to fast, waiting for a pull back");
@@ -173,8 +185,18 @@ public class RuleRR extends Rules
 			{
 
 				Global.addLog("Reached " + currentOHLC.name);
+				
+				refHL = getTimeBase().getLatestCandle().getOpen();
+				
+//				int currentShortCandleSize = GetData.getShortTB().getCandles().size();
+//				int currentLongCandleSize = GetData.getLongTB().getCandles().size();
 
+//				waitForANewCandle(GetData.getShortTB(), currentShortCandleSize, true);
+				
 				waitForANewCandle();
+				
+				if (getTimeBase().getLatestCandle().isYangCandle())
+					refHL = getTimeBase().getLatestCandle().getOpen();
 
 //				updateHighLow();
 
@@ -226,6 +248,14 @@ public class RuleRR extends Rules
 //					}
 
 					sleep(waitingTime);
+				}
+				
+				if (getTimeBase().getLatestCandle().getClose() > refHL)
+				{
+					Global.addLog("Not enough energy, wait for next time");
+					waitForANewCandle();
+					return;
+					//Not shutting down
 				}
 
 				if (Global.getCurrentPoint() < currentOHLC.cutLoss - 20)
