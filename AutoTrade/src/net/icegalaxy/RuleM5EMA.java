@@ -362,9 +362,12 @@ public class RuleM5EMA extends Rules
 			}
 
 			if (GetData.getLongTB().getLatestCandle().getLow() > tempCutLoss
-					&& tempCutLoss < stopEarn)		
-					tempCutLoss = Math.min(stopEarn, GetData.getLongTB().getLatestCandle().getLow());
-			
+					&& tempCutLoss < stopEarn)	
+			{
+					double stopEarnPt = Math.min(stopEarn, GetData.getLongTB().getLatestCandle().getLow());
+					Global.addLog("StopEarn update: " + stopEarnPt);
+					tempCutLoss = stopEarnPt;
+			}
 //			if (GetData.getLongTB().getEMA(5) < GetData.getLongTB().getEMA(6))
 //				tempCutLoss = 99999;
 
@@ -379,8 +382,11 @@ public class RuleM5EMA extends Rules
 			
 			if (GetData.getLongTB().getLatestCandle().getHigh() < tempCutLoss
 					&& tempCutLoss > stopEarn)
-				tempCutLoss = Math.max(stopEarn, GetData.getLongTB().getLatestCandle().getHigh());
-			
+			{
+				double stopEarnPt = Math.max(stopEarn, GetData.getLongTB().getLatestCandle().getHigh());
+				Global.addLog("StopEarn update: " + stopEarnPt);
+				tempCutLoss = stopEarnPt;
+			}
 //			if (GetData.getLongTB().getEMA(5) > GetData.getLongTB().getEMA(6))
 //				tempCutLoss = 0;
 		}
@@ -433,6 +439,9 @@ public class RuleM5EMA extends Rules
 					r.start();
 				}
 				
+				if (ema == 0)
+					return; // just not updating the profit line
+				
 				profitLine = ema - 10;
 				
 				if (tempCutLoss < profitLine)
@@ -459,6 +468,9 @@ public class RuleM5EMA extends Rules
 					Thread r = new Thread (raising);
 					r.start();
 				}
+				
+				if (ema == 0)
+					return; // just not updating the profit line
 				
 				profitLine = ema - 10;
 				
@@ -503,6 +515,9 @@ public class RuleM5EMA extends Rules
 					r.start();
 				}
 				
+				if (ema == 0)
+					return;
+				
 				profitLine = ema + 10;
 				
 				if (tempCutLoss > profitLine)
@@ -529,6 +544,9 @@ public class RuleM5EMA extends Rules
 					Thread r = new Thread (raising);
 					r.start();
 				}
+				
+				if (ema == 0)
+					return;
 				
 				profitLine = ema + 10;
 				
