@@ -495,6 +495,16 @@ public class RuleRR extends Rules
 				shutdown = true;
 				return 30;
 			}
+			
+			//Try to take profit if blocked by EMA
+			if (GetData.getLongTB().getEma50().getEMA() - buyingPoint > 50)
+			{
+				return GetData.getLongTB().getEma50().getEMA() - buyingPoint;
+			}else if (GetData.getLongTB().getEma250().getEMA() - buyingPoint > 50)
+			{
+				return GetData.getLongTB().getEma250().getEMA() - buyingPoint;
+			}
+			
 			return Math.max(10, currentOHLC.stopEarn - buyingPoint - 10);
 		} else
 		{
@@ -511,6 +521,16 @@ public class RuleRR extends Rules
 				shutdown = true;
 				return 30;
 			}
+			
+			//Try to take profit if blocked by EMA
+			if (buyingPoint - GetData.getLongTB().getEma50().getEMA() > 50)
+			{
+				return buyingPoint - GetData.getLongTB().getEma50().getEMA();
+			}else if (buyingPoint - GetData.getLongTB().getEma250().getEMA() > 50)
+			{
+				return buyingPoint - GetData.getLongTB().getEma250().getEMA();
+			}
+			
 			return Math.max(10, buyingPoint - currentOHLC.stopEarn - 10);
 		}
 
