@@ -70,6 +70,9 @@ public class RuleRR extends Rules
 				
 				refHL = getTimeBase().getLatestCandle().getOpen();
 				
+						
+						
+				
 //				int currentShortCandleSize = GetData.getShortTB().getCandles().size();
 //				int currentLongCandleSize = GetData.getLongTB().getCandles().size();
 
