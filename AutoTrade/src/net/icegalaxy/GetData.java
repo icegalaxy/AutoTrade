@@ -236,17 +236,32 @@ public class GetData implements Runnable
 
 				// that Math.abs is for when min = 59 and ref = -1
 				// use 10 in case the feeder stopped for serval mins
-				if (min > refMin && Math.abs(min - refMin) < 10)
+				
+				// *** 呢個位無Define refMin，原本係15
+				// *** min 會變
+				
+//				if (min > refMin && Math.abs(min - refMin) < 10)
+//				{
+//
+//					shortMinutes++;
+//					longMinutes++;
+//					m15Minutes++;
+//
+//					if (refMin == 58)
+//						refMin = -1;
+//					else
+//						refMin = min;
+//				}
+				
+				if (min != refMin)
 				{
 
 					shortMinutes++;
 					longMinutes++;
 					m15Minutes++;
 
-					if (refMin == 58)
-						refMin = -1;
-					else
-						refMin = min;
+					
+					refMin = min;
 				}
 
 				// int remain = sec % 10;
@@ -593,7 +608,7 @@ public class GetData implements Runnable
 	static String time = getTime();
 	InputStream is;
 	int min;
-	int refMin = 15;
+	int refMin = 59;
 
 	int macdMin = 0;
 	int timeInFormat;
