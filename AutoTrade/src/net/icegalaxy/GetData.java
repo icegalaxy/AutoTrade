@@ -260,7 +260,10 @@ public class GetData implements Runnable
 					longMinutes++;
 					m15Minutes++;
 
-					
+					System.out.println("Updating... min: " + min);
+					System.out.println("shortMinutes: " + shortMinutes);
+					System.out.println("longMinutes: " + longMinutes);
+					System.out.println("m15Minutes: " + m15Minutes);
 					refMin = min;
 				}
 
@@ -300,7 +303,8 @@ public class GetData implements Runnable
 					}
 				}
 
-				if (shortMinutes == Setting.getShortTB())
+//				 if (shortMinutes == Setting.getShortTB())
+				if (shortMinutes >= 1)
 				{
 
 					if (Global.getOpen() == 0)
@@ -354,7 +358,9 @@ public class GetData implements Runnable
 
 				}
 
-				if (longMinutes == Setting.getLongTB())
+			 //	if (longMinutes == Setting.getLongTB())
+				if (longMinutes == 3)
+
 				{
 
 					for (int x = 0; x < longTB.EMAs.length; x++)
