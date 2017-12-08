@@ -346,7 +346,7 @@ public class GetData implements Runnable
 
 				}
 
-				if (m15Minutes == 15)
+				if (m15Minutes >= 15)
 				{
 
 					getM15TB().addData(point, new Float(totalQuantity));
@@ -359,7 +359,7 @@ public class GetData implements Runnable
 				}
 
 			 //	if (longMinutes == Setting.getLongTB())
-				if (longMinutes == 3)
+				if (longMinutes >= 3)
 
 				{
 
@@ -623,9 +623,9 @@ public class GetData implements Runnable
 	float deal;
 
 	// to add the first data as a candle
-	private int shortMinutes = 1;
-	private int longMinutes = 5;
-	private int m15Minutes = 15;
+	private int shortMinutes = 0;
+	private int longMinutes = 4;
+	private int m15Minutes = 14;
 
 	private int counter = 1;
 	// private int counter10Sec = 0;
