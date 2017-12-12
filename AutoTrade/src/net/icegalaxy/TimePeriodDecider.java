@@ -50,14 +50,16 @@ public class TimePeriodDecider implements Runnable
 				if (!noonClosed)
 				{
 					Global.addLog("Noon Close");
+					Global.setTradeTime(false);
 					noonClosed = true;
 				}
-				Global.setTradeTime(false);
+			
 			} else if (time >= noonOpen && time <= dayClose)
 			{
 				if (!noonOpened)
 				{
 					Global.addLog("Noon Opened");
+					Global.setTradeTime(true); // did not set here before
 					Global.setNoonOpened(true);
 					noonOpened = true;
 				}
@@ -70,9 +72,10 @@ public class TimePeriodDecider implements Runnable
 				if (!dayClosed)
 				{
 					Global.addLog("Day Close");
+					Global.setTradeTime(false);
 					dayClosed = true;
 				}
-				Global.setTradeTime(false);
+				
 				if (Global.isForceSellTime())
 					Global.setForceSellTime(false);
 			} else if (time >= nightOpen)
@@ -80,9 +83,9 @@ public class TimePeriodDecider implements Runnable
 				if (!nightOpened)
 				{
 					Global.addLog("Night Opened");
+					Global.setTradeTime(true);
 					nightOpened = true;
-				}
-				Global.setTradeTime(true);
+				}			
 			}
 
 			if (time >= forceSell2)
