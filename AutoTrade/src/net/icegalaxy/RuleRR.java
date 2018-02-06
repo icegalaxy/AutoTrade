@@ -7,9 +7,8 @@ public class RuleRR extends Rules
 
 	OHLC currentOHLC;
 	double cutLoss;
-	
-	double refHL;
 
+	double refHL;
 
 	public RuleRR(boolean globalRunRule)
 	{
@@ -61,43 +60,43 @@ public class RuleRR extends Rules
 			if (currentOHLC.shutdown)
 				continue;
 
-			if (getTimeBase().getEma5().getEMA() > currentOHLC.cutLoss
-					&& currentOHLC.stopEarn > currentOHLC.cutLoss && Global.getCurrentPoint() < currentOHLC.cutLoss + 10
+			if (getTimeBase().getEma5().getEMA() > currentOHLC.cutLoss && currentOHLC.stopEarn > currentOHLC.cutLoss
+					&& Global.getCurrentPoint() < currentOHLC.cutLoss + 10
 					&& Global.getCurrentPoint() > currentOHLC.cutLoss)
 			{
 
 				Global.addLog("Reached " + currentOHLC.name);
-				
-				refHL = getTimeBase().getLatestCandle().getOpen();
-				
-						
-						
-				
-//				int currentShortCandleSize = GetData.getShortTB().getCandles().size();
-//				int currentLongCandleSize = GetData.getLongTB().getCandles().size();
 
-//				waitForANewCandle(GetData.getShortTB(), currentShortCandleSize, true);
-				
+				refHL = getTimeBase().getLatestCandle().getOpen();
+
+				// int currentShortCandleSize =
+				// GetData.getShortTB().getCandles().size();
+				// int currentLongCandleSize =
+				// GetData.getLongTB().getCandles().size();
+
+				// waitForANewCandle(GetData.getShortTB(),
+				// currentShortCandleSize, true);
+
 				waitForANewCandle();
-				
+
 				if (getTimeBase().getLatestCandle().isYinCandle())
 					refHL = getTimeBase().getLatestCandle().getOpen();
-				
-				//else 跟上面
-				
 
-//				updateHighLow();
+				// else 跟上面
 
-				while (Global.isRapidDrop() || getTimeBase().getLatestCandle().getClose() - getTimeBase().getLatestCandle().getOpen() < 5)
+				// updateHighLow();
+
+				while (Global.isRapidDrop()
+						|| getTimeBase().getLatestCandle().getClose() - getTimeBase().getLatestCandle().getOpen() < 5)
 				{
 
 					updateHighLow();
-					
-//					if (Global.getCurrentPoint() < currentOHLC.cutLoss)
-//					{
-//						Global.addLog("Touched " + currentOHLC.name);
-//						break;
-//					}
+
+					// if (Global.getCurrentPoint() < currentOHLC.cutLoss)
+					// {
+					// Global.addLog("Touched " + currentOHLC.name);
+					// break;
+					// }
 
 					if (isDownTrend())
 					{
@@ -106,12 +105,13 @@ public class RuleRR extends Rules
 						return;
 					}
 
-//					if (GetData.getShortTB().getEma5().getEMA() < currentOHLC.cutLoss)
-//					{
-//						Global.addLog("EMA5 out of range");
-//						XMLWatcher.ohlcs[i].shutdown = true;
-//						return;
-//					}
+					// if (GetData.getShortTB().getEma5().getEMA() <
+					// currentOHLC.cutLoss)
+					// {
+					// Global.addLog("EMA5 out of range");
+					// XMLWatcher.ohlcs[i].shutdown = true;
+					// return;
+					// }
 
 					if (refLow < currentOHLC.cutLoss - 10)
 					{
@@ -119,32 +119,43 @@ public class RuleRR extends Rules
 						XMLWatcher.ohlcs[i].shutdown = true;
 						return;
 					}
-					
-//					if (Global.getCurrentPoint() > refLow + 20
-//							&& refLow < currentOHLC.cutLoss)
-//						{
-//							Global.addLog("Rebounded 20 points");
-//							break;
-//						}
-					
-//					if (GetData.getShortTB().getPreviousCandle(1).isYinCandle()
-//							&& GetData.getShortTB().getLatestCandle().getClose() > 
-//								GetData.getShortTB().getPreviousCandle(1).getOpen())
-//					{
-//						Global.addLog("1min break previous open");
-//						break;			
-//					}
-					
+
+					// if (Global.getCurrentPoint() > refLow + 20
+					// && refLow < currentOHLC.cutLoss)
+					// {
+					// Global.addLog("Rebounded 20 points");
+					// break;
+					// }
+
+					// if
+					// (GetData.getShortTB().getPreviousCandle(1).isYinCandle()
+					// && GetData.getShortTB().getLatestCandle().getClose() >
+					// GetData.getShortTB().getPreviousCandle(1).getOpen())
+					// {
+					// Global.addLog("1min break previous open");
+					// break;
+					// }
 
 					sleep(waitingTime);
 				}
-				
+
 				if (getTimeBase().getLatestCandle().getClose() < refHL)
 				{
 					Global.addLog("Not enough energy, wait for next time");
-					waitForANewCandle();
+
+					for (int x = 0; x < 5; x++)
+					{
+						waitForANewCandle();
+						if (refLow < currentOHLC.cutLoss - 10)
+						{
+							Global.addLog("refLow out of range");
+							XMLWatcher.ohlcs[i].shutdown = true;
+							return;
+						}
+
+					}
 					return;
-					//Not shutting down
+					// Not shutting down
 				}
 
 				if (Global.getCurrentPoint() > currentOHLC.cutLoss + 20)
@@ -176,9 +187,9 @@ public class RuleRR extends Rules
 
 				longContract();
 				Global.addLog("Ref Low: " + refLow);
-				
-				cutLoss = Math.min(refLow -20, currentOHLC.cutLoss - 10);
-				
+
+				cutLoss = Math.min(refLow - 20, currentOHLC.cutLoss - 10);
+
 				Global.addLog("OHLC: " + currentOHLC.name);
 				return;
 
@@ -188,31 +199,35 @@ public class RuleRR extends Rules
 			{
 
 				Global.addLog("Reached " + currentOHLC.name);
-				
-				refHL = getTimeBase().getLatestCandle().getOpen();
-				
-//				int currentShortCandleSize = GetData.getShortTB().getCandles().size();
-//				int currentLongCandleSize = GetData.getLongTB().getCandles().size();
 
-//				waitForANewCandle(GetData.getShortTB(), currentShortCandleSize, true);
-				
+				refHL = getTimeBase().getLatestCandle().getOpen();
+
+				// int currentShortCandleSize =
+				// GetData.getShortTB().getCandles().size();
+				// int currentLongCandleSize =
+				// GetData.getLongTB().getCandles().size();
+
+				// waitForANewCandle(GetData.getShortTB(),
+				// currentShortCandleSize, true);
+
 				waitForANewCandle();
-				
+
 				if (getTimeBase().getLatestCandle().isYangCandle())
 					refHL = getTimeBase().getLatestCandle().getOpen();
 
-//				updateHighLow();
+				// updateHighLow();
 
-				while (Global.isRapidRise() || getTimeBase().getLatestCandle().getOpen() - getTimeBase().getLatestCandle().getClose() < 5)
+				while (Global.isRapidRise()
+						|| getTimeBase().getLatestCandle().getOpen() - getTimeBase().getLatestCandle().getClose() < 5)
 				{
 
 					updateHighLow();
-					
-//					if (Global.getCurrentPoint() > currentOHLC.cutLoss)
-//					{
-//						Global.addLog("Touched " + currentOHLC.name);
-//						break;
-//					}
+
+					// if (Global.getCurrentPoint() > currentOHLC.cutLoss)
+					// {
+					// Global.addLog("Touched " + currentOHLC.name);
+					// break;
+					// }
 
 					if (isUpTrend())
 					{
@@ -221,12 +236,13 @@ public class RuleRR extends Rules
 						return;
 					}
 
-//					if (GetData.getShortTB().getEma5().getEMA() > currentOHLC.cutLoss)
-//					{
-//						Global.addLog("EMA5 out of range");
-//						XMLWatcher.ohlcs[i].shutdown = true;
-//						return;
-//					}
+					// if (GetData.getShortTB().getEma5().getEMA() >
+					// currentOHLC.cutLoss)
+					// {
+					// Global.addLog("EMA5 out of range");
+					// XMLWatcher.ohlcs[i].shutdown = true;
+					// return;
+					// }
 
 					if (refHigh > currentOHLC.cutLoss + 10)
 					{
@@ -234,31 +250,43 @@ public class RuleRR extends Rules
 						XMLWatcher.ohlcs[i].shutdown = true;
 						return;
 					}
-					
-//					if (Global.getCurrentPoint() < refHigh - 20
-//							&& refHigh > currentOHLC.cutLoss)
-//						{
-//							Global.addLog("Rebounded 20 points");
-//							break;
-//						}
-					
-//					if (GetData.getShortTB().getPreviousCandle(1).isYangCandle()
-//							&& GetData.getShortTB().getLatestCandle().getClose() < 
-//								GetData.getShortTB().getPreviousCandle(1).getOpen())
-//					{
-//						Global.addLog("1min break previous open");
-//						break;			
-//					}
+
+					// if (Global.getCurrentPoint() < refHigh - 20
+					// && refHigh > currentOHLC.cutLoss)
+					// {
+					// Global.addLog("Rebounded 20 points");
+					// break;
+					// }
+
+					// if
+					// (GetData.getShortTB().getPreviousCandle(1).isYangCandle()
+					// && GetData.getShortTB().getLatestCandle().getClose() <
+					// GetData.getShortTB().getPreviousCandle(1).getOpen())
+					// {
+					// Global.addLog("1min break previous open");
+					// break;
+					// }
 
 					sleep(waitingTime);
 				}
-				
+
 				if (getTimeBase().getLatestCandle().getClose() > refHL)
 				{
 					Global.addLog("Not enough energy, wait for next time");
-					waitForANewCandle();
+
+					for (int x = 0; x < 5; x++)
+					{
+						waitForANewCandle();
+						if (refHigh > currentOHLC.cutLoss + 10)
+						{
+							Global.addLog("RefHigh out of range");
+							XMLWatcher.ohlcs[i].shutdown = true;
+							return;
+						}
+					}
+
 					return;
-					//Not shutting down
+					// Not shutting down
 				}
 
 				if (Global.getCurrentPoint() < currentOHLC.cutLoss - 20)
@@ -290,9 +318,9 @@ public class RuleRR extends Rules
 
 				shortContract();
 				Global.addLog("Ref High: " + refHigh);
-				
+
 				cutLoss = Math.max(refHigh + 20, currentOHLC.cutLoss + 10);
-				
+
 				Global.addLog("OHLC: " + currentOHLC.name);
 				return;
 
@@ -313,8 +341,7 @@ public class RuleRR extends Rules
 		{
 
 			// set 10 pts below cutLoss
-			
-			
+
 			if (tempCutLoss < cutLoss)
 				tempCutLoss = cutLoss;
 
@@ -340,7 +367,6 @@ public class RuleRR extends Rules
 			// if (tempCutLoss > currentOHLC.cutLoss + 10 && refLow <
 			// currentOHLC.cutLoss - 30)
 			// tempCutLoss = currentOHLC.cutLoss + 10;
-
 
 			if (tempCutLoss > cutLoss)
 				tempCutLoss = cutLoss;
@@ -414,8 +440,7 @@ public class RuleRR extends Rules
 			{
 				closeContract(className + ": Break even, short @ " + Global.getCurrentBid());
 				shutdown = true;
-			}
-			else if (Global.getCurrentPoint() < tempCutLoss)
+			} else if (Global.getCurrentPoint() < tempCutLoss)
 				closeContract(className + ": StopEarn, short @ " + Global.getCurrentBid());
 
 		} else if (Global.getNoOfContracts() < 0)
@@ -425,8 +450,7 @@ public class RuleRR extends Rules
 			{
 				closeContract(className + ": Break even, long @ " + Global.getCurrentAsk());
 				shutdown = true;
-			}
-			else if (Global.getCurrentPoint() > tempCutLoss)
+			} else if (Global.getCurrentPoint() > tempCutLoss)
 				closeContract(className + ": StopEarn, long @ " + Global.getCurrentAsk());
 
 		}
@@ -495,16 +519,16 @@ public class RuleRR extends Rules
 				shutdown = true;
 				return 30;
 			}
-			
-			//Try to take profit if blocked by EMA
+
+			// Try to take profit if blocked by EMA
 			if (GetData.getLongTB().getEma50().getEMA() - buyingPoint > 50)
 			{
 				return GetData.getLongTB().getEma50().getEMA() - buyingPoint;
-			}else if (GetData.getLongTB().getEma250().getEMA() - buyingPoint > 50)
+			} else if (GetData.getLongTB().getEma250().getEMA() - buyingPoint > 50)
 			{
 				return GetData.getLongTB().getEma250().getEMA() - buyingPoint;
 			}
-			
+
 			return Math.max(10, currentOHLC.stopEarn - buyingPoint - 10);
 		} else
 		{
@@ -521,43 +545,42 @@ public class RuleRR extends Rules
 				shutdown = true;
 				return 30;
 			}
-			
-			//Try to take profit if blocked by EMA
+
+			// Try to take profit if blocked by EMA
 			if (buyingPoint - GetData.getLongTB().getEma50().getEMA() > 50)
 			{
 				return buyingPoint - GetData.getLongTB().getEma50().getEMA();
-			}else if (buyingPoint - GetData.getLongTB().getEma250().getEMA() > 50)
+			} else if (buyingPoint - GetData.getLongTB().getEma250().getEMA() > 50)
 			{
 				return buyingPoint - GetData.getLongTB().getEma250().getEMA();
 			}
-			
+
 			return Math.max(10, buyingPoint - currentOHLC.stopEarn - 10);
 		}
 
 	}
-	
+
 	public void waitForANewCandle(TimeBase tb, int currentSize, boolean buying)
 	{
 
-		
-		
 		currentSize = tb.getCandles().size();
 
 		while (currentSize == tb.getCandles().size())
 		{
-			
+
 			updateHighLow();
 			sleep(waitingTime);
-			
+
 			if (buying)
 			{
-				if (GetData.getShortTB().getLatestCandle().getClose() > GetData.getShortTB().getPreviousCandle(1).getOpen())
+				if (GetData.getShortTB().getLatestCandle().getClose() > GetData.getShortTB().getPreviousCandle(1)
+						.getOpen())
 				{
 					Global.addLog("Break previous open");
-					break;	
+					break;
 				}
 			}
-			
+
 		}
 
 	}
