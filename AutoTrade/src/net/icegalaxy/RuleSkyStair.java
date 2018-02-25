@@ -377,7 +377,9 @@ public class RuleSkyStair extends Rules
 				stopEarn = XMLWatcher.stairs.get(i).value;
 			
 		}
-		return stopEarn;
+		
+		//for the Max or Min of stair
+		return Math.min(stopEarn, value + 100);
 	}
 	
 	double getShortStopEarn(double value){
@@ -392,7 +394,7 @@ public class RuleSkyStair extends Rules
 				stopEarn = XMLWatcher.stairs.get(i).value;
 			
 		}
-		return stopEarn;
+		return Math.min(stopEarn, value - 100);
 	}
 	
 	
