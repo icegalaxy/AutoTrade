@@ -250,6 +250,8 @@ public class XMLWatcher implements Runnable
 			st.cutLoss = sc2.nextDouble();
 			sc2.close();
 			
+			Global.addLog("Stair: " + st.lineType + ", value: " + st.value);
+			
 			stairs.add(st);
 			
 		}
