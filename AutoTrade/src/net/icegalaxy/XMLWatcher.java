@@ -1,6 +1,9 @@
 package net.icegalaxy;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.Scanner;
 
 
 //Use the OPEN Line
@@ -8,12 +11,15 @@ import java.io.File;
 public class XMLWatcher implements Runnable
 {
 
+	public static ArrayList<Stair> stairs;
+	
 	public static IntraDayReader intraDay;
 	public static IntraDayReader ema;
 	XMLReader ohlc;
 	static String intraDayXMLPath = "C:\\Users\\joech\\Dropbox\\TradeData\\Intraday.xml";
 	static String OHLCPath = "C:\\Users\\joech\\Dropbox\\TradeData\\FHIdata.xml";
 	static String EMAPath = "C:\\Users\\joech\\Dropbox\\TradeData\\EMA.xml";
+	static String StairPath = "C:\\Users\\joech\\Dropbox\\TradeData\\stair.csv";
 	
 	
 	public static boolean M5EMA50;
@@ -51,6 +57,7 @@ public class XMLWatcher implements Runnable
 	private long intraDayModifiedTime;
 	private long FHIDataModifiedTime;
 	private long EMAModifiedTime;
+	private long stairModifiedTime;
 
 	private int secCounter;
 
@@ -60,6 +67,9 @@ public class XMLWatcher implements Runnable
 		intraDayModifiedTime = new File(intraDayXMLPath).lastModified();
 		FHIDataModifiedTime = new File(OHLCPath).lastModified();
 		EMAModifiedTime = new File(EMAPath).lastModified();
+		stairModifiedTime = new File(StairPath).lastModified();
+		
+		stairs = new ArrayList<Stair>();
 		
 		intraDay = new IntraDayReader(Global.getToday(), intraDayXMLPath);
 
@@ -101,6 +111,8 @@ public class XMLWatcher implements Runnable
 	public void run()
 	{
 
+		readStairs();
+		
 		//reset XMLWatcher
 		XMLWatcher.updateIntraDayXML("stair", "0");
 		XMLWatcher.updateIntraDayXML("cutLoss", "0");
@@ -129,6 +141,7 @@ public class XMLWatcher implements Runnable
 		RuleIBT ibt = new RuleIBT(true);
 		RuleRange range = new RuleRange(true);
 		RuleM5EMA m5ema = new RuleM5EMA(true);
+		RuleSkyStair ss = new RuleSkyStair(true);
 //		RuleBreakOut breakOut = new RuleBreakOut(true);
 		Thread s = new Thread(sar);
 		s.start();
@@ -142,6 +155,8 @@ public class XMLWatcher implements Runnable
 		e.start();
 //		Thread b = new Thread(breakOut);
 //		b.start();
+		Thread ts = new Thread(ss);
+		ts.start();
 
 		while (Global.isRunning())
 		{
@@ -190,12 +205,58 @@ public class XMLWatcher implements Runnable
 				{
 					x.printStackTrace();
 				}
+				
+				if (isStairModified(StairPath))
+					readStairs();
 
 			}
 
 			secCounter++;
 			sleep(1000);
 		}
+	}
+
+	private void readStairs()
+	{
+		Scanner sc = null;
+		try
+		{
+			sc = new Scanner(new File(StairPath));
+		} catch (FileNotFoundException e)
+		{
+			e.printStackTrace();
+		}
+		
+		sc.useDelimiter("\r\n");
+		
+		ArrayList<String> lines = new ArrayList<String>();
+		
+		sc.next();
+		
+		while(sc.hasNext())
+			lines.add(sc.next());
+		
+		sc.close();
+		
+		for (int i=0; i<lines.size(); i++)
+		{
+			Scanner sc2 = new Scanner(lines.get(i));
+			sc2.useDelimiter(",");
+			
+			Stair st = new Stair();
+			
+			st.lineType = sc2.next();
+			st.value = sc2.nextDouble();
+			st.cutLoss = sc2.nextDouble();
+			sc2.close();
+			
+			Global.addLog("Stair: " + st.lineType + ", value: " + st.value);
+			
+			stairs.add(st);
+			
+		}
+		
+		
 	}
 
 	private void setEMA()
@@ -226,6 +287,20 @@ public class XMLWatcher implements Runnable
 		{
 			FHIDataModifiedTime = new File(filePath).lastModified();
 			Global.addLog("OHLC XML file updated");
+			return true;
+		}
+
+	}
+	
+	private boolean isStairModified(String filePath)
+	{
+
+		if (stairModifiedTime == new File(filePath).lastModified())
+			return false;
+		else
+		{
+			stairModifiedTime = new File(filePath).lastModified();
+			Global.addLog("Stair.csv updated");
 			return true;
 		}
 
