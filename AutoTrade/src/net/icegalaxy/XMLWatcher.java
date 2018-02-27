@@ -69,7 +69,7 @@ public class XMLWatcher implements Runnable
 		EMAModifiedTime = new File(EMAPath).lastModified();
 		stairModifiedTime = new File(StairPath).lastModified();
 		
-		stairs = new ArrayList<Stair>();
+	//	stairs = new ArrayList<Stair>(); not created here, should be created everytime updated.
 		
 		intraDay = new IntraDayReader(Global.getToday(), intraDayXMLPath);
 
@@ -237,6 +237,8 @@ public class XMLWatcher implements Runnable
 			lines.add(sc.next());
 		
 		sc.close();
+		
+		stairs = new ArrayList<Stair>();
 		
 		for (int i=0; i<lines.size(); i++)
 		{
