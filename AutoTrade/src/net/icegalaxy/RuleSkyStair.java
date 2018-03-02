@@ -10,8 +10,8 @@ public class RuleSkyStair extends Rules
 	int currentStairIndex;
 	ArrayList<Integer> shutdownIndex;
 	double cutLoss;
-
 	double refHL;
+	int reActivatePeriod = 10000;
 
 	public RuleSkyStair(boolean globalRunRule)
 	{
@@ -37,7 +37,7 @@ public class RuleSkyStair extends Rules
 		{
 			for (int i=0; i<shutdownIndex.size(); i++)
 			{
-				if (GetData.getTimeInt() - XMLWatcher.stairs.get(shutdownIndex.get(i)).shutdownTime > 10000)
+				if (GetData.getTimeInt() > XMLWatcher.stairs.get(shutdownIndex.get(i)).reActivateTime)
 				{
 					XMLWatcher.stairs.get(shutdownIndex.get(i)).buying = true;	
 					XMLWatcher.stairs.get(shutdownIndex.get(i)).selling = true;
@@ -72,7 +72,7 @@ public class RuleSkyStair extends Rules
 					&& Global.getCurrentPoint() > currentOHLC.value)
 			{
 				
-				if (!currentOHLC.buying)
+				if (!currentOHLC.buying || currentOHLC.shutdown)
 					continue;
 
 				Global.addLog("Reached " + currentOHLC.lineType + " @ " + currentOHLC.value);
@@ -103,7 +103,7 @@ public class RuleSkyStair extends Rules
 					{
 						Global.addLog("refLow out of range");
 						XMLWatcher.stairs.get(i).buying = false;
-						XMLWatcher.stairs.get(i).shutdownTime = GetData.getTimeInt();
+						XMLWatcher.stairs.get(i).reActivateTime = GetData.getTimeInt() + reActivatePeriod;
 						shutdownIndex.add(i);
 //						shutdown = true;
 						return;
@@ -125,7 +125,7 @@ public class RuleSkyStair extends Rules
 						{
 							Global.addLog("refLow out of range");
 							XMLWatcher.stairs.get(i).buying = false;
-							XMLWatcher.stairs.get(i).shutdownTime = GetData.getTimeInt();
+							XMLWatcher.stairs.get(i).reActivateTime = GetData.getTimeInt() + reActivatePeriod;;
 							shutdownIndex.add(i);
 //							shutdown = true;
 							return;
@@ -162,7 +162,7 @@ public class RuleSkyStair extends Rules
 				{
 					Global.addLog("refLow out of range");
 					XMLWatcher.stairs.get(i).buying = false;
-					XMLWatcher.stairs.get(i).shutdownTime = GetData.getTimeInt();
+					XMLWatcher.stairs.get(i).reActivateTime = GetData.getTimeInt() + reActivatePeriod;;
 					shutdownIndex.add(i);
 //					shutdown = true;
 					return;
@@ -181,7 +181,7 @@ public class RuleSkyStair extends Rules
 					&& Global.getCurrentPoint() < currentOHLC.value)
 			{
 				
-				if (!currentOHLC.selling)
+				if (!currentOHLC.selling || currentOHLC.shutdown)
 					continue;
 
 				Global.addLog("Reached " + currentOHLC.lineType + " @ " + currentOHLC.value);
@@ -215,7 +215,7 @@ public class RuleSkyStair extends Rules
 					{
 						Global.addLog("RefHigh out of range");
 						XMLWatcher.stairs.get(i).selling = false;
-						XMLWatcher.stairs.get(i).shutdownTime = GetData.getTimeInt();
+						XMLWatcher.stairs.get(i).reActivateTime = GetData.getTimeInt() + reActivatePeriod;;
 						shutdownIndex.add(i);
 //						shutdown = true;
 						return;
@@ -236,7 +236,7 @@ public class RuleSkyStair extends Rules
 						{
 							Global.addLog("RefHigh out of range");
 							XMLWatcher.stairs.get(i).selling = false;
-							XMLWatcher.stairs.get(i).shutdownTime = GetData.getTimeInt();
+							XMLWatcher.stairs.get(i).reActivateTime = GetData.getTimeInt() + reActivatePeriod;;
 							shutdownIndex.add(i);
 //							shutdown = true;
 							return;
@@ -271,7 +271,7 @@ public class RuleSkyStair extends Rules
 				{
 					Global.addLog("RefHigh out of range");
 					XMLWatcher.stairs.get(i).selling = false;
-					XMLWatcher.stairs.get(i).shutdownTime = GetData.getTimeInt();
+					XMLWatcher.stairs.get(i).reActivateTime = GetData.getTimeInt() + reActivatePeriod;;
 					shutdownIndex.add(i);
 //					shutdown = true;
 					return;
@@ -395,6 +395,8 @@ public class RuleSkyStair extends Rules
 		
 		double stopEarn = 99999;
 		
+		
+		
 		for (int i=0; i<XMLWatcher.stairs.size(); i++)
 		{
 			if (XMLWatcher.stairs.get(i).value - value < stopEarn
@@ -404,8 +406,13 @@ public class RuleSkyStair extends Rules
 			
 		}
 		
-		//for the Max or Min of stair
-		return Math.min(stopEarn, value + 100);
+		if (TimePeriodDecider.nightOpened)
+			return value + 50;
+		
+		if (stopEarn == 99999) 	//for the Max or Min of stair
+			return value+100;
+		
+		return Math.max(stopEarn, value + 50);
 	}
 	
 	double getShortStopEarn(double value){
@@ -420,7 +427,14 @@ public class RuleSkyStair extends Rules
 				stopEarn = XMLWatcher.stairs.get(i).value;
 			
 		}
-		return Math.min(stopEarn, value - 100);
+		
+		if (TimePeriodDecider.nightOpened)
+			return value - 50;
+		
+		if (stopEarn == 99999) 	//for the Max or Min of stair
+			return value - 100;
+		
+		return Math.min(stopEarn, value - 50);
 	}
 	
 	
@@ -600,7 +614,7 @@ public class RuleSkyStair extends Rules
 			
 			closeContract(className + ": CutLoss, short @ " + Global.getCurrentBid());
 			XMLWatcher.stairs.get(currentStairIndex).buying = false;
-			XMLWatcher.stairs.get(currentStairIndex).shutdownTime = GetData.getTimeInt();
+			XMLWatcher.stairs.get(currentStairIndex).reActivateTime = GetData.getTimeInt() + reActivatePeriod;;
 			shutdownIndex.add(currentStairIndex);
 //			shutdown = true;
 			
@@ -615,7 +629,7 @@ public class RuleSkyStair extends Rules
 			
 			closeContract(className + ": CutLoss, long @ " + Global.getCurrentAsk());
 			XMLWatcher.stairs.get(currentStairIndex).selling = false;
-			XMLWatcher.stairs.get(currentStairIndex).shutdownTime = GetData.getTimeInt();
+			XMLWatcher.stairs.get(currentStairIndex).reActivateTime = GetData.getTimeInt() + reActivatePeriod;;
 			shutdownIndex.add(currentStairIndex);
 //			shutdown = true;
 		}
