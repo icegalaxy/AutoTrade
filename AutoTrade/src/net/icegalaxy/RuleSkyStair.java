@@ -37,11 +37,11 @@ public class RuleSkyStair extends Rules
 		{
 			for (int i=0; i<shutdownIndex.size(); i++)
 			{
-				if (GetData.getTimeInt() - XMLWatcher.stairs.get(i).shutdownTime > 10000)
+				if (GetData.getTimeInt() - XMLWatcher.stairs.get(shutdownIndex.get(i)).shutdownTime > 10000)
 				{
-					XMLWatcher.stairs.get(i).buying = true;	
-					XMLWatcher.stairs.get(i).selling = true;
-					Global.addLog("Re-activate: " + XMLWatcher.stairs.get(i).lineType + " @ " + XMLWatcher.stairs.get(i).value);
+					XMLWatcher.stairs.get(shutdownIndex.get(i)).buying = true;	
+					XMLWatcher.stairs.get(shutdownIndex.get(i)).selling = true;
+					Global.addLog("Re-activate: " + XMLWatcher.stairs.get(shutdownIndex.get(i)).lineType + " @ " + XMLWatcher.stairs.get(shutdownIndex.get(i)).value);
 					shutdownIndex.remove(i);
 				}
 			}		
