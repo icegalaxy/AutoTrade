@@ -1,10 +1,14 @@
 package net.icegalaxy;
 
+import java.util.ArrayList;
+
 //Use the OPEN Line
 
 public class RuleSkyStair extends Rules
 {
 	Stair currentOHLC;
+	int currentStairIndex;
+	ArrayList<Integer> shutdownIndex;
 	double cutLoss;
 
 	double refHL;
@@ -17,6 +21,7 @@ public class RuleSkyStair extends Rules
 																		// the
 																		// first
 																		// 3min
+		shutdownIndex = new ArrayList<Integer>();
 		// wait for EMA6, that's why 0945
 	}
 
@@ -27,33 +32,30 @@ public class RuleSkyStair extends Rules
 			return;
 
 		
-		if (shutdown)
+		//RE-activate after 1hr
+		if (shutdownIndex.size() > 0)
 		{
-			for (int i = 0; i < XMLWatcher.stairs.size(); i++)
+			for (int i=0; i<shutdownIndex.size(); i++)
 			{
-				if (currentOHLC.value == XMLWatcher.stairs.get(i).value)
+				if (GetData.getTimeInt() - XMLWatcher.stairs.get(i).shutdownTime > 10000)
 				{
-					XMLWatcher.stairs.get(i).shutdown = true;
-					XMLWatcher.stairs.get(i).shutdownTime = GetData.getTimeInt();
+					XMLWatcher.stairs.get(i).buying = true;	
+					XMLWatcher.stairs.get(i).selling = true;
+					Global.addLog("Re-activate: " + XMLWatcher.stairs.get(i).lineType + " @ " + XMLWatcher.stairs.get(i).value);
+					shutdownIndex.remove(i);
 				}
-			}
-			shutdown = false;
+			}		
 		}
 		
+
 		
-
-
+	
 
 		for (int i = 0; i < XMLWatcher.stairs.size(); i++)
 		{
-			//Re-activate after 1hr
-			if (XMLWatcher.stairs.get(i).shutdown)
-			{
-				if (GetData.getTimeInt() - XMLWatcher.stairs.get(i).shutdownTime > 10000)
-					XMLWatcher.stairs.get(i).shutdown = false;
-			}
 			
 			currentOHLC = XMLWatcher.stairs.get(i);
+			currentStairIndex = i;
 
 			if (Global.getNoOfContracts() != 0)
 				return;
@@ -61,16 +63,19 @@ public class RuleSkyStair extends Rules
 			if (currentOHLC.value == 0)
 				continue;
 
-			if (currentOHLC.shutdown)
-				continue;
+//			if (currentOHLC.shutdown)
+//				continue;
 
 			//Long
 			if (getTimeBase().getEma5().getEMA() > currentOHLC.value
 					&& Global.getCurrentPoint() < currentOHLC.value + 10
 					&& Global.getCurrentPoint() > currentOHLC.value)
 			{
+				
+				if (!currentOHLC.buying)
+					continue;
 
-				Global.addLog("Reached " + currentOHLC.lineType);
+				Global.addLog("Reached " + currentOHLC.lineType + " @ " + currentOHLC.value);
 
 				refHL = getTimeBase().getLatestCandle().getOpen();
 
@@ -97,7 +102,10 @@ public class RuleSkyStair extends Rules
 					if (refLow < currentOHLC.value - 10)
 					{
 						Global.addLog("refLow out of range");
-						shutdown = true;
+						XMLWatcher.stairs.get(i).buying = false;
+						XMLWatcher.stairs.get(i).shutdownTime = GetData.getTimeInt();
+						shutdownIndex.add(i);
+//						shutdown = true;
 						return;
 					}
 
@@ -116,7 +124,10 @@ public class RuleSkyStair extends Rules
 						if (refLow < currentOHLC.value - 10)
 						{
 							Global.addLog("refLow out of range");
-							shutdown = true;
+							XMLWatcher.stairs.get(i).buying = false;
+							XMLWatcher.stairs.get(i).shutdownTime = GetData.getTimeInt();
+							shutdownIndex.add(i);
+//							shutdown = true;
 							return;
 						}
 
@@ -150,7 +161,10 @@ public class RuleSkyStair extends Rules
 				if (refLow < currentOHLC.value - 10)
 				{
 					Global.addLog("refLow out of range");
-					shutdown = true;
+					XMLWatcher.stairs.get(i).buying = false;
+					XMLWatcher.stairs.get(i).shutdownTime = GetData.getTimeInt();
+					shutdownIndex.add(i);
+//					shutdown = true;
 					return;
 				}
 
@@ -166,8 +180,11 @@ public class RuleSkyStair extends Rules
 					&& Global.getCurrentPoint() > currentOHLC.value - 10
 					&& Global.getCurrentPoint() < currentOHLC.value)
 			{
+				
+				if (!currentOHLC.selling)
+					continue;
 
-				Global.addLog("Reached " + currentOHLC.lineType);
+				Global.addLog("Reached " + currentOHLC.lineType + " @ " + currentOHLC.value);
 
 				refHL = getTimeBase().getLatestCandle().getOpen();
 
@@ -197,7 +214,10 @@ public class RuleSkyStair extends Rules
 					if (refHigh > currentOHLC.value + 10)
 					{
 						Global.addLog("RefHigh out of range");
-						shutdown = true;
+						XMLWatcher.stairs.get(i).selling = false;
+						XMLWatcher.stairs.get(i).shutdownTime = GetData.getTimeInt();
+						shutdownIndex.add(i);
+//						shutdown = true;
 						return;
 					}
 
@@ -215,7 +235,10 @@ public class RuleSkyStair extends Rules
 						if (refHigh > currentOHLC.value + 10)
 						{
 							Global.addLog("RefHigh out of range");
-							shutdown = true;
+							XMLWatcher.stairs.get(i).selling = false;
+							XMLWatcher.stairs.get(i).shutdownTime = GetData.getTimeInt();
+							shutdownIndex.add(i);
+//							shutdown = true;
 							return;
 						}
 					}
@@ -235,7 +258,7 @@ public class RuleSkyStair extends Rules
 					if (Global.getCurrentPoint() < refHigh - (refHigh - getShortStopEarn(currentOHLC.value) ) * 0.7)
 					{
 						Global.addLog("Too far away");
-						shutdown = true;
+//						shutdown = true;
 						return;
 					}
 
@@ -247,7 +270,10 @@ public class RuleSkyStair extends Rules
 				if (refHigh > currentOHLC.value + 10)
 				{
 					Global.addLog("RefHigh out of range");
-					shutdown = true;
+					XMLWatcher.stairs.get(i).selling = false;
+					XMLWatcher.stairs.get(i).shutdownTime = GetData.getTimeInt();
+					shutdownIndex.add(i);
+//					shutdown = true;
 					return;
 				}
 
@@ -552,6 +578,47 @@ public class RuleSkyStair extends Rules
 
 		}
 
+	}
+	
+	@Override
+	protected void cutLoss()
+	{
+
+		double refPt = 0;
+
+		refPt = GetData.getShortTB().getLatestCandle().getClose();
+		
+
+		if (Global.getNoOfContracts() > 0 && refPt < tempCutLoss)
+		{
+			
+			if (getProfit() > 5)
+			{
+				stopEarn();
+				return;
+			}
+			
+			closeContract(className + ": CutLoss, short @ " + Global.getCurrentBid());
+			XMLWatcher.stairs.get(currentStairIndex).buying = false;
+			XMLWatcher.stairs.get(currentStairIndex).shutdownTime = GetData.getTimeInt();
+			shutdownIndex.add(currentStairIndex);
+//			shutdown = true;
+			
+		} else if (Global.getNoOfContracts() < 0 && refPt > tempCutLoss)
+		{
+			
+			if (getProfit() > 5)
+			{
+				stopEarn();
+				return;
+			}
+			
+			closeContract(className + ": CutLoss, long @ " + Global.getCurrentAsk());
+			XMLWatcher.stairs.get(currentStairIndex).selling = false;
+			XMLWatcher.stairs.get(currentStairIndex).shutdownTime = GetData.getTimeInt();
+			shutdownIndex.add(currentStairIndex);
+//			shutdown = true;
+		}
 	}
 
 	// @Override

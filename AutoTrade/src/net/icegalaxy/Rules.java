@@ -94,14 +94,16 @@ public abstract class Rules implements Runnable
 	
 	void trailingDown(int points)
 	{
-		double refLow = 99999;
+		double trailingLow = 99999;
 
 		
-		while (Global.getCurrentPoint() < refLow + points)
+		while (Global.getCurrentPoint() < trailingLow + points)
 		{
-			if (Global.getCurrentPoint() < refLow){
-				refLow = Global.getCurrentPoint();
-				Global.addLog("RefLow updated: " + refLow);
+			if (Global.getCurrentPoint() < trailingLow){
+				trailingLow = Global.getCurrentPoint();
+				if (trailingLow < refLow)
+					refLow = trailingLow;
+				Global.addLog("Trailing Low updated: " + trailingLow);
 			}
 			
 			updateHighLow();
@@ -111,13 +113,15 @@ public abstract class Rules implements Runnable
 	
 	void trailingUp(int points)
 	{
-		double refHigh = 0;
+		double trailingHigh = 0;
 		
-		while (Global.getCurrentPoint() > refHigh - points)
+		while (Global.getCurrentPoint() > trailingHigh - points)
 		{
-			if (Global.getCurrentPoint() > refHigh){
-				refHigh = Global.getCurrentPoint();
-				Global.addLog("RefHigh updated: " + refHigh);
+			if (Global.getCurrentPoint() > trailingHigh){
+				trailingHigh = Global.getCurrentPoint();
+				if (trailingHigh > refHigh)
+					refHigh = trailingHigh;
+				Global.addLog("Trailing High updated: " + trailingHigh);
 			}
 			
 			updateHighLow();
