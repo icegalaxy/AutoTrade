@@ -31,7 +31,7 @@ public class SPApi
 	static final String license = "76C2FB5B60006C7A";
 	static final String app_id = "BS";
 	static final String userid = "T865829";
-	static final String password = "ting1980";
+	static String password = "";
 	static final String server = "futures.bsgroup.com.hk";
 
 	
@@ -536,6 +536,8 @@ public class SPApi
 	public static int init()
 	{
 		int status = 0;
+		System.out.print("Enter password:");
+		password = System.console().readLine();
 
 		status += SPApiDll.INSTANCE.SPAPI_Initialize();
 		SPApiDll.INSTANCE.SPAPI_SetLoginInfo(server, port, license, app_id, userid, password);
