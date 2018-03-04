@@ -24,7 +24,7 @@ public class Setting extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	public static int password;
+	public static Integer password;
 	private JTextField passwordField;
 	private JTextField maxContracts;
 	private JButton startBtn;

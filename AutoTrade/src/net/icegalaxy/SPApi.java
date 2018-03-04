@@ -548,7 +548,7 @@ public class SPApi
 			keyIn.close();
 
 		}
-//		password = System.console().readLine();
+		password = Setting.password.toString();
 
 		status += SPApiDll.INSTANCE.SPAPI_Initialize();
 		SPApiDll.INSTANCE.SPAPI_SetLoginInfo(server, port, license, app_id, userid, password);
