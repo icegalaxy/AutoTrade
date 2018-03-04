@@ -3,7 +3,7 @@ package net.icegalaxy;
 
 import java.util.Arrays;
 import java.util.List;
-
+import java.util.Scanner;
 
 import com.sun.jna.Callback;
 
@@ -536,8 +536,19 @@ public class SPApi
 	public static int init()
 	{
 		int status = 0;
-		System.out.print("Enter password:");
-		password = System.console().readLine();
+		if (Setting.password == 0)
+		{
+			
+			Scanner keyIn = new Scanner(System.in);
+
+			Global.addLog("Enter password!!!");
+			keyIn.nextLine();
+			keyIn.nextLine();
+			
+			keyIn.close();
+
+		}
+//		password = System.console().readLine();
 
 		status += SPApiDll.INSTANCE.SPAPI_Initialize();
 		SPApiDll.INSTANCE.SPAPI_SetLoginInfo(server, port, license, app_id, userid, password);

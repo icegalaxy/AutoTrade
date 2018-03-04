@@ -24,8 +24,8 @@ public class Setting extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 	
-
-	private JTextField greatProfit;
+	public static int password;
+	private JTextField passwordField;
 	private JTextField maxContracts;
 	private JButton startBtn;
 	private JButton stopBtn;
@@ -47,7 +47,7 @@ public class Setting extends JFrame {
 		setLayout(new FlowLayout());
 
 		result = new JTextArea();
-		greatProfit = new JTextField("40", 40);
+		passwordField = new JTextField("0", 40);
 		maxContracts = new JTextField("3", 40);
 		startBtn = new JButton("Start");
 		stopBtn = new JButton("Stop");
@@ -60,7 +60,7 @@ public class Setting extends JFrame {
 
 
 		add(new JLabel("Great Profit Point"));
-		add(greatProfit);
+		add(passwordField);
 
 		add(new JLabel("Max Contracts"));
 		add(maxContracts);
@@ -84,7 +84,10 @@ public class Setting extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 
 				Global.setCutLost(20);
-				Global.setGreatProfit(new Float(greatProfit.getText()));
+				
+				password = new Integer(passwordField.getText());
+				
+//				Global.setGreatProfit(new Float(passwordField.getText()));
 				Global.maxContracts = new Integer(maxContracts.getText());
 				shortTB = new Integer(1);
 				mediumTB = new Integer(3);
