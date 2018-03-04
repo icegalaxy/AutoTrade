@@ -250,6 +250,11 @@ public class XMLWatcher implements Runnable
 			st.lineType = sc2.next();
 			st.value = sc2.nextDouble();
 			st.cutLoss = sc2.nextDouble();
+			st.buying = sc2.nextBoolean();
+			st.selling = sc2.nextBoolean();
+			st.reActivateTime = sc2.nextInt();
+			st.shutdown = sc2.nextBoolean();
+			
 			sc2.close();
 			
 			Global.addLog("Stair: " + st.lineType + ", value: " + st.value);

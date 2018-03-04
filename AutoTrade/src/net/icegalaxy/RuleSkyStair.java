@@ -12,6 +12,7 @@ public class RuleSkyStair extends Rules
 	double cutLoss;
 	double refHL;
 	int reActivatePeriod = 10000;
+	int EMATimer;
 
 	public RuleSkyStair(boolean globalRunRule)
 	{
@@ -43,17 +44,23 @@ public class RuleSkyStair extends Rules
 					XMLWatcher.stairs.get(shutdownIndex.get(i)).selling = true;
 					Global.addLog("Re-activate: " + XMLWatcher.stairs.get(shutdownIndex.get(i)).lineType + " @ " + XMLWatcher.stairs.get(shutdownIndex.get(i)).value);
 					shutdownIndex.remove(i);
+					Global.updateCSV();
 				}
 			}		
 		}
 		
-
+		EMATimer++;
 		
-	
-
+		if (EMATimer > 60) //don't want to check too frequently
+		{
+			checkEMA();
+			updateEMAValue();
+			EMATimer = 0;
+		}
+		
 		for (int i = 0; i < XMLWatcher.stairs.size(); i++)
 		{
-			
+				
 			currentOHLC = XMLWatcher.stairs.get(i);
 			currentStairIndex = i;
 
@@ -105,6 +112,7 @@ public class RuleSkyStair extends Rules
 						XMLWatcher.stairs.get(i).buying = false;
 						XMLWatcher.stairs.get(i).reActivateTime = GetData.getTimeInt() + reActivatePeriod;
 						shutdownIndex.add(i);
+						Global.updateCSV();
 //						shutdown = true;
 						return;
 					}
@@ -127,6 +135,7 @@ public class RuleSkyStair extends Rules
 							XMLWatcher.stairs.get(i).buying = false;
 							XMLWatcher.stairs.get(i).reActivateTime = GetData.getTimeInt() + reActivatePeriod;;
 							shutdownIndex.add(i);
+							Global.updateCSV();
 //							shutdown = true;
 							return;
 						}
@@ -164,11 +173,13 @@ public class RuleSkyStair extends Rules
 					XMLWatcher.stairs.get(i).buying = false;
 					XMLWatcher.stairs.get(i).reActivateTime = GetData.getTimeInt() + reActivatePeriod;;
 					shutdownIndex.add(i);
+					Global.updateCSV();
 //					shutdown = true;
 					return;
 				}
 
 				longContract();
+				Global.updateCSV();
 				Global.addLog("Ref Low: " + refLow);
 
 				cutLoss = Math.min(refLow - 20, currentOHLC.value - 10);
@@ -217,6 +228,7 @@ public class RuleSkyStair extends Rules
 						XMLWatcher.stairs.get(i).selling = false;
 						XMLWatcher.stairs.get(i).reActivateTime = GetData.getTimeInt() + reActivatePeriod;;
 						shutdownIndex.add(i);
+						Global.updateCSV();
 //						shutdown = true;
 						return;
 					}
@@ -238,6 +250,7 @@ public class RuleSkyStair extends Rules
 							XMLWatcher.stairs.get(i).selling = false;
 							XMLWatcher.stairs.get(i).reActivateTime = GetData.getTimeInt() + reActivatePeriod;;
 							shutdownIndex.add(i);
+							Global.updateCSV();
 //							shutdown = true;
 							return;
 						}
@@ -273,11 +286,13 @@ public class RuleSkyStair extends Rules
 					XMLWatcher.stairs.get(i).selling = false;
 					XMLWatcher.stairs.get(i).reActivateTime = GetData.getTimeInt() + reActivatePeriod;;
 					shutdownIndex.add(i);
+					Global.updateCSV();
 //					shutdown = true;
 					return;
 				}
 
 				shortContract();
+				Global.updateCSV();
 				Global.addLog("Ref High: " + refHigh);
 
 				cutLoss = Math.max(refHigh + 20, currentOHLC.value + 10);
@@ -448,7 +463,7 @@ public class RuleSkyStair extends Rules
 			if (Global.getCurrentPoint() < buyingPoint + 5)
 			{
 				closeContract(className + ": Break even, short @ " + Global.getCurrentBid());
-				shutdown = true;
+//				shutdown = true;
 			} else if (Global.getCurrentPoint() < tempCutLoss)
 				closeContract(className + ": StopEarn, short @ " + Global.getCurrentBid());
 
@@ -458,7 +473,7 @@ public class RuleSkyStair extends Rules
 			if (Global.getCurrentPoint() > buyingPoint - 5)
 			{
 				closeContract(className + ": Break even, long @ " + Global.getCurrentAsk());
-				shutdown = true;
+//				shutdown = true;
 			} else if (Global.getCurrentPoint() > tempCutLoss)
 				closeContract(className + ": StopEarn, long @ " + Global.getCurrentAsk());
 
@@ -616,6 +631,7 @@ public class RuleSkyStair extends Rules
 			XMLWatcher.stairs.get(currentStairIndex).buying = false;
 			XMLWatcher.stairs.get(currentStairIndex).reActivateTime = GetData.getTimeInt() + reActivatePeriod;;
 			shutdownIndex.add(currentStairIndex);
+			Global.updateCSV();
 //			shutdown = true;
 			
 		} else if (Global.getNoOfContracts() < 0 && refPt > tempCutLoss)
@@ -631,6 +647,7 @@ public class RuleSkyStair extends Rules
 			XMLWatcher.stairs.get(currentStairIndex).selling = false;
 			XMLWatcher.stairs.get(currentStairIndex).reActivateTime = GetData.getTimeInt() + reActivatePeriod;;
 			shutdownIndex.add(currentStairIndex);
+			Global.updateCSV();
 //			shutdown = true;
 		}
 	}
@@ -641,6 +658,72 @@ public class RuleSkyStair extends Rules
 	//
 	// trendReversed = true;
 	// }
+	
+	private void checkEMA(){
+		
+		if (GetData.getLongTB().getEma5().getEMA() > GetData.getLongTB().getEma50().getEMA() + 10
+				&& GetData.getLongTB().getEma50().getEMA() > GetData.getLongTB().getEma250().getEMA() + 10)
+		{
+			
+			if (Global.getCurrentPoint() > GetData.getLongTB().getEma50().getEMA())
+			{
+				XMLWatcher.stairs.get(0).buying = true;
+				XMLWatcher.stairs.get(0).selling = false;
+				XMLWatcher.stairs.get(1).buying = true;
+				XMLWatcher.stairs.get(1).selling = false;
+			}else if (Global.getCurrentPoint() > GetData.getLongTB().getEma250().getEMA())
+			{
+				XMLWatcher.stairs.get(0).buying = false;
+				XMLWatcher.stairs.get(0).selling = false;
+				XMLWatcher.stairs.get(1).buying = true;
+				XMLWatcher.stairs.get(1).selling = false;
+			}else
+			{
+				XMLWatcher.stairs.get(0).buying = false;
+				XMLWatcher.stairs.get(0).selling = false;
+				XMLWatcher.stairs.get(1).buying = false;
+				XMLWatcher.stairs.get(1).selling = false;
+			}
+
+		}else if (GetData.getLongTB().getEma5().getEMA() < GetData.getLongTB().getEma50().getEMA() - 10
+				&& GetData.getLongTB().getEma50().getEMA() < GetData.getLongTB().getEma250().getEMA() - 10)
+		{
+			if (Global.getCurrentPoint() < GetData.getLongTB().getEma50().getEMA())
+			{
+				XMLWatcher.stairs.get(0).buying = false;
+				XMLWatcher.stairs.get(0).selling = true;
+				XMLWatcher.stairs.get(1).buying = false;
+				XMLWatcher.stairs.get(1).selling = true;
+			}else if (Global.getCurrentPoint() < GetData.getLongTB().getEma250().getEMA())
+			{
+				XMLWatcher.stairs.get(0).buying = false;
+				XMLWatcher.stairs.get(0).selling = false;
+				XMLWatcher.stairs.get(1).buying = false;
+				XMLWatcher.stairs.get(1).selling = true;
+			}else
+			{
+				XMLWatcher.stairs.get(0).buying = false;
+				XMLWatcher.stairs.get(0).selling = false;
+				XMLWatcher.stairs.get(1).buying = false;
+				XMLWatcher.stairs.get(1).selling = false;
+			}
+			
+		}else{
+			XMLWatcher.stairs.get(0).buying = false;
+			XMLWatcher.stairs.get(0).selling = false;
+			XMLWatcher.stairs.get(1).buying = false;
+			XMLWatcher.stairs.get(1).selling = false;
+		}
+	
+	}
+	
+	private void updateEMAValue(){
+		
+		if (XMLWatcher.stairs.get(0).value != GetData.getLongTB().getEma50().getEMA())
+			XMLWatcher.stairs.get(0).value = GetData.getLongTB().getEma50().getEMA();
+		if (XMLWatcher.stairs.get(1).value != GetData.getLongTB().getEma250().getEMA())
+			XMLWatcher.stairs.get(1).value = GetData.getLongTB().getEma250().getEMA();	
+	}
 
 	@Override
 	public TimeBase getTimeBase()
