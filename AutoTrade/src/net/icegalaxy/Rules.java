@@ -149,7 +149,7 @@ public abstract class Rules implements Runnable
 		{
 			double profitLine;
 			
-			if (range > 60 && range < 100)
+			if (getProfit() > 60 && getProfit() < 100)
 			{
 				
 				if (Math.abs(Global.getNoOfContracts()) < 2
@@ -167,7 +167,7 @@ public abstract class Rules implements Runnable
 					r.start();
 				}
 				
-				profitLine = refHigh - (range * 0.5) - 5;
+				profitLine = refHigh - (range * 0.5) - 10;
 				
 				if (tempCutLoss < profitLine)
 				{
@@ -175,7 +175,7 @@ public abstract class Rules implements Runnable
 					Global.addLog("Expected profit updated: " + profitLine);
 				}
 				
-			}else if (range > 100)
+			}else if (getProfit() > 100)
 			{
 				
 				if (Math.abs(Global.getNoOfContracts()) < 3
@@ -193,7 +193,7 @@ public abstract class Rules implements Runnable
 					r.start();
 				}
 				
-				profitLine = refHigh - (range * 0.32) - 5;
+				profitLine = refHigh - (range * 0.32) - 10;
 				
 				if (tempCutLoss < profitLine)
 				{
@@ -212,7 +212,7 @@ public abstract class Rules implements Runnable
 			
 			double profitLine;
 			
-			if (getProfit() > 50 && getProfit() < 100)
+			if (getProfit() > 60 && getProfit() < 100)
 			{
 				
 				if (Math.abs(Global.getNoOfContracts()) < 2
@@ -230,7 +230,7 @@ public abstract class Rules implements Runnable
 					r.start();
 				}
 				
-				profitLine = refLow + (range * 0.5) + 5;
+				profitLine = refLow + (range * 0.5) + 10;
 				
 				if (tempCutLoss > profitLine)
 				{
@@ -256,7 +256,7 @@ public abstract class Rules implements Runnable
 					r.start();
 				}
 				
-				profitLine = refLow + (range * 0.24) + 5;
+				profitLine = refLow + (range * 0.24) + 10;
 				
 				if (tempCutLoss > profitLine)
 				{
