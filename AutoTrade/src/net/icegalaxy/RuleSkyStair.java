@@ -74,7 +74,7 @@ public class RuleSkyStair extends Rules
 //				continue;
 
 			//Long
-			if (getTimeBase().getEma5().getEMA() > currentOHLC.value
+			if (GetData.getLongTB().getEma5().getEMA() > currentOHLC.value
 					&& Global.getCurrentPoint() < currentOHLC.value + 10
 					&& Global.getCurrentPoint() > currentOHLC.value)
 			{
@@ -82,7 +82,7 @@ public class RuleSkyStair extends Rules
 				if (!currentOHLC.buying || currentOHLC.shutdown)
 					continue;
 
-				Global.addLog("Reached " + currentOHLC.lineType + " @ " + currentOHLC.value);
+				Global.addLog("Reached " + currentOHLC.lineType + " @ " + currentOHLC.value + " (Long)");
 
 				refHL = getTimeBase().getLatestCandle().getOpen();
 
@@ -122,7 +122,8 @@ public class RuleSkyStair extends Rules
 				}
 				
 				//check energy
-				if (getTimeBase().getLatestCandle().getClose() < refHL)
+				if (getTimeBase().getLatestCandle().getClose() < refHL
+						&& getTimeBase().getLatestCandle().getClose() < getTimeBase().getLatestCandle().getOpen() + 5)
 				{
 					Global.addLog("Not enough energy, wait for next time");
 
@@ -187,7 +188,7 @@ public class RuleSkyStair extends Rules
 				Global.addLog("OHLC: " + currentOHLC.lineType);
 				return;
 
-			} else if (getTimeBase().getEma5().getEMA() < currentOHLC.value
+			} else if (GetData.getLongTB().getEma5().getEMA() < currentOHLC.value
 					&& Global.getCurrentPoint() > currentOHLC.value - 10
 					&& Global.getCurrentPoint() < currentOHLC.value)
 			{
@@ -195,7 +196,7 @@ public class RuleSkyStair extends Rules
 				if (!currentOHLC.selling || currentOHLC.shutdown)
 					continue;
 
-				Global.addLog("Reached " + currentOHLC.lineType + " @ " + currentOHLC.value);
+				Global.addLog("Reached " + currentOHLC.lineType + " @ " + currentOHLC.value + " (Short)");
 
 				refHL = getTimeBase().getLatestCandle().getOpen();
 
@@ -237,7 +238,8 @@ public class RuleSkyStair extends Rules
 					sleep(waitingTime);
 				}
 
-				if (getTimeBase().getLatestCandle().getClose() > refHL)
+				if (getTimeBase().getLatestCandle().getClose() > refHL
+						&& getTimeBase().getLatestCandle().getClose() > getTimeBase().getLatestCandle().getOpen() - 5)
 				{
 					Global.addLog("Not enough energy, wait for next time");
 
