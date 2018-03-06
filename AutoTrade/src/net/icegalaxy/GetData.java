@@ -415,7 +415,7 @@ public class GetData implements Runnable
 		parseSPRecord csv = new parseSPRecord("C:\\Users\\joech\\Dropbox\\TradeData\\SPRecords\\m1.txt");
 		csv.parseOHLC();
 		
-		int m5Period = 0;
+		int m5Period = -4;
 
 		for (int i = 0; i < csv.getLow().size(); i++)
 		{
@@ -443,7 +443,10 @@ public class GetData implements Runnable
 																// field in
 																// shortTB
 																// anymore
-					longTB.EMAs[x] = new EMA(close, EMAs[x]);
+					
+					longTB.EMAs[x] = new EMA(csv.getClose().get(4), EMAs[x]);
+					
+//					longTB.EMAs[x] = new EMA(close, EMAs[x]);
 
 				}
 			} else
@@ -486,6 +489,12 @@ public class GetData implements Runnable
 		}
 		
 		Global.addLog("Previous m1_EMA250: " + getEma250().getEMA());
+		
+		try{
+			Global.addLog("Previous m5_EMA250: " + GetData.getLongTB().getEma250().getEMA());
+		}catch (Exception e){
+			e.printStackTrace();
+		}
 
 	}
 
