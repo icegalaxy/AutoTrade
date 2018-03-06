@@ -2,15 +2,15 @@ package net.icegalaxy;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
-import java.util.ArrayList;
+import java.util.List;
 
 public class CSVWriter
 {
 	
-	ArrayList<Stair> stairs;
+	List<Stair> stairs;
 	String csvPath;
 		
-	public CSVWriter(ArrayList<Stair> stairs, String csvPath)
+	public CSVWriter(List<Stair> stairs, String csvPath)
 	{
 		this.stairs = stairs;
 		this.csvPath = csvPath;
