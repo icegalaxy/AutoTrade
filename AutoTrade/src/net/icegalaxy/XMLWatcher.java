@@ -3,7 +3,9 @@ package net.icegalaxy;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 
 //Use the OPEN Line
@@ -11,7 +13,7 @@ import java.util.Scanner;
 public class XMLWatcher implements Runnable
 {
 
-	public static ArrayList<Stair> stairs;
+	public static List<Stair> stairs = new CopyOnWriteArrayList<Stair>();
 	
 	public static IntraDayReader intraDay;
 	public static IntraDayReader ema;
@@ -229,7 +231,7 @@ public class XMLWatcher implements Runnable
 		
 		sc.useDelimiter("\r\n");
 		
-		ArrayList<String> lines = new ArrayList<String>();
+		ArrayList<String> lines = new ArrayList<String>(); 
 		
 		sc.next();
 		
@@ -238,7 +240,7 @@ public class XMLWatcher implements Runnable
 		
 		sc.close();
 		
-		stairs = new ArrayList<Stair>();
+		List<Stair> tempStairs = new CopyOnWriteArrayList<Stair>(); //avoid modifying the original list at this stage.
 		
 		for (int i=0; i<lines.size(); i++)
 		{
@@ -259,10 +261,11 @@ public class XMLWatcher implements Runnable
 			
 //			Global.addLog("Stair: " + st.lineType + ", value: " + st.value);
 			
-			stairs.add(st);
+			tempStairs.add(st);
 			
 		}
 		
+		stairs = tempStairs;
 		
 	}
 
@@ -468,5 +471,6 @@ public class XMLWatcher implements Runnable
 //		}
 
 	}
+	
 
 }
