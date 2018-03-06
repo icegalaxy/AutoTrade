@@ -257,7 +257,7 @@ public class XMLWatcher implements Runnable
 			
 			sc2.close();
 			
-			Global.addLog("Stair: " + st.lineType + ", value: " + st.value);
+//			Global.addLog("Stair: " + st.lineType + ", value: " + st.value);
 			
 			stairs.add(st);
 			
