@@ -44,6 +44,7 @@ public class RuleSkyStair extends Rules
 					XMLWatcher.stairs.get(shutdownIndex.get(i)).selling = true;
 					Global.addLog("Re-activate: " + XMLWatcher.stairs.get(shutdownIndex.get(i)).lineType + " @ " + XMLWatcher.stairs.get(shutdownIndex.get(i)).value);
 					shutdownIndex.remove(i);
+					i--;
 					Global.updateCSV();
 				}
 			}		
