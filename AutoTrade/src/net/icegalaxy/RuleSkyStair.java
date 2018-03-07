@@ -119,9 +119,7 @@ public class RuleSkyStair extends Rules
 					{
 						Global.addLog("M5_EMA out of range");
 						currentStair.buying = false;
-						currentStair.reActivateTime = GetData.getTimeInt() + reActivatePeriod;
-						shutdownIndex.add(i);
-						Global.updateCSV();
+						shutdownStair(currentStairIndex);
 						// shutdown = true;
 						return;
 					}
@@ -130,9 +128,7 @@ public class RuleSkyStair extends Rules
 					{
 						Global.addLog("Current point out of range");
 						currentStair.buying = false;
-						currentStair.reActivateTime = GetData.getTimeInt() + reActivatePeriod;
-						shutdownIndex.add(i);
-						Global.updateCSV();
+						shutdownStair(currentStairIndex);
 						// shutdown = true;
 						return;
 					}
@@ -156,10 +152,7 @@ public class RuleSkyStair extends Rules
 						{
 							Global.addLog("M5_EMA out of range");
 							currentStair.buying = false;
-							currentStair.reActivateTime = GetData.getTimeInt() + reActivatePeriod;
-							shutdownIndex.add(i);
-							Global.updateCSV();
-							// shutdown = true;
+							shutdownStair(currentStairIndex);
 							return;
 							// shutting down
 						}
@@ -168,10 +161,7 @@ public class RuleSkyStair extends Rules
 						{
 							Global.addLog("Current point out of range");
 							currentStair.buying = false;
-							currentStair.reActivateTime = GetData.getTimeInt() + reActivatePeriod;
-							shutdownIndex.add(i);
-							Global.updateCSV();
-							// shutdown = true;
+							shutdownStair(currentStairIndex);
 							return;
 						}
 
@@ -220,10 +210,7 @@ public class RuleSkyStair extends Rules
 				{
 					Global.addLog("Current point out of range");
 					currentStair.buying = false;
-					currentStair.reActivateTime = GetData.getTimeInt() + reActivatePeriod;
-					;
-					shutdownIndex.add(i);
-					Global.updateCSV();
+					shutdownStair(currentStairIndex);
 					// shutdown = true;
 					return;
 				}
@@ -290,10 +277,7 @@ public class RuleSkyStair extends Rules
 					{
 						Global.addLog("M5_EMA out of range");
 						currentStair.selling = false;
-						currentStair.reActivateTime = GetData.getTimeInt() + reActivatePeriod;
-						shutdownIndex.add(i);
-						Global.updateCSV();
-						// shutdown = true;
+						shutdownStair(currentStairIndex);
 						return;
 					}
 
@@ -301,10 +285,7 @@ public class RuleSkyStair extends Rules
 					{
 						Global.addLog("Current point out of range");
 						currentStair.selling = false;
-						currentStair.reActivateTime = GetData.getTimeInt() + reActivatePeriod;
-						shutdownIndex.add(i);
-						Global.updateCSV();
-						// shutdown = true;
+						shutdownStair(currentStairIndex);
 						return;
 					}
 
@@ -326,10 +307,7 @@ public class RuleSkyStair extends Rules
 						{
 							Global.addLog("M5_EMA out of range");
 							currentStair.selling = false;
-							currentStair.reActivateTime = GetData.getTimeInt() + reActivatePeriod;
-							shutdownIndex.add(i);
-							Global.updateCSV();
-							// shutdown = true;
+							shutdownStair(currentStairIndex);
 							return;
 						}
 
@@ -337,10 +315,7 @@ public class RuleSkyStair extends Rules
 						{
 							Global.addLog("Current point out of range");
 							currentStair.selling = false;
-							currentStair.reActivateTime = GetData.getTimeInt() + reActivatePeriod;
-							shutdownIndex.add(i);
-							Global.updateCSV();
-							// shutdown = true;
+							shutdownStair(currentStairIndex);
 							return;
 						}
 					}
@@ -389,11 +364,7 @@ public class RuleSkyStair extends Rules
 				{
 					Global.addLog("Current point out of range");
 					currentStair.selling = false;
-					currentStair.reActivateTime = GetData.getTimeInt() + reActivatePeriod;
-					;
-					shutdownIndex.add(i);
-					Global.updateCSV();
-					// shutdown = true;
+					shutdownStair(currentStairIndex);
 					return;
 				}
 
@@ -409,6 +380,14 @@ public class RuleSkyStair extends Rules
 			}
 
 		}
+	}
+
+	private void shutdownStair(int i)
+	{
+		currentStair.reActivateTime = GetData.getTimeInt() + reActivatePeriod * currentStair.timesOfShutdown;
+		currentStair.timesOfShutdown++;
+		shutdownIndex.add(i);
+		Global.updateCSV();
 	}
 
 	// use 1min instead of 5min
@@ -753,7 +732,6 @@ public class RuleSkyStair extends Rules
 			closeContract(className + ": CutLoss, short @ " + Global.getCurrentBid());
 			currentStair.buying = false;
 			currentStair.reActivateTime = GetData.getTimeInt() + reActivatePeriod;
-			;
 			shutdownIndex.add(currentStairIndex);
 			Global.updateCSV();
 			// shutdown = true;
@@ -770,7 +748,6 @@ public class RuleSkyStair extends Rules
 			closeContract(className + ": CutLoss, long @ " + Global.getCurrentAsk());
 			currentStair.selling = false;
 			currentStair.reActivateTime = GetData.getTimeInt() + reActivatePeriod;
-			;
 			shutdownIndex.add(currentStairIndex);
 			Global.updateCSV();
 			// shutdown = true;
