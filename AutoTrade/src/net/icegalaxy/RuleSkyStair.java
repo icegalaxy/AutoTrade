@@ -56,7 +56,7 @@ public class RuleSkyStair extends Rules
 
 			currentStairIndex = i;
 
-			currentStair = currentStair;
+			currentStair = XMLWatcher.stairs.get(currentStairIndex);
 
 			if (Global.getNoOfContracts() != 0)
 				return;
@@ -92,7 +92,7 @@ public class RuleSkyStair extends Rules
 						|| Global.getCurrentPoint() < currentStair.value + 10)
 				{
 
-					currentStair = currentStair;
+					currentStair = XMLWatcher.stairs.get(currentStairIndex);
 
 					updateHighLow();
 
@@ -149,7 +149,7 @@ public class RuleSkyStair extends Rules
 					for (int x = 0; x < 5; x++)
 					{
 
-						currentStair = currentStair;
+						currentStair = XMLWatcher.stairs.get(currentStairIndex);
 
 						waitForANewCandle();
 						if (GetData.getLongTB().getEma5().getEMA() < currentStair.value)
@@ -190,7 +190,7 @@ public class RuleSkyStair extends Rules
 				while (true)
 				{
 
-					currentStair = currentStair;
+					currentStair = XMLWatcher.stairs.get(currentStairIndex);
 					updateHighLow();
 
 					double reward = getLongStopEarn(currentStair.value) - Global.getCurrentPoint();
@@ -198,13 +198,13 @@ public class RuleSkyStair extends Rules
 
 					double rr = reward / risk;
 
-					if (rr > 1.5)
+					if (rr > 2)
 					{
 						Global.addLog("RR= " + rr);
 						break;
 					}
 
-					if (rr < 0.5)
+					if (rr < 0.7)
 					{
 						Global.addLog("RR= " + rr);
 						return;
@@ -262,7 +262,7 @@ public class RuleSkyStair extends Rules
 						|| Global.getCurrentPoint() > currentStair.value - 10)
 				{
 
-					currentStair = currentStair;
+					currentStair = XMLWatcher.stairs.get(currentStairIndex);
 
 					updateHighLow();
 
@@ -319,7 +319,7 @@ public class RuleSkyStair extends Rules
 					for (int x = 0; x < 5; x++)
 					{
 
-						currentStair = currentStair;
+						currentStair = XMLWatcher.stairs.get(currentStairIndex);
 
 						waitForANewCandle();
 						if (GetData.getLongTB().getEma5().getEMA() > currentStair.value)
@@ -359,7 +359,7 @@ public class RuleSkyStair extends Rules
 				while (true)
 				{
 
-					currentStair = currentStair;
+					currentStair = XMLWatcher.stairs.get(currentStairIndex);
 					updateHighLow();
 
 					double reward = Global.getCurrentPoint() - getShortStopEarn(currentStair.value);
@@ -367,13 +367,13 @@ public class RuleSkyStair extends Rules
 
 					double rr = reward / risk;
 
-					if (rr > 1.5)
+					if (rr > 2)
 					{
 						Global.addLog("RR= " + rr);
 						break;
 					}
 
-					if (rr < 0.5)
+					if (rr < 0.7)
 					{
 						Global.addLog("RR= " + rr);
 						return;
