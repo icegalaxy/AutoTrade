@@ -141,6 +141,7 @@ public class DB {
 			out.write(inputString);
 			// Close the output stream
 			out.close();
+			Thread.sleep(100);
 		} catch (Exception e) {// Catch exception if any
 			System.err.println("Error: " + e.getMessage());
 		}
