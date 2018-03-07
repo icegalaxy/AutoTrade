@@ -360,7 +360,6 @@ public class GetData implements Runnable
 
 			 //	if (longMinutes == Setting.getLongTB())
 				if (longMinutes >= 5)
-
 				{
 
 					for (int x = 0; x < longTB.EMAs.length; x++)
@@ -377,9 +376,11 @@ public class GetData implements Runnable
 					// + getLongTB().getMACDHistogram());
 					longMinutes = 0;
 					longData.reset();
+					
+					XMLWatcher.stairs.get(0).value = GetData.getLongTB().getEma50().getEMA();
+					XMLWatcher.stairs.get(1).value = GetData.getLongTB().getEma250().getEMA();
+					checkEMA();
 				}
-
-			
 			}
 
 			sleep(860);
@@ -496,6 +497,64 @@ public class GetData implements Runnable
 			e.printStackTrace();
 		}
 
+	}
+	
+	private void checkEMA(){
+		
+		if (GetData.getLongTB().getEma5().getEMA() > GetData.getLongTB().getEma50().getEMA() + 10
+				&& GetData.getLongTB().getEma50().getEMA() > GetData.getLongTB().getEma250().getEMA() + 10)
+		{
+			
+			if (Global.getCurrentPoint() > GetData.getLongTB().getEma50().getEMA())
+			{
+				XMLWatcher.stairs.get(0).buying = true;
+				XMLWatcher.stairs.get(0).selling = false;
+				XMLWatcher.stairs.get(1).buying = true;
+				XMLWatcher.stairs.get(1).selling = false;
+			}else if (Global.getCurrentPoint() > GetData.getLongTB().getEma250().getEMA())
+			{
+				XMLWatcher.stairs.get(0).buying = false;
+				XMLWatcher.stairs.get(0).selling = false;
+				XMLWatcher.stairs.get(1).buying = true;
+				XMLWatcher.stairs.get(1).selling = false;
+			}else
+			{
+				XMLWatcher.stairs.get(0).buying = false;
+				XMLWatcher.stairs.get(0).selling = false;
+				XMLWatcher.stairs.get(1).buying = false;
+				XMLWatcher.stairs.get(1).selling = false;
+			}
+
+		}else if (GetData.getLongTB().getEma5().getEMA() < GetData.getLongTB().getEma50().getEMA() - 10
+				&& GetData.getLongTB().getEma50().getEMA() < GetData.getLongTB().getEma250().getEMA() - 10)
+		{
+			if (Global.getCurrentPoint() < GetData.getLongTB().getEma50().getEMA())
+			{
+				XMLWatcher.stairs.get(0).buying = false;
+				XMLWatcher.stairs.get(0).selling = true;
+				XMLWatcher.stairs.get(1).buying = false;
+				XMLWatcher.stairs.get(1).selling = true;
+			}else if (Global.getCurrentPoint() < GetData.getLongTB().getEma250().getEMA())
+			{
+				XMLWatcher.stairs.get(0).buying = false;
+				XMLWatcher.stairs.get(0).selling = false;
+				XMLWatcher.stairs.get(1).buying = false;
+				XMLWatcher.stairs.get(1).selling = true;
+			}else
+			{
+				XMLWatcher.stairs.get(0).buying = false;
+				XMLWatcher.stairs.get(0).selling = false;
+				XMLWatcher.stairs.get(1).buying = false;
+				XMLWatcher.stairs.get(1).selling = false;
+			}
+			
+		}else{
+			XMLWatcher.stairs.get(0).buying = false;
+			XMLWatcher.stairs.get(0).selling = false;
+			XMLWatcher.stairs.get(1).buying = false;
+			XMLWatcher.stairs.get(1).selling = false;
+		}
+	
 	}
 
 	public static EMA getEma5()
