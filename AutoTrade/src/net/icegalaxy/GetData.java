@@ -359,7 +359,7 @@ public class GetData implements Runnable
 				}
 
 			 //	if (longMinutes == Setting.getLongTB())
-				if (longMinutes >= 3)
+				if (longMinutes >= 5)
 
 				{
 
