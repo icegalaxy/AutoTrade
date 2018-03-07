@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class RuleSkyStair extends Rules
 {
-//	Stair currentStair;
+	// Stair currentStair;
 	int currentStairIndex;
 	Stair currentStair;
 	ArrayList<Integer> shutdownIndex;
@@ -33,32 +33,30 @@ public class RuleSkyStair extends Rules
 		if (!isOrderTime() || Global.getNoOfContracts() != 0)
 			return;
 
-		
-		//RE-activate after 1hr
+		// RE-activate after 1hr
 		if (shutdownIndex.size() > 0)
 		{
-			for (int i=0; i<shutdownIndex.size(); i++)
+			for (int i = 0; i < shutdownIndex.size(); i++)
 			{
 				if (GetData.getTimeInt() > XMLWatcher.stairs.get(shutdownIndex.get(i)).reActivateTime)
 				{
-					XMLWatcher.stairs.get(shutdownIndex.get(i)).buying = true;	
+					XMLWatcher.stairs.get(shutdownIndex.get(i)).buying = true;
 					XMLWatcher.stairs.get(shutdownIndex.get(i)).selling = true;
-					Global.addLog("Re-activate: " + XMLWatcher.stairs.get(shutdownIndex.get(i)).lineType + " @ " + XMLWatcher.stairs.get(shutdownIndex.get(i)).value);
+					Global.addLog("Re-activate: " + XMLWatcher.stairs.get(shutdownIndex.get(i)).lineType + " @ "
+							+ XMLWatcher.stairs.get(shutdownIndex.get(i)).value);
 					shutdownIndex.remove(i);
 					i--;
 					Global.updateCSV();
 				}
-			}		
-		}	
-		
-		
+			}
+		}
+
 		for (int i = 0; i < XMLWatcher.stairs.size(); i++)
 		{
-				
-			
+
 			currentStairIndex = i;
-			
-			currentStair = XMLWatcher.stairs.get(currentStairIndex);
+
+			currentStair = currentStair;
 
 			if (Global.getNoOfContracts() != 0)
 				return;
@@ -66,15 +64,15 @@ public class RuleSkyStair extends Rules
 			if (currentStair.value == 0)
 				continue;
 
-//			if (currentStair.shutdown)
-//				continue;
+			// if (currentStair.shutdown)
+			// continue;
 
-			//Long
+			// Long
 			if (GetData.getLongTB().getEma5().getEMA() > currentStair.value
 					&& Global.getCurrentPoint() < currentStair.value + 10
 					&& Global.getCurrentPoint() > currentStair.value)
 			{
-				
+
 				if (!currentStair.buying || currentStair.shutdown)
 					continue;
 
@@ -88,37 +86,35 @@ public class RuleSkyStair extends Rules
 				if (getTimeBase().getLatestCandle().isYinCandle())
 					refHL = getTimeBase().getLatestCandle().getOpen();
 
-				//waiting for a Yang candle
+				// waiting for a Yang candle
 				while (Global.isRapidDrop()
 						|| getTimeBase().getLatestCandle().getClose() - getTimeBase().getLatestCandle().getOpen() < 5
 						|| Global.getCurrentPoint() < currentStair.value + 10)
 				{
 
+					currentStair = currentStair;
 
-					currentStair = XMLWatcher.stairs.get(currentStairIndex);
-
-					
 					updateHighLow();
 
-//					if (isDownTrend())
-//					{
-//						Global.addLog("Down Trend");
-//						shutdown = true;
-//						return;
-//					}
+					// if (isDownTrend())
+					// {
+					// Global.addLog("Down Trend");
+					// shutdown = true;
+					// return;
+					// }
 
+					// if (refLow < currentStair.value - 10)
+					// {
+					// Global.addLog("refLow out of range");
+					// currentStair.buying = false;
+					// currentStair.reActivateTime = GetData.getTimeInt() +
+					// reActivatePeriod;
+					// shutdownIndex.add(i);
+					// Global.updateCSV();
+					//// shutdown = true;
+					// return;
+					// }
 
-//					if (refLow < currentStair.value - 10)
-//					{
-//						Global.addLog("refLow out of range");
-//						currentStair.buying = false;
-//						currentStair.reActivateTime = GetData.getTimeInt() + reActivatePeriod;
-//						shutdownIndex.add(i);
-//						Global.updateCSV();
-////						shutdown = true;
-//						return;
-//					}
-					
 					if (GetData.getLongTB().getEma5().getEMA() < currentStair.value)
 					{
 						Global.addLog("M5_EMA out of range");
@@ -126,10 +122,10 @@ public class RuleSkyStair extends Rules
 						currentStair.reActivateTime = GetData.getTimeInt() + reActivatePeriod;
 						shutdownIndex.add(i);
 						Global.updateCSV();
-//						shutdown = true;
+						// shutdown = true;
 						return;
 					}
-					
+
 					if (Global.getCurrentPoint() < currentStair.value - 50)
 					{
 						Global.addLog("Current point out of range");
@@ -137,15 +133,14 @@ public class RuleSkyStair extends Rules
 						currentStair.reActivateTime = GetData.getTimeInt() + reActivatePeriod;
 						shutdownIndex.add(i);
 						Global.updateCSV();
-//						shutdown = true;
+						// shutdown = true;
 						return;
 					}
 
-
 					sleep(waitingTime);
 				}
-				
-				//check energy
+
+				// check energy
 				if (getTimeBase().getLatestCandle().getClose() < refHL
 						&& getTimeBase().getLatestCandle().getClose() < getTimeBase().getLatestCandle().getOpen() + 5)
 				{
@@ -153,11 +148,9 @@ public class RuleSkyStair extends Rules
 
 					for (int x = 0; x < 5; x++)
 					{
-						
-	
-						currentStair = XMLWatcher.stairs.get(currentStairIndex);
-	
-						
+
+						currentStair = currentStair;
+
 						waitForANewCandle();
 						if (GetData.getLongTB().getEma5().getEMA() < currentStair.value)
 						{
@@ -166,11 +159,11 @@ public class RuleSkyStair extends Rules
 							currentStair.reActivateTime = GetData.getTimeInt() + reActivatePeriod;
 							shutdownIndex.add(i);
 							Global.updateCSV();
-//							shutdown = true;
+							// shutdown = true;
 							return;
-							//shutting down
+							// shutting down
 						}
-						
+
 						if (Global.getCurrentPoint() < currentStair.value - 50)
 						{
 							Global.addLog("Current point out of range");
@@ -178,7 +171,7 @@ public class RuleSkyStair extends Rules
 							currentStair.reActivateTime = GetData.getTimeInt() + reActivatePeriod;
 							shutdownIndex.add(i);
 							Global.updateCSV();
-//							shutdown = true;
+							// shutdown = true;
 							return;
 						}
 
@@ -186,35 +179,31 @@ public class RuleSkyStair extends Rules
 					return;
 					// Not shutting down
 				}
-				
 
+				// if (Global.getCurrentPoint() > currentStair.value + 20)
+				// Global.addLog("Rise to fast, waiting for a pull back");
 
-//				if (Global.getCurrentPoint() > currentStair.value + 20)
-//					Global.addLog("Rise to fast, waiting for a pull back");
-				
 				cutLoss = Math.min(refLow - 20, currentStair.value - 10);
 				Global.addLog("Cut loss: " + cutLoss);
 				Global.addLog("Stop Earn: " + getLongStopEarn(currentStair.value));
-						
-				
-				
+
 				while (true)
 				{
-					
-					currentStair = XMLWatcher.stairs.get(currentStairIndex);
+
+					currentStair = currentStair;
 					updateHighLow();
-					
+
 					double reward = getLongStopEarn(currentStair.value) - Global.getCurrentPoint();
 					double risk = Global.getCurrentPoint() - cutLoss;
-					
+
 					double rr = reward / risk;
-					
+
 					if (rr > 1.5)
 					{
 						Global.addLog("RR= " + rr);
 						break;
 					}
-					
+
 					if (rr < 0.5)
 					{
 						Global.addLog("RR= " + rr);
@@ -222,9 +211,8 @@ public class RuleSkyStair extends Rules
 					}
 
 					sleep(waitingTime);
-					
-				}
 
+				}
 
 				trailingDown(2);
 
@@ -232,10 +220,11 @@ public class RuleSkyStair extends Rules
 				{
 					Global.addLog("Current point out of range");
 					currentStair.buying = false;
-					currentStair.reActivateTime = GetData.getTimeInt() + reActivatePeriod;;
+					currentStair.reActivateTime = GetData.getTimeInt() + reActivatePeriod;
+					;
 					shutdownIndex.add(i);
 					Global.updateCSV();
-//					shutdown = true;
+					// shutdown = true;
 					return;
 				}
 
@@ -252,7 +241,7 @@ public class RuleSkyStair extends Rules
 					&& Global.getCurrentPoint() > currentStair.value - 10
 					&& Global.getCurrentPoint() < currentStair.value)
 			{
-				
+
 				if (!currentStair.selling || currentStair.shutdown)
 					continue;
 
@@ -273,33 +262,30 @@ public class RuleSkyStair extends Rules
 						|| Global.getCurrentPoint() > currentStair.value - 10)
 				{
 
-					
-					currentStair = XMLWatcher.stairs.get(currentStairIndex);
+					currentStair = currentStair;
 
-					
 					updateHighLow();
 
+					// if (isUpTrend())
+					// {
+					// Global.addLog("Up Trend");
+					// shutdown = true;
+					// return;
+					// }
 
-//					if (isUpTrend())
-//					{
-//						Global.addLog("Up Trend");
-//						shutdown = true;
-//						return;
-//					}
+					//
+					// if (refHigh > currentStair.value + 10)
+					// {
+					// Global.addLog("RefHigh out of range");
+					// currentStair.selling = false;
+					// currentStair.reActivateTime = GetData.getTimeInt() +
+					// reActivatePeriod;;
+					// shutdownIndex.add(i);
+					// Global.updateCSV();
+					//// shutdown = true;
+					// return;
+					// }
 
-					
-//
-//					if (refHigh > currentStair.value + 10)
-//					{
-//						Global.addLog("RefHigh out of range");
-//						currentStair.selling = false;
-//						currentStair.reActivateTime = GetData.getTimeInt() + reActivatePeriod;;
-//						shutdownIndex.add(i);
-//						Global.updateCSV();
-////						shutdown = true;
-//						return;
-//					}
-					
 					if (GetData.getLongTB().getEma5().getEMA() > currentStair.value)
 					{
 						Global.addLog("M5_EMA out of range");
@@ -307,10 +293,10 @@ public class RuleSkyStair extends Rules
 						currentStair.reActivateTime = GetData.getTimeInt() + reActivatePeriod;
 						shutdownIndex.add(i);
 						Global.updateCSV();
-//						shutdown = true;
+						// shutdown = true;
 						return;
 					}
-					
+
 					if (Global.getCurrentPoint() > currentStair.value + 50)
 					{
 						Global.addLog("Current point out of range");
@@ -318,10 +304,9 @@ public class RuleSkyStair extends Rules
 						currentStair.reActivateTime = GetData.getTimeInt() + reActivatePeriod;
 						shutdownIndex.add(i);
 						Global.updateCSV();
-//						shutdown = true;
+						// shutdown = true;
 						return;
 					}
-
 
 					sleep(waitingTime);
 				}
@@ -333,8 +318,8 @@ public class RuleSkyStair extends Rules
 
 					for (int x = 0; x < 5; x++)
 					{
-						
-						currentStair = XMLWatcher.stairs.get(currentStairIndex);
+
+						currentStair = currentStair;
 
 						waitForANewCandle();
 						if (GetData.getLongTB().getEma5().getEMA() > currentStair.value)
@@ -344,10 +329,10 @@ public class RuleSkyStair extends Rules
 							currentStair.reActivateTime = GetData.getTimeInt() + reActivatePeriod;
 							shutdownIndex.add(i);
 							Global.updateCSV();
-//							shutdown = true;
+							// shutdown = true;
 							return;
 						}
-						
+
 						if (Global.getCurrentPoint() > currentStair.value + 50)
 						{
 							Global.addLog("Current point out of range");
@@ -355,7 +340,7 @@ public class RuleSkyStair extends Rules
 							currentStair.reActivateTime = GetData.getTimeInt() + reActivatePeriod;
 							shutdownIndex.add(i);
 							Global.updateCSV();
-//							shutdown = true;
+							// shutdown = true;
 							return;
 						}
 					}
@@ -364,30 +349,30 @@ public class RuleSkyStair extends Rules
 					// Not shutting down
 				}
 
-//				if (Global.getCurrentPoint() < currentStair.value - 20)
-//					Global.addLog("Drop to fast, waiting for a pull back");
+				// if (Global.getCurrentPoint() < currentStair.value - 20)
+				// Global.addLog("Drop to fast, waiting for a pull back");
 
 				cutLoss = Math.max(refHigh + 20, currentStair.value + 10);
 				Global.addLog("Cut loss: " + cutLoss);
 				Global.addLog("Stop Earn: " + getShortStopEarn(currentStair.value));
-				
+
 				while (true)
 				{
-					
-					currentStair = XMLWatcher.stairs.get(currentStairIndex);
+
+					currentStair = currentStair;
 					updateHighLow();
-					
-					double reward = Global.getCurrentPoint() -  getShortStopEarn(currentStair.value);
+
+					double reward = Global.getCurrentPoint() - getShortStopEarn(currentStair.value);
 					double risk = cutLoss - Global.getCurrentPoint();
-					
+
 					double rr = reward / risk;
-					
+
 					if (rr > 1.5)
 					{
 						Global.addLog("RR= " + rr);
 						break;
 					}
-					
+
 					if (rr < 0.5)
 					{
 						Global.addLog("RR= " + rr);
@@ -395,7 +380,7 @@ public class RuleSkyStair extends Rules
 					}
 
 					sleep(waitingTime);
-					
+
 				}
 
 				trailingUp(2);
@@ -404,10 +389,11 @@ public class RuleSkyStair extends Rules
 				{
 					Global.addLog("Current point out of range");
 					currentStair.selling = false;
-					currentStair.reActivateTime = GetData.getTimeInt() + reActivatePeriod;;
+					currentStair.reActivateTime = GetData.getTimeInt() + reActivatePeriod;
+					;
 					shutdownIndex.add(i);
 					Global.updateCSV();
-//					shutdown = true;
+					// shutdown = true;
 					return;
 				}
 
@@ -428,10 +414,19 @@ public class RuleSkyStair extends Rules
 	// use 1min instead of 5min
 	double getCutLossPt()
 	{
-		
 
-		updateEMAValue();
-
+		while (true)
+		{
+			try
+			{
+				currentStair = XMLWatcher.stairs.get(currentStairIndex);
+				break;
+			} catch (Exception e)
+			{
+				Global.addLog("Cannot get current stair");
+				sleep(1000);
+			}
+		}
 
 		double stair = XMLWatcher.stair;
 
@@ -504,8 +499,10 @@ public class RuleSkyStair extends Rules
 				tempCutLoss = stair;
 			}
 
-			if (GetData.getLongTB().getLatestCandle().getLow() > tempCutLoss && tempCutLoss < getLongStopEarn(XMLWatcher.stairs.get(currentStairIndex).value))
-				tempCutLoss = Math.min(getLongStopEarn(XMLWatcher.stairs.get(currentStairIndex).value), GetData.getLongTB().getLatestCandle().getLow());
+			if (GetData.getLongTB().getLatestCandle().getLow() > tempCutLoss
+					&& tempCutLoss < getLongStopEarn(currentStair.value))
+				tempCutLoss = Math.min(getLongStopEarn(currentStair.value),
+						GetData.getLongTB().getLatestCandle().getLow());
 
 			// if (GetData.getLongTB().getEMA(5) <
 			// GetData.getLongTB().getEMA(6))
@@ -520,8 +517,10 @@ public class RuleSkyStair extends Rules
 				tempCutLoss = stair;
 			}
 
-			if (GetData.getLongTB().getLatestCandle().getHigh() < tempCutLoss && tempCutLoss > getShortStopEarn(XMLWatcher.stairs.get(currentStairIndex).value))
-				tempCutLoss = Math.max(getShortStopEarn(XMLWatcher.stairs.get(currentStairIndex).value), GetData.getLongTB().getLatestCandle().getHigh());
+			if (GetData.getLongTB().getLatestCandle().getHigh() < tempCutLoss
+					&& tempCutLoss > getShortStopEarn(currentStair.value))
+				tempCutLoss = Math.max(getShortStopEarn(currentStair.value),
+						GetData.getLongTB().getLatestCandle().getHigh());
 
 			// if (GetData.getLongTB().getEMA(5) >
 			// GetData.getLongTB().getEMA(6))
@@ -529,54 +528,50 @@ public class RuleSkyStair extends Rules
 		}
 
 	}
-	
-	double getLongStopEarn(double value){
-		
+
+	double getLongStopEarn(double value)
+	{
+
 		double stopEarn = 99999;
-		
-		
-		
-		for (int i=0; i<XMLWatcher.stairs.size(); i++)
+
+		for (int i = 0; i < XMLWatcher.stairs.size(); i++)
 		{
-			if (currentStair.value - value < stopEarn
-					&& currentStair.value - value > 0)
-				
+			if (currentStair.value - value < stopEarn && currentStair.value - value > 0)
+
 				stopEarn = currentStair.value;
-			
+
 		}
-		
+
 		if (TimePeriodDecider.nightOpened)
 			return value + 50;
-		
-		if (stopEarn == 99999) 	//for the Max or Min of stair
-			return value+100;
-		
+
+		if (stopEarn == 99999) // for the Max or Min of stair
+			return value + 100;
+
 		return Math.max(stopEarn, value + 50);
 	}
-	
-	double getShortStopEarn(double value){
-		
+
+	double getShortStopEarn(double value)
+	{
+
 		double stopEarn = 99999;
-		
-		for (int i=0; i<XMLWatcher.stairs.size(); i++)
+
+		for (int i = 0; i < XMLWatcher.stairs.size(); i++)
 		{
-			if (value - currentStair.value < stopEarn
-					&& value - currentStair.value > 0)
-				
+			if (value - currentStair.value < stopEarn && value - currentStair.value > 0)
+
 				stopEarn = currentStair.value;
-			
+
 		}
-		
+
 		if (TimePeriodDecider.nightOpened)
 			return value - 50;
-		
-		if (stopEarn == 99999) 	//for the Max or Min of stair
+
+		if (stopEarn == 99999) // for the Max or Min of stair
 			return value - 100;
-		
+
 		return Math.min(stopEarn, value - 50);
 	}
-	
-	
 
 	@Override
 	void stopEarn()
@@ -587,7 +582,7 @@ public class RuleSkyStair extends Rules
 			if (Global.getCurrentPoint() < buyingPoint + 5)
 			{
 				closeContract(className + ": Break even, short @ " + Global.getCurrentBid());
-//				shutdown = true;
+				// shutdown = true;
 			} else if (Global.getCurrentPoint() < tempCutLoss)
 				closeContract(className + ": StopEarn, short @ " + Global.getCurrentBid());
 
@@ -597,7 +592,7 @@ public class RuleSkyStair extends Rules
 			if (Global.getCurrentPoint() > buyingPoint - 5)
 			{
 				closeContract(className + ": Break even, long @ " + Global.getCurrentAsk());
-//				shutdown = true;
+				// shutdown = true;
 			} else if (Global.getCurrentPoint() > tempCutLoss)
 				closeContract(className + ": StopEarn, long @ " + Global.getCurrentAsk());
 
@@ -655,55 +650,57 @@ public class RuleSkyStair extends Rules
 		if (Global.getNoOfContracts() > 0)
 		{
 
-//			if (refLow < XMLWatcher.stairs.get(currentStairIndex).value - 20)
-//			{
-//				shutdown = true;
-//				return Math.min(20, refHigh - buyingPoint - 5);
-//			}
-//
-//			if (refLow < XMLWatcher.stairs.get(currentStairIndex).value - 10)
-//			{
-//				// Global.addLog("Line unclear, trying to take little profit");
-//				shutdown = true;
-//				return 30;
-//			}
-//
-//			// Try to take profit if blocked by EMA
-//			if (GetData.getLongTB().getEma50().getEMA() - buyingPoint > 50)
-//			{
-//				return GetData.getLongTB().getEma50().getEMA() - buyingPoint;
-//			} else if (GetData.getLongTB().getEma250().getEMA() - buyingPoint > 50)
-//			{
-//				return GetData.getLongTB().getEma250().getEMA() - buyingPoint;
-//			}
+			// if (refLow < currentStair.value - 20)
+			// {
+			// shutdown = true;
+			// return Math.min(20, refHigh - buyingPoint - 5);
+			// }
+			//
+			// if (refLow < currentStair.value - 10)
+			// {
+			// // Global.addLog("Line unclear, trying to take little profit");
+			// shutdown = true;
+			// return 30;
+			// }
+			//
+			// // Try to take profit if blocked by EMA
+			// if (GetData.getLongTB().getEma50().getEMA() - buyingPoint > 50)
+			// {
+			// return GetData.getLongTB().getEma50().getEMA() - buyingPoint;
+			// } else if (GetData.getLongTB().getEma250().getEMA() - buyingPoint
+			// > 50)
+			// {
+			// return GetData.getLongTB().getEma250().getEMA() - buyingPoint;
+			// }
 
-			return Math.max(10, getLongStopEarn(XMLWatcher.stairs.get(currentStairIndex).value) - buyingPoint - 10);
+			return Math.max(10, getLongStopEarn(currentStair.value) - buyingPoint - 10);
 		} else
 		{
 
-//			if (refHigh > XMLWatcher.stairs.get(currentStairIndex).value + 20)
-//			{
-//				shutdown = true;
-//				return Math.min(20, buyingPoint - refLow - 5);
-//			}
-//
-//			if (refHigh > XMLWatcher.stairs.get(currentStairIndex).value + 10)
-//			{
-//				// Global.addLog("Line unclear, trying to take little profit");
-//				shutdown = true;
-//				return 30;
-//			}
-//
-//			// Try to take profit if blocked by EMA
-//			if (buyingPoint - GetData.getLongTB().getEma50().getEMA() > 50)
-//			{
-//				return buyingPoint - GetData.getLongTB().getEma50().getEMA();
-//			} else if (buyingPoint - GetData.getLongTB().getEma250().getEMA() > 50)
-//			{
-//				return buyingPoint - GetData.getLongTB().getEma250().getEMA();
-//			}
+			// if (refHigh > currentStair.value + 20)
+			// {
+			// shutdown = true;
+			// return Math.min(20, buyingPoint - refLow - 5);
+			// }
+			//
+			// if (refHigh > currentStair.value + 10)
+			// {
+			// // Global.addLog("Line unclear, trying to take little profit");
+			// shutdown = true;
+			// return 30;
+			// }
+			//
+			// // Try to take profit if blocked by EMA
+			// if (buyingPoint - GetData.getLongTB().getEma50().getEMA() > 50)
+			// {
+			// return buyingPoint - GetData.getLongTB().getEma50().getEMA();
+			// } else if (buyingPoint - GetData.getLongTB().getEma250().getEMA()
+			// > 50)
+			// {
+			// return buyingPoint - GetData.getLongTB().getEma250().getEMA();
+			// }
 
-			return Math.max(10, buyingPoint - getShortStopEarn(XMLWatcher.stairs.get(currentStairIndex).value) - 10);
+			return Math.max(10, buyingPoint - getShortStopEarn(currentStair.value) - 10);
 		}
 
 	}
@@ -719,62 +716,64 @@ public class RuleSkyStair extends Rules
 			updateHighLow();
 			sleep(waitingTime);
 
-//	???		if (buying)
-//			{
-//				if (GetData.getShortTB().getLatestCandle().getClose() > GetData.getShortTB().getPreviousCandle(1)
-//						.getOpen())
-//				{
-//					Global.addLog("Break previous open");
-//					break;
-//				}
-//			}
+			// ??? if (buying)
+			// {
+			// if (GetData.getShortTB().getLatestCandle().getClose() >
+			// GetData.getShortTB().getPreviousCandle(1)
+			// .getOpen())
+			// {
+			// Global.addLog("Break previous open");
+			// break;
+			// }
+			// }
 
 		}
 
 	}
-	
+
 	@Override
 	protected void cutLoss()
 	{
 
 		double refPt = 0;
 
-//		refPt = GetData.getShortTB().getLatestCandle().getClose();
-		
+		// refPt = GetData.getShortTB().getLatestCandle().getClose();
+
 		refPt = Global.getCurrentPoint();
-		
 
 		if (Global.getNoOfContracts() > 0 && refPt < tempCutLoss)
 		{
-			
+
 			if (getProfit() > 5)
 			{
 				stopEarn();
 				return;
 			}
-			
+
 			closeContract(className + ": CutLoss, short @ " + Global.getCurrentBid());
-			XMLWatcher.stairs.get(currentStairIndex).buying = false;
-			XMLWatcher.stairs.get(currentStairIndex).reActivateTime = GetData.getTimeInt() + reActivatePeriod;;
+			currentStair.buying = false;
+			currentStair.reActivateTime = GetData.getTimeInt() + reActivatePeriod;
+			;
 			shutdownIndex.add(currentStairIndex);
 			Global.updateCSV();
-//			shutdown = true;
-			
+			// shutdown = true;
+
 		} else if (Global.getNoOfContracts() < 0 && refPt > tempCutLoss)
 		{
-			
+
 			if (getProfit() > 5)
 			{
 				stopEarn();
 				return;
 			}
-			
+
 			closeContract(className + ": CutLoss, long @ " + Global.getCurrentAsk());
-			XMLWatcher.stairs.get(currentStairIndex).selling = false;
-			XMLWatcher.stairs.get(currentStairIndex).reActivateTime = GetData.getTimeInt() + reActivatePeriod;;
+			currentStair.selling = false;
+			currentStair.reActivateTime = GetData.getTimeInt() + reActivatePeriod;
+			;
 			shutdownIndex.add(currentStairIndex);
 			Global.updateCSV();
-//			shutdown = true;
+			// shutdown = true;
 		}
 	}
 
@@ -784,25 +783,26 @@ public class RuleSkyStair extends Rules
 	//
 	// trendReversed = true;
 	// }
-	
 
-	
-//	private void updateEMAValue(){
-//		
-//		EMATimer++;
-//		
-//		if (EMATimer > 60) //don't want to check too frequently
-//		{
-//			if (XMLWatcher.stairs.get(0).value != GetData.getLongTB().getEma50().getEMA())
-//				XMLWatcher.stairs.get(0).value = GetData.getLongTB().getEma50().getEMA();
-//			if (XMLWatcher.stairs.get(1).value != GetData.getLongTB().getEma250().getEMA())
-//				XMLWatcher.stairs.get(1).value = GetData.getLongTB().getEma250().getEMA();	
-//			
-//			EMATimer = 0;
-//		}
-//		
-//		
-//	}
+	// private void updateEMAValue(){
+	//
+	// EMATimer++;
+	//
+	// if (EMATimer > 60) //don't want to check too frequently
+	// {
+	// if (XMLWatcher.stairs.get(0).value !=
+	// GetData.getLongTB().getEma50().getEMA())
+	// XMLWatcher.stairs.get(0).value = GetData.getLongTB().getEma50().getEMA();
+	// if (XMLWatcher.stairs.get(1).value !=
+	// GetData.getLongTB().getEma250().getEMA())
+	// XMLWatcher.stairs.get(1).value =
+	// GetData.getLongTB().getEma250().getEMA();
+	//
+	// EMATimer = 0;
+	// }
+	//
+	//
+	// }
 
 	@Override
 	public TimeBase getTimeBase()
