@@ -18,7 +18,7 @@ public class RuleSkyStair extends Rules
 	public RuleSkyStair(boolean globalRunRule)
 	{
 		super(globalRunRule);
-		setOrderTime(91800, 115800, 130100, 160000, 171800, 230000); // need to
+		setOrderTime(91800, 115800, 130100, 160000, 210000, 233000); // need to
 																		// observe
 																		// the
 																		// first
@@ -197,6 +197,8 @@ public class RuleSkyStair extends Rules
 					if (rr < 0.7)
 					{
 						Global.addLog("RR= " + rr);
+						currentStair.buying = false;
+						shutdownStair(currentStairIndex);
 						return;
 					}
 
@@ -351,6 +353,8 @@ public class RuleSkyStair extends Rules
 					if (rr < 0.7)
 					{
 						Global.addLog("RR= " + rr);
+						currentStair.selling = false;
+						shutdownStair(currentStairIndex);
 						return;
 					}
 
@@ -521,8 +525,8 @@ public class RuleSkyStair extends Rules
 
 		}
 
-		if (TimePeriodDecider.nightOpened)
-			return value + 50;
+//		if (TimePeriodDecider.nightOpened)
+//			return value + 50;
 
 		if (stopEarn == 99999) // for the Max or Min of stair
 			return value + 100;
@@ -543,8 +547,8 @@ public class RuleSkyStair extends Rules
 
 		}
 
-		if (TimePeriodDecider.nightOpened)
-			return value - 50;
+//		if (TimePeriodDecider.nightOpened)
+//			return value - 50;
 
 		if (stopEarn == 99999) // for the Max or Min of stair
 			return value - 100;
