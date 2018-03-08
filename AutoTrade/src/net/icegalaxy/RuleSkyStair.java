@@ -521,7 +521,7 @@ public class RuleSkyStair extends Rules
 		{
 			if (XMLWatcher.stairs.get(j).value - value < stopEarn && XMLWatcher.stairs.get(j).value - value > 0)
 
-				stopEarn = currentStair.value;
+				stopEarn = XMLWatcher.stairs.get(j).value;
 
 		}
 
@@ -543,7 +543,7 @@ public class RuleSkyStair extends Rules
 		{
 			if (value - XMLWatcher.stairs.get(j).value < stopEarn && value - XMLWatcher.stairs.get(j).value > 0)
 
-				stopEarn = currentStair.value;
+				stopEarn = XMLWatcher.stairs.get(j).value;
 
 		}
 
