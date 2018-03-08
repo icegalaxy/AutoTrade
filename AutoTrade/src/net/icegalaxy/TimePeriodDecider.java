@@ -22,7 +22,7 @@ public class TimePeriodDecider implements Runnable
 	public final int forceSell2 = 235500;
 	private boolean noonClosed;
 	private boolean noonOpened;
-	private boolean dayClosed;
+	public static boolean dayClosed;
 	public static boolean nightOpened;
 
 	@Override

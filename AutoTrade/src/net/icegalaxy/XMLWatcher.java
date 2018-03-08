@@ -358,6 +358,9 @@ public class XMLWatcher implements Runnable
 			Global.addLog("Open = 0");
 			sleep(5000);
 
+			if (TimePeriodDecider.nightOpened || TimePeriodDecider.dayClosed){
+				return;
+			}
 			if (GetData.getTimeInt() > 91500)
 			{
 				Global.addLog("Fail to set open b4 91500, try again later");
