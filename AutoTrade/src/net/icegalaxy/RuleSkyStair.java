@@ -138,7 +138,7 @@ public class RuleSkyStair extends Rules
 
 				// check energy
 				if (getTimeBase().getLatestCandle().getClose() < refHL
-						&& getTimeBase().getLatestCandle().getClose() < getTimeBase().getLatestCandle().getOpen() + 5)
+						|| getTimeBase().getLatestCandle().getClose() < getTimeBase().getLatestCandle().getOpen() + 5)
 				{
 					Global.addLog("Not enough energy, wait for next time");
 
@@ -295,7 +295,7 @@ public class RuleSkyStair extends Rules
 				}
 
 				if (getTimeBase().getLatestCandle().getClose() > refHL
-						&& getTimeBase().getLatestCandle().getClose() > getTimeBase().getLatestCandle().getOpen() - 5)
+						|| getTimeBase().getLatestCandle().getClose() > getTimeBase().getLatestCandle().getOpen() - 5)
 				{
 					Global.addLog("Not enough energy, wait for next time");
 
@@ -517,9 +517,9 @@ public class RuleSkyStair extends Rules
 
 		double stopEarn = 99999;
 
-		for (int i = 0; i < XMLWatcher.stairs.size(); i++)
+		for (int j = 0; j < XMLWatcher.stairs.size(); j++)
 		{
-			if (currentStair.value - value < stopEarn && currentStair.value - value > 0)
+			if (XMLWatcher.stairs.get(j).value - value < stopEarn && XMLWatcher.stairs.get(j).value - value > 0)
 
 				stopEarn = currentStair.value;
 
@@ -539,9 +539,9 @@ public class RuleSkyStair extends Rules
 
 		double stopEarn = 99999;
 
-		for (int i = 0; i < XMLWatcher.stairs.size(); i++)
+		for (int j = 0; j < XMLWatcher.stairs.size(); j++)
 		{
-			if (value - currentStair.value < stopEarn && value - currentStair.value > 0)
+			if (value - XMLWatcher.stairs.get(j).value < stopEarn && value - XMLWatcher.stairs.get(j).value > 0)
 
 				stopEarn = currentStair.value;
 
