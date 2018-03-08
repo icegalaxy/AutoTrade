@@ -429,11 +429,11 @@ public class RuleSkyStair extends Rules
 				tempCutLoss = stair;
 			}
 
-			if (buyingPoint > tempCutLoss && getProfit() > 30)
-			{
-				Global.addLog("Free trade");
-				tempCutLoss = buyingPoint + 5;
-			}
+//			if (buyingPoint > tempCutLoss && getProfit() > 30)
+//			{
+//				Global.addLog("Free trade");
+//				tempCutLoss = buyingPoint + 5;
+//			}
 
 			// return Math.max(20, buyingPoint - currentStair.value + 30);
 
@@ -455,11 +455,11 @@ public class RuleSkyStair extends Rules
 				tempCutLoss = stair;
 			}
 
-			if (buyingPoint < tempCutLoss && getProfit() > 30)
-			{
-				Global.addLog("Free trade");
-				tempCutLoss = buyingPoint - 5;
-			}
+//			if (buyingPoint < tempCutLoss && getProfit() > 30)
+//			{
+//				Global.addLog("Free trade");
+//				tempCutLoss = buyingPoint - 5;
+//			}
 			// return Math.max(20, currentStair.value - buyingPoint + 30);
 
 			// just in case, should be stopped by tempCutLoss first
