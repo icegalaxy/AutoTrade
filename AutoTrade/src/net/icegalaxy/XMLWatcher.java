@@ -253,7 +253,9 @@ public class XMLWatcher implements Runnable
 			st.value = sc2.nextDouble();
 			st.cutLoss = sc2.nextDouble();
 			st.buying = sc2.nextBoolean();
+			st.cutLoss = sc2.nextDouble();
 			st.selling = sc2.nextBoolean();
+			st.cutLoss = sc2.nextDouble();
 			st.reActivateTime = sc2.nextInt();
 			st.shutdown = sc2.nextBoolean();
 			
