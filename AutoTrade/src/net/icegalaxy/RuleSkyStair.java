@@ -188,7 +188,8 @@ public class RuleSkyStair extends Rules
 
 					double rr = reward / risk;
 
-					if (rr > 2)
+					if (rr > 2 
+							&& Global.getCurrentPoint() - cutLoss < 50)
 					{
 						Global.addLog("RR= " + rr);
 						break;
@@ -344,7 +345,8 @@ public class RuleSkyStair extends Rules
 
 					double rr = reward / risk;
 
-					if (rr > 2)
+					if (rr > 2
+							&& cutLoss - Global.getCurrentPoint() < 50)
 					{
 						Global.addLog("RR= " + rr);
 						break;
@@ -519,7 +521,7 @@ public class RuleSkyStair extends Rules
 
 		for (int j = 0; j < XMLWatcher.stairs.size(); j++)
 		{
-			if (XMLWatcher.stairs.get(j).value - value < stopEarn && XMLWatcher.stairs.get(j).value - value > 0)
+			if (XMLWatcher.stairs.get(j).value - value + value < stopEarn && XMLWatcher.stairs.get(j).value - value > 0)
 
 				stopEarn = XMLWatcher.stairs.get(j).value;
 
@@ -541,7 +543,7 @@ public class RuleSkyStair extends Rules
 
 		for (int j = 0; j < XMLWatcher.stairs.size(); j++)
 		{
-			if (value - XMLWatcher.stairs.get(j).value < stopEarn && value - XMLWatcher.stairs.get(j).value > 0)
+			if (value - XMLWatcher.stairs.get(j).value + value < stopEarn && value - XMLWatcher.stairs.get(j).value > 0)
 
 				stopEarn = XMLWatcher.stairs.get(j).value;
 
