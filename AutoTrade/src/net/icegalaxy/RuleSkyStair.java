@@ -68,7 +68,7 @@ public class RuleSkyStair extends Rules
 			// continue;
 
 			// Long
-			if (GetData.getLongTB().getEma5().getEMA() > XMLWatcher.stairs.get(currentStairIndex).value
+			if (GetData.getLongTB().getEma5().getEMA() > XMLWatcher.stairs.get(currentStairIndex).value + 3
 					&& Global.getCurrentPoint() < XMLWatcher.stairs.get(currentStairIndex).value + 10
 					&& Global.getCurrentPoint() > XMLWatcher.stairs.get(currentStairIndex).value)
 			{
@@ -226,7 +226,7 @@ public class RuleSkyStair extends Rules
 				Global.addLog("OHLC: " + XMLWatcher.stairs.get(currentStairIndex).lineType);
 				return;
 
-			} else if (GetData.getLongTB().getEma5().getEMA() < XMLWatcher.stairs.get(currentStairIndex).value
+			} else if (GetData.getLongTB().getEma5().getEMA() < XMLWatcher.stairs.get(currentStairIndex).value - 3
 					&& Global.getCurrentPoint() > XMLWatcher.stairs.get(currentStairIndex).value - 10
 					&& Global.getCurrentPoint() < XMLWatcher.stairs.get(currentStairIndex).value)
 			{
