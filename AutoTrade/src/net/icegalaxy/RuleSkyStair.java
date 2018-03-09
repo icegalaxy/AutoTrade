@@ -141,6 +141,9 @@ public class RuleSkyStair extends Rules
 						|| getTimeBase().getLatestCandle().getClose() < getTimeBase().getLatestCandle().getOpen() + 5)
 				{
 					Global.addLog("Not enough energy, wait for next time");
+					
+					if (refLow < XMLWatcher.stairs.get(currentStairIndex).refLow)
+						XMLWatcher.stairs.get(currentStairIndex).refLow = refLow;
 
 					for (int x = 0; x < 5; x++)
 					{
@@ -172,8 +175,11 @@ public class RuleSkyStair extends Rules
 
 				// if (Global.getCurrentPoint() > currentStair.value + 20)
 				// Global.addLog("Rise to fast, waiting for a pull back");
+				
+				if (refLow < XMLWatcher.stairs.get(currentStairIndex).refLow)
+					XMLWatcher.stairs.get(currentStairIndex).refLow = refLow;
 
-				cutLoss = Math.min(refLow - 20, XMLWatcher.stairs.get(currentStairIndex).value - 10);
+				cutLoss = Math.min(XMLWatcher.stairs.get(currentStairIndex).refLow - 20, XMLWatcher.stairs.get(currentStairIndex).value - 10);
 				Global.addLog("Cut loss: " + cutLoss);
 				Global.addLog("Stop Earn: " + getLongStopEarn(XMLWatcher.stairs.get(currentStairIndex).value));
 
@@ -219,10 +225,14 @@ public class RuleSkyStair extends Rules
 				}
 
 				longContract();
+				
+				if (refLow < XMLWatcher.stairs.get(currentStairIndex).refLow)
+					XMLWatcher.stairs.get(currentStairIndex).refLow = refLow;
+				
 				Global.updateCSV();
 				Global.addLog("Ref Low: " + refLow);
 
-				cutLoss = Math.min(refLow - 20, XMLWatcher.stairs.get(currentStairIndex).value - 10);
+				cutLoss = Math.min(XMLWatcher.stairs.get(currentStairIndex).refLow - 20, XMLWatcher.stairs.get(currentStairIndex).value - 10);
 
 				Global.addLog("OHLC: " + XMLWatcher.stairs.get(currentStairIndex).lineType);
 				return;
@@ -299,6 +309,9 @@ public class RuleSkyStair extends Rules
 						|| getTimeBase().getLatestCandle().getClose() > getTimeBase().getLatestCandle().getOpen() - 5)
 				{
 					Global.addLog("Not enough energy, wait for next time");
+					
+					if(refHigh > XMLWatcher.stairs.get(currentStairIndex).refHigh)
+						XMLWatcher.stairs.get(currentStairIndex).refHigh = refHigh;
 
 					for (int x = 0; x < 5; x++)
 					{
@@ -330,7 +343,10 @@ public class RuleSkyStair extends Rules
 				// if (Global.getCurrentPoint() < currentStair.value - 20)
 				// Global.addLog("Drop to fast, waiting for a pull back");
 
-				cutLoss = Math.max(refHigh + 20, XMLWatcher.stairs.get(currentStairIndex).value + 10);
+				if(refHigh > XMLWatcher.stairs.get(currentStairIndex).refHigh)
+					XMLWatcher.stairs.get(currentStairIndex).refHigh = refHigh;
+				
+				cutLoss = Math.max(XMLWatcher.stairs.get(currentStairIndex).refHigh + 20, XMLWatcher.stairs.get(currentStairIndex).value + 10);
 				Global.addLog("Cut loss: " + cutLoss);
 				Global.addLog("Stop Earn: " + getShortStopEarn(XMLWatcher.stairs.get(currentStairIndex).value));
 
@@ -374,11 +390,16 @@ public class RuleSkyStair extends Rules
 					return;
 				}
 
+			
+				
 				shortContract();
 				Global.updateCSV();
 				Global.addLog("Ref High: " + refHigh);
+				
+				if(refHigh > XMLWatcher.stairs.get(currentStairIndex).refHigh)
+					XMLWatcher.stairs.get(currentStairIndex).refHigh= refHigh;
 
-				cutLoss = Math.max(refHigh + 20, XMLWatcher.stairs.get(currentStairIndex).value + 10);
+				cutLoss = Math.max(XMLWatcher.stairs.get(currentStairIndex).refHigh + 20, XMLWatcher.stairs.get(currentStairIndex).value + 10);
 
 				Global.addLog("OHLC: " + XMLWatcher.stairs.get(currentStairIndex).lineType);
 				return;
@@ -415,7 +436,7 @@ public class RuleSkyStair extends Rules
 
 		double stair = XMLWatcher.stair;
 
-		updateExpectedProfit(10);
+//		updateExpectedProfit(10);
 
 		if (Global.getNoOfContracts() > 0)
 		{

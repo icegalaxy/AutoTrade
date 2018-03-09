@@ -10,4 +10,6 @@ public class Stair
 	public boolean buying = true;
 	public boolean selling = true;
 	public int timesOfShutdown =1;
+	public double refHigh;
+	public double refLow;
 }
