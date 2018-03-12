@@ -656,7 +656,13 @@ public class GetData implements Runnable
 	public static int getTimeInt()
 	{
 
-		return new Integer(time.replaceAll(":", ""));
+		int t = new Integer(time.replaceAll(":", ""));
+
+		// for 0-2 a.m.
+		if (t < 20000)
+			t = t + 1000000;
+		
+		return t;
 
 	}
 	

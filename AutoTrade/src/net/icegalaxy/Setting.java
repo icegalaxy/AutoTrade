@@ -141,7 +141,7 @@ public class Setting extends JFrame {
 				}
 				
 				while (getDayOfWeek() == 1 || getDayOfWeek() == 7){
-					System.out.println("Sunday or Saturday " + getTime() + " Sleep for 1 hr");
+					System.out.println("Sunday or Saturday " + GetData.getTimeInt() + " Sleep for 1 hr");
 					try {
 						Thread.sleep(3600000);
 					} catch (InterruptedException e2) {
@@ -150,8 +150,8 @@ public class Setting extends JFrame {
 					
 				}
 
-				while (getTime() > 235900 || getTime() < 90001){
-					System.out.println(getTime() + "Sleep for 5 min");
+				while (GetData.getTimeInt() > 1010000 || GetData.getTimeInt() < 90001){
+					System.out.println(GetData.getTimeInt() + "Sleep for 5 min");
 					try {
 						Thread.sleep(300000);
 					} catch (InterruptedException e2) {
@@ -249,12 +249,12 @@ public class Setting extends JFrame {
 		return longTB;
 	}
 	
-	public Integer getTime() { 
-		Calendar now = Calendar.getInstance();
-		SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");
-		String time = new String(formatter.format(now.getTime()));
-		return new Integer(time.replaceAll(":", ""));
-	}
+//	public Integer getTimeInt() { 
+//		Calendar now = Calendar.getInstance();
+//		SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");
+//		String time = new String(formatter.format(now.getTime()));
+//		return new Integer(time.replaceAll(":", ""));
+//	}
 	
 	public int getDayOfWeek() { 
 		Calendar calendar = Calendar.getInstance();

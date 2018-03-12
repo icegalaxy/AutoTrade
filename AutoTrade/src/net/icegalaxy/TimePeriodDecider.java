@@ -9,17 +9,20 @@ public class TimePeriodDecider implements Runnable
 	public final int noonOpen = 125959;
 	public final int dayClose = 163001;
 	public final int nightOpen = 171500;
-	public final int nightClose = 235959;
+//	public final int nightClose = 235959;
+	public final int nightClose = 1005959;
 
 	public final int morningOrderStart = 91500;
 	public final int morningOrderStop = 103000;
 	public final int afternoonOrderStart = 150000;
 	public final int afternoonOrderStop = 160000;
 	public final int nightOrderStart = 171800;
-	public final int nightOrderStop = 231500;
+//	public final int nightOrderStop = 231500;
+	public final int nightOrderStop = 1003000;
 
 	public final int forceSell = 162500;
-	public final int forceSell2 = 235500;
+//	public final int forceSell2 = 235500;
+	public final int forceSell2 = 1005500;
 	private boolean noonClosed;
 	private boolean noonOpened;
 	public static boolean dayClosed;
