@@ -150,8 +150,8 @@ public class Setting extends JFrame {
 					
 				}
 
-				while (GetData.getTimeInt() > 1010000 || GetData.getTimeInt() < 90001){
-					System.out.println(GetData.getTimeInt() + "Sleep for 5 min");
+				while (getTimeInt() > 1010000 || getTimeInt() < 90001){
+					System.out.println(getTimeInt() + ": Sleep for 5 min");
 					try {
 						Thread.sleep(300000);
 					} catch (InterruptedException e2) {
@@ -249,12 +249,12 @@ public class Setting extends JFrame {
 		return longTB;
 	}
 	
-//	public Integer getTimeInt() { 
-//		Calendar now = Calendar.getInstance();
-//		SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");
-//		String time = new String(formatter.format(now.getTime()));
-//		return new Integer(time.replaceAll(":", ""));
-//	}
+	public Integer getTimeInt() { 
+		Calendar now = Calendar.getInstance();
+		SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");
+		String time = new String(formatter.format(now.getTime()));
+		return new Integer(time.replaceAll(":", ""));
+	}
 	
 	public int getDayOfWeek() { 
 		Calendar calendar = Calendar.getInstance();
