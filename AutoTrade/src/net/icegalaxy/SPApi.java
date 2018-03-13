@@ -456,6 +456,9 @@ public class SPApi
 	{
 		RegisterPriceUpdate priceUpdate = (price) ->
 		{
+				if (price.Last[0] == 0)
+					return;
+			
 				Global.setCurrentPoint(price.Last[0]);
 				Global.setCurrentAsk(price.Ask[0]);
 				Global.setCurrentBid(price.Bid[0]);

@@ -379,7 +379,8 @@ public class GetData implements Runnable
 					
 					XMLWatcher.stairs.get(0).value = GetData.getLongTB().getEma50().getEMA();
 					XMLWatcher.stairs.get(1).value = GetData.getLongTB().getEma250().getEMA();
-					checkEMA();
+					checkEMA50();
+					checkEMA250();
 				}
 			}
 
@@ -499,58 +500,126 @@ public class GetData implements Runnable
 
 	}
 	
-	private void checkEMA(){
+	private void checkEMA50(){
+		
+		
+		if (getTimeInt() < XMLWatcher.stairs.get(0).reActivateTime)
+			return;
+		
 		
 		if (GetData.getLongTB().getEma5().getEMA() > GetData.getLongTB().getEma50().getEMA() + 10
-				&& GetData.getLongTB().getEma50().getEMA() > GetData.getLongTB().getEma250().getEMA() + 10)
+				&& GetData.getLongTB().getEma50().getEMA() > GetData.getLongTB().getEma250().getEMA() + 20)
 		{
 			
-			if (Global.getCurrentPoint() > GetData.getLongTB().getEma50().getEMA())
-			{
+//			if (Global.getCurrentPoint() > GetData.getLongTB().getEma50().getEMA())
+//			{
 				XMLWatcher.stairs.get(0).buying = true;
 				XMLWatcher.stairs.get(0).selling = false;
-				XMLWatcher.stairs.get(1).buying = true;
-				XMLWatcher.stairs.get(1).selling = false;
-			}else if (Global.getCurrentPoint() > GetData.getLongTB().getEma250().getEMA())
-			{
-				XMLWatcher.stairs.get(0).buying = false;
-				XMLWatcher.stairs.get(0).selling = false;
-				XMLWatcher.stairs.get(1).buying = true;
-				XMLWatcher.stairs.get(1).selling = false;
-			}else
-			{
-				XMLWatcher.stairs.get(0).buying = false;
-				XMLWatcher.stairs.get(0).selling = false;
-				XMLWatcher.stairs.get(1).buying = false;
-				XMLWatcher.stairs.get(1).selling = false;
-			}
+//				XMLWatcher.stairs.get(1).buying = true;
+//				XMLWatcher.stairs.get(1).selling = false;
+//			}else if (Global.getCurrentPoint() > GetData.getLongTB().getEma250().getEMA())
+//			{
+//				XMLWatcher.stairs.get(0).buying = false;
+//				XMLWatcher.stairs.get(0).selling = false;
+//				XMLWatcher.stairs.get(1).buying = true;
+//				XMLWatcher.stairs.get(1).selling = false;
+//			}
+//			else
+//			{
+//				XMLWatcher.stairs.get(0).buying = false;
+//				XMLWatcher.stairs.get(0).selling = false;
+//				XMLWatcher.stairs.get(1).buying = false;
+//				XMLWatcher.stairs.get(1).selling = false;
+//			}
 
 		}else if (GetData.getLongTB().getEma5().getEMA() < GetData.getLongTB().getEma50().getEMA() - 10
-				&& GetData.getLongTB().getEma50().getEMA() < GetData.getLongTB().getEma250().getEMA() - 10)
+				&& GetData.getLongTB().getEma50().getEMA() < GetData.getLongTB().getEma250().getEMA() - 20)
 		{
-			if (Global.getCurrentPoint() < GetData.getLongTB().getEma50().getEMA())
-			{
+//			if (Global.getCurrentPoint() < GetData.getLongTB().getEma50().getEMA())
+//			{
 				XMLWatcher.stairs.get(0).buying = false;
 				XMLWatcher.stairs.get(0).selling = true;
-				XMLWatcher.stairs.get(1).buying = false;
-				XMLWatcher.stairs.get(1).selling = true;
-			}else if (Global.getCurrentPoint() < GetData.getLongTB().getEma250().getEMA())
-			{
-				XMLWatcher.stairs.get(0).buying = false;
-				XMLWatcher.stairs.get(0).selling = false;
-				XMLWatcher.stairs.get(1).buying = false;
-				XMLWatcher.stairs.get(1).selling = true;
-			}else
-			{
-				XMLWatcher.stairs.get(0).buying = false;
-				XMLWatcher.stairs.get(0).selling = false;
-				XMLWatcher.stairs.get(1).buying = false;
-				XMLWatcher.stairs.get(1).selling = false;
-			}
+//				XMLWatcher.stairs.get(1).buying = false;
+//				XMLWatcher.stairs.get(1).selling = true;
+//			}else if (Global.getCurrentPoint() < GetData.getLongTB().getEma250().getEMA())
+//			{
+//				XMLWatcher.stairs.get(0).buying = false;
+//				XMLWatcher.stairs.get(0).selling = false;
+//				XMLWatcher.stairs.get(1).buying = false;
+//				XMLWatcher.stairs.get(1).selling = true;
+//			}else
+//			{
+//				XMLWatcher.stairs.get(0).buying = false;
+//				XMLWatcher.stairs.get(0).selling = false;
+//				XMLWatcher.stairs.get(1).buying = false;
+//				XMLWatcher.stairs.get(1).selling = false;
+//			}
 			
 		}else{
 			XMLWatcher.stairs.get(0).buying = false;
 			XMLWatcher.stairs.get(0).selling = false;
+//			XMLWatcher.stairs.get(1).buying = false;
+//			XMLWatcher.stairs.get(1).selling = false;
+		}
+	
+	}
+	
+	private void checkEMA250(){
+		
+		
+		if (getTimeInt() < XMLWatcher.stairs.get(1).reActivateTime)
+			return;
+		
+		
+		if (GetData.getLongTB().getEma50().getEMA() > GetData.getLongTB().getEma250().getEMA() + 20)
+		{
+			
+//			if (Global.getCurrentPoint() > GetData.getLongTB().getEma50().getEMA())
+//			{
+//				XMLWatcher.stairs.get(0).buying = true;
+//				XMLWatcher.stairs.get(0).selling = false;
+				XMLWatcher.stairs.get(1).buying = true;
+				XMLWatcher.stairs.get(1).selling = false;
+//			}else if (Global.getCurrentPoint() > GetData.getLongTB().getEma250().getEMA())
+//			{
+//				XMLWatcher.stairs.get(0).buying = false;
+//				XMLWatcher.stairs.get(0).selling = false;
+//				XMLWatcher.stairs.get(1).buying = true;
+//				XMLWatcher.stairs.get(1).selling = false;
+//			}
+//			else
+//			{
+//				XMLWatcher.stairs.get(0).buying = false;
+//				XMLWatcher.stairs.get(0).selling = false;
+//				XMLWatcher.stairs.get(1).buying = false;
+//				XMLWatcher.stairs.get(1).selling = false;
+//			}
+
+		}else if (GetData.getLongTB().getEma50().getEMA() < GetData.getLongTB().getEma250().getEMA() - 20)
+		{
+//			if (Global.getCurrentPoint() < GetData.getLongTB().getEma50().getEMA())
+//			{
+//				XMLWatcher.stairs.get(0).buying = false;
+//				XMLWatcher.stairs.get(0).selling = true;
+				XMLWatcher.stairs.get(1).buying = false;
+				XMLWatcher.stairs.get(1).selling = true;
+//			}else if (Global.getCurrentPoint() < GetData.getLongTB().getEma250().getEMA())
+//			{
+//				XMLWatcher.stairs.get(0).buying = false;
+//				XMLWatcher.stairs.get(0).selling = false;
+//				XMLWatcher.stairs.get(1).buying = false;
+//				XMLWatcher.stairs.get(1).selling = true;
+//			}else
+//			{
+//				XMLWatcher.stairs.get(0).buying = false;
+//				XMLWatcher.stairs.get(0).selling = false;
+//				XMLWatcher.stairs.get(1).buying = false;
+//				XMLWatcher.stairs.get(1).selling = false;
+//			}
+			
+		}else{
+//			XMLWatcher.stairs.get(0).buying = false;
+//			XMLWatcher.stairs.get(0).selling = false;
 			XMLWatcher.stairs.get(1).buying = false;
 			XMLWatcher.stairs.get(1).selling = false;
 		}
