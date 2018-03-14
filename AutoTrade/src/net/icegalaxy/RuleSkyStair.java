@@ -743,9 +743,9 @@ public class RuleSkyStair extends Rules
 
 		double refPt = 0;
 
-		// refPt = GetData.getShortTB().getLatestCandle().getClose();
+		refPt = GetData.getShortTB().getLatestCandle().getClose();
 
-		refPt = Global.getCurrentPoint();
+		//refPt = Global.getCurrentPoint();
 
 		if (Global.getNoOfContracts() > 0 && refPt < tempCutLoss)
 		{
