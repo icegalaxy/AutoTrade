@@ -497,6 +497,10 @@ public class RuleSkyStair extends Rules
 
 		if (Global.getNoOfContracts() > 0)
 		{
+			
+			if (getHoldingTime() > 3600 && getProfit() > 100 && tempCutLoss < buyingPoint + 100)
+				tempCutLoss = buyingPoint + 100;
+				
 
 			// update stair
 			if (stair != 0 && tempCutLoss < stair && Global.getCurrentPoint() > stair)
@@ -516,6 +520,9 @@ public class RuleSkyStair extends Rules
 
 		} else if (Global.getNoOfContracts() < 0)
 		{
+			
+			if (getHoldingTime() > 3600 && getProfit() > 100 && tempCutLoss > buyingPoint - 100)
+				tempCutLoss = buyingPoint - 100;
 
 			if (stair != 0 && tempCutLoss > stair && Global.getCurrentPoint() < stair)
 			{
