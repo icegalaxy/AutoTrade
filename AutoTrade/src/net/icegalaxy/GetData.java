@@ -313,7 +313,7 @@ public class GetData implements Runnable
 						Global.addLog("Set open after 91500 at: " + Global.getOpen());
 					}
 
-
+					
 //					if (Global.getpHigh() == 0)
 //					{
 //						setOHLC();
@@ -342,7 +342,7 @@ public class GetData implements Runnable
 //					if (Global.getAOH() == 0)
 //						setAOHL();
 					
-					
+					updateStair();
 
 				}
 
@@ -409,6 +409,47 @@ public class GetData implements Runnable
 //			Global.setRunning(false);
 //
 //	}
+
+private void updateStair()
+	{
+		for (int i=0; i<XMLWatcher.stairs.size(); i++)
+		{
+			double high = getShortTB().getLatestCandle().getHigh();
+			double low =getShortTB().getLatestCandle().getLow();
+			
+			if(high > XMLWatcher.stairs.get(i).value
+					&& high < XMLWatcher.stairs.get(i).value + 50
+					&& high >  XMLWatcher.stairs.get(i).refHigh)
+			{
+				XMLWatcher.stairs.get(i).refHigh = high;
+				
+			}else if(high > XMLWatcher.stairs.get(i).value + 50
+					&& high < XMLWatcher.stairs.get(i).value + 100
+					&& XMLWatcher.stairs.get(i).selling)
+			{
+				XMLWatcher.stairs.get(i).selling = false;
+				RuleSkyStair.shutdownStair(i);
+				Global.addLog("ShutDown Selling: " + XMLWatcher.stairs.get(i).lineType + " @ " + XMLWatcher.stairs.get(i).value);
+			}
+			
+			if (low < XMLWatcher.stairs.get(i).value
+					&& low > XMLWatcher.stairs.get(i).value - 50
+					&& low < XMLWatcher.stairs.get(i).refLow)
+			{
+				XMLWatcher.stairs.get(i).refLow = low;
+				
+			}else if (low < XMLWatcher.stairs.get(i).value - 50
+					&& low > XMLWatcher.stairs.get(i).value - 100
+					&& XMLWatcher.stairs.get(i).buying)
+			{
+				XMLWatcher.stairs.get(i).buying = false;
+				RuleSkyStair.shutdownStair(i);
+				Global.addLog("ShutDown Buying: " + XMLWatcher.stairs.get(i).lineType + " @ " + XMLWatcher.stairs.get(i).value);
+			}
+		}
+		
+	}
+
 
 	private void getPreviousData()
 	{

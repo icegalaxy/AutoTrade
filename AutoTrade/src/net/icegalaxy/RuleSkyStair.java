@@ -9,10 +9,10 @@ public class RuleSkyStair extends Rules
 	// Stair currentStair;
 	int currentStairIndex;
 //	Stair currentStair;
-	ArrayList<Integer> shutdownIndex;
+	static ArrayList<Integer> shutdownIndex;
 	double cutLoss;
 	double refHL;
-	int reActivatePeriod = 10000;
+	static int reActivatePeriod = 10000;
 	int EMATimer;
 
 	public RuleSkyStair(boolean globalRunRule)
@@ -452,7 +452,7 @@ public class RuleSkyStair extends Rules
 		}
 	}
 
-	private void shutdownStair(int i)
+	public static void shutdownStair(int i)
 	{
 		XMLWatcher.stairs.get(i).reActivateTime = GetData.getTimeInt() + reActivatePeriod * XMLWatcher.stairs.get(i).timesOfShutdown;
 		XMLWatcher.stairs.get(i).timesOfShutdown++;
