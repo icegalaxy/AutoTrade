@@ -542,8 +542,16 @@ public class RuleSkyStair extends Rules
 		{
 			
 			if (getHoldingTime() > 3600 && getProfit() > 100 && tempCutLoss < buyingPoint + 100)
+			{
 				tempCutLoss = buyingPoint + 100;
-				
+				Global.addLog("Get 100pt profit");
+			}
+			
+			if (getHoldingTime() > 3600 && getProfit() > 5 && tempCutLoss < buyingPoint + 5)
+			{
+				tempCutLoss = buyingPoint + 5;
+				Global.addLog("Free trade");
+			}
 
 			// update stair
 			if (stair != 0 && tempCutLoss < stair && Global.getCurrentPoint() > stair)
@@ -565,7 +573,16 @@ public class RuleSkyStair extends Rules
 		{
 			
 			if (getHoldingTime() > 3600 && getProfit() > 100 && tempCutLoss > buyingPoint - 100)
+			{
 				tempCutLoss = buyingPoint - 100;
+				Global.addLog("Get 100pt profit");
+			}
+			
+			if (getHoldingTime() > 3600 && getProfit() > 5 && tempCutLoss > buyingPoint - 5)
+			{
+				tempCutLoss = buyingPoint - 5;
+				Global.addLog("Free trade");
+			}
 
 			if (stair != 0 && tempCutLoss > stair && Global.getCurrentPoint() < stair)
 			{
