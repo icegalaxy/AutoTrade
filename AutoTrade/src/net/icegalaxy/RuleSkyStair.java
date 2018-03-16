@@ -89,7 +89,7 @@ public class RuleSkyStair extends Rules
 				// waiting for a Yang candle
 				while (Global.isRapidDrop()
 						|| getTimeBase().getLatestCandle().getClose() - getTimeBase().getLatestCandle().getOpen() < 5
-						|| Global.getCurrentPoint() < XMLWatcher.stairs.get(currentStairIndex).value + 10)
+						|| Global.getCurrentPoint() < XMLWatcher.stairs.get(currentStairIndex).value)
 				{
 
 //					currentStair = XMLWatcher.stairs.get(currentStairIndex);
@@ -137,7 +137,7 @@ public class RuleSkyStair extends Rules
 				}
 
 				// check energy
-				if (getTimeBase().getLatestCandle().getClose() < refHL
+			/*	if (getTimeBase().getLatestCandle().getClose() < refHL
 						|| getTimeBase().getLatestCandle().getClose() < getTimeBase().getLatestCandle().getOpen() + 5)
 				{
 					Global.addLog("Not enough energy, wait for next time");
@@ -171,6 +171,29 @@ public class RuleSkyStair extends Rules
 					}
 					return;
 					// Not shutting down
+				}*/
+				
+				//waitRSI
+				while(GetData.getShortTB().getRSI() < 40)
+				{
+					if (GetData.getLongTB().getEma5().getEMA() < XMLWatcher.stairs.get(currentStairIndex).value)
+					{
+						Global.addLog("M5_EMA out of range");
+						XMLWatcher.stairs.get(currentStairIndex).buying = false;
+						shutdownStair(currentStairIndex);
+						return;
+						// shutting down
+					}
+
+					if (Global.getCurrentPoint() < XMLWatcher.stairs.get(currentStairIndex).value - 50)
+					{
+						Global.addLog("Current point out of range");
+						XMLWatcher.stairs.get(currentStairIndex).buying = false;
+						shutdownStair(currentStairIndex);
+						return;
+					}
+					
+					sleep(waitingTime);
 				}
 
 				// if (Global.getCurrentPoint() > currentStair.value + 20)
@@ -259,7 +282,7 @@ public class RuleSkyStair extends Rules
 
 				while (Global.isRapidRise()
 						|| getTimeBase().getLatestCandle().getOpen() - getTimeBase().getLatestCandle().getClose() < 5
-						|| Global.getCurrentPoint() > XMLWatcher.stairs.get(currentStairIndex).value - 10)
+						|| Global.getCurrentPoint() > XMLWatcher.stairs.get(currentStairIndex).value)
 				{
 
 //					currentStair = XMLWatcher.stairs.get(currentStairIndex);
@@ -305,7 +328,7 @@ public class RuleSkyStair extends Rules
 					sleep(waitingTime);
 				}
 
-				if (getTimeBase().getLatestCandle().getClose() > refHL
+				/*if (getTimeBase().getLatestCandle().getClose() > refHL
 						|| getTimeBase().getLatestCandle().getClose() > getTimeBase().getLatestCandle().getOpen() - 5)
 				{
 					Global.addLog("Not enough energy, wait for next time");
@@ -338,6 +361,26 @@ public class RuleSkyStair extends Rules
 
 					return;
 					// Not shutting down
+				}*/
+				
+				while(GetData.getShortTB().getRSI() > 60)
+				{
+					if (GetData.getLongTB().getEma5().getEMA() > XMLWatcher.stairs.get(currentStairIndex).value)
+					{
+						Global.addLog("M5_EMA out of range");
+						XMLWatcher.stairs.get(currentStairIndex).selling = false;
+						shutdownStair(currentStairIndex);
+						return;
+					}
+
+					if (Global.getCurrentPoint() > XMLWatcher.stairs.get(currentStairIndex).value + 50)
+					{
+						Global.addLog("Current point out of range");
+						XMLWatcher.stairs.get(currentStairIndex).selling = false;
+						shutdownStair(currentStairIndex);
+						return;
+					}
+					sleep(waitingTime);
 				}
 
 				// if (Global.getCurrentPoint() < currentStair.value - 20)
@@ -561,7 +604,7 @@ public class RuleSkyStair extends Rules
 		if (stopEarn == 99999) // for the Max or Min of stair
 			return value + 100;
 
-		return Math.max(stopEarn, value + 50);
+		return Math.max(stopEarn, value + 20);
 	}
 
 	double getShortStopEarn(double value)
@@ -583,7 +626,7 @@ public class RuleSkyStair extends Rules
 		if (stopEarn == 99999) // for the Max or Min of stair
 			return value - 100;
 
-		return Math.min(stopEarn, value - 50);
+		return Math.min(stopEarn, value - 20);
 	}
 
 	@Override
