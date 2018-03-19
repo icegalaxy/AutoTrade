@@ -534,6 +534,43 @@ public class RuleSkyStair extends Rules
 	}
 
 	@Override
+	protected void updateCutLoss()
+	{
+		super.updateCutLoss();
+		
+		if (Global.getNoOfContracts() > 0)
+		{
+			
+			if (getHoldingTime() > 3600 && getProfit() > 100 && tempCutLoss < buyingPoint + 100)
+			{
+				tempCutLoss = buyingPoint + 100;
+				Global.addLog("Get 100pt profit");
+			}
+			
+			if (getHoldingTime() > 3600 && getProfit() > 5 && tempCutLoss < buyingPoint + 5)
+			{
+				tempCutLoss = buyingPoint + 5;
+				Global.addLog("Free trade");
+			}
+		}else if (Global.getNoOfContracts() < 0)
+		{
+			
+			if (getHoldingTime() > 3600 && getProfit() > 100 && tempCutLoss > buyingPoint - 100)
+			{
+				tempCutLoss = buyingPoint - 100;
+				Global.addLog("Get 100pt profit");
+			}
+			
+			if (getHoldingTime() > 3600 && getProfit() > 5 && tempCutLoss > buyingPoint - 5)
+			{
+				tempCutLoss = buyingPoint - 5;
+				Global.addLog("Free trade");
+			}
+		}
+		
+	}
+	
+	@Override
 	void updateStopEarn()
 	{
 		double stair = XMLWatcher.stair;
