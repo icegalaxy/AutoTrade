@@ -54,6 +54,7 @@ public class TimePeriodDecider implements Runnable
 				{
 					Global.addLog("Noon Close");
 					Global.setTradeTime(false);
+					XMLWatcher.resetStairs();
 					noonClosed = true;
 				}
 			
@@ -76,6 +77,7 @@ public class TimePeriodDecider implements Runnable
 				{
 					Global.addLog("Day Close");
 					Global.setTradeTime(false);
+					XMLWatcher.resetStairs();
 					dayClosed = true;
 				}
 				

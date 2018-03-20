@@ -114,6 +114,7 @@ public class XMLWatcher implements Runnable
 	{
 
 		readStairs();
+		resetStairs();
 		
 		//reset XMLWatcher
 		XMLWatcher.updateIntraDayXML("stair", "0");
@@ -216,6 +217,17 @@ public class XMLWatcher implements Runnable
 			secCounter++;
 			sleep(1000);
 		}
+	}
+	
+	public static void resetStairs(){
+		
+		for (Stair s : stairs)
+		{
+			s.refHigh = 0;
+			s.refLow = 99999;
+			s.reActivateTime = 0;
+		}
+		Global.updateCSV();
 	}
 
 	private void readStairs()
