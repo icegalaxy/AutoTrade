@@ -541,9 +541,9 @@ public class RuleSkyStair extends Rules
 		if (Global.getNoOfContracts() > 0)
 		{
 			
-			if (getHoldingTime() > 3600 && getProfit() > 100 && tempCutLoss < buyingPoint + 100)
+			if (getHoldingTime() > 3600 && getProfit() > 100 && tempCutLoss < buyingPoint + 80)
 			{
-				tempCutLoss = buyingPoint + 100;
+				tempCutLoss = buyingPoint + 80;
 				Global.addLog("Get 100pt profit");
 			}
 			
@@ -555,9 +555,9 @@ public class RuleSkyStair extends Rules
 		}else if (Global.getNoOfContracts() < 0)
 		{
 			
-			if (getHoldingTime() > 3600 && getProfit() > 100 && tempCutLoss > buyingPoint - 100)
+			if (getHoldingTime() > 3600 && getProfit() > 100 && tempCutLoss > buyingPoint - 80)
 			{
-				tempCutLoss = buyingPoint - 100;
+				tempCutLoss = buyingPoint - 80;
 				Global.addLog("Get 100pt profit");
 			}
 			
@@ -578,17 +578,22 @@ public class RuleSkyStair extends Rules
 		if (Global.getNoOfContracts() > 0)
 		{
 			
-			if (getHoldingTime() > 3600 && getProfit() > 100 && tempCutLoss < buyingPoint + 100)
-			{
-				tempCutLoss = buyingPoint + 100;
-				Global.addLog("Get 100pt profit");
-			}
+			if (GetData.getShortTB().getLatestCandle().getLow() < GetData.getLongTB().getEma5().getEMA()
+					&& GetData.getShortTB().getLatestCandle().getLow() > tempCutLoss)
+				tempCutLoss = GetData.getShortTB().getLatestCandle().getLow();
 			
-			if (getHoldingTime() > 3600 && getProfit() > 5 && tempCutLoss < buyingPoint + 5)
-			{
-				tempCutLoss = buyingPoint + 5;
-				Global.addLog("Free trade");
-			}
+			
+//			if (getHoldingTime() > 3600 && getProfit() > 100 && tempCutLoss < buyingPoint + 100)
+//			{
+//				tempCutLoss = buyingPoint + 100;
+//				Global.addLog("Get 100pt profit");
+//			}
+//			
+//			if (getHoldingTime() > 3600 && getProfit() > 5 && tempCutLoss < buyingPoint + 5)
+//			{
+//				tempCutLoss = buyingPoint + 5;
+//				Global.addLog("Free trade");
+//			}
 
 			// update stair
 			if (stair != 0 && tempCutLoss < stair && Global.getCurrentPoint() > stair)
@@ -609,17 +614,22 @@ public class RuleSkyStair extends Rules
 		} else if (Global.getNoOfContracts() < 0)
 		{
 			
-			if (getHoldingTime() > 3600 && getProfit() > 100 && tempCutLoss > buyingPoint - 100)
-			{
-				tempCutLoss = buyingPoint - 100;
-				Global.addLog("Get 100pt profit");
-			}
+			if (GetData.getShortTB().getLatestCandle().getHigh() > GetData.getLongTB().getEma5().getEMA()
+					&& GetData.getShortTB().getLatestCandle().getHigh() < tempCutLoss)
+				tempCutLoss = GetData.getShortTB().getLatestCandle().getHigh();
 			
-			if (getHoldingTime() > 3600 && getProfit() > 5 && tempCutLoss > buyingPoint - 5)
-			{
-				tempCutLoss = buyingPoint - 5;
-				Global.addLog("Free trade");
-			}
+			
+//			if (getHoldingTime() > 3600 && getProfit() > 100 && tempCutLoss > buyingPoint - 100)
+//			{
+//				tempCutLoss = buyingPoint - 100;
+//				Global.addLog("Get 100pt profit");
+//			}
+//			
+//			if (getHoldingTime() > 3600 && getProfit() > 5 && tempCutLoss > buyingPoint - 5)
+//			{
+//				tempCutLoss = buyingPoint - 5;
+//				Global.addLog("Free trade");
+//			}
 
 			if (stair != 0 && tempCutLoss > stair && Global.getCurrentPoint() < stair)
 			{
