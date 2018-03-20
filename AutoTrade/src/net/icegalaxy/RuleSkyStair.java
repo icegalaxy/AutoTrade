@@ -656,7 +656,7 @@ public class RuleSkyStair extends Rules
 
 		for (int j = 0; j < XMLWatcher.stairs.size(); j++)
 		{
-			if (XMLWatcher.stairs.get(j).value - value + value < stopEarn && XMLWatcher.stairs.get(j).value - value > 0)
+			if (XMLWatcher.stairs.get(j).value < stopEarn && XMLWatcher.stairs.get(j).value - value > 0)
 
 				stopEarn = XMLWatcher.stairs.get(j).value;
 
@@ -674,11 +674,11 @@ public class RuleSkyStair extends Rules
 	double getShortStopEarn(double value)
 	{
 
-		double stopEarn = 99999;
+		double stopEarn = 0;
 
 		for (int j = 0; j < XMLWatcher.stairs.size(); j++)
 		{
-			if (value - XMLWatcher.stairs.get(j).value + value < stopEarn && value - XMLWatcher.stairs.get(j).value > 0)
+			if (XMLWatcher.stairs.get(j).value > stopEarn && value - XMLWatcher.stairs.get(j).value > 0)
 
 				stopEarn = XMLWatcher.stairs.get(j).value;
 
