@@ -221,8 +221,16 @@ public class XMLWatcher implements Runnable
 	
 	public static void resetStairs(){
 		
+		if (stairs.size() <= 2)
+		{
+			Global.addLog("No stairs!!");
+			return;
+		}
+		
 		for (Stair s : stairs)
 		{
+			s.buying = true;
+			s.selling = true;
 			s.refHigh = 0;
 			s.refLow = 99999;
 			s.reActivateTime = 0;
