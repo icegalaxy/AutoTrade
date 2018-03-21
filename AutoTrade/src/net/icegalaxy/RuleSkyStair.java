@@ -224,7 +224,7 @@ public class RuleSkyStair extends Rules
 						break;
 					}
 
-					if (rr < 0.7)
+					if (rr < 0.5)
 					{
 						Global.addLog("RR= " + rr);
 						XMLWatcher.stairs.get(currentStairIndex).buying = false;
@@ -411,7 +411,7 @@ public class RuleSkyStair extends Rules
 						break;
 					}
 
-					if (rr < 0.7)
+					if (rr < 0.5)
 					{
 						Global.addLog("RR= " + rr);
 						XMLWatcher.stairs.get(currentStairIndex).selling = false;
