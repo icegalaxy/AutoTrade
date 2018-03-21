@@ -113,7 +113,7 @@ public class XMLWatcher implements Runnable
 	public void run()
 	{
 
-		readStairs();
+//		readStairs();
 		resetStairs();
 		
 		//reset XMLWatcher
@@ -221,6 +221,8 @@ public class XMLWatcher implements Runnable
 	
 	public static void resetStairs(){
 		
+		readStairs();
+		
 		if (stairs.size() <= 2)
 		{
 			Global.addLog("No stairs!!");
@@ -238,7 +240,7 @@ public class XMLWatcher implements Runnable
 		Global.updateCSV();
 	}
 
-	private void readStairs()
+	private static void readStairs()
 	{
 		Scanner sc = null;
 		try
