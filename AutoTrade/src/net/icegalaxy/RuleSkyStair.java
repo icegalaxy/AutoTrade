@@ -102,7 +102,7 @@ public class RuleSkyStair extends Rules
 				{
 
 //					currentStair = XMLWatcher.stairs.get(currentStairIndex);
-					while (GetData.getShortTB().getRSI() < 70)
+					while (GetData.getShortTB().getRSI() > 40)
 					{
 						updateHighLow();
 
@@ -310,7 +310,7 @@ public class RuleSkyStair extends Rules
 
 //					currentStair = XMLWatcher.stairs.get(currentStairIndex);
 					
-					while (GetData.getShortTB().getRSI() < 70)
+					while (GetData.getShortTB().getRSI() < 60)
 					{
 						updateHighLow();
 
