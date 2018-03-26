@@ -114,6 +114,16 @@ public class RuleSkyStair extends Rules
 							// shutdown = true;
 							return;
 						}
+						
+						if (GetData.getShortTB().getRSI() > 60)
+						{
+							Global.addLog("RSI out of range");
+							XMLWatcher.stairs.get(currentStairIndex).buying = false;
+							shutdownStair(currentStairIndex);
+							// shutdown = true;
+							return;
+						
+						}
 
 						if (refLow < XMLWatcher.stairs.get(currentStairIndex).value - 50)
 						{
@@ -318,6 +328,14 @@ public class RuleSkyStair extends Rules
 						if (GetData.getLongTB().getEma5().getEMA() > XMLWatcher.stairs.get(currentStairIndex).value)
 						{
 							Global.addLog("M5_EMA out of range");
+							XMLWatcher.stairs.get(currentStairIndex).selling = false;
+							shutdownStair(currentStairIndex);
+							return;
+						}
+						
+						if (GetData.getShortTB().getRSI() < 40)
+						{
+							Global.addLog("RSI out of range");
 							XMLWatcher.stairs.get(currentStairIndex).selling = false;
 							shutdownStair(currentStairIndex);
 							return;
