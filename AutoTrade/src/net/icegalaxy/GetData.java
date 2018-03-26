@@ -559,8 +559,8 @@ private void updateStair()
 			return;
 		
 		
-		if (GetData.getLongTB().getEma5().getEMA() > GetData.getLongTB().getEma50().getEMA() + 10
-				&& GetData.getLongTB().getEma50().getEMA() > GetData.getLongTB().getEma250().getEMA() + 20)
+		if (GetData.getLongTB().getEma5().getEMA() > GetData.getLongTB().getEma50().getEMA() + 50
+				&& GetData.getLongTB().getEma50().getEMA() > GetData.getLongTB().getEma250().getEMA() + 100)
 		{
 			
 //			if (Global.getCurrentPoint() > GetData.getLongTB().getEma50().getEMA())
@@ -584,8 +584,8 @@ private void updateStair()
 //				XMLWatcher.stairs.get(1).selling = false;
 //			}
 
-		}else if (GetData.getLongTB().getEma5().getEMA() < GetData.getLongTB().getEma50().getEMA() - 10
-				&& GetData.getLongTB().getEma50().getEMA() < GetData.getLongTB().getEma250().getEMA() - 20)
+		}else if (GetData.getLongTB().getEma5().getEMA() < GetData.getLongTB().getEma50().getEMA() - 50
+				&& GetData.getLongTB().getEma50().getEMA() < GetData.getLongTB().getEma250().getEMA() - 100)
 		{
 //			if (Global.getCurrentPoint() < GetData.getLongTB().getEma50().getEMA())
 //			{
@@ -623,7 +623,7 @@ private void updateStair()
 			return;
 		
 		
-		if (GetData.getLongTB().getEma50().getEMA() > GetData.getLongTB().getEma250().getEMA() + 20)
+		if (GetData.getLongTB().getEma50().getEMA() > GetData.getLongTB().getEma250().getEMA() + 50)
 		{
 			
 //			if (Global.getCurrentPoint() > GetData.getLongTB().getEma50().getEMA())
@@ -647,7 +647,7 @@ private void updateStair()
 //				XMLWatcher.stairs.get(1).selling = false;
 //			}
 
-		}else if (GetData.getLongTB().getEma50().getEMA() < GetData.getLongTB().getEma250().getEMA() - 20)
+		}else if (GetData.getLongTB().getEma50().getEMA() < GetData.getLongTB().getEma250().getEMA() - 50)
 		{
 //			if (Global.getCurrentPoint() < GetData.getLongTB().getEma50().getEMA())
 //			{
