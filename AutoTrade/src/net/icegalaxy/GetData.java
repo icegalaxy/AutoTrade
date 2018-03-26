@@ -2,12 +2,15 @@ package net.icegalaxy;
 
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 
 
 public class GetData implements Runnable
 {
+	
+	ArrayList<RSIData> rsiDatas;
 
 	private static TimeBase shortTB;
 	private static TimeBase m15TB;
@@ -43,6 +46,7 @@ public class GetData implements Runnable
 	public GetData()
 	{
 //		Sikuli.makeRobot();
+		rsiDatas = new ArrayList<RSIData>();
 		shortTB = new TimeBase();
 		shortTB.setBaseMin(Setting.getShortTB());
 		m15TB = new TimeBase();
@@ -342,7 +346,8 @@ public class GetData implements Runnable
 //					if (Global.getAOH() == 0)
 //						setAOHL();
 					
-					updateStair();
+//					updateStair();
+//					updateRSIData();
 
 				}
 
@@ -409,6 +414,12 @@ public class GetData implements Runnable
 //			Global.setRunning(false);
 //
 //	}
+
+private void updateRSIData()
+	{
+		
+		
+	}
 
 private void updateStair()
 	{

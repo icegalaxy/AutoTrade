@@ -1,13 +1,22 @@
 package net.icegalaxy;
 
-import java.util.ArrayList;
 
 public class RSIData
 {
-	double refHighs = 0;
-	double refLows = 0;
-	double rsis;
+	public double refHigh = 0;
+	public double refLow = 99999;
+	public double rsi;
+	int time;
 	
-	
-	
+	public void setRSI(double rsi, double refPoint, int time)
+	{
+		if (rsi > 50)
+		{
+			refHigh = refPoint;			
+		}else
+		{
+			refLow = refPoint;
+		}
+		this.time = time;
+	}
 }
