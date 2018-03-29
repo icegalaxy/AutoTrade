@@ -103,12 +103,13 @@ public class RuleSkyStair extends Rules
 				{
 
 //					currentStair = XMLWatcher.stairs.get(currentStairIndex);
-					while (GetData.getShortTB().getRSI() > 40)
-					{
-						if (shutdownLong(currentStairIndex))
-							return;
-						sleep(waitingTime);
-					}
+					//dont need this beause EMA >50
+//					while (GetData.getShortTB().getRSI() > 40)
+//					{
+//						if (shutdownLong(currentStairIndex))
+//							return;
+//						sleep(waitingTime);
+//					}
 					
 					if (shutdownLong(currentStairIndex))
 						return;
@@ -225,15 +226,6 @@ public class RuleSkyStair extends Rules
 						|| Global.getCurrentPoint() > XMLWatcher.stairs.get(currentStairIndex).value)
 				{
 
-//					currentStair = XMLWatcher.stairs.get(currentStairIndex);
-					
-					while (GetData.getShortTB().getRSI() < 60)
-					{
-						if(shutdownShort(currentStairIndex))
-							return;
-
-						sleep(waitingTime);
-					}
 
 					if(shutdownShort(currentStairIndex))
 						return;
