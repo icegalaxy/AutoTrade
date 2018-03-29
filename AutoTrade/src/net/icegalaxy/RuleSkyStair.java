@@ -530,10 +530,10 @@ public class RuleSkyStair extends Rules
 				tempCutLoss = stair;
 			}
 
-			if (GetData.getLongTB().getLatestCandle().getLow() > tempCutLoss
+			if (GetData.getShortTB().getLatestCandle().getLow() > tempCutLoss
 					&& tempCutLoss < getLongStopEarn(XMLWatcher.stairs.get(currentStairIndex).value))
 				tempCutLoss = Math.min(getLongStopEarn(XMLWatcher.stairs.get(currentStairIndex).value),
-						GetData.getLongTB().getLatestCandle().getLow());
+						GetData.getShortTB().getLatestCandle().getLow());
 
 			// if (GetData.getLongTB().getEMA(5) <
 			// GetData.getLongTB().getEMA(6))
@@ -565,10 +565,10 @@ public class RuleSkyStair extends Rules
 				tempCutLoss = stair;
 			}
 
-			if (GetData.getLongTB().getLatestCandle().getHigh() < tempCutLoss
+			if (GetData.getShortTB().getLatestCandle().getHigh() < tempCutLoss
 					&& tempCutLoss > getShortStopEarn(XMLWatcher.stairs.get(currentStairIndex).value))
 				tempCutLoss = Math.max(getShortStopEarn(XMLWatcher.stairs.get(currentStairIndex).value),
-						GetData.getLongTB().getLatestCandle().getHigh());
+						GetData.getShortTB().getLatestCandle().getHigh());
 
 			// if (GetData.getLongTB().getEMA(5) >
 			// GetData.getLongTB().getEMA(6))
