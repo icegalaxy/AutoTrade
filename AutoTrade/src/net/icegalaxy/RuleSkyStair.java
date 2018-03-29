@@ -586,8 +586,8 @@ public class RuleSkyStair extends Rules
 		for (int j = 0; j < stairs.size(); j++)
 		{
 			Stair stair = stairs.get(j);
-			if (!stair.buying || stair.shutdown)
-				continue;
+//			if (!stair.buying || stair.shutdown)
+//				continue;
 			
 			if (stair.value < stopEarn && stair.value - value > 0)
 
@@ -601,7 +601,7 @@ public class RuleSkyStair extends Rules
 		if (stopEarn == 99999) // for the Max or Min of stair
 			return value + 100;
 
-		return Math.max(stopEarn, value + 20);
+		return Math.max(stopEarn, value + 50);
 	}
 
 	double getShortStopEarn(double value)
@@ -614,8 +614,8 @@ public class RuleSkyStair extends Rules
 		{
 			Stair stair = stairs.get(j);
 			
-			if (!stair.selling || stair.shutdown)
-				continue;
+//			if (!stair.selling || stair.shutdown)
+//				continue;
 			
 			if (stair.value > stopEarn && value - stair.value > 0)
 
@@ -629,7 +629,7 @@ public class RuleSkyStair extends Rules
 		if (stopEarn == 0) // for the Max or Min of stair
 			return value - 100;
 
-		return Math.min(stopEarn, value - 20);
+		return Math.min(stopEarn, value - 50);
 	}
 
 	@Override
