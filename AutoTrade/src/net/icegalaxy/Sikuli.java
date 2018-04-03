@@ -100,72 +100,72 @@ public class Sikuli {
 */
 	
 	
-//	public static synchronized boolean longContract(int noOfContracts) {
-//		
-//		int status = 0;
-//
-//		if (Global.maxContracts - Math.abs(Global.getNoOfContracts()) < noOfContracts) {
-//			Global.addLog("> max no. of contract");
-//			return false;
-//		}
-//		
-//		if (TimePeriodDecider.nightOpened)
-//			status = SPApi.addOrder((byte) 'B',noOfContracts, true);
-//		else
-//			status = SPApi.addOrder((byte) 'B',noOfContracts, false);
-//		
-//		if (status == 0)
-//			Global.addLog("Long order sent");
-//		else
-//		{
-//			Global.addLog("Fail to send long order");
-//			return false;
-//		}
-//		
-////		Global.balance -= Global.getCurrentAsk();
-////		Global.noOfTrades += 1;
-//		Global.setNoOfContracts(Global.getNoOfContracts() + noOfContracts);
-//		
-////		if (Global.getNoOfContracts() == 0) { //means closing contract
-////			Rules.setBalance(0);
-////			}
-////			Global.setTradedQty(0);
-//			return true;			
-//	}
+	public static synchronized boolean longContract(int noOfContracts) {
+		
+		int status = 0;
+
+		if (Global.maxContracts - Math.abs(Global.getNoOfContracts()) < noOfContracts) {
+			Global.addLog("> max no. of contract");
+			return false;
+		}
+		
+		if (TimePeriodDecider.nightOpened)
+			status = SPApi.addOrder((byte) 'B',noOfContracts, true);
+		else
+			status = SPApi.addOrder((byte) 'B',noOfContracts, false);
+		
+		if (status == 0)
+			Global.addLog("Long order sent");
+		else
+		{
+			Global.addLog("Fail to send long order");
+			return false;
+		}
+		
+//		Global.balance -= Global.getCurrentAsk();
+//		Global.noOfTrades += 1;
+		Global.setNoOfContracts(Global.getNoOfContracts() + noOfContracts);
+		
+//		if (Global.getNoOfContracts() == 0) { //means closing contract
+//			Rules.setBalance(0);
+//			}
+//			Global.setTradedQty(0);
+			return true;			
+	}
 	
-//	public static synchronized boolean shortContract(int noOfContracts) {
-//		
-//		int status = 0;
-//
-//		if (Global.maxContracts - Math.abs(Global.getNoOfContracts()) < noOfContracts) {
-//			Global.addLog("> max no. of contract");
-//			return false;
-//		}
-//
-//
-//		if (TimePeriodDecider.nightOpened)
-//			status = SPApi.addOrder((byte) 'S', noOfContracts, true);
-//		else
-//			status = SPApi.addOrder((byte) 'S', noOfContracts, false);
-//		
-//		if (status == 0)
-//			Global.addLog("Short order sent");
-//		else
-//		{
-//			Global.addLog("Fail to send short order");
-//			return false;
-//		}
-//		
-////			Global.balance += Global.getCurrentBid();
-////			Global.noOfTrades += 1;
-//			Global.setNoOfContracts(Global.getNoOfContracts() - noOfContracts);
-////			if (Global.getNoOfContracts() == 0) {
-////				Rules.setBalance(0);
-////			}
-////			Global.setTradedQty(0);
-//			return true;			
-//	//	}
-//	}
+	public static synchronized boolean shortContract(int noOfContracts) {
+		
+		int status = 0;
+
+		if (Global.maxContracts - Math.abs(Global.getNoOfContracts()) < noOfContracts) {
+			Global.addLog("> max no. of contract");
+			return false;
+		}
+
+
+		if (TimePeriodDecider.nightOpened)
+			status = SPApi.addOrder((byte) 'S', noOfContracts, true);
+		else
+			status = SPApi.addOrder((byte) 'S', noOfContracts, false);
+		
+		if (status == 0)
+			Global.addLog("Short order sent");
+		else
+		{
+			Global.addLog("Fail to send short order");
+			return false;
+		}
+		
+//			Global.balance += Global.getCurrentBid();
+//			Global.noOfTrades += 1;
+			Global.setNoOfContracts(Global.getNoOfContracts() - noOfContracts);
+//			if (Global.getNoOfContracts() == 0) {
+//				Rules.setBalance(0);
+//			}
+//			Global.setTradedQty(0);
+			return true;			
+	//	}
+	}
 	
 	public static synchronized boolean longContract() {
 		

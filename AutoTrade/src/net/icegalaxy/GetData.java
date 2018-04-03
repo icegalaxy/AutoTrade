@@ -25,8 +25,8 @@ public class GetData implements Runnable
 
 	boolean findingLow = true;
 	boolean findingHigh = true;
-	double refLow = 99999;
-	double refHigh = 0;
+	public static double refLow = 99999;
+	public static double refHigh = 0;
 	public static ArrayList<Double> refLows = new ArrayList<Double>();
 	public static ArrayList<Double> refHighs = new ArrayList<Double>();
 
@@ -343,14 +343,11 @@ public class GetData implements Runnable
 					shortData.reset();
 
 					if (findingLow)
-					{
 						findLow();
-					}
-
+					
 					if (findingHigh)
-					{
 						findHigh();
-					}
+					
 
 					// if (Global.getAOH() == 0)
 					// setAOHL();
@@ -419,10 +416,10 @@ public class GetData implements Runnable
 	{
 		if (getShortTB().getLatestCandle().getLow() < refLow)
 			refLow = getShortTB().getLatestCandle().getLow();
-		if (getShortTB().getLatestCandle().getLow() > refHigh)
-			refHigh = getShortTB().getLatestCandle().getLow();
+		if (getShortTB().getLatestCandle().getHigh() > refHigh)
+			refHigh = getShortTB().getLatestCandle().getHigh();
 
-		if (refLow < refHigh - (Global.getCurrentPoint() * 0.005))
+		if (refLow < refHigh - (getShortTB().getLatestCandle().getHigh() * 0.005))
 		{
 			refHighs.add(refHigh);
 			findingLow = true;
@@ -436,10 +433,10 @@ public class GetData implements Runnable
 	{
 		if (getShortTB().getLatestCandle().getLow() < refLow)
 			refLow = getShortTB().getLatestCandle().getLow();
-		if (getShortTB().getLatestCandle().getLow() > refHigh)
-			refHigh = getShortTB().getLatestCandle().getLow();
+		if (getShortTB().getLatestCandle().getHigh() > refHigh)
+			refHigh = getShortTB().getLatestCandle().getHigh();
 
-		if (refHigh > refLow + (Global.getCurrentPoint() * 0.005))
+		if (refHigh > refLow + (getShortTB().getLatestCandle().getHigh() * 0.005))
 		{
 
 			refLows.add(refLow);
@@ -516,14 +513,24 @@ public class GetData implements Runnable
 		for (int i = 0; i < csv.getLow().size(); i++)
 		{
 
-			Double close = csv.getClose().get(i);
+			double close = csv.getClose().get(i);
+			double open = csv.getOpen().get(i);
+			double high = csv.getHigh().get(i);
+			double low = csv.getLow().get(i);
+			double volume = csv.getVolume().get(i);
+			String time = csv.getTime().get(i);
 			// addPoint is for technical indicators
-			getShortTB().addData(close.floatValue(), csv.getVolume().get(i).floatValue());
+			getShortTB().addData(csv.getClose().get(i).floatValue(), csv.getVolume().get(i).floatValue());
 			// addCandle History is made for previous data, volume is not
 			// accumulated
-			getShortTB().addCandleHistory(csv.getTime().get(i), csv.getHigh().get(i), csv.getLow().get(i),
-					csv.getOpen().get(i), close, csv.getVolume().get(i));
+			getShortTB().addCandleHistory(time,high,low,open, close, volume);
 
+			if (findingLow)
+				findLow();
+			
+			if (findingHigh)
+				findHigh();
+			
 			if (i == 0)
 			{
 				for (int x = 0; x < EMAs.length; x++)
@@ -815,6 +822,16 @@ public class GetData implements Runnable
 		String s = formatter.format(now.getTime());
 
 		return s;
+	}
+	
+	public static double getLatestHigh()
+	{
+		return refHighs.get(refHighs.size() -1);
+	}
+	
+	public static double getLatestLow()
+	{
+		return refLows.get(refLows.size() -1);
 	}
 
 	public static String getTime()

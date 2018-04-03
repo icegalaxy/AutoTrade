@@ -73,6 +73,8 @@ public class RuleSkyStair extends Rules
 					&& Global.getCurrentPoint() < XMLWatcher.stairs.get(currentStairIndex).value + 10
 					&& Global.getCurrentPoint() > XMLWatcher.stairs.get(currentStairIndex).value)
 			{
+				
+				
 
 				if (!XMLWatcher.stairs.get(currentStairIndex).buying || XMLWatcher.stairs.get(currentStairIndex).shutdown)
 					continue;
@@ -80,6 +82,16 @@ public class RuleSkyStair extends Rules
 				Global.addLog("Reached " + XMLWatcher.stairs.get(currentStairIndex).lineType + " @ " + XMLWatcher.stairs.get(currentStairIndex).value + " (Long)");
 				Global.addLog("Stop Earn: " + getLongStopEarn(XMLWatcher.stairs.get(currentStairIndex).value));
 
+				Global.addLog("Waiting for a refLow");
+				while(Global.getCurrentPoint() > GetData.refHigh - Global.getCurrentPoint() * 0.05)
+				{
+					if (shutdownLong(currentStairIndex))
+						return;
+					sleep(waitingTime);
+				}
+				
+//				Global.addLog("RefLow: " + GetData.refLows.get(GetData.refLows.size()));
+				
 //				if (isDownTrend())
 //				{
 //					Global.addLog("Down Trend");
@@ -101,6 +113,8 @@ public class RuleSkyStair extends Rules
 						|| getTimeBase().getLatestCandle().getClose() - getTimeBase().getLatestCandle().getOpen() < 5
 						|| Global.getCurrentPoint() < XMLWatcher.stairs.get(currentStairIndex).value)
 				{
+					
+					
 
 //					currentStair = XMLWatcher.stairs.get(currentStairIndex);
 					//dont need this beause EMA >50
@@ -118,8 +132,8 @@ public class RuleSkyStair extends Rules
 				}
 
 				
-				//waitRSI
-				while(GetData.getShortTB().getRSI() < 40)
+				//wait 30% rise
+				while(Global.getCurrentPoint() < GetData.getLatestLow() + (GetData.getLatestHigh() - GetData.getLatestLow()) * 0.3)
 				{
 					if (shutdownLong(currentStairIndex))
 						return;
@@ -203,6 +217,16 @@ public class RuleSkyStair extends Rules
 				Global.addLog("Reached " + XMLWatcher.stairs.get(currentStairIndex).lineType + " @ " + XMLWatcher.stairs.get(currentStairIndex).value + " (Short)");
 				Global.addLog("Stop Earn: " + getShortStopEarn(XMLWatcher.stairs.get(currentStairIndex).value));
 
+				Global.addLog("Waiting for a refHigh");
+				while(Global.getCurrentPoint() < GetData.refLow + Global.getCurrentPoint() * 0.05)
+				{
+					if (shutdownShort(currentStairIndex))
+						return;
+					sleep(waitingTime);
+				}
+				
+//				Global.addLog("RefHigh: " + GetData.refLows.get(GetData.refLows.size()));
+				
 //				if (isUpTrend())
 //				{
 //					Global.addLog("Up Trend");
@@ -234,7 +258,8 @@ public class RuleSkyStair extends Rules
 				}
 
 				
-				while(GetData.getShortTB().getRSI() > 60)
+				//wait 30% drop
+				while(Global.getCurrentPoint()  > GetData.getLatestHigh() - (GetData.getLatestHigh() - GetData.getLatestLow()) * 0.3)
 				{
 					if(shutdownShort(currentStairIndex))
 						return;
