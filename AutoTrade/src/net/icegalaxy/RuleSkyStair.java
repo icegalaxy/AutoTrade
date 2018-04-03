@@ -133,7 +133,8 @@ public class RuleSkyStair extends Rules
 
 				
 				//wait 30% rise
-				while(Global.getCurrentPoint() < GetData.getLatestLow() + (GetData.getLatestHigh() - GetData.getLatestLow()) * 0.3)
+				//should be refLow not lastestLow
+				while(Global.getCurrentPoint() < GetData.refLow + (GetData.getLatestHigh() -GetData.refLow) * 0.3)
 				{
 					if (shutdownLong(currentStairIndex))
 						return;
@@ -259,7 +260,7 @@ public class RuleSkyStair extends Rules
 
 				
 				//wait 30% drop
-				while(Global.getCurrentPoint()  > GetData.getLatestHigh() - (GetData.getLatestHigh() - GetData.getLatestLow()) * 0.3)
+				while(Global.getCurrentPoint()  > GetData.refHigh - (GetData.refHigh - GetData.getLatestLow()) * 0.3)
 				{
 					if(shutdownShort(currentStairIndex))
 						return;
