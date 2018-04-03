@@ -604,6 +604,9 @@ public class GetData implements Runnable
 		{
 			e.printStackTrace();
 		}
+		
+		Global.addLog("Latest High: " + getLatestHigh());
+		Global.addLog("Latest Low: " + getLatestLow());
 
 	}
 
