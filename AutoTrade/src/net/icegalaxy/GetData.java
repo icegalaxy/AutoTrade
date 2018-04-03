@@ -5,11 +5,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-
-
 public class GetData implements Runnable
 {
-	
+
 	ArrayList<RSIData> rsiDatas;
 
 	private static TimeBase shortTB;
@@ -17,26 +15,33 @@ public class GetData implements Runnable
 	private static TimeBase longTB;
 	// private static TimeBase sec10TB;
 	private QuotePower qp;
-	
+
 	public static OHLC AOL;
 	public static OHLC AOH;
-	
+
 	GetData.CandleData shortData;
 	GetData.CandleData m15Data;
 	GetData.CandleData longData;
-	
+
+	boolean findingLow = true;
+	boolean findingHigh = true;
+	double refLow = 99999;
+	double refHigh = 0;
+	public static ArrayList<Double> refLows = new ArrayList<Double>();
+	public static ArrayList<Double> refHighs = new ArrayList<Double>();
+
 	int[] EMAs = new int[]
-			{ 5, 25, 50, 100, 250, 1200 };
+	{ 5, 25, 50, 100, 250, 1200 };
 
 	private boolean aohAdded;
 	// GetData.CandleData sec10Data;
-	
-//	private static EMA ema5;
-//	private static EMA ema25;
-//	private static EMA ema50;
-//	private static EMA ema100;
-//	private static EMA ema250;
-//	private static EMA ema1200;
+
+	// private static EMA ema5;
+	// private static EMA ema25;
+	// private static EMA ema50;
+	// private static EMA ema100;
+	// private static EMA ema250;
+	// private static EMA ema1200;
 	private int errTimes;
 
 	// private float previousClose = 0;
@@ -45,7 +50,7 @@ public class GetData implements Runnable
 
 	public GetData()
 	{
-//		Sikuli.makeRobot();
+		// Sikuli.makeRobot();
 		rsiDatas = new ArrayList<RSIData>();
 		shortTB = new TimeBase();
 		shortTB.setBaseMin(Setting.getShortTB());
@@ -53,13 +58,12 @@ public class GetData implements Runnable
 		m15TB.setBaseMin(15);
 		longTB = new TimeBase();
 		longTB.setBaseMin(Setting.getLongTB());
-		
-	
+
 		AOH = new OHLC();
 		AOH.name = "AOH";
 		AOL = new OHLC();
 		AOL.name = "AOL";
-	
+
 		// sec10TB = new TimeBase();
 
 		qp = new QuotePower();
@@ -103,12 +107,12 @@ public class GetData implements Runnable
 			Global.addLog("Can't get index, shutDown!!");
 			Global.shutDown = true;
 			Global.setRunning(false);
-		//	Sikuli.liquidateOnly();
+			// Sikuli.liquidateOnly();
 			return false;
 
 		} catch (Exception e)
 		{
-			
+
 			if (errTimes > 50)
 			{
 				Global.addLog("errTimes > 50");
@@ -127,19 +131,16 @@ public class GetData implements Runnable
 		return true;
 	}
 
-	
-
 	@Override
 	public void run()
 	{
 
-	
 		getPreviousData();
 
 		XMLWatcher xmlWatcher = new XMLWatcher();
 		Thread t = new Thread(xmlWatcher);
 		t.start();
-		
+
 		// Auto getOpen
 
 		while (Global.isRunning())
@@ -151,7 +152,6 @@ public class GetData implements Runnable
 			// spTrader. Fix it by teamviewer
 
 			// should be put inside isRunning
-		
 
 			if (Global.isTradeTime())
 			{
@@ -162,9 +162,8 @@ public class GetData implements Runnable
 
 				min = new Integer(time.substring(3, 5));
 
-		
 				point = deal;
-					
+
 				shortData.getHighLow();
 				shortData.getOpen();
 
@@ -173,51 +172,52 @@ public class GetData implements Runnable
 
 				longData.getHighLow();
 				longData.getOpen();
-				
+
 				try
 				{
-				if (getTimeInt() > 92000)
-				{
-					if (Global.getCurrentPoint() - getShortTB().getLatestCandle().getLow() > 
-					(shortTB.getHL(15).getTempHigh() - shortTB.getHL(15).getTempLow()) * 0.5)
-						Global.setRapidRise(true);
-					else
-						Global.setRapidRise(false);
+					if (getTimeInt() > 92000)
+					{
+						if (Global.getCurrentPoint() - getShortTB().getLatestCandle()
+								.getLow() > (shortTB.getHL(15).getTempHigh() - shortTB.getHL(15).getTempLow()) * 0.5)
+							Global.setRapidRise(true);
+						else
+							Global.setRapidRise(false);
 
-					if (getShortTB().getLatestCandle().getHigh() - Global.getCurrentPoint() > 
-					(shortTB.getHL(15).getTempHigh() - shortTB.getHL(15).getTempLow()) * 0.5)
-						Global.setRapidDrop(true);
-					else
-						Global.setRapidDrop(false);
-				}
-				}catch (Exception e)
+						if (getShortTB().getLatestCandle().getHigh() - Global
+								.getCurrentPoint() > (shortTB.getHL(15).getTempHigh() - shortTB.getHL(15).getTempLow())
+										* 0.5)
+							Global.setRapidDrop(true);
+						else
+							Global.setRapidDrop(false);
+					}
+				} catch (Exception e)
 				{
 					e.printStackTrace();
 				}
-				
+
 				try
 				{
-				if (TimePeriodDecider.getTime() >= 91600)
-				{
-					if (shortData.periodHigh - getShortTB().getLatestCandle().getLow() > 50
-//							|| longData.periodHigh - getLongTB().getLatestCandle().getLow() > 50 
-							)
+					if (TimePeriodDecider.getTime() >= 91600)
 					{
-						Global.setHugeRise(true);
-					}
-					else
-						Global.setHugeRise(false);
+						if (shortData.periodHigh - getShortTB().getLatestCandle().getLow() > 50
+						// || longData.periodHigh -
+						// getLongTB().getLatestCandle().getLow() > 50
+						)
+						{
+							Global.setHugeRise(true);
+						} else
+							Global.setHugeRise(false);
 
-					if (getShortTB().getLatestCandle().getHigh() - shortData.periodLow > 50
-//							|| getLongTB().getLatestCandle().getHigh() - longData.periodLow  > 50 
-							)
-					{
-						Global.setHugeDrop(true);
+						if (getShortTB().getLatestCandle().getHigh() - shortData.periodLow > 50
+						// || getLongTB().getLatestCandle().getHigh() -
+						// longData.periodLow > 50
+						)
+						{
+							Global.setHugeDrop(true);
+						} else
+							Global.setHugeDrop(false);
 					}
-					else
-						Global.setHugeDrop(false);
-				}
-				}catch (Exception e)
+				} catch (Exception e)
 				{
 					e.printStackTrace();
 				}
@@ -240,23 +240,23 @@ public class GetData implements Runnable
 
 				// that Math.abs is for when min = 59 and ref = -1
 				// use 10 in case the feeder stopped for serval mins
-				
+
 				// *** 呢個位無Define refMin，原本係15
 				// *** min 會變
-				
-//				if (min > refMin && Math.abs(min - refMin) < 10)
-//				{
-//
-//					shortMinutes++;
-//					longMinutes++;
-//					m15Minutes++;
-//
-//					if (refMin == 58)
-//						refMin = -1;
-//					else
-//						refMin = min;
-//				}
-				
+
+				// if (min > refMin && Math.abs(min - refMin) < 10)
+				// {
+				//
+				// shortMinutes++;
+				// longMinutes++;
+				// m15Minutes++;
+				//
+				// if (refMin == 58)
+				// refMin = -1;
+				// else
+				// refMin = min;
+				// }
+
 				if (min != refMin)
 				{
 
@@ -299,15 +299,15 @@ public class GetData implements Runnable
 						Global.setAOH(Global.getDayHigh());
 						Global.addLog("AOL: " + Global.getAOL());
 						Global.addLog("AOH: " + Global.getAOH());
-						
+
 						AOH.position = Global.getAOH();
 						AOL.position = Global.getAOL();
-						
+
 						aohAdded = true;
 					}
 				}
 
-//				 if (shortMinutes == Setting.getShortTB())
+				// if (shortMinutes == Setting.getShortTB())
 				if (shortMinutes >= 1)
 				{
 
@@ -317,16 +317,15 @@ public class GetData implements Runnable
 						Global.addLog("Set open after 91500 at: " + Global.getOpen());
 					}
 
-					
-//					if (Global.getpHigh() == 0)
-//					{
-//						setOHLC();
-//
-//					}
+					// if (Global.getpHigh() == 0)
+					// {
+					// setOHLC();
+					//
+					// }
 
 					// get noonOpen, check every minutes
-//					if (Global.isNoonOpened)
-//						setNoonOpen();
+					// if (Global.isNoonOpened)
+					// setNoonOpen();
 
 					getShortTB().addData(point, new Float(totalQuantity));
 
@@ -337,17 +336,27 @@ public class GetData implements Runnable
 						shortTB.EMAs[x].setlatestEMA(point);
 
 					System.out.println(getTime() + " " + point);
-//					System.out.println("MA10: " + getShortTB().getMA(10));
-//					System.out.println("MA20: " + getShortTB().getMA(20));
+					// System.out.println("MA10: " + getShortTB().getMA(10));
+					// System.out.println("MA20: " + getShortTB().getMA(20));
 
 					shortMinutes = 0;
 					shortData.reset();
 
-//					if (Global.getAOH() == 0)
-//						setAOHL();
-					
-//					updateStair();
-//					updateRSIData();
+					if (findingLow)
+					{
+						findLow();
+					}
+
+					if (findingHigh)
+					{
+						findHigh();
+					}
+
+					// if (Global.getAOH() == 0)
+					// setAOHL();
+
+					// updateStair();
+					// updateRSIData();
 
 				}
 
@@ -363,13 +372,13 @@ public class GetData implements Runnable
 
 				}
 
-			 //	if (longMinutes == Setting.getLongTB())
+				// if (longMinutes == Setting.getLongTB())
 				if (longMinutes >= 5)
 				{
 
 					for (int x = 0; x < longTB.EMAs.length; x++)
 						longTB.EMAs[x].setlatestEMA(point);
-					
+
 					// addDat = addPoint + quantity
 					getLongTB().addData(point, new Float(totalQuantity));
 
@@ -381,7 +390,7 @@ public class GetData implements Runnable
 					// + getLongTB().getMACDHistogram());
 					longMinutes = 0;
 					longData.reset();
-					
+
 					XMLWatcher.stairs.get(0).value = GetData.getLongTB().getEma50().getEMA();
 					XMLWatcher.stairs.get(1).value = GetData.getLongTB().getEma250().getEMA();
 					checkEMA50();
@@ -391,10 +400,10 @@ public class GetData implements Runnable
 
 			sleep(860);
 
-//			if (!Global.isTradeTime())
-//			{
-				// counter = 1;
-//			}
+			// if (!Global.isTradeTime())
+			// {
+			// counter = 1;
+			// }
 			// if (getTimeInt() > 161400 && !liquidated) {
 			// Sikuli.liquidateOnly();
 			// liquidated = true;
@@ -406,69 +415,102 @@ public class GetData implements Runnable
 
 	}
 
-//	private void checkStop()
-//	{
-//		XMLReader ohlc = new XMLReader(Global.getToday());
-//
-//		if (ohlc.isStop())
-//			Global.setRunning(false);
-//
-//	}
-
-private void updateRSIData()
+	private void findHigh()
 	{
-		
-		
+		if (getShortTB().getLatestCandle().getLow() < refLow)
+			refLow = getShortTB().getLatestCandle().getLow();
+		if (getShortTB().getLatestCandle().getLow() > refHigh)
+			refHigh = getShortTB().getLatestCandle().getLow();
+
+		if (refLow < refHigh - (Global.getCurrentPoint() * 0.005))
+		{
+			refHighs.add(refHigh);
+			findingLow = true;
+			findingHigh = false;
+			refHigh = 0;
+			refLow = 99999;
+		}
 	}
 
-private void updateStair()
+	private void findLow()
 	{
-		for (int i=0; i<XMLWatcher.stairs.size(); i++)
+		if (getShortTB().getLatestCandle().getLow() < refLow)
+			refLow = getShortTB().getLatestCandle().getLow();
+		if (getShortTB().getLatestCandle().getLow() > refHigh)
+			refHigh = getShortTB().getLatestCandle().getLow();
+
+		if (refHigh > refLow + (Global.getCurrentPoint() * 0.005))
+		{
+
+			refLows.add(refLow);
+			findingLow = false;
+			findingHigh = true;
+			refHigh = 0;
+			refLow = 99999;
+		}
+	}
+
+	// private void checkStop()
+	// {
+	// XMLReader ohlc = new XMLReader(Global.getToday());
+	//
+	// if (ohlc.isStop())
+	// Global.setRunning(false);
+	//
+	// }
+
+	private void updateRSIData()
+	{
+
+	}
+
+	private void updateStair()
+	{
+		for (int i = 0; i < XMLWatcher.stairs.size(); i++)
 		{
 			double high = getShortTB().getLatestCandle().getHigh();
-			double low =getShortTB().getLatestCandle().getLow();
-			
-			if(high > XMLWatcher.stairs.get(i).value
-					&& high < XMLWatcher.stairs.get(i).value + 50
-					&& high >  XMLWatcher.stairs.get(i).refHigh)
+			double low = getShortTB().getLatestCandle().getLow();
+
+			if (high > XMLWatcher.stairs.get(i).value && high < XMLWatcher.stairs.get(i).value + 50
+					&& high > XMLWatcher.stairs.get(i).refHigh)
 			{
 				XMLWatcher.stairs.get(i).refHigh = high;
-				
-			}else if(high > XMLWatcher.stairs.get(i).value + 50
-					&& high < XMLWatcher.stairs.get(i).value + 100
+
+			} else if (high > XMLWatcher.stairs.get(i).value + 50 && high < XMLWatcher.stairs.get(i).value + 100
 					&& XMLWatcher.stairs.get(i).selling)
 			{
 				XMLWatcher.stairs.get(i).selling = false;
 				RuleSkyStair.shutdownStair(i);
-				Global.addLog("ShutDown Selling: " + XMLWatcher.stairs.get(i).lineType + " @ " + XMLWatcher.stairs.get(i).value);
+				Global.addLog("ShutDown Selling: " + XMLWatcher.stairs.get(i).lineType + " @ "
+						+ XMLWatcher.stairs.get(i).value);
 			}
-			
-			if (low < XMLWatcher.stairs.get(i).value
-					&& low > XMLWatcher.stairs.get(i).value - 50
+
+			if (low < XMLWatcher.stairs.get(i).value && low > XMLWatcher.stairs.get(i).value - 50
 					&& low < XMLWatcher.stairs.get(i).refLow)
 			{
 				XMLWatcher.stairs.get(i).refLow = low;
-				
-			}else if (low < XMLWatcher.stairs.get(i).value - 50
-					&& low > XMLWatcher.stairs.get(i).value - 100
+
+			} else if (low < XMLWatcher.stairs.get(i).value - 50 && low > XMLWatcher.stairs.get(i).value - 100
 					&& XMLWatcher.stairs.get(i).buying)
 			{
 				XMLWatcher.stairs.get(i).buying = false;
 				RuleSkyStair.shutdownStair(i);
-				Global.addLog("ShutDown Buying: " + XMLWatcher.stairs.get(i).lineType + " @ " + XMLWatcher.stairs.get(i).value);
+				Global.addLog("ShutDown Buying: " + XMLWatcher.stairs.get(i).lineType + " @ "
+						+ XMLWatcher.stairs.get(i).value);
 			}
 		}
-		
-	}
 
+	}
 
 	private void getPreviousData()
 	{
 
-//		parseSPRecord csv = new parseSPRecord("C:\\Users\\joech\\Dropbox\\TradeData\\SPRecords\\" + Global.getToday() + "\\m1.txt");
+		// parseSPRecord csv = new
+		// parseSPRecord("C:\\Users\\joech\\Dropbox\\TradeData\\SPRecords\\" +
+		// Global.getToday() + "\\m1.txt");
 		parseSPRecord csv = new parseSPRecord("C:\\Users\\joech\\Dropbox\\TradeData\\SPRecords\\m1.txt");
 		csv.parseOHLC();
-		
+
 		int m5Period = -4;
 
 		for (int i = 0; i < csv.getLow().size(); i++)
@@ -497,10 +539,10 @@ private void updateStair()
 																// field in
 																// shortTB
 																// anymore
-					
+
 					longTB.EMAs[x] = new EMA(csv.getClose().get(4), EMAs[x]);
-					
-//					longTB.EMAs[x] = new EMA(close, EMAs[x]);
+
+					// longTB.EMAs[x] = new EMA(close, EMAs[x]);
 
 				}
 			} else
@@ -510,7 +552,7 @@ private void updateStair()
 					shortTB.EMAs[x].setlatestEMA(close);
 					// System.out.println("settting latest EMA" + EMAs[x]);
 				}
-				
+
 				m5Period++;
 
 				if (m5Period == 5)
@@ -521,161 +563,175 @@ private void updateStair()
 					m5Period = 0;
 				}
 			}
-//			j++;
-//			k++;
-//
-//			if (j == 5)
-//			{
-//				getLongTB().addData(close.floatValue(), csv.getVolume().get(i).floatValue());
-//				getLongTB().addCandleHistory(csv.getTime().get(i), csv.getHigh().get(i), csv.getLow().get(i),
-//						csv.getOpen().get(i), close, csv.getVolume().get(i));
-//				j = 0;
-//			}
-//
-//			if (k == 15)
-//			{
-//				getM15TB().addData(close.floatValue(), csv.getVolume().get(i).floatValue());
-//				getM15TB().addCandleHistory(csv.getTime().get(i), csv.getHigh().get(i), csv.getLow().get(i),
-//						csv.getOpen().get(i), close, csv.getVolume().get(i));
-//				k = 0;
-//			}
+			// j++;
+			// k++;
+			//
+			// if (j == 5)
+			// {
+			// getLongTB().addData(close.floatValue(),
+			// csv.getVolume().get(i).floatValue());
+			// getLongTB().addCandleHistory(csv.getTime().get(i),
+			// csv.getHigh().get(i), csv.getLow().get(i),
+			// csv.getOpen().get(i), close, csv.getVolume().get(i));
+			// j = 0;
+			// }
+			//
+			// if (k == 15)
+			// {
+			// getM15TB().addData(close.floatValue(),
+			// csv.getVolume().get(i).floatValue());
+			// getM15TB().addCandleHistory(csv.getTime().get(i),
+			// csv.getHigh().get(i), csv.getLow().get(i),
+			// csv.getOpen().get(i), close, csv.getVolume().get(i));
+			// k = 0;
+			// }
 
 		}
-		
+
 		Global.addLog("Previous m1_EMA250: " + getEma250().getEMA());
-		
-		try{
+
+		try
+		{
 			Global.addLog("Previous m5_EMA250: " + GetData.getLongTB().getEma250().getEMA());
-		}catch (Exception e){
+		} catch (Exception e)
+		{
 			e.printStackTrace();
 		}
 
 	}
-	
-	private void checkEMA50(){
-		
-		
+
+	private void checkEMA50()
+	{
+
 		if (getTimeInt() < XMLWatcher.stairs.get(0).reActivateTime)
 			return;
-		
-		
+
 		if (GetData.getLongTB().getEma5().getEMA() > GetData.getLongTB().getEma50().getEMA() + 50
 				&& GetData.getLongTB().getEma50().getEMA() > GetData.getLongTB().getEma250().getEMA() + 100)
 		{
-			
-//			if (Global.getCurrentPoint() > GetData.getLongTB().getEma50().getEMA())
-//			{
-				XMLWatcher.stairs.get(0).buying = true;
-				XMLWatcher.stairs.get(0).selling = false;
-//				XMLWatcher.stairs.get(1).buying = true;
-//				XMLWatcher.stairs.get(1).selling = false;
-//			}else if (Global.getCurrentPoint() > GetData.getLongTB().getEma250().getEMA())
-//			{
-//				XMLWatcher.stairs.get(0).buying = false;
-//				XMLWatcher.stairs.get(0).selling = false;
-//				XMLWatcher.stairs.get(1).buying = true;
-//				XMLWatcher.stairs.get(1).selling = false;
-//			}
-//			else
-//			{
-//				XMLWatcher.stairs.get(0).buying = false;
-//				XMLWatcher.stairs.get(0).selling = false;
-//				XMLWatcher.stairs.get(1).buying = false;
-//				XMLWatcher.stairs.get(1).selling = false;
-//			}
 
-		}else if (GetData.getLongTB().getEma5().getEMA() < GetData.getLongTB().getEma50().getEMA() - 50
+			// if (Global.getCurrentPoint() >
+			// GetData.getLongTB().getEma50().getEMA())
+			// {
+			XMLWatcher.stairs.get(0).buying = true;
+			XMLWatcher.stairs.get(0).selling = false;
+			// XMLWatcher.stairs.get(1).buying = true;
+			// XMLWatcher.stairs.get(1).selling = false;
+			// }else if (Global.getCurrentPoint() >
+			// GetData.getLongTB().getEma250().getEMA())
+			// {
+			// XMLWatcher.stairs.get(0).buying = false;
+			// XMLWatcher.stairs.get(0).selling = false;
+			// XMLWatcher.stairs.get(1).buying = true;
+			// XMLWatcher.stairs.get(1).selling = false;
+			// }
+			// else
+			// {
+			// XMLWatcher.stairs.get(0).buying = false;
+			// XMLWatcher.stairs.get(0).selling = false;
+			// XMLWatcher.stairs.get(1).buying = false;
+			// XMLWatcher.stairs.get(1).selling = false;
+			// }
+
+		} else if (GetData.getLongTB().getEma5().getEMA() < GetData.getLongTB().getEma50().getEMA() - 50
 				&& GetData.getLongTB().getEma50().getEMA() < GetData.getLongTB().getEma250().getEMA() - 100)
 		{
-//			if (Global.getCurrentPoint() < GetData.getLongTB().getEma50().getEMA())
-//			{
-				XMLWatcher.stairs.get(0).buying = false;
-				XMLWatcher.stairs.get(0).selling = true;
-//				XMLWatcher.stairs.get(1).buying = false;
-//				XMLWatcher.stairs.get(1).selling = true;
-//			}else if (Global.getCurrentPoint() < GetData.getLongTB().getEma250().getEMA())
-//			{
-//				XMLWatcher.stairs.get(0).buying = false;
-//				XMLWatcher.stairs.get(0).selling = false;
-//				XMLWatcher.stairs.get(1).buying = false;
-//				XMLWatcher.stairs.get(1).selling = true;
-//			}else
-//			{
-//				XMLWatcher.stairs.get(0).buying = false;
-//				XMLWatcher.stairs.get(0).selling = false;
-//				XMLWatcher.stairs.get(1).buying = false;
-//				XMLWatcher.stairs.get(1).selling = false;
-//			}
-			
-		}else{
+			// if (Global.getCurrentPoint() <
+			// GetData.getLongTB().getEma50().getEMA())
+			// {
+			XMLWatcher.stairs.get(0).buying = false;
+			XMLWatcher.stairs.get(0).selling = true;
+			// XMLWatcher.stairs.get(1).buying = false;
+			// XMLWatcher.stairs.get(1).selling = true;
+			// }else if (Global.getCurrentPoint() <
+			// GetData.getLongTB().getEma250().getEMA())
+			// {
+			// XMLWatcher.stairs.get(0).buying = false;
+			// XMLWatcher.stairs.get(0).selling = false;
+			// XMLWatcher.stairs.get(1).buying = false;
+			// XMLWatcher.stairs.get(1).selling = true;
+			// }else
+			// {
+			// XMLWatcher.stairs.get(0).buying = false;
+			// XMLWatcher.stairs.get(0).selling = false;
+			// XMLWatcher.stairs.get(1).buying = false;
+			// XMLWatcher.stairs.get(1).selling = false;
+			// }
+
+		} else
+		{
 			XMLWatcher.stairs.get(0).buying = false;
 			XMLWatcher.stairs.get(0).selling = false;
-//			XMLWatcher.stairs.get(1).buying = false;
-//			XMLWatcher.stairs.get(1).selling = false;
+			// XMLWatcher.stairs.get(1).buying = false;
+			// XMLWatcher.stairs.get(1).selling = false;
 		}
-	
+
 	}
-	
-	private void checkEMA250(){
-		
-		
+
+	private void checkEMA250()
+	{
+
 		if (getTimeInt() < XMLWatcher.stairs.get(1).reActivateTime)
 			return;
-		
-		
+
 		if (GetData.getLongTB().getEma50().getEMA() > GetData.getLongTB().getEma250().getEMA() + 50)
 		{
-			
-//			if (Global.getCurrentPoint() > GetData.getLongTB().getEma50().getEMA())
-//			{
-//				XMLWatcher.stairs.get(0).buying = true;
-//				XMLWatcher.stairs.get(0).selling = false;
-				XMLWatcher.stairs.get(1).buying = true;
-				XMLWatcher.stairs.get(1).selling = false;
-//			}else if (Global.getCurrentPoint() > GetData.getLongTB().getEma250().getEMA())
-//			{
-//				XMLWatcher.stairs.get(0).buying = false;
-//				XMLWatcher.stairs.get(0).selling = false;
-//				XMLWatcher.stairs.get(1).buying = true;
-//				XMLWatcher.stairs.get(1).selling = false;
-//			}
-//			else
-//			{
-//				XMLWatcher.stairs.get(0).buying = false;
-//				XMLWatcher.stairs.get(0).selling = false;
-//				XMLWatcher.stairs.get(1).buying = false;
-//				XMLWatcher.stairs.get(1).selling = false;
-//			}
 
-		}else if (GetData.getLongTB().getEma50().getEMA() < GetData.getLongTB().getEma250().getEMA() - 50)
+			// if (Global.getCurrentPoint() >
+			// GetData.getLongTB().getEma50().getEMA())
+			// {
+			// XMLWatcher.stairs.get(0).buying = true;
+			// XMLWatcher.stairs.get(0).selling = false;
+			XMLWatcher.stairs.get(1).buying = true;
+			XMLWatcher.stairs.get(1).selling = false;
+			// }else if (Global.getCurrentPoint() >
+			// GetData.getLongTB().getEma250().getEMA())
+			// {
+			// XMLWatcher.stairs.get(0).buying = false;
+			// XMLWatcher.stairs.get(0).selling = false;
+			// XMLWatcher.stairs.get(1).buying = true;
+			// XMLWatcher.stairs.get(1).selling = false;
+			// }
+			// else
+			// {
+			// XMLWatcher.stairs.get(0).buying = false;
+			// XMLWatcher.stairs.get(0).selling = false;
+			// XMLWatcher.stairs.get(1).buying = false;
+			// XMLWatcher.stairs.get(1).selling = false;
+			// }
+
+		} else if (GetData.getLongTB().getEma50().getEMA() < GetData.getLongTB().getEma250().getEMA() - 50)
 		{
-//			if (Global.getCurrentPoint() < GetData.getLongTB().getEma50().getEMA())
-//			{
-//				XMLWatcher.stairs.get(0).buying = false;
-//				XMLWatcher.stairs.get(0).selling = true;
-				XMLWatcher.stairs.get(1).buying = false;
-				XMLWatcher.stairs.get(1).selling = true;
-//			}else if (Global.getCurrentPoint() < GetData.getLongTB().getEma250().getEMA())
-//			{
-//				XMLWatcher.stairs.get(0).buying = false;
-//				XMLWatcher.stairs.get(0).selling = false;
-//				XMLWatcher.stairs.get(1).buying = false;
-//				XMLWatcher.stairs.get(1).selling = true;
-//			}else
-//			{
-//				XMLWatcher.stairs.get(0).buying = false;
-//				XMLWatcher.stairs.get(0).selling = false;
-//				XMLWatcher.stairs.get(1).buying = false;
-//				XMLWatcher.stairs.get(1).selling = false;
-//			}
-			
-		}else{
-//			XMLWatcher.stairs.get(0).buying = false;
-//			XMLWatcher.stairs.get(0).selling = false;
+			// if (Global.getCurrentPoint() <
+			// GetData.getLongTB().getEma50().getEMA())
+			// {
+			// XMLWatcher.stairs.get(0).buying = false;
+			// XMLWatcher.stairs.get(0).selling = true;
+			XMLWatcher.stairs.get(1).buying = false;
+			XMLWatcher.stairs.get(1).selling = true;
+			// }else if (Global.getCurrentPoint() <
+			// GetData.getLongTB().getEma250().getEMA())
+			// {
+			// XMLWatcher.stairs.get(0).buying = false;
+			// XMLWatcher.stairs.get(0).selling = false;
+			// XMLWatcher.stairs.get(1).buying = false;
+			// XMLWatcher.stairs.get(1).selling = true;
+			// }else
+			// {
+			// XMLWatcher.stairs.get(0).buying = false;
+			// XMLWatcher.stairs.get(0).selling = false;
+			// XMLWatcher.stairs.get(1).buying = false;
+			// XMLWatcher.stairs.get(1).selling = false;
+			// }
+
+		} else
+		{
+			// XMLWatcher.stairs.get(0).buying = false;
+			// XMLWatcher.stairs.get(0).selling = false;
 			XMLWatcher.stairs.get(1).buying = false;
 			XMLWatcher.stairs.get(1).selling = false;
 		}
-	
+
 	}
 
 	public static EMA getEma5()
@@ -708,30 +764,25 @@ private void updateStair()
 		return shortTB.EMAs[5];
 	}
 
-	
-
-
-//	private void setNoonOpen()
-//	{
-//
-//		if (Global.getNoonOpen() == 0)
-//		{
-//			XMLReader noon = new XMLReader(Global.getToday());
-//			if (noon.getnOpen() == 0)
-//				return;
-//			Global.setNoonOpen(noon.getnOpen());
-//		}
-//
-//	}
-//
-//	private void setAOHL()
-//	{
-//		XMLReader aohl = new XMLReader(Global.getToday());
-//		Global.setAOH(aohl.getAOH());
-//		Global.setAOL(aohl.getAOL());
-//	}
-
-	
+	// private void setNoonOpen()
+	// {
+	//
+	// if (Global.getNoonOpen() == 0)
+	// {
+	// XMLReader noon = new XMLReader(Global.getToday());
+	// if (noon.getnOpen() == 0)
+	// return;
+	// Global.setNoonOpen(noon.getnOpen());
+	// }
+	//
+	// }
+	//
+	// private void setAOHL()
+	// {
+	// XMLReader aohl = new XMLReader(Global.getToday());
+	// Global.setAOH(aohl.getAOH());
+	// Global.setAOL(aohl.getAOL());
+	// }
 
 	public static synchronized TimeBase getShortTB()
 	{
@@ -755,8 +806,9 @@ private void updateStair()
 	// public static synchronized TimeBase getSec5TB() {
 	// return sec5TB;
 	// }
-	
-	public String getYearMonth() {
+
+	public String getYearMonth()
+	{
 
 		Calendar now = Calendar.getInstance();
 		SimpleDateFormat formatter = new SimpleDateFormat("yyMM");
@@ -782,11 +834,11 @@ private void updateStair()
 		// for 0-2 a.m.
 		if (t < 20000)
 			t = t + 1000000;
-		
+
 		return t;
 
 	}
-	
+
 	public static long getTimeInSec()
 	{
 		Calendar now = Calendar.getInstance();

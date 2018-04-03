@@ -80,14 +80,14 @@ public class RuleSkyStair extends Rules
 				Global.addLog("Reached " + XMLWatcher.stairs.get(currentStairIndex).lineType + " @ " + XMLWatcher.stairs.get(currentStairIndex).value + " (Long)");
 				Global.addLog("Stop Earn: " + getLongStopEarn(XMLWatcher.stairs.get(currentStairIndex).value));
 
-				if (isDownTrend())
-				{
-					Global.addLog("Down Trend");
-					XMLWatcher.stairs.get(currentStairIndex).buying = false;
-					shutdownStair(currentStairIndex);
-					// shutdown = true;
-					return;
-				}
+//				if (isDownTrend())
+//				{
+//					Global.addLog("Down Trend");
+//					XMLWatcher.stairs.get(currentStairIndex).buying = false;
+//					shutdownStair(currentStairIndex);
+//					// shutdown = true;
+//					return;
+//				}
 				
 				refHL = getTimeBase().getLatestCandle().getOpen();
 
@@ -203,14 +203,14 @@ public class RuleSkyStair extends Rules
 				Global.addLog("Reached " + XMLWatcher.stairs.get(currentStairIndex).lineType + " @ " + XMLWatcher.stairs.get(currentStairIndex).value + " (Short)");
 				Global.addLog("Stop Earn: " + getShortStopEarn(XMLWatcher.stairs.get(currentStairIndex).value));
 
-				if (isUpTrend())
-				{
-					Global.addLog("Up Trend");
-					XMLWatcher.stairs.get(currentStairIndex).selling = false;
-					shutdownStair(currentStairIndex);
-					// shutdown = true;
-					return;
-				}
+//				if (isUpTrend())
+//				{
+//					Global.addLog("Up Trend");
+//					XMLWatcher.stairs.get(currentStairIndex).selling = false;
+//					shutdownStair(currentStairIndex);
+//					// shutdown = true;
+//					return;
+//				}
 				
 				refHL = getTimeBase().getLatestCandle().getOpen();
 
