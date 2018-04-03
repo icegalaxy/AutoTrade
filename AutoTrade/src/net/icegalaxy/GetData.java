@@ -833,11 +833,15 @@ public class GetData implements Runnable
 	
 	public static double getLatestHigh()
 	{
+		if (refHighs.size() == 0)
+			return 0;
 		return refHighs.get(refHighs.size() -1);
 	}
 	
 	public static double getLatestLow()
 	{
+		if (refLows.size() == 0)
+			return 99999;
 		return refLows.get(refLows.size() -1);
 	}
 
