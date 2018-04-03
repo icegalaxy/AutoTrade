@@ -70,7 +70,7 @@ public class RuleSkyStair extends Rules
 
 			// Long
 			if (GetData.getLongTB().getEma5().getEMA() > XMLWatcher.stairs.get(currentStairIndex).value + 50
-					&& Global.getCurrentPoint() < XMLWatcher.stairs.get(currentStairIndex).value + 10
+					&& Global.getCurrentPoint() < XMLWatcher.stairs.get(currentStairIndex).value + 20
 					&& Global.getCurrentPoint() > XMLWatcher.stairs.get(currentStairIndex).value)
 			{
 				
@@ -207,7 +207,7 @@ public class RuleSkyStair extends Rules
 				return;
 
 			} else if (GetData.getLongTB().getEma5().getEMA() < XMLWatcher.stairs.get(currentStairIndex).value - 50
-					&& Global.getCurrentPoint() > XMLWatcher.stairs.get(currentStairIndex).value - 10
+					&& Global.getCurrentPoint() > XMLWatcher.stairs.get(currentStairIndex).value - 20
 					&& Global.getCurrentPoint() < XMLWatcher.stairs.get(currentStairIndex).value)
 			{
 
