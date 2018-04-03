@@ -414,13 +414,15 @@ public class GetData implements Runnable
 
 	private void findHigh()
 	{
-		if (getShortTB().getLatestCandle().getLow() < refLow){
+		if (getShortTB().getLatestCandle().getLow() < refLow)
 			refLow = getShortTB().getLatestCandle().getLow();
+
+		if (getShortTB().getLatestCandle().getHigh() > refHigh)
+		{
+			refHigh = getShortTB().getLatestCandle().getHigh();
 			refLow = 99999;
 		}
-		if (getShortTB().getLatestCandle().getHigh() > refHigh)
-			refHigh = getShortTB().getLatestCandle().getHigh();
-
+		
 		if (refLow < refHigh - (getShortTB().getLatestCandle().getHigh() * 0.005))
 		{
 			refHighs.add(refHigh);
@@ -433,7 +435,8 @@ public class GetData implements Runnable
 
 	private void findLow()
 	{
-		if (getShortTB().getLatestCandle().getLow() < refLow){
+		if (getShortTB().getLatestCandle().getLow() < refLow)
+		{
 			refLow = getShortTB().getLatestCandle().getLow();
 			refHigh = 0;
 		}
@@ -442,7 +445,6 @@ public class GetData implements Runnable
 
 		if (refHigh > refLow + (getShortTB().getLatestCandle().getHigh() * 0.005))
 		{
-
 			refLows.add(refLow);
 			findingLow = false;
 			findingHigh = true;
@@ -837,7 +839,7 @@ public class GetData implements Runnable
 			return 0;
 		return refHighs.get(refHighs.size() -1);
 	}
-	
+
 	public static double getLatestLow()
 	{
 		if (refLows.size() == 0)
