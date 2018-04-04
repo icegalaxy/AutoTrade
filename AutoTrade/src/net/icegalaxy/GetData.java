@@ -23,8 +23,8 @@ public class GetData implements Runnable
 	GetData.CandleData m15Data;
 	GetData.CandleData longData;
 
-	boolean findingLow = true;
-	boolean findingHigh = true;
+	public static boolean findingLow = true;
+	public static boolean findingHigh = true;
 	public static double refLow = 99999;
 	public static double refHigh = 0;
 	public static ArrayList<Double> refLows = new ArrayList<Double>();
@@ -426,6 +426,7 @@ public class GetData implements Runnable
 		if (refLow < refHigh - (getShortTB().getLatestCandle().getHigh() * 0.005))
 		{
 			refHighs.add(refHigh);
+			Global.addLog("Recent High Update: " + refHigh);
 			findingLow = true;
 			findingHigh = false;
 			refHigh = 0;
@@ -446,6 +447,7 @@ public class GetData implements Runnable
 		if (refHigh > refLow + (getShortTB().getLatestCandle().getHigh() * 0.005))
 		{
 			refLows.add(refLow);
+			Global.addLog("Recent Low Update: " + refLow);
 			findingLow = false;
 			findingHigh = true;
 			refHigh = 0;

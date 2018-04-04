@@ -83,12 +83,21 @@ public class RuleSkyStair extends Rules
 				Global.addLog("Stop Earn: " + getLongStopEarn(XMLWatcher.stairs.get(currentStairIndex).value));
 
 				Global.addLog("Waiting for a refLow");
-				while(Global.getCurrentPoint() > GetData.refHigh - Global.getCurrentPoint() * 0.05)
+//				while(Global.getCurrentPoint() > GetData.refHigh - Global.getCurrentPoint() * 0.05)
+//				{
+//					if (shutdownLong(currentStairIndex))
+//						return;
+//					sleep(waitingTime);
+//				}
+				
+				while(!GetData.findingLow)
 				{
 					if (shutdownLong(currentStairIndex))
 						return;
+
 					sleep(waitingTime);
 				}
+				
 				
 //				Global.addLog("RefLow: " + GetData.refLows.get(GetData.refLows.size()));
 				
@@ -219,11 +228,19 @@ public class RuleSkyStair extends Rules
 				Global.addLog("Stop Earn: " + getShortStopEarn(XMLWatcher.stairs.get(currentStairIndex).value));
 
 				Global.addLog("Waiting for a refHigh");
-				while(Global.getCurrentPoint() < GetData.refLow + Global.getCurrentPoint() * 0.05)
+//				while(Global.getCurrentPoint() < GetData.refLow + Global.getCurrentPoint() * 0.05)
+//				{
+//					if (shutdownShort(currentStairIndex))
+//						return;
+//					sleep(waitingTime);
+//				}
+				
+				while(!GetData.findingHigh)
 				{
 					if (shutdownShort(currentStairIndex))
 						return;
 					sleep(waitingTime);
+				}
 				}
 				
 //				Global.addLog("RefHigh: " + GetData.refLows.get(GetData.refLows.size()));
