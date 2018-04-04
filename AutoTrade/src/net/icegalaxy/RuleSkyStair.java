@@ -141,7 +141,7 @@ public class RuleSkyStair extends Rules
 				}
 
 				
-				//wait 30% rise
+				Global.addLog("Waiting for a 30% Drop");
 				//should be refLow not lastestLow
 				while(Global.getCurrentPoint() < GetData.smallHL.refLow + (GetData.smallHL.getLatestHigh() -GetData.smallHL.refLow) * 0.3)
 				{
@@ -274,8 +274,8 @@ public class RuleSkyStair extends Rules
 					sleep(waitingTime);
 				}
 
-				
-				//wait 30% drop
+				Global.addLog("Waiting for a 30% Drop");
+
 				while(Global.getCurrentPoint()  > GetData.smallHL.refHigh - (GetData.smallHL.refHigh - GetData.smallHL.getLatestLow()) * 0.3)
 				{
 					if(shutdownShort(currentStairIndex))
