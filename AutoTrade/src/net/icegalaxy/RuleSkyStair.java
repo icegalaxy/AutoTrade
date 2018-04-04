@@ -241,7 +241,6 @@ public class RuleSkyStair extends Rules
 						return;
 					sleep(waitingTime);
 				}
-				}
 				
 //				Global.addLog("RefHigh: " + GetData.refLows.get(GetData.refLows.size()));
 				
