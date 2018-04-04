@@ -22,13 +22,9 @@ public class GetData implements Runnable
 	GetData.CandleData shortData;
 	GetData.CandleData m15Data;
 	GetData.CandleData longData;
-
-	public static boolean findingLow = true;
-	public static boolean findingHigh = true;
-	public static double refLow = 99999;
-	public static double refHigh = 0;
-	public static ArrayList<Double> refLows = new ArrayList<Double>();
-	public static ArrayList<Double> refHighs = new ArrayList<Double>();
+	
+	public static HighLow smallHL;
+	public static HighLow largeHL;
 
 	int[] EMAs = new int[]
 	{ 5, 25, 50, 100, 250, 1200 };
@@ -50,6 +46,9 @@ public class GetData implements Runnable
 
 	public GetData()
 	{
+		smallHL = new HighLow(0.5);
+		largeHL = new HighLow(1);
+		
 		// Sikuli.makeRobot();
 		rsiDatas = new ArrayList<RSIData>();
 		shortTB = new TimeBase();
@@ -342,11 +341,15 @@ public class GetData implements Runnable
 					shortMinutes = 0;
 					shortData.reset();
 
-					if (findingLow)
-						findLow();
+					if (smallHL.findingLow)
+						smallHL.findLow();
+					if (smallHL.findingHigh)
+						smallHL.findHigh();
 					
-					if (findingHigh)
-						findHigh();
+					if (largeHL.findingLow)
+						largeHL.findLow();
+					if (largeHL.findingHigh)
+						largeHL.findHigh();
 					
 
 					// if (Global.getAOH() == 0)
@@ -412,48 +415,7 @@ public class GetData implements Runnable
 
 	}
 
-	private void findHigh()
-	{
-		if (getShortTB().getLatestCandle().getLow() < refLow)
-			refLow = getShortTB().getLatestCandle().getLow();
-
-		if (getShortTB().getLatestCandle().getHigh() > refHigh)
-		{
-			refHigh = getShortTB().getLatestCandle().getHigh();
-			refLow = 99999;
-		}
-		
-		if (refLow < refHigh - (getShortTB().getLatestCandle().getHigh() * 0.005))
-		{
-			refHighs.add(refHigh);
-			Global.addLog("Recent High Update: " + refHigh);
-			findingLow = true;
-			findingHigh = false;
-			refHigh = 0;
-			refLow = 99999;
-		}
-	}
-
-	private void findLow()
-	{
-		if (getShortTB().getLatestCandle().getLow() < refLow)
-		{
-			refLow = getShortTB().getLatestCandle().getLow();
-			refHigh = 0;
-		}
-		if (getShortTB().getLatestCandle().getHigh() > refHigh)
-			refHigh = getShortTB().getLatestCandle().getHigh();
-
-		if (refHigh > refLow + (getShortTB().getLatestCandle().getHigh() * 0.005))
-		{
-			refLows.add(refLow);
-			Global.addLog("Recent Low Update: " + refLow);
-			findingLow = false;
-			findingHigh = true;
-			refHigh = 0;
-			refLow = 99999;
-		}
-	}
+	
 
 	// private void checkStop()
 	// {
@@ -533,11 +495,15 @@ public class GetData implements Runnable
 			// accumulated
 			getShortTB().addCandleHistory(time,high,low,open, close, volume);
 
-			if (findingLow)
-				findLow();
+			if (smallHL.findingLow)
+				smallHL.findLow();
+			if (smallHL.findingHigh)
+				smallHL.findHigh();
 			
-			if (findingHigh)
-				findHigh();
+			if (largeHL.findingLow)
+				largeHL.findLow();
+			if (largeHL.findingHigh)
+				largeHL.findHigh();
 			
 			if (i == 0)
 			{
@@ -613,8 +579,8 @@ public class GetData implements Runnable
 			e.printStackTrace();
 		}
 		
-		Global.addLog("Latest High: " + getLatestHigh());
-		Global.addLog("Latest Low: " + getLatestLow());
+		Global.addLog("Latest High (Large): " + largeHL.getLatestHigh());
+		Global.addLog("Latest Low (Large): " + largeHL.getLatestLow());
 
 	}
 
@@ -835,19 +801,7 @@ public class GetData implements Runnable
 		return s;
 	}
 	
-	public static double getLatestHigh()
-	{
-		if (refHighs.size() == 0)
-			return 0;
-		return refHighs.get(refHighs.size() -1);
-	}
-
-	public static double getLatestLow()
-	{
-		if (refLows.size() == 0)
-			return 99999;
-		return refLows.get(refLows.size() -1);
-	}
+	
 
 	public static String getTime()
 	{ // String is thread safe

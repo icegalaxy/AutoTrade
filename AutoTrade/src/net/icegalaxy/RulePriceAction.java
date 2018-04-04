@@ -5,7 +5,7 @@ import java.util.List;
 
 //Use the OPEN Line
 
-public class RuleSkyStair extends Rules
+public class RulePriceAction extends Rules
 {
 	// Stair currentStair;
 	int currentStairIndex;
@@ -16,7 +16,7 @@ public class RuleSkyStair extends Rules
 	static int reActivatePeriod = 10000;
 	int EMATimer;
 
-	public RuleSkyStair(boolean globalRunRule)
+	public RulePriceAction(boolean globalRunRule)
 	{
 		super(globalRunRule);
 		setOrderTime(91800, 115800, 131500, 160000, 173000, 1003000); // need to
@@ -90,7 +90,7 @@ public class RuleSkyStair extends Rules
 //					sleep(waitingTime);
 //				}
 				
-				while(!GetData.smallHL.findingLow)
+				while(!GetData.findingLow)
 				{
 					if (shutdownLong(currentStairIndex))
 						return;
@@ -143,7 +143,7 @@ public class RuleSkyStair extends Rules
 				
 				//wait 30% rise
 				//should be refLow not lastestLow
-				while(Global.getCurrentPoint() < GetData.smallHL.refLow + (GetData.smallHL.getLatestHigh() -GetData.smallHL.refLow) * 0.3)
+				while(Global.getCurrentPoint() < GetData.refLow + (GetData.getLatestHigh() -GetData.refLow) * 0.3)
 				{
 					if (shutdownLong(currentStairIndex))
 						return;
@@ -235,7 +235,7 @@ public class RuleSkyStair extends Rules
 //					sleep(waitingTime);
 //				}
 				
-				while(!GetData.smallHL.findingHigh)
+				while(!GetData.findingHigh)
 				{
 					if (shutdownShort(currentStairIndex))
 						return;
@@ -276,7 +276,7 @@ public class RuleSkyStair extends Rules
 
 				
 				//wait 30% drop
-				while(Global.getCurrentPoint()  > GetData.smallHL.refHigh - (GetData.smallHL.refHigh - GetData.smallHL.getLatestLow()) * 0.3)
+				while(Global.getCurrentPoint()  > GetData.refHigh - (GetData.refHigh - GetData.getLatestLow()) * 0.3)
 				{
 					if(shutdownShort(currentStairIndex))
 						return;
