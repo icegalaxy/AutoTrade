@@ -23,8 +23,11 @@ public class GetData implements Runnable
 	GetData.CandleData m15Data;
 	GetData.CandleData longData;
 	
+	public static HighLow tinyHL;
 	public static HighLow smallHL;
 	public static HighLow largeHL;
+	
+	private ArrayList<HighLow> HLs;
 
 	int[] EMAs = new int[]
 	{ 5, 25, 50, 100, 250, 1200 };
@@ -46,8 +49,15 @@ public class GetData implements Runnable
 
 	public GetData()
 	{
+		tinyHL = new HighLow(0.3);
 		smallHL = new HighLow(0.5);
 		largeHL = new HighLow(1);
+		
+		HLs = new ArrayList<HighLow>();
+		
+		HLs.add(tinyHL);
+		HLs.add(smallHL);
+		HLs.add(largeHL);
 		
 		// Sikuli.makeRobot();
 		rsiDatas = new ArrayList<RSIData>();
@@ -340,16 +350,16 @@ public class GetData implements Runnable
 
 					shortMinutes = 0;
 					shortData.reset();
-
-					if (smallHL.findingLow)
-						smallHL.findLow();
-					if (smallHL.findingHigh)
-						smallHL.findHigh();
 					
-					if (largeHL.findingLow)
-						largeHL.findLow();
-					if (largeHL.findingHigh)
-						largeHL.findHigh();
+					for (HighLow hl : HLs)
+					{
+						if (hl.findingLow)
+							hl.findLow();
+						if (hl.findingHigh)
+							hl.findHigh();
+					}
+
+					
 					
 
 					// if (Global.getAOH() == 0)

@@ -24,7 +24,7 @@ public class RulePriceAction extends Rules
 																		// the
 																		// first
 																		// 3min
-		shutdownIndex = new ArrayList<Integer>();
+//		shutdownIndex = new ArrayList<Integer>();
 		// wait for EMA6, that's why 0945
 	}
 
@@ -34,44 +34,8 @@ public class RulePriceAction extends Rules
 		if (!isOrderTime() || Global.getNoOfContracts() != 0)
 			return;
 
-		// RE-activate after 1hr
-		if (shutdownIndex.size() > 0)
-		{
-			for (int i = 0; i < shutdownIndex.size(); i++)
-			{
-				if (GetData.getTimeInt() > XMLWatcher.stairs.get(shutdownIndex.get(i)).reActivateTime)
-				{
-					XMLWatcher.stairs.get(shutdownIndex.get(i)).buying = true;
-					XMLWatcher.stairs.get(shutdownIndex.get(i)).selling = true;
-					Global.addLog("Re-activate: " + XMLWatcher.stairs.get(shutdownIndex.get(i)).lineType + " @ "
-							+ XMLWatcher.stairs.get(shutdownIndex.get(i)).value);
-					shutdownIndex.remove(i);
-					i--;
-					Global.updateCSV();
-				}
-			}
-		}
-
-		for (int i = 0; i < XMLWatcher.stairs.size(); i++)
-		{
-
-			currentStairIndex = i;
-
-//			currentStair = XMLWatcher.stairs.get(currentStairIndex);
-
-			if (Global.getNoOfContracts() != 0)
-				return;
-
-			if (XMLWatcher.stairs.get(currentStairIndex).value == 0)
-				continue;
-
-			// if (currentStair.shutdown)
-			// continue;
-
-			// Long
-			if (GetData.getLongTB().getEma5().getEMA() > XMLWatcher.stairs.get(currentStairIndex).value + 50
-					&& Global.getCurrentPoint() < XMLWatcher.stairs.get(currentStairIndex).value + 20
-					&& Global.getCurrentPoint() > XMLWatcher.stairs.get(currentStairIndex).value)
+		
+			if (GetData.largeHL.findingHigh
 			{
 				
 				

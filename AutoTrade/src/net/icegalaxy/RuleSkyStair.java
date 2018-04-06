@@ -69,8 +69,9 @@ public class RuleSkyStair extends Rules
 			// continue;
 
 			// Long
-			if (GetData.getLongTB().getEma5().getEMA() > XMLWatcher.stairs.get(currentStairIndex).value + 50
-					&& Global.getCurrentPoint() < XMLWatcher.stairs.get(currentStairIndex).value + 20
+			if (
+					GetData.getLongTB().getEma5().getEMA() > XMLWatcher.stairs.get(currentStairIndex).value && 
+					Global.getCurrentPoint() < XMLWatcher.stairs.get(currentStairIndex).value + 20
 					&& Global.getCurrentPoint() > XMLWatcher.stairs.get(currentStairIndex).value)
 			{
 				
@@ -141,9 +142,9 @@ public class RuleSkyStair extends Rules
 				}
 
 				
-				Global.addLog("Waiting for a 30% Drop");
-				//should be refLow not lastestLow
-				while(Global.getCurrentPoint() < GetData.smallHL.refLow + (GetData.smallHL.getLatestHigh() -GetData.smallHL.refLow) * 0.3)
+				Global.addLog("Waiting for a tiny rise");
+
+				while(!GetData.tinyHL.findingHigh)
 				{
 					if (shutdownLong(currentStairIndex))
 						return;
@@ -180,7 +181,7 @@ public class RuleSkyStair extends Rules
 						break;
 					}
 
-					if (rr < 0.5)
+					if (rr < 0.3)
 					{
 						Global.addLog("RR= " + rr);
 						XMLWatcher.stairs.get(currentStairIndex).buying = false;
@@ -216,8 +217,9 @@ public class RuleSkyStair extends Rules
 				Global.addLog("OHLC: " + XMLWatcher.stairs.get(currentStairIndex).lineType);
 				return;
 
-			} else if (GetData.getLongTB().getEma5().getEMA() < XMLWatcher.stairs.get(currentStairIndex).value - 50
-					&& Global.getCurrentPoint() > XMLWatcher.stairs.get(currentStairIndex).value - 20
+			} else if (
+					GetData.getLongTB().getEma5().getEMA() < XMLWatcher.stairs.get(currentStairIndex).value && 
+					Global.getCurrentPoint() > XMLWatcher.stairs.get(currentStairIndex).value - 20
 					&& Global.getCurrentPoint() < XMLWatcher.stairs.get(currentStairIndex).value)
 			{
 
@@ -274,9 +276,9 @@ public class RuleSkyStair extends Rules
 					sleep(waitingTime);
 				}
 
-				Global.addLog("Waiting for a 30% Drop");
+				Global.addLog("Waiting for a tiny drop");
 
-				while(Global.getCurrentPoint()  > GetData.smallHL.refHigh - (GetData.smallHL.refHigh - GetData.smallHL.getLatestLow()) * 0.3)
+				while(!GetData.tinyHL.findingLow)
 				{
 					if(shutdownShort(currentStairIndex))
 						return;
@@ -312,7 +314,7 @@ public class RuleSkyStair extends Rules
 						break;
 					}
 
-					if (rr < 0.5)
+					if (rr < 0.3)
 					{
 						Global.addLog("RR= " + rr);
 						XMLWatcher.stairs.get(currentStairIndex).selling = false;
@@ -347,6 +349,7 @@ public class RuleSkyStair extends Rules
 
 				Global.addLog("OHLC: " + XMLWatcher.stairs.get(currentStairIndex).lineType);
 				return;
+				
 
 			}
 
@@ -361,21 +364,21 @@ public class RuleSkyStair extends Rules
 		updateHighLow();
 
 
-		if (GetData.getLongTB().getEma5().getEMA() > XMLWatcher.stairs.get(currentStairIndex).value - 50)
-		{
-			Global.addLog("M5_EMA out of range");
-			XMLWatcher.stairs.get(currentStairIndex).selling = false;
-			shutdownStair(currentStairIndex);
-			shutdown = true;
-		}
+//		if (GetData.getLongTB().getEma5().getEMA() > XMLWatcher.stairs.get(currentStairIndex).value - 50)
+//		{
+//			Global.addLog("M5_EMA out of range");
+//			XMLWatcher.stairs.get(currentStairIndex).selling = false;
+//			shutdownStair(currentStairIndex);
+//			shutdown = true;
+//		}
 		
-		if (GetData.getShortTB().getRSI() < 40)
-		{
-			Global.addLog("RSI out of range");
-			XMLWatcher.stairs.get(currentStairIndex).selling = false;
-			shutdownStair(currentStairIndex);
-			shutdown = true;
-		}
+//		if (GetData.getShortTB().getRSI() < 40)
+//		{
+//			Global.addLog("RSI out of range");
+//			XMLWatcher.stairs.get(currentStairIndex).selling = false;
+//			shutdownStair(currentStairIndex);
+//			shutdown = true;
+//		}
 
 		if (refHigh > XMLWatcher.stairs.get(currentStairIndex).value + 50)
 		{
@@ -395,21 +398,21 @@ public class RuleSkyStair extends Rules
 		updateHighLow();
 		
 
-		if (GetData.getLongTB().getEma5().getEMA() < XMLWatcher.stairs.get(currentStairIndex).value + 50)
-		{
-			Global.addLog("M5_EMA out of range");
-			XMLWatcher.stairs.get(currentStairIndex).buying = false;
-			shutdownStair(currentStairIndex);
-			shutdown = true;
-		}
+//		if (GetData.getLongTB().getEma5().getEMA() < XMLWatcher.stairs.get(currentStairIndex).value + 50)
+//		{
+//			Global.addLog("M5_EMA out of range");
+//			XMLWatcher.stairs.get(currentStairIndex).buying = false;
+//			shutdownStair(currentStairIndex);
+//			shutdown = true;
+//		}
 		
-		if (GetData.getShortTB().getRSI() > 60)
-		{
-			Global.addLog("RSI out of range");
-			XMLWatcher.stairs.get(currentStairIndex).buying = false;
-			shutdownStair(currentStairIndex);
-			shutdown = true;		
-		}
+//		if (GetData.getShortTB().getRSI() > 60)
+//		{
+//			Global.addLog("RSI out of range");
+//			XMLWatcher.stairs.get(currentStairIndex).buying = false;
+//			shutdownStair(currentStairIndex);
+//			shutdown = true;		
+//		}
 
 		if (refLow < XMLWatcher.stairs.get(currentStairIndex).value - 50)
 		{
