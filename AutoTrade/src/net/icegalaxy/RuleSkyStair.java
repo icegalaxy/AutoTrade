@@ -91,9 +91,12 @@ public class RuleSkyStair extends Rules
 //					sleep(waitingTime);
 //				}
 				
-				while(!GetData.smallHL.findingLow)
+				while(!GetData.tinyHL.findingLow)
 				{
 					if (shutdownLong(currentStairIndex))
+						return;
+					
+					if (Global.getCurrentPoint() > getLongStopEarn(XMLWatcher.stairs.get(currentStairIndex).value) - 20)
 						return;
 
 					sleep(waitingTime);
@@ -144,7 +147,7 @@ public class RuleSkyStair extends Rules
 				
 				Global.addLog("Waiting for a tiny rise");
 
-				while(!GetData.tinyHL.findingHigh)
+				while(Global.getCurrentPoint() < GetData.tinyHL.refLow + (GetData.tinyHL.getLatestHigh() - GetData.tinyHL.refLow)*0.3)
 				{
 					if (shutdownLong(currentStairIndex))
 						return;
@@ -185,7 +188,7 @@ public class RuleSkyStair extends Rules
 					{
 						Global.addLog("RR= " + rr);
 						XMLWatcher.stairs.get(currentStairIndex).buying = false;
-						shutdownStair(currentStairIndex);
+//						shutdownStair(currentStairIndex);
 						return;
 					}
 
@@ -237,10 +240,14 @@ public class RuleSkyStair extends Rules
 //					sleep(waitingTime);
 //				}
 				
-				while(!GetData.smallHL.findingHigh)
+				while(!GetData.tinyHL.findingHigh)
 				{
 					if (shutdownShort(currentStairIndex))
 						return;
+					
+					if (Global.getCurrentPoint() > getLongStopEarn(XMLWatcher.stairs.get(currentStairIndex).value) - 20)
+						return;
+					
 					sleep(waitingTime);
 				}
 				
@@ -278,7 +285,7 @@ public class RuleSkyStair extends Rules
 
 				Global.addLog("Waiting for a tiny drop");
 
-				while(!GetData.tinyHL.findingLow)
+				while(Global.getCurrentPoint() > GetData.tinyHL.refHigh - (GetData.tinyHL.getLatestHigh() - GetData.tinyHL.refLow)*0.3)
 				{
 					if(shutdownShort(currentStairIndex))
 						return;
