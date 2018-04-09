@@ -63,14 +63,14 @@ public class HighLow
 	public double getLatestHigh()
 	{
 		if (refHighs.size() == 0)
-			return 0;
+			return 99999;
 		return refHighs.get(refHighs.size() -1);
 	}
 
 	public double getLatestLow()
 	{
 		if (refLows.size() == 0)
-			return 99999;
+			return 0;
 		return refLows.get(refLows.size() -1);
 	}
 }

@@ -146,6 +146,8 @@ public class RuleSkyStair extends Rules
 
 				
 				Global.addLog("Waiting for a tiny rise");
+				
+				
 
 				while(Global.getCurrentPoint() < GetData.tinyHL.refLow + (GetData.tinyHL.getLatestHigh() - GetData.tinyHL.refLow)*0.3)
 				{
@@ -154,6 +156,11 @@ public class RuleSkyStair extends Rules
 					
 					sleep(waitingTime);
 				}
+				
+				Global.addLog("Latest High: " + GetData.tinyHL.getLatestHigh());
+				Global.addLog("Ref Low: " + GetData.tinyHL.refLow);
+				
+				
 
 				// if (Global.getCurrentPoint() > currentStair.value + 20)
 				// Global.addLog("Rise to fast, waiting for a pull back");
@@ -291,6 +298,9 @@ public class RuleSkyStair extends Rules
 						return;
 					sleep(waitingTime);
 				}
+				
+				Global.addLog("Ref High: " + GetData.tinyHL.refHigh);
+				Global.addLog("Latest Low: " + GetData.tinyHL.getLatestLow());
 
 				// if (Global.getCurrentPoint() < currentStair.value - 20)
 				// Global.addLog("Drop to fast, waiting for a pull back");
