@@ -285,7 +285,7 @@ public class RuleSkyStair extends Rules
 
 				Global.addLog("Waiting for a tiny drop");
 
-				while(Global.getCurrentPoint() > GetData.tinyHL.refHigh - (GetData.tinyHL.getLatestHigh() - GetData.tinyHL.refLow)*0.3)
+				while(Global.getCurrentPoint() > GetData.tinyHL.refHigh - (GetData.tinyHL.refHigh - GetData.tinyHL.getLatestLow())*0.3)
 				{
 					if(shutdownShort(currentStairIndex))
 						return;
@@ -641,7 +641,7 @@ public class RuleSkyStair extends Rules
 //			if (!stair.buying || stair.shutdown)
 //				continue;
 			
-			if (stair.value < stopEarn && stair.value - value > 0)
+			if (stair.value < stopEarn && stair.value - value > 50)
 
 				stopEarn = stair.value;
 
@@ -669,7 +669,7 @@ public class RuleSkyStair extends Rules
 //			if (!stair.selling || stair.shutdown)
 //				continue;
 			
-			if (stair.value > stopEarn && value - stair.value > 0)
+			if (stair.value > stopEarn && value - stair.value > 50)
 
 				stopEarn = stair.value;
 
