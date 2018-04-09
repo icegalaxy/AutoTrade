@@ -145,6 +145,9 @@ public class GetData implements Runnable
 	{
 
 		getPreviousData();
+		
+		checkEMA50();
+		checkEMA250();
 
 		XMLWatcher xmlWatcher = new XMLWatcher();
 		Thread t = new Thread(xmlWatcher);
