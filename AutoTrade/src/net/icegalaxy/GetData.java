@@ -505,15 +505,23 @@ public class GetData implements Runnable
 			// accumulated
 			getShortTB().addCandleHistory(time,high,low,open, close, volume);
 
-			if (smallHL.findingLow)
-				smallHL.findLow();
-			if (smallHL.findingHigh)
-				smallHL.findHigh();
+//			if (smallHL.findingLow)
+//				smallHL.findLow();
+//			if (smallHL.findingHigh)
+//				smallHL.findHigh();
+//			
+//			if (largeHL.findingLow)
+//				largeHL.findLow();
+//			if (largeHL.findingHigh)
+//				largeHL.findHigh();
 			
-			if (largeHL.findingLow)
-				largeHL.findLow();
-			if (largeHL.findingHigh)
-				largeHL.findHigh();
+			for (HighLow hl : HLs)
+			{
+				if (hl.findingLow)
+					hl.findLow();
+				if (hl.findingHigh)
+					hl.findHigh();
+			}
 			
 			if (i == 0)
 			{
