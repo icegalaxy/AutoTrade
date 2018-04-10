@@ -11,9 +11,11 @@ public class HighLow
 	public ArrayList<Double> refLows = new ArrayList<Double>();
 	public ArrayList<Double> refHighs = new ArrayList<Double>();
 	public double spread;
+	public String objectName;
 	
-	public HighLow(double spread)
+	public HighLow(String objectName, double spread)
 	{
+		this.objectName = objectName;
 		this.spread = spread / 100;
 	}
 	
@@ -31,7 +33,28 @@ public class HighLow
 		if (refLow < refHigh - (GetData.getShortTB().getLatestCandle().getHigh() * spread))
 		{
 			refHighs.add(refHigh);
-			Global.addLog("Recent High Update: " + refHigh);
+			findingLow = true;
+			findingHigh = false;
+			refHigh = 0;
+			refLow = 99999;
+		}
+	}
+	
+	public void findHigh(String hlName)
+	{
+		if (GetData.getShortTB().getLatestCandle().getLow() < refLow)
+			refLow = GetData.getShortTB().getLatestCandle().getLow();
+
+		if (GetData.getShortTB().getLatestCandle().getHigh() > refHigh)
+		{
+			refHigh = GetData.getShortTB().getLatestCandle().getHigh();
+			refLow = 99999;
+		}
+		
+		if (refLow < refHigh - (GetData.getShortTB().getLatestCandle().getHigh() * spread))
+		{
+			refHighs.add(refHigh);
+			Global.addLog(hlName + ": Recent High Update: " + refHigh);
 			findingLow = true;
 			findingHigh = false;
 			refHigh = 0;
@@ -52,7 +75,27 @@ public class HighLow
 		if (refHigh > refLow + (GetData.getShortTB().getLatestCandle().getHigh() * spread))
 		{
 			refLows.add(refLow);
-			Global.addLog("Recent Low Update: " + refLow);
+			findingLow = false;
+			findingHigh = true;
+			refHigh = 0;
+			refLow = 99999;
+		}
+	}
+	
+	public void findLow(String hlName)
+	{
+		if (GetData.getShortTB().getLatestCandle().getLow() < refLow)
+		{
+			refLow = GetData.getShortTB().getLatestCandle().getLow();
+			refHigh = 0;
+		}
+		if (GetData.getShortTB().getLatestCandle().getHigh() > refHigh)
+			refHigh = GetData.getShortTB().getLatestCandle().getHigh();
+
+		if (refHigh > refLow + (GetData.getShortTB().getLatestCandle().getHigh() * spread))
+		{
+			refLows.add(refLow);
+			Global.addLog(hlName + ": Recent Low Update: " + refLow);
 			findingLow = false;
 			findingHigh = true;
 			refHigh = 0;
