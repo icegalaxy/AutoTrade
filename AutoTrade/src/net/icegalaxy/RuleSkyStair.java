@@ -205,14 +205,14 @@ public class RuleSkyStair extends Rules
 
 				trailingDown(2);
 
-				if (Global.getCurrentPoint() < XMLWatcher.stairs.get(currentStairIndex).value - 10)
-				{
-					Global.addLog("Current point out of range");
-					XMLWatcher.stairs.get(currentStairIndex).buying = false;
-					shutdownStair(currentStairIndex);
-					// shutdown = true;
-					return;
-				}
+//				if (Global.getCurrentPoint() < XMLWatcher.stairs.get(currentStairIndex).value - 10)
+//				{
+//					Global.addLog("Current point out of range");
+//					XMLWatcher.stairs.get(currentStairIndex).buying = false;
+//					shutdownStair(currentStairIndex);
+//					// shutdown = true;
+//					return;
+//				}
 
 				longContract();
 				
@@ -345,13 +345,13 @@ public class RuleSkyStair extends Rules
 
 				trailingUp(2);
 
-				if (refHigh > XMLWatcher.stairs.get(currentStairIndex).value + 50)
-				{
-					Global.addLog("RefHigh out of range");
-					XMLWatcher.stairs.get(currentStairIndex).selling = false;
-					shutdownStair(currentStairIndex);
-					return;
-				}
+//				if (refHigh > XMLWatcher.stairs.get(currentStairIndex).value + 50)
+//				{
+//					Global.addLog("RefHigh out of range");
+//					XMLWatcher.stairs.get(currentStairIndex).selling = false;
+//					shutdownStair(currentStairIndex);
+//					return;
+//				}
 
 			
 				
