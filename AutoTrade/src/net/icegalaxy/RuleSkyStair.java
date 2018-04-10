@@ -335,7 +335,7 @@ public class RuleSkyStair extends Rules
 					{
 						Global.addLog("RR= " + rr);
 						XMLWatcher.stairs.get(currentStairIndex).selling = false;
-						shutdownStair(currentStairIndex);
+//						shutdownStair(currentStairIndex);
 						return;
 					}
 
