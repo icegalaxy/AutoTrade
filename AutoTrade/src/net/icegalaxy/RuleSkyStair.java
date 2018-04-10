@@ -114,18 +114,18 @@ public class RuleSkyStair extends Rules
 //					return;
 //				}
 				
-				refHL = getTimeBase().getLatestCandle().getOpen();
+//				refHL = getTimeBase().getLatestCandle().getOpen();
 
-				waitForANewCandle();
+//				waitForANewCandle();
 
-				if (getTimeBase().getLatestCandle().isYinCandle())
-					refHL = getTimeBase().getLatestCandle().getOpen();
+//				if (getTimeBase().getLatestCandle().isYinCandle())
+//					refHL = getTimeBase().getLatestCandle().getOpen();
 
 				// waiting for a Yang candle
-				while (Global.isRapidDrop()
-						|| getTimeBase().getLatestCandle().getClose() - getTimeBase().getLatestCandle().getOpen() < 5
-						|| Global.getCurrentPoint() < XMLWatcher.stairs.get(currentStairIndex).value)
-				{
+//				while (Global.isRapidDrop()
+//						|| getTimeBase().getLatestCandle().getClose() - getTimeBase().getLatestCandle().getOpen() < 5
+//						|| Global.getCurrentPoint() < XMLWatcher.stairs.get(currentStairIndex).value)
+//				{
 					
 					
 
@@ -138,11 +138,11 @@ public class RuleSkyStair extends Rules
 //						sleep(waitingTime);
 //					}
 					
-					if (shutdownLong(currentStairIndex))
-						return;
-
-					sleep(waitingTime);
-				}
+//					if (shutdownLong(currentStairIndex))
+//						return;
+//
+//					sleep(waitingTime);
+//				}
 
 				
 				Global.addLog("Waiting for a tiny rise");
@@ -269,26 +269,26 @@ public class RuleSkyStair extends Rules
 //					return;
 //				}
 				
-				refHL = getTimeBase().getLatestCandle().getOpen();
-
-				waitForANewCandle();
-
-				if (getTimeBase().getLatestCandle().isYangCandle())
-					refHL = getTimeBase().getLatestCandle().getOpen();
-
-				// updateHighLow();
-
-				while (Global.isRapidRise()
-						|| getTimeBase().getLatestCandle().getOpen() - getTimeBase().getLatestCandle().getClose() < 5
-						|| Global.getCurrentPoint() > XMLWatcher.stairs.get(currentStairIndex).value)
-				{
-
-
-					if(shutdownShort(currentStairIndex))
-						return;
-
-					sleep(waitingTime);
-				}
+//				refHL = getTimeBase().getLatestCandle().getOpen();
+//
+//				waitForANewCandle();
+//
+//				if (getTimeBase().getLatestCandle().isYangCandle())
+//					refHL = getTimeBase().getLatestCandle().getOpen();
+//
+//				// updateHighLow();
+//
+//				while (Global.isRapidRise()
+//						|| getTimeBase().getLatestCandle().getOpen() - getTimeBase().getLatestCandle().getClose() < 5
+//						|| Global.getCurrentPoint() > XMLWatcher.stairs.get(currentStairIndex).value)
+//				{
+//
+//
+//					if(shutdownShort(currentStairIndex))
+//						return;
+//
+//					sleep(waitingTime);
+//				}
 
 				Global.addLog("Waiting for a tiny drop");
 

@@ -229,6 +229,8 @@ public class XMLWatcher implements Runnable
 		{
 			if (s < 2) //default value of EMAs should be false to avoid buying before checkingEMA
 			{
+				stairs.get(s).buying = false;
+				stairs.get(s).selling = false;
 				stairs.get(s).refHigh = 0;
 				stairs.get(s).refLow = 99999;
 				stairs.get(s).reActivateTime = 0;
