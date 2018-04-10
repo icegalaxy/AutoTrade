@@ -7,14 +7,13 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-
 //Use the OPEN Line
 
 public class XMLWatcher implements Runnable
 {
 
 	public static List<Stair> stairs = new CopyOnWriteArrayList<Stair>();
-	
+
 	public static IntraDayReader intraDay;
 	public static IntraDayReader ema;
 	XMLReader ohlc;
@@ -22,19 +21,17 @@ public class XMLWatcher implements Runnable
 	static String OHLCPath = "C:\\Users\\joech\\Dropbox\\TradeData\\FHIdata.xml";
 	static String EMAPath = "C:\\Users\\joech\\Dropbox\\TradeData\\EMA.xml";
 	static String StairPath = "C:\\Users\\joech\\Dropbox\\TradeData\\stair.csv";
-	
-	
+
 	public static boolean M5EMA50;
 	public static boolean M5EMA250;
 	public static boolean EMAbuying;
 	public static boolean EMAselling;
 	public static double EMAstair = 0;
 	public static double EMAstopEarn = 0;
-	
 
 	public static double rangeResist = 0;
 	public static double rangeSupport = 0;
-	
+
 	public static boolean ibtRise;
 	public static boolean ibtDrop;
 
@@ -70,9 +67,10 @@ public class XMLWatcher implements Runnable
 		FHIDataModifiedTime = new File(OHLCPath).lastModified();
 		EMAModifiedTime = new File(EMAPath).lastModified();
 		stairModifiedTime = new File(StairPath).lastModified();
-		
-	//	stairs = new ArrayList<Stair>(); not created here, should be created everytime updated.
-		
+
+		// stairs = new ArrayList<Stair>(); not created here, should be created
+		// everytime updated.
+
 		intraDay = new IntraDayReader(Global.getToday(), intraDayXMLPath);
 
 		open = new OHLC();
@@ -89,34 +87,30 @@ public class XMLWatcher implements Runnable
 		myResist.name = "myResist";
 		mySAR = new OHLC();
 		mySAR.name = "SAR";
-		
-		
+
 		ema = new IntraDayReader(Global.getToday(), EMAPath);
-		
 
-		
+		// ohlc = new XMLReader(Global.getToday(), OHLCPath);
+		// using today
+		// ohlc = new XMLReader("Today", OHLCPath);
+		// ohlcs = new OHLC[5];
+		//
+		// ohlcs[0] = pHigh;
+		// ohlcs[1] = pLow;
+		// ohlcs[2] = pClose;
+		// ohlcs[3] = mySupport;
+		// ohlcs[4] = myResist;
 
-		//ohlc = new XMLReader(Global.getToday(), OHLCPath);
-		//using today
-//		ohlc = new XMLReader("Today", OHLCPath);
-//		ohlcs = new OHLC[5];
-//
-//		ohlcs[0] = pHigh;
-//		ohlcs[1] = pLow;
-//		ohlcs[2] = pClose;
-//		ohlcs[3] = mySupport;
-//		ohlcs[4] = myResist;
-
-//		ohlc.findOHLC();
+		// ohlc.findOHLC();
 	}
 
 	public void run()
 	{
 
-//		readStairs();
+		// readStairs();
 		resetStairs();
-		
-		//reset XMLWatcher
+
+		// reset XMLWatcher
 		XMLWatcher.updateIntraDayXML("stair", "0");
 		XMLWatcher.updateIntraDayXML("cutLoss", "0");
 		XMLWatcher.updateIntraDayXML("stopEarn", "0");
@@ -125,27 +119,29 @@ public class XMLWatcher implements Runnable
 		XMLWatcher.updateIntraDayXML("SAR", "0");
 		XMLWatcher.updateIntraDayXML("buying", "false");
 		XMLWatcher.updateIntraDayXML("selling", "false");
-		
-		try{
-		updateEMAXML("stair", "0");
-		updateEMAXML("stopEarn", "0");
-		updateEMAXML("buying", "false");
-		updateEMAXML("selling", "false");
-		updateEMAXML("M5EMA50", "false");
-		updateEMAXML("M5EMA250", "false");
-		}catch(Exception e){
+
+		try
+		{
+			updateEMAXML("stair", "0");
+			updateEMAXML("stopEarn", "0");
+			updateEMAXML("buying", "false");
+			updateEMAXML("selling", "false");
+			updateEMAXML("M5EMA50", "false");
+			updateEMAXML("M5EMA250", "false");
+		} catch (Exception e)
+		{
 			e.printStackTrace();
 		}
-		
+
 		setOHLC();
-		
+
 		RuleSAR sar = new RuleSAR(true);
 		RuleRR rr = new RuleRR(true);
 		RuleIBT ibt = new RuleIBT(true);
 		RuleRange range = new RuleRange(true);
 		RuleM5EMA m5ema = new RuleM5EMA(true);
 		RuleSkyStair ss = new RuleSkyStair(true);
-//		RuleBreakOut breakOut = new RuleBreakOut(true);
+		// RuleBreakOut breakOut = new RuleBreakOut(true);
 		Thread s = new Thread(sar);
 		s.start();
 		Thread r = new Thread(rr);
@@ -156,8 +152,8 @@ public class XMLWatcher implements Runnable
 		ran.start();
 		Thread e = new Thread(m5ema);
 		e.start();
-//		Thread b = new Thread(breakOut);
-//		b.start();
+		// Thread b = new Thread(breakOut);
+		// b.start();
 		Thread ts = new Thread(ss);
 		ts.start();
 
@@ -195,20 +191,19 @@ public class XMLWatcher implements Runnable
 					Global.addLog("CutLoss/StopEarn: " + cutLoss + "/" + stopEarn);
 					Global.addLog("--------------------");
 				}
-				
-				
+
 				if (isFHIModified(OHLCPath))
 					setOHLC();
-				
+
 				try
 				{
 					if (isEMAModified(EMAPath))
 						setEMA();
-				}catch(Exception x)
+				} catch (Exception x)
 				{
 					x.printStackTrace();
 				}
-				
+
 				if (isStairModified(StairPath))
 					readStairs();
 
@@ -218,24 +213,33 @@ public class XMLWatcher implements Runnable
 			sleep(1000);
 		}
 	}
-	
-	public static void resetStairs(){
-		
+
+	public static void resetStairs()
+	{
+
 		readStairs();
-		
+
 		if (stairs.size() <= 2)
 		{
 			Global.addLog("No stairs!!");
 			return;
 		}
-		
-		for (Stair s : stairs)
+
+		for (int s = 0; s < stairs.size(); s++)
 		{
-			s.buying = true;
-			s.selling = true;
-			s.refHigh = 0;
-			s.refLow = 99999;
-			s.reActivateTime = 0;
+			if (s < 2) //default value of EMAs should be false to avoid buying before checkingEMA
+			{
+				stairs.get(s).refHigh = 0;
+				stairs.get(s).refLow = 99999;
+				stairs.get(s).reActivateTime = 0;
+			} else
+			{
+				stairs.get(s).buying = true;
+				stairs.get(s).selling = true;
+				stairs.get(s).refHigh = 0;
+				stairs.get(s).refLow = 99999;
+				stairs.get(s).reActivateTime = 0;
+			}
 		}
 		Global.updateCSV();
 	}
@@ -250,27 +254,33 @@ public class XMLWatcher implements Runnable
 		{
 			e.printStackTrace();
 		}
-		
+
 		sc.useDelimiter("\r\n");
-		
-		ArrayList<String> lines = new ArrayList<String>(); 
-		
+
+		ArrayList<String> lines = new ArrayList<String>();
+
 		sc.next();
-		
-		while(sc.hasNext())
+
+		while (sc.hasNext())
 			lines.add(sc.next());
-		
+
 		sc.close();
-		
-		List<Stair> tempStairs = new CopyOnWriteArrayList<Stair>(); //avoid modifying the original list at this stage.
-		
-		for (int i=0; i<lines.size(); i++)
+
+		List<Stair> tempStairs = new CopyOnWriteArrayList<Stair>(); // avoid
+																	// modifying
+																	// the
+																	// original
+																	// list at
+																	// this
+																	// stage.
+
+		for (int i = 0; i < lines.size(); i++)
 		{
 			Scanner sc2 = new Scanner(lines.get(i));
 			sc2.useDelimiter(",");
-			
+
 			Stair st = new Stair();
-			
+
 			st.lineType = sc2.next();
 			st.value = sc2.nextDouble();
 			st.cutLoss = sc2.nextDouble();
@@ -280,24 +290,24 @@ public class XMLWatcher implements Runnable
 			st.refHigh = sc2.nextDouble();
 			st.reActivateTime = sc2.nextInt();
 			st.shutdown = sc2.nextBoolean();
-			
+
 			sc2.close();
-			
-//			Global.addLog("Stair: " + st.lineType + ", value: " + st.value);
-			
+
+			// Global.addLog("Stair: " + st.lineType + ", value: " + st.value);
+
 			tempStairs.add(st);
-			
+
 		}
-		
+
 		stairs = tempStairs;
-		
+
 	}
 
 	private void setEMA()
 	{
 		ema.findElementOfToday();
-//		ema.findOHLC();
-		
+		// ema.findOHLC();
+
 		M5EMA50 = Boolean.parseBoolean(ema.getValueOfNode("M5EMA50"));
 		M5EMA250 = Boolean.parseBoolean(ema.getValueOfNode("M5EMA250"));
 		EMAbuying = Boolean.parseBoolean(ema.getValueOfNode("buying"));
@@ -325,7 +335,7 @@ public class XMLWatcher implements Runnable
 		}
 
 	}
-	
+
 	private boolean isStairModified(String filePath)
 	{
 
@@ -339,7 +349,7 @@ public class XMLWatcher implements Runnable
 		}
 
 	}
-	
+
 	private boolean isIntraDayModified(String filePath)
 	{
 
@@ -353,7 +363,7 @@ public class XMLWatcher implements Runnable
 		}
 
 	}
-	
+
 	private boolean isEMAModified(String filePath)
 	{
 
@@ -382,7 +392,8 @@ public class XMLWatcher implements Runnable
 			Global.addLog("Open = 0");
 			sleep(5000);
 
-			if (TimePeriodDecider.nightOpened || TimePeriodDecider.dayClosed){
+			if (TimePeriodDecider.nightOpened || TimePeriodDecider.dayClosed)
+			{
 				return;
 			}
 			if (GetData.getTimeInt() > 91500)
@@ -397,12 +408,12 @@ public class XMLWatcher implements Runnable
 
 		// wait for open price to add them together
 		open.position = Global.getOpen();
-//		pHigh.position = Global.getpHigh();
-//		pLow.position = Global.getpLow();
-//		pClose.position = Global.getpClose();
-//
-//		mySupport.position = Global.getKkSupport();
-//		myResist.position = Global.getKkResist();
+		// pHigh.position = Global.getpHigh();
+		// pLow.position = Global.getpLow();
+		// pClose.position = Global.getpClose();
+		//
+		// mySupport.position = Global.getKkSupport();
+		// myResist.position = Global.getKkResist();
 
 		// return openPrice;
 
@@ -413,7 +424,7 @@ public class XMLWatcher implements Runnable
 		intraDay.updateNode(node, value);
 		Global.addLog("Updated Node: " + node + ", value: " + value);
 	}
-	
+
 	public static void updateEMAXML(String node, String value)
 	{
 		ema.updateNode(node, value);
@@ -434,18 +445,18 @@ public class XMLWatcher implements Runnable
 
 	private void setOHLC()
 	{
-		
+
 		ohlc = new XMLReader("Today", OHLCPath);
-		
-		try{
+
+		try
+		{
 			ibtRise = Boolean.parseBoolean(ohlc.getValueOfNode("ibtRise"));
 			ibtDrop = Boolean.parseBoolean(ohlc.getValueOfNode("ibtDrop"));
-		}catch (Exception e)
+		} catch (Exception e)
 		{
 			e.printStackTrace();
 		}
-		
-		
+
 		ohlcs = new OHLC[5];
 
 		ohlcs[0] = pHigh;
@@ -453,7 +464,6 @@ public class XMLWatcher implements Runnable
 		ohlcs[2] = pClose;
 		ohlcs[3] = mySupport;
 		ohlcs[4] = myResist;
-		
 
 		for (int i = 0; i < 3; i++)
 		{
@@ -480,24 +490,23 @@ public class XMLWatcher implements Runnable
 		Global.setpHigh(ohlcs[0].position);
 		Global.setpLow(ohlcs[1].position);
 		Global.setpClose(ohlcs[2].position);
-//		Global.setpClose(ohlc.getpClose());
-//		Global.setpFluc(ohlc.getpFluc());
-//
-//		Global.setKkResist(ohlc.getKkResist());
-//		Global.setKkSupport(ohlc.getKkSupport());
+		// Global.setpClose(ohlc.getpClose());
+		// Global.setpFluc(ohlc.getpFluc());
+		//
+		// Global.setKkResist(ohlc.getKkResist());
+		// Global.setKkSupport(ohlc.getKkSupport());
 
-//		if (pHigh.position != 0)
-//		{
-			Global.addLog("-------------------------------------");
-			Global.addLog("P.High: " + Global.getpHigh());
-			Global.addLog("P.Low: " + Global.getpLow());
-			Global.addLog("P.Close: " + Global.getpClose());
-			Global.addLog("IBT Rise: " + ibtRise);
-			Global.addLog("IBT Drop: " + ibtDrop);
-			Global.addLog("-------------------------------------");
-//		}
+		// if (pHigh.position != 0)
+		// {
+		Global.addLog("-------------------------------------");
+		Global.addLog("P.High: " + Global.getpHigh());
+		Global.addLog("P.Low: " + Global.getpLow());
+		Global.addLog("P.Close: " + Global.getpClose());
+		Global.addLog("IBT Rise: " + ibtRise);
+		Global.addLog("IBT Drop: " + ibtDrop);
+		Global.addLog("-------------------------------------");
+		// }
 
 	}
-	
 
 }
