@@ -146,8 +146,8 @@ public class GetData implements Runnable
 
 		getPreviousData();
 		
-		checkEMA50();
-		checkEMA250();
+//		checkEMA50(); cannot check here, stairs not ready
+//		checkEMA250();
 
 		XMLWatcher xmlWatcher = new XMLWatcher();
 		Thread t = new Thread(xmlWatcher);
