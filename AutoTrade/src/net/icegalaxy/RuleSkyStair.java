@@ -600,9 +600,15 @@ public class RuleSkyStair extends Rules
 
 			if (tempCutLoss < getLongStopEarn(XMLWatcher.stairs.get(currentStairIndex).value))
 			{
+				
+				if (tempCutLoss < GetData.getShortTB().getLatestCandle().getLow())
+					Global.addLog("Profit pt update by m1: " + GetData.getShortTB().getLatestCandle().getLow());
+				
 				tempCutLoss = Math.min(getLongStopEarn(XMLWatcher.stairs.get(currentStairIndex).value),
 						GetData.getShortTB().getLatestCandle().getLow());
-				Global.addLog("Profit pt update by m1: " + tempCutLoss);
+				
+				
+				
 			}
 
 			// if (GetData.getLongTB().getEMA(5) <
@@ -643,9 +649,13 @@ public class RuleSkyStair extends Rules
 
 			if (tempCutLoss > getShortStopEarn(XMLWatcher.stairs.get(currentStairIndex).value))
 			{
+				
+				if (tempCutLoss > GetData.getShortTB().getLatestCandle().getHigh())
+					Global.addLog("Profit pt update by m1: " + GetData.getShortTB().getLatestCandle().getHigh());
+				
 				tempCutLoss = Math.max(getShortStopEarn(XMLWatcher.stairs.get(currentStairIndex).value),
 						GetData.getShortTB().getLatestCandle().getHigh());
-				Global.addLog("Profit pt update by m1: " + tempCutLoss);
+				
 			}
 
 			// if (GetData.getLongTB().getEMA(5) >
