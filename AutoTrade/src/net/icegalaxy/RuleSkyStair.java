@@ -568,9 +568,9 @@ public class RuleSkyStair extends Rules
 		if (Global.getNoOfContracts() > 0)
 		{
 			
-			if (GetData.getShortTB().getLatestCandle().getLow() < GetData.getLongTB().getEma5().getEMA()
-					&& GetData.getShortTB().getLatestCandle().getLow() > tempCutLoss)
-				tempCutLoss = GetData.getShortTB().getLatestCandle().getLow();
+//			if (GetData.getShortTB().getLatestCandle().getLow() < GetData.getLongTB().getEma5().getEMA()
+//					&& GetData.getShortTB().getLatestCandle().getLow() > tempCutLoss)
+//				tempCutLoss = GetData.getShortTB().getLatestCandle().getLow();
 			
 			
 //			if (getHoldingTime() > 3600 && getProfit() > 100 && tempCutLoss < buyingPoint + 100)
@@ -584,6 +584,12 @@ public class RuleSkyStair extends Rules
 //				tempCutLoss = buyingPoint + 5;
 //				Global.addLog("Free trade");
 //			}
+			
+			if (GetData.tinyHL.getLatestLow() > tempCutLoss)
+			{
+				tempCutLoss = GetData.tinyHL.getLatestLow();
+				Global.addLog("Profit pt update by tinyHL: " + tempCutLoss);
+			}
 
 			// update stair
 			if (stair != 0 && tempCutLoss < stair && Global.getCurrentPoint() > stair)
@@ -592,10 +598,12 @@ public class RuleSkyStair extends Rules
 				tempCutLoss = stair;
 			}
 
-			if (GetData.getShortTB().getLatestCandle().getLow() > tempCutLoss
-					&& tempCutLoss < getLongStopEarn(XMLWatcher.stairs.get(currentStairIndex).value))
+			if (tempCutLoss < getLongStopEarn(XMLWatcher.stairs.get(currentStairIndex).value))
+			{
 				tempCutLoss = Math.min(getLongStopEarn(XMLWatcher.stairs.get(currentStairIndex).value),
 						GetData.getShortTB().getLatestCandle().getLow());
+				Global.addLog("Profit pt update by m1: " + tempCutLoss);
+			}
 
 			// if (GetData.getLongTB().getEMA(5) <
 			// GetData.getLongTB().getEMA(6))
@@ -604,9 +612,9 @@ public class RuleSkyStair extends Rules
 		} else if (Global.getNoOfContracts() < 0)
 		{
 			
-			if (GetData.getShortTB().getLatestCandle().getHigh() > GetData.getLongTB().getEma5().getEMA()
-					&& GetData.getShortTB().getLatestCandle().getHigh() < tempCutLoss)
-				tempCutLoss = GetData.getShortTB().getLatestCandle().getHigh();
+//			if (GetData.getShortTB().getLatestCandle().getHigh() > GetData.getLongTB().getEma5().getEMA()
+//					&& GetData.getShortTB().getLatestCandle().getHigh() < tempCutLoss)
+//				tempCutLoss = GetData.getShortTB().getLatestCandle().getHigh();
 			
 			
 //			if (getHoldingTime() > 3600 && getProfit() > 100 && tempCutLoss > buyingPoint - 100)
@@ -620,6 +628,12 @@ public class RuleSkyStair extends Rules
 //				tempCutLoss = buyingPoint - 5;
 //				Global.addLog("Free trade");
 //			}
+			
+			if (GetData.tinyHL.getLatestHigh() < tempCutLoss)
+			{			
+				tempCutLoss = GetData.tinyHL.getLatestHigh();
+				Global.addLog("Profit pt update by tinyHL: " + tempCutLoss);
+			}
 
 			if (stair != 0 && tempCutLoss > stair && Global.getCurrentPoint() < stair)
 			{
@@ -627,10 +641,12 @@ public class RuleSkyStair extends Rules
 				tempCutLoss = stair;
 			}
 
-			if (GetData.getShortTB().getLatestCandle().getHigh() < tempCutLoss
-					&& tempCutLoss > getShortStopEarn(XMLWatcher.stairs.get(currentStairIndex).value))
+			if (tempCutLoss > getShortStopEarn(XMLWatcher.stairs.get(currentStairIndex).value))
+			{
 				tempCutLoss = Math.max(getShortStopEarn(XMLWatcher.stairs.get(currentStairIndex).value),
 						GetData.getShortTB().getLatestCandle().getHigh());
+				Global.addLog("Profit pt update by m1: " + tempCutLoss);
+			}
 
 			// if (GetData.getLongTB().getEMA(5) >
 			// GetData.getLongTB().getEMA(6))
