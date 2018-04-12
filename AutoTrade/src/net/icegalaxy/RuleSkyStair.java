@@ -565,7 +565,7 @@ public class RuleSkyStair extends Rules
 			//Calculate how for to reach stop earn and set it equal to tempCutLoss
 			if (Global.getCurrentPoint() < buyingPoint - profitRange / 2)
 			{
-				double expectedEarn = Global.getCurrentPoint() - getLongStopEarn(XMLWatcher.stairs.get(currentStairIndex).value);
+				double expectedEarn = Global.getCurrentPoint() - getShortStopEarn(XMLWatcher.stairs.get(currentStairIndex).value);
 				if (tempCutLoss > Global.getCurrentPoint() + expectedEarn)
 				{
 					tempCutLoss = Global.getCurrentPoint() + expectedEarn;
