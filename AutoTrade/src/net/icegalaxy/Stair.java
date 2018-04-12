@@ -12,4 +12,5 @@ public class Stair
 	public int timesOfShutdown =1;
 	public double refHigh;
 	public double refLow;
+	public double tolerance;
 }

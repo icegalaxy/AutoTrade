@@ -20,7 +20,7 @@ public class CSVWriter
 	{
 		StringBuilder csvString = new StringBuilder();
 		
-		csvString.append("LineType,Value,CutLoss,Buying,RefLow,Selling,RefHigh,Re-Active Time,Shutdown\r\n");
+		csvString.append("LineType,Value,CutLoss,Buying,RefLow,Selling,RefHigh,Tolerance,Re-Active Time,Shutdown\r\n");
 		
 		
 		for (int i=0; i<stairs.size(); i++)
@@ -32,6 +32,7 @@ public class CSVWriter
 			csvString.append(stairs.get(i).refLow + ",");
 			csvString.append(stairs.get(i).selling + ",");
 			csvString.append(stairs.get(i).refHigh + ",");
+			csvString.append(stairs.get(i).tolerance + ",");
 			csvString.append(stairs.get(i).reActivateTime + ",");
 			csvString.append(stairs.get(i).shutdown + "\r\n");	
 			
