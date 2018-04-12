@@ -103,6 +103,9 @@ public class RuleSkyStair extends Rules
 					sleep(waitingTime);
 				}
 				
+				if (refHigh < GetData.tinyHL.refHigh)
+					refHigh = GetData.tinyHL.refHigh;
+				
 				
 //				Global.addLog("RefLow: " + GetData.refLows.get(GetData.refLows.size()));
 				
@@ -259,6 +262,9 @@ public class RuleSkyStair extends Rules
 					
 					sleep(waitingTime);
 				}
+				
+				if (refLow < GetData.tinyHL.refLow)
+					refLow = GetData.tinyHL.refLow;
 				
 //				Global.addLog("RefHigh: " + GetData.refLows.get(GetData.refLows.size()));
 				
