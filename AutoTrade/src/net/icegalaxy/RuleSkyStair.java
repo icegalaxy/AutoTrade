@@ -407,7 +407,7 @@ public class RuleSkyStair extends Rules
 //			shutdown = true;
 //		}
 
-		if (refHigh > XMLWatcher.stairs.get(currentStairIndex).value + 50)
+		if (refHigh > XMLWatcher.stairs.get(currentStairIndex).value + XMLWatcher.stairs.get(currentStairIndex).tolerance)
 		{
 			Global.addLog("RefHigh out of range");
 			XMLWatcher.stairs.get(currentStairIndex).selling = false;
@@ -441,7 +441,7 @@ public class RuleSkyStair extends Rules
 //			shutdown = true;		
 //		}
 
-		if (refLow < XMLWatcher.stairs.get(currentStairIndex).value - 50)
+		if (refLow < XMLWatcher.stairs.get(currentStairIndex).value - XMLWatcher.stairs.get(currentStairIndex).tolerance)
 		{
 			Global.addLog("RefLow out of range");
 			XMLWatcher.stairs.get(currentStairIndex).buying = false;
