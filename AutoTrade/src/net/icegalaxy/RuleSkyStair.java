@@ -97,8 +97,11 @@ public class RuleSkyStair extends Rules
 					if (shutdownLong(currentStairIndex))
 						return;
 					
-					if (Global.getCurrentPoint() > getLongStopEarn(XMLWatcher.stairs.get(currentStairIndex).value) - 20)
+					if (Global.getCurrentPoint() > XMLWatcher.stairs.get(currentStairIndex).value + 50)
+					{
+						Global.addLog("Leaved");
 						return;
+					}
 
 					sleep(waitingTime);
 				}
@@ -257,8 +260,11 @@ public class RuleSkyStair extends Rules
 					if (shutdownShort(currentStairIndex))
 						return;
 					
-					if (Global.getCurrentPoint() > getLongStopEarn(XMLWatcher.stairs.get(currentStairIndex).value) - 20)
+					if (Global.getCurrentPoint() < XMLWatcher.stairs.get(currentStairIndex).value - 50)
+					{
+						Global.addLog("Leaved");
 						return;
+					}
 					
 					sleep(waitingTime);
 				}
@@ -406,6 +412,13 @@ public class RuleSkyStair extends Rules
 //			shutdownStair(currentStairIndex);
 //			shutdown = true;
 //		}
+		if (Global.getCurrentPoint() < getLongStopEarn(XMLWatcher.stairs.get(currentStairIndex).value) + 20)
+		{
+			Global.addLog("Reached Stop Earn");
+			XMLWatcher.stairs.get(currentStairIndex).selling = false;
+			shutdownStair(currentStairIndex);
+			shutdown = true;
+		}
 
 		if (refHigh > XMLWatcher.stairs.get(currentStairIndex).value + XMLWatcher.stairs.get(currentStairIndex).tolerance)
 		{
@@ -440,6 +453,13 @@ public class RuleSkyStair extends Rules
 //			shutdownStair(currentStairIndex);
 //			shutdown = true;		
 //		}
+		if (Global.getCurrentPoint() > getLongStopEarn(XMLWatcher.stairs.get(currentStairIndex).value) - 20)
+		{
+			Global.addLog("Reached Stop Earn");
+			XMLWatcher.stairs.get(currentStairIndex).buying = false;
+			shutdownStair(currentStairIndex);
+			shutdown = true;
+		}
 
 		if (refLow < XMLWatcher.stairs.get(currentStairIndex).value - XMLWatcher.stairs.get(currentStairIndex).tolerance)
 		{
@@ -713,8 +733,8 @@ public class RuleSkyStair extends Rules
 //			if (!stair.buying || stair.shutdown)
 //				continue;
 			
-			if (stair.value < stopEarn && stair.value - value > 50)
-
+			if (stair.value < stopEarn && stair.value - value > 10
+					&& stair.value > Global.getCurrentPoint())
 				stopEarn = stair.value;
 
 		}
@@ -741,7 +761,8 @@ public class RuleSkyStair extends Rules
 //			if (!stair.selling || stair.shutdown)
 //				continue;
 			
-			if (stair.value > stopEarn && value - stair.value > 50)
+			if (stair.value > stopEarn && value - stair.value > 10
+					&& stair.value < Global.getCurrentPoint())
 
 				stopEarn = stair.value;
 
