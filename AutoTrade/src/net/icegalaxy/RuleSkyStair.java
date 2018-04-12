@@ -31,7 +31,7 @@ public class RuleSkyStair extends Rules
 	public void openContract()
 	{
 
-		if (!isOrderTime() || Global.getNoOfContracts() != 0)
+		if (!Global.isTradeTime() || Global.getNoOfContracts() != 0)
 			return;
 
 		// RE-activate after 1hr
@@ -91,7 +91,7 @@ public class RuleSkyStair extends Rules
 //					sleep(waitingTime);
 //				}
 				
-				while(!GetData.tinyHL.findingLow)
+				while(!GetData.tinyHL.findingLow || !isOrderTime())
 				{
 					if (shutdownLong(currentStairIndex))
 						return;
@@ -247,7 +247,7 @@ public class RuleSkyStair extends Rules
 //					sleep(waitingTime);
 //				}
 				
-				while(!GetData.tinyHL.findingHigh)
+				while(!GetData.tinyHL.findingHigh || !isOrderTime())
 				{
 					if (shutdownShort(currentStairIndex))
 						return;
