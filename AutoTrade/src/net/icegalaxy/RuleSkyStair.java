@@ -15,6 +15,7 @@ public class RuleSkyStair extends Rules
 	double refHL;
 	static int reActivatePeriod = 10000;
 	int EMATimer;
+	double profitRange;
 
 	public RuleSkyStair(boolean globalRunRule)
 	{
@@ -184,6 +185,8 @@ public class RuleSkyStair extends Rules
 
 					double rr = reward / risk;
 
+					profitRange = reward;
+					
 					if (rr > 2 
 							&& Global.getCurrentPoint() - cutLoss < 50)
 					{
@@ -223,7 +226,6 @@ public class RuleSkyStair extends Rules
 				Global.addLog("Ref Low: " + refLow);
 
 				cutLoss = Math.min(XMLWatcher.stairs.get(currentStairIndex).refLow - 20, XMLWatcher.stairs.get(currentStairIndex).value - 10);
-
 				Global.addLog("OHLC: " + XMLWatcher.stairs.get(currentStairIndex).lineType);
 				return;
 
@@ -324,6 +326,8 @@ public class RuleSkyStair extends Rules
 
 					double rr = reward / risk;
 
+					profitRange = reward;
+					
 					if (rr > 2
 							&& cutLoss - Global.getCurrentPoint() < 50)
 					{
@@ -531,6 +535,19 @@ public class RuleSkyStair extends Rules
 		if (Global.getNoOfContracts() > 0)
 		{
 			
+			//Calculate how for to reach stop earn and set it equal to tempCutLoss
+			if (Global.getCurrentPoint() > buyingPoint + profitRange / 2)
+			{
+				double expectedEarn =  getLongStopEarn(XMLWatcher.stairs.get(currentStairIndex).value) - Global.getCurrentPoint();
+				if (tempCutLoss < Global.getCurrentPoint() - expectedEarn)
+				{
+					tempCutLoss = Global.getCurrentPoint() - expectedEarn;
+					Global.addLog("Profit update: " + tempCutLoss);
+				}
+				
+			}
+			
+			
 			if (getHoldingTime() > 3600 && getProfit() > 100 && tempCutLoss < buyingPoint + 80)
 			{
 				tempCutLoss = buyingPoint + 80;
@@ -544,6 +561,19 @@ public class RuleSkyStair extends Rules
 			}
 		}else if (Global.getNoOfContracts() < 0)
 		{
+			
+			//Calculate how for to reach stop earn and set it equal to tempCutLoss
+			if (Global.getCurrentPoint() < buyingPoint - profitRange / 2)
+			{
+				double expectedEarn = Global.getCurrentPoint() - getLongStopEarn(XMLWatcher.stairs.get(currentStairIndex).value);
+				if (tempCutLoss > Global.getCurrentPoint() + expectedEarn)
+				{
+					tempCutLoss = Global.getCurrentPoint() + expectedEarn;
+					Global.addLog("Profit update: " + tempCutLoss);
+				}
+				
+			}
+			
 			
 			if (getHoldingTime() > 3600 && getProfit() > 100 && tempCutLoss > buyingPoint - 80)
 			{
