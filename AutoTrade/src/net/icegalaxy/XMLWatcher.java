@@ -234,6 +234,7 @@ public class XMLWatcher implements Runnable
 				stairs.get(s).refHigh = 0;
 				stairs.get(s).refLow = 99999;
 				stairs.get(s).reActivateTime = 0;
+				stairs.get(s).shutdown = false;
 			} else
 			{
 				stairs.get(s).buying = true;
@@ -241,6 +242,7 @@ public class XMLWatcher implements Runnable
 				stairs.get(s).refHigh = 0;
 				stairs.get(s).refLow = 99999;
 				stairs.get(s).reActivateTime = 0;
+				stairs.get(s).shutdown = false;
 			}
 		}
 		Global.updateCSV();
