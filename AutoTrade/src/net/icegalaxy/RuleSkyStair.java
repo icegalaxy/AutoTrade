@@ -203,7 +203,7 @@ public class RuleSkyStair extends Rules
 					if (rr < 0.3)
 					{
 						Global.addLog("RR= " + rr);
-						XMLWatcher.stairs.get(currentStairIndex).buying = false;
+//						XMLWatcher.stairs.get(currentStairIndex).buying = false;
 //						shutdownStair(currentStairIndex);
 						return;
 					}
@@ -350,7 +350,7 @@ public class RuleSkyStair extends Rules
 					if (rr < 0.3)
 					{
 						Global.addLog("RR= " + rr);
-						XMLWatcher.stairs.get(currentStairIndex).selling = false;
+//						XMLWatcher.stairs.get(currentStairIndex).selling = false;
 //						shutdownStair(currentStairIndex);
 						return;
 					}
@@ -412,7 +412,7 @@ public class RuleSkyStair extends Rules
 //			shutdownStair(currentStairIndex);
 //			shutdown = true;
 //		}
-		if (Global.getCurrentPoint() < getLongStopEarn(XMLWatcher.stairs.get(currentStairIndex).value) + 20)
+		if (Global.getCurrentPoint() < getShortStopEarn(XMLWatcher.stairs.get(currentStairIndex).value) + 20)
 		{
 			Global.addLog("Reached Stop Earn");
 			XMLWatcher.stairs.get(currentStairIndex).selling = false;
