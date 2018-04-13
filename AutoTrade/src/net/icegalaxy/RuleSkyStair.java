@@ -395,7 +395,16 @@ public class RuleSkyStair extends Rules
 		boolean shutdown = false;
 		
 		updateHighLow();
-
+		
+		double profitRange = XMLWatcher.stairs.get(currentStairIndex).value - getShortStopEarn(XMLWatcher.stairs.get(currentStairIndex).value);
+		
+		if (profitRange < 50 && profitRange > 10)
+		{
+			Global.addLog("Profit too small");
+			XMLWatcher.stairs.get(currentStairIndex).selling = false;
+			shutdownStair(currentStairIndex);
+			shutdown = true;
+		}
 
 //		if (GetData.getLongTB().getEma5().getEMA() > XMLWatcher.stairs.get(currentStairIndex).value - 50)
 //		{
@@ -437,7 +446,16 @@ public class RuleSkyStair extends Rules
 		
 		updateHighLow();
 		
-
+		double profitRange = getLongStopEarn(XMLWatcher.stairs.get(currentStairIndex).value) - XMLWatcher.stairs.get(currentStairIndex).value;
+		
+		if (profitRange < 50 && profitRange > 10)
+		{
+			Global.addLog("Profit too small");
+			XMLWatcher.stairs.get(currentStairIndex).buying = false;
+			shutdownStair(currentStairIndex);
+			shutdown = true;
+		}
+		
 //		if (GetData.getLongTB().getEma5().getEMA() < XMLWatcher.stairs.get(currentStairIndex).value + 50)
 //		{
 //			Global.addLog("M5_EMA out of range");
@@ -745,7 +763,8 @@ public class RuleSkyStair extends Rules
 		if (stopEarn == 99999) // for the Max or Min of stair
 			return value + 100;
 
-		return Math.max(stopEarn, value + 50);
+//		return Math.max(stopEarn, value + 50);
+		return stopEarn;
 	}
 
 	double getShortStopEarn(double value)
@@ -774,7 +793,8 @@ public class RuleSkyStair extends Rules
 		if (stopEarn == 0) // for the Max or Min of stair
 			return value - 100;
 
-		return Math.min(stopEarn, value - 50);
+//		return Math.min(stopEarn, value - 50);
+		return stopEarn;
 	}
 
 	@Override
