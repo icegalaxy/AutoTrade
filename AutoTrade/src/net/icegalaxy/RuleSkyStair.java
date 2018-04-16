@@ -405,6 +405,14 @@ public class RuleSkyStair extends Rules
 			shutdownStair(currentStairIndex);
 			shutdown = true;
 		}
+		
+		if (GetData.tinyHL.isRising())
+		{
+			Global.addLog("Is Rishing");
+			XMLWatcher.stairs.get(currentStairIndex).selling = false;
+			shutdownStair(currentStairIndex);
+			shutdown = true;
+		}
 
 //		if (GetData.getLongTB().getEma5().getEMA() > XMLWatcher.stairs.get(currentStairIndex).value - 50)
 //		{
@@ -451,6 +459,14 @@ public class RuleSkyStair extends Rules
 		if (profitRange < 50 && profitRange > 10)
 		{
 			Global.addLog("Profit too small");
+			XMLWatcher.stairs.get(currentStairIndex).buying = false;
+			shutdownStair(currentStairIndex);
+			shutdown = true;
+		}
+		
+		if (GetData.tinyHL.isDropping())
+		{
+			Global.addLog("Is Dropping");
 			XMLWatcher.stairs.get(currentStairIndex).buying = false;
 			shutdownStair(currentStairIndex);
 			shutdown = true;

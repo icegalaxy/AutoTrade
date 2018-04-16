@@ -116,4 +116,30 @@ public class HighLow
 			return 0;
 		return refLows.get(refLows.size() -1);
 	}
+	
+	public boolean isRising()
+	{
+		if (refLows.size() < 2)
+			return false;
+		
+		if (refLows.get(refLows.size() - 1) > refLows.get(refLows.size() - 2)
+				&& refLow >= refLows.get(refLows.size() - 1))
+			return true;
+		else
+			return false;
+	}
+	
+	public boolean isDropping()
+	{
+		if (refHighs.size() < 2)
+			return false;
+		
+		if (refHighs.get(refHighs.size() - 1) < refHighs.get(refHighs.size() - 2)
+				&& refHigh <= refHighs.get(refHighs.size() - 1))
+			return true;
+		else
+			return false;
+	}
+	
+	
 }
