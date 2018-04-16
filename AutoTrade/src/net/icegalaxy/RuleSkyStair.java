@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 //Use the OPEN Line
+//Better not playing than lose
 
 public class RuleSkyStair extends Rules
 {
