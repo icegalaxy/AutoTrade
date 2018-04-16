@@ -108,7 +108,14 @@ public class XMLWatcher implements Runnable
 	{
 
 		// readStairs();
-		resetStairs();
+		try
+		{
+			resetStairs();
+		} catch (Exception e1)
+		{
+			e1.printStackTrace();
+			sleep(30000);
+		}
 
 		// reset XMLWatcher
 		XMLWatcher.updateIntraDayXML("stair", "0");
@@ -205,7 +212,15 @@ public class XMLWatcher implements Runnable
 				}
 
 				if (isStairModified(StairPath))
-					readStairs();
+				{
+					try{
+						readStairs();
+					}catch (Exception z)
+					{
+						z.printStackTrace();
+						sleep(30000);
+					}
+				}
 
 			}
 
@@ -214,10 +229,16 @@ public class XMLWatcher implements Runnable
 		}
 	}
 
-	public static void resetStairs()
+	public static void resetStairs() throws InterruptedException
 	{
 
-		readStairs();
+		try{
+			readStairs();
+		}catch (Exception z)
+		{
+			z.printStackTrace();
+			Thread.sleep(30000);
+		}
 
 		if (stairs.size() <= 2)
 		{
