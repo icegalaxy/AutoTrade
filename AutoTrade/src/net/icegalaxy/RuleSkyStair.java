@@ -615,7 +615,7 @@ public class RuleSkyStair extends Rules
 				Global.addLog("Get 100pt profit");
 			}
 			
-			if (getHoldingTime() > 3600 && getProfit() > 5 && tempCutLoss < buyingPoint + 5)
+			if (getHoldingTime() > 1800 && getProfit() > 5 && tempCutLoss < buyingPoint + 5)
 			{
 				tempCutLoss = buyingPoint + 5;
 				Global.addLog("Free trade");
@@ -642,7 +642,7 @@ public class RuleSkyStair extends Rules
 				Global.addLog("Get 100pt profit");
 			}
 			
-			if (getHoldingTime() > 3600 && getProfit() > 5 && tempCutLoss > buyingPoint - 5)
+			if (getHoldingTime() > 1800 && getProfit() > 5 && tempCutLoss > buyingPoint - 5)
 			{
 				tempCutLoss = buyingPoint - 5;
 				Global.addLog("Free trade");
