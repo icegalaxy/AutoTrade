@@ -142,27 +142,30 @@ public class XMLWatcher implements Runnable
 
 		setOHLC();
 
-		RuleSAR sar = new RuleSAR(true);
-		RuleRR rr = new RuleRR(true);
-		RuleIBT ibt = new RuleIBT(true);
+//		RuleSAR sar = new RuleSAR(true);
+//		RuleRR rr = new RuleRR(true);
+//		RuleIBT ibt = new RuleIBT(true);
 		RuleRange range = new RuleRange(true);
-		RuleM5EMA m5ema = new RuleM5EMA(true);
+//		RuleM5EMA m5ema = new RuleM5EMA(true);
 		RuleSkyStair ss = new RuleSkyStair(true);
+		RulePriceAction pa = new RulePriceAction(true);
 		// RuleBreakOut breakOut = new RuleBreakOut(true);
-		Thread s = new Thread(sar);
-		s.start();
-		Thread r = new Thread(rr);
-		r.start();
-		Thread i = new Thread(ibt);
-		i.start();
+//		Thread s = new Thread(sar);
+//		s.start();
+//		Thread r = new Thread(rr);
+//		r.start();
+//		Thread i = new Thread(ibt);
+//		i.start();
 		Thread ran = new Thread(range);
 		ran.start();
-		Thread e = new Thread(m5ema);
-		e.start();
+//		Thread e = new Thread(m5ema);
+//		e.start();
 		// Thread b = new Thread(breakOut);
 		// b.start();
 		Thread ts = new Thread(ss);
 		ts.start();
+		Thread p = new Thread(pa);
+		p.start();
 
 		while (Global.isRunning())
 		{
