@@ -21,7 +21,7 @@ public class RuleSkyStair extends Rules
 	public RuleSkyStair(boolean globalRunRule)
 	{
 		super(globalRunRule);
-		setOrderTime(91800, 115800, 130300, 160000, 173000, 1003000); // need to
+		setOrderTime(91800, 115800, 130300, 160000, 171800, 1003000); // need to
 																		// observe
 																		// the
 																		// first

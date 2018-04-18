@@ -173,7 +173,7 @@ public class Sikuli {
 		
 		int noOfContracts;
 		
-		if (Global.balance > 100)
+		if (Global.balance > 150)
 			noOfContracts = 2;
 		else
 			noOfContracts = 1;
@@ -222,7 +222,7 @@ public class Sikuli {
 		
 		int noOfContracts;
 		
-		if (Global.balance > 100)
+		if (Global.balance > 150)
 			noOfContracts = 2;
 		else
 			noOfContracts = 1;
