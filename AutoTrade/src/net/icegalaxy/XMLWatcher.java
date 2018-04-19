@@ -63,10 +63,10 @@ public class XMLWatcher implements Runnable
 	public XMLWatcher()
 	{
 
-		intraDayModifiedTime = new File(intraDayXMLPath).lastModified();
-		FHIDataModifiedTime = new File(OHLCPath).lastModified();
-		EMAModifiedTime = new File(EMAPath).lastModified();
-		stairModifiedTime = new File(StairPath).lastModified();
+		intraDayModifiedTime = new File(intraDayXMLPath).lastModified() / 60000;
+		FHIDataModifiedTime = new File(OHLCPath).lastModified() / 60000;
+		EMAModifiedTime = new File(EMAPath).lastModified() / 60000;
+		stairModifiedTime = new File(StairPath).lastModified() / 60000;
 
 		// stairs = new ArrayList<Stair>(); not created here, should be created
 		// everytime updated.
@@ -354,11 +354,11 @@ public class XMLWatcher implements Runnable
 	private boolean isFHIModified(String filePath)
 	{
 
-		if (FHIDataModifiedTime == new File(filePath).lastModified())
+		if (FHIDataModifiedTime == new File(filePath).lastModified() / 60000)
 			return false;
 		else
 		{
-			FHIDataModifiedTime = new File(filePath).lastModified();
+			FHIDataModifiedTime = new File(filePath).lastModified() / 60000;
 			Global.addLog("OHLC XML file updated");
 			return true;
 		}
@@ -368,11 +368,11 @@ public class XMLWatcher implements Runnable
 	private boolean isStairModified(String filePath)
 	{
 
-		if (stairModifiedTime == new File(filePath).lastModified())
+		if (stairModifiedTime == new File(filePath).lastModified() / 60000)
 			return false;
 		else
 		{
-			stairModifiedTime = new File(filePath).lastModified();
+			stairModifiedTime = new File(filePath).lastModified() / 60000;
 			Global.addLog("Stair.csv updated");
 			return true;
 		}
@@ -382,11 +382,11 @@ public class XMLWatcher implements Runnable
 	private boolean isIntraDayModified(String filePath)
 	{
 
-		if (intraDayModifiedTime == new File(filePath).lastModified())
+		if (intraDayModifiedTime == new File(filePath).lastModified() / 60000)
 			return false;
 		else
 		{
-			intraDayModifiedTime = new File(filePath).lastModified();
+			intraDayModifiedTime = new File(filePath).lastModified() / 60000;
 			Global.addLog("IntraDay XML file updated");
 			return true;
 		}
@@ -396,11 +396,11 @@ public class XMLWatcher implements Runnable
 	private boolean isEMAModified(String filePath)
 	{
 
-		if (EMAModifiedTime == new File(filePath).lastModified())
+		if (EMAModifiedTime == new File(filePath).lastModified() / 60000)
 			return false;
 		else
 		{
-			EMAModifiedTime = new File(filePath).lastModified();
+			EMAModifiedTime = new File(filePath).lastModified() / 60000;
 			Global.addLog("EMA XML file updated");
 			return true;
 		}
