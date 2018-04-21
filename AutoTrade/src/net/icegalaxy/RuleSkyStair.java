@@ -769,7 +769,7 @@ public class RuleSkyStair extends Rules
 //				continue;
 			
 			if (stair.value < stopEarn && stair.value - value > 10
-					&& stair.value > Global.getCurrentPoint())
+					&& stair.value > GetData.getShortTB().getEma5().getEMA())
 				stopEarn = stair.value;
 
 		}
@@ -798,7 +798,7 @@ public class RuleSkyStair extends Rules
 //				continue;
 			
 			if (stair.value > stopEarn && value - stair.value > 10
-					&& stair.value < Global.getCurrentPoint())
+					&& stair.value < GetData.getShortTB().getEma5().getEMA())
 
 				stopEarn = stair.value;
 
