@@ -251,23 +251,23 @@ public class XMLWatcher implements Runnable
 
 		for (int s = 0; s < stairs.size(); s++)
 		{
-			if (s < 2) //default value of EMAs should be false to avoid buying before checkingEMA
-			{
-				stairs.get(s).buying = false;
-				stairs.get(s).selling = false;
-				stairs.get(s).refHigh = 0;
-				stairs.get(s).refLow = 99999;
-				stairs.get(s).reActivateTime = 0;
-				stairs.get(s).shutdown = false;
-			} else
-			{
+//			if (s < 2) //default value of EMAs should be false to avoid buying before checkingEMA
+//			{
+//				stairs.get(s).buying = false;
+//				stairs.get(s).selling = false;
+//				stairs.get(s).refHigh = 0;
+//				stairs.get(s).refLow = 99999;
+//				stairs.get(s).reActivateTime = 0;
+//				stairs.get(s).shutdown = false;
+//			} else
+//			{
 				stairs.get(s).buying = true;
 				stairs.get(s).selling = true;
 				stairs.get(s).refHigh = 0;
 				stairs.get(s).refLow = 99999;
 				stairs.get(s).reActivateTime = 0;
 				stairs.get(s).shutdown = false;
-			}
+//			}
 		}
 		Global.updateCSV();
 	}

@@ -406,8 +406,8 @@ public class GetData implements Runnable
 
 					XMLWatcher.stairs.get(0).value = GetData.getLongTB().getEma50().getEMA();
 					XMLWatcher.stairs.get(1).value = GetData.getLongTB().getEma250().getEMA();
-					checkEMA50();
-					checkEMA250();
+//					checkEMA50();
+//					checkEMA250();
 				}
 			}
 
