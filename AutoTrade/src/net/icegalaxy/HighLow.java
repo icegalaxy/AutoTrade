@@ -10,8 +10,11 @@ public class HighLow
 	public double refHigh = 0;
 	public ArrayList<Double> refLows = new ArrayList<Double>();
 	public ArrayList<Double> refHighs = new ArrayList<Double>();
+	public double volumeOfRefLow;
+	public double volumeOfRefHigh;
 	public double spread;
 	public String objectName;
+	
 	
 	public HighLow(String objectName, double spread)
 	{
@@ -27,6 +30,7 @@ public class HighLow
 		if (GetData.getShortTB().getLatestCandle().getHigh() > refHigh)
 		{
 			refHigh = GetData.getShortTB().getLatestCandle().getHigh();
+			volumeOfRefHigh = GetData.getShortTB().getLatestCandle().getVolume();
 			refLow = 99999;
 		}
 		
@@ -48,6 +52,7 @@ public class HighLow
 		if (GetData.getShortTB().getLatestCandle().getHigh() > refHigh)
 		{
 			refHigh = GetData.getShortTB().getLatestCandle().getHigh();
+			volumeOfRefHigh = GetData.getShortTB().getLatestCandle().getVolume();
 			refLow = 99999;
 		}
 		
@@ -67,6 +72,7 @@ public class HighLow
 		if (GetData.getShortTB().getLatestCandle().getLow() < refLow)
 		{
 			refLow = GetData.getShortTB().getLatestCandle().getLow();
+			volumeOfRefLow = GetData.getShortTB().getLatestCandle().getVolume();
 			refHigh = 0;
 		}
 		if (GetData.getShortTB().getLatestCandle().getHigh() > refHigh)
@@ -87,6 +93,7 @@ public class HighLow
 		if (GetData.getShortTB().getLatestCandle().getLow() < refLow)
 		{
 			refLow = GetData.getShortTB().getLatestCandle().getLow();
+			volumeOfRefLow = GetData.getShortTB().getLatestCandle().getVolume();
 			refHigh = 0;
 		}
 		if (GetData.getShortTB().getLatestCandle().getHigh() > refHigh)
