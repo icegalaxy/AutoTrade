@@ -35,7 +35,7 @@ public class RuleSkyStair extends Rules
 	public void openContract()
 	{
 		
-		boolean volumeRising = false;
+//		boolean volumeRising = false;
 
 		if (!Global.isTradeTime() || Global.getNoOfContracts() != 0)
 			return;
@@ -166,8 +166,8 @@ public class RuleSkyStair extends Rules
 						)
 				{
 					
-					if (!volumeRising)
-						volumeRising = GetData.getShortTB().isQuantityRising();
+//					if (!volumeRising)
+//						volumeRising = GetData.getShortTB().isQuantityRising();
 					
 					if (shutdownLong(currentStairIndex))
 						return;
@@ -175,11 +175,17 @@ public class RuleSkyStair extends Rules
 					sleep(waitingTime);
 				}
 				
-				if (!volumeRising)
+				if (GetData.tinyHL.volumeOfRefLow < GetData.getShortTB().getAverageQuantity() * 2)
 				{
-					Global.addLog("Volume not Rising");
-					return;
+					Global.addLog("Ref Vol not enough");
+					return;				
 				}
+				
+//				if (!volumeRising)
+//				{
+//					Global.addLog("Volume not Rising");
+//					return;
+//				}
 				
 				Global.addLog("Latest High: " + GetData.tinyHL.getLatestHigh());
 				Global.addLog("Ref Low: " + GetData.tinyHL.refLow);
@@ -328,19 +334,25 @@ public class RuleSkyStair extends Rules
 						)
 				{
 					
-					if (!volumeRising)
-						volumeRising = GetData.getShortTB().isQuantityRising();
+//					if (!volumeRising)
+//						volumeRising = GetData.getShortTB().isQuantityRising();
 					
 					if(shutdownShort(currentStairIndex))
 						return;
 					sleep(waitingTime);
 				}
 				
-				if (!volumeRising)
+				if (GetData.tinyHL.volumeOfRefLow < GetData.getShortTB().getAverageQuantity() * 2)
 				{
-					Global.addLog("Volume not Rising");
-					return;
+					Global.addLog("Ref Vol not enough");
+					return;				
 				}
+				
+//				if (!volumeRising)
+//				{
+//					Global.addLog("Volume not Rising");
+//					return;
+//				}
 				
 				Global.addLog("Ref High: " + GetData.tinyHL.refHigh);
 				Global.addLog("Latest Low: " + GetData.tinyHL.getLatestLow());
