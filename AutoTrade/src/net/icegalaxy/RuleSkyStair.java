@@ -6,6 +6,8 @@ import java.util.List;
 //Use the OPEN Line
 //Better not playing than lose
 
+//This is for N shape
+
 public class RuleSkyStair extends Rules
 {
 	// Stair currentStair;

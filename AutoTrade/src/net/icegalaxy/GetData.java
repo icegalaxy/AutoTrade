@@ -23,6 +23,7 @@ public class GetData implements Runnable
 	GetData.CandleData m15Data;
 	GetData.CandleData longData;
 	
+	public static HighLow nanoHL;
 	public static HighLow tinyHL;
 	public static HighLow smallHL;
 	public static HighLow largeHL;
@@ -49,12 +50,14 @@ public class GetData implements Runnable
 
 	public GetData()
 	{
+		nanoHL = new HighLow("NanoHL",0.15);
 		tinyHL = new HighLow("TinyHL",0.3);
 		smallHL = new HighLow("SmallHL",0.5);
 		largeHL = new HighLow("LargeHL",1);
 		
 		HLs = new ArrayList<HighLow>();
 		
+		HLs.add(nanoHL);
 		HLs.add(tinyHL);
 		HLs.add(smallHL);
 		HLs.add(largeHL);
