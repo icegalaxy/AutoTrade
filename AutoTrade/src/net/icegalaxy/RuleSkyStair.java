@@ -73,7 +73,7 @@ public class RuleSkyStair extends Rules
 			// Long
 			if (
 					GetData.getLongTB().getEma5().getEMA() > XMLWatcher.stairs.get(currentStairIndex).value && 
-					Global.getCurrentPoint() < XMLWatcher.stairs.get(currentStairIndex).value + 20
+					Global.getCurrentPoint() < XMLWatcher.stairs.get(currentStairIndex).value + XMLWatcher.stairs.get(currentStairIndex).tolerance / 2
 					&& Global.getCurrentPoint() > XMLWatcher.stairs.get(currentStairIndex).value)
 			{
 				
@@ -176,7 +176,7 @@ public class RuleSkyStair extends Rules
 				if (refLow < XMLWatcher.stairs.get(currentStairIndex).refLow)
 					XMLWatcher.stairs.get(currentStairIndex).refLow = refLow;
 
-				cutLoss = Math.min(XMLWatcher.stairs.get(currentStairIndex).refLow - 20, XMLWatcher.stairs.get(currentStairIndex).value - 10);
+				cutLoss = Math.min(XMLWatcher.stairs.get(currentStairIndex).refLow - XMLWatcher.stairs.get(currentStairIndex).tolerance / 2, XMLWatcher.stairs.get(currentStairIndex).value - 10);
 				Global.addLog("Cut loss: " + cutLoss);
 				Global.addLog("Stop Earn: " + getLongStopEarn(XMLWatcher.stairs.get(currentStairIndex).value));
 
@@ -238,7 +238,7 @@ public class RuleSkyStair extends Rules
 
 			} else if (
 					GetData.getLongTB().getEma5().getEMA() < XMLWatcher.stairs.get(currentStairIndex).value && 
-					Global.getCurrentPoint() > XMLWatcher.stairs.get(currentStairIndex).value - 20
+					Global.getCurrentPoint() > XMLWatcher.stairs.get(currentStairIndex).value - XMLWatcher.stairs.get(currentStairIndex).tolerance / 2
 					&& Global.getCurrentPoint() < XMLWatcher.stairs.get(currentStairIndex).value)
 			{
 
@@ -323,7 +323,7 @@ public class RuleSkyStair extends Rules
 				if(refHigh > XMLWatcher.stairs.get(currentStairIndex).refHigh)
 					XMLWatcher.stairs.get(currentStairIndex).refHigh = refHigh;
 				
-				cutLoss = Math.max(XMLWatcher.stairs.get(currentStairIndex).refHigh + 20, XMLWatcher.stairs.get(currentStairIndex).value + 10);
+				cutLoss = Math.max(XMLWatcher.stairs.get(currentStairIndex).refHigh + XMLWatcher.stairs.get(currentStairIndex).tolerance / 2, XMLWatcher.stairs.get(currentStairIndex).value + 10);
 				Global.addLog("Cut loss: " + cutLoss);
 				Global.addLog("Stop Earn: " + getShortStopEarn(XMLWatcher.stairs.get(currentStairIndex).value));
 
@@ -397,17 +397,18 @@ public class RuleSkyStair extends Rules
 		
 		updateHighLow();
 		
-		double profitRange = XMLWatcher.stairs.get(currentStairIndex).value - getShortStopEarn(XMLWatcher.stairs.get(currentStairIndex).value);
+//		double profitRange = XMLWatcher.stairs.get(currentStairIndex).value - getShortStopEarn(XMLWatcher.stairs.get(currentStairIndex).value);
 		
-		if (profitRange < 50 && profitRange > 10)
+//		if (profitRange < 50 && profitRange > 10)
+//		{
+//			Global.addLog("Profit too small");
+//			XMLWatcher.stairs.get(currentStairIndex).selling = false;
+//			shutdownStair(currentStairIndex);
+//			shutdown = true;
+//		}else 
+		if (!GetData.tinyHL.isDropping())
 		{
-			Global.addLog("Profit too small");
-			XMLWatcher.stairs.get(currentStairIndex).selling = false;
-			shutdownStair(currentStairIndex);
-			shutdown = true;
-		}else if (GetData.tinyHL.isRising())
-		{
-			Global.addLog("Is Rishing");
+			Global.addLog("Not Dropping");
 			XMLWatcher.stairs.get(currentStairIndex).selling = false;
 			shutdownStair(currentStairIndex);
 			shutdown = true;
@@ -434,17 +435,18 @@ public class RuleSkyStair extends Rules
 		
 		updateHighLow();
 		
-		double profitRange = getLongStopEarn(XMLWatcher.stairs.get(currentStairIndex).value) - XMLWatcher.stairs.get(currentStairIndex).value;
+//		double profitRange = getLongStopEarn(XMLWatcher.stairs.get(currentStairIndex).value) - XMLWatcher.stairs.get(currentStairIndex).value;
 		
-		if (profitRange < 50 && profitRange > 10)
+//		if (profitRange < 50 && profitRange > 10)
+//		{
+//			Global.addLog("Profit too small");
+//			XMLWatcher.stairs.get(currentStairIndex).buying = false;
+//			shutdownStair(currentStairIndex);
+//			shutdown = true;
+//		}else 
+		if (!GetData.tinyHL.isRising())
 		{
-			Global.addLog("Profit too small");
-			XMLWatcher.stairs.get(currentStairIndex).buying = false;
-			shutdownStair(currentStairIndex);
-			shutdown = true;
-		}else if (GetData.tinyHL.isDropping())
-		{
-			Global.addLog("Is Dropping");
+			Global.addLog("Not Rising");
 			XMLWatcher.stairs.get(currentStairIndex).buying = false;
 			shutdownStair(currentStairIndex);
 			shutdown = true;
