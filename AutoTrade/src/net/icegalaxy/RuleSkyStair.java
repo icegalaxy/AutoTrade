@@ -446,9 +446,9 @@ public class RuleSkyStair extends Rules
 //			shutdownStair(currentStairIndex);
 //			shutdown = true;
 //		}else 
-		if (!GetData.tinyHL.isDropping())
+		if (GetData.tinyHL.isRising())
 		{
-			Global.addLog("Not Dropping");
+			Global.addLog("Is Rising");
 			XMLWatcher.stairs.get(currentStairIndex).selling = false;
 			shutdownStair(currentStairIndex);
 			shutdown = true;
@@ -484,9 +484,9 @@ public class RuleSkyStair extends Rules
 //			shutdownStair(currentStairIndex);
 //			shutdown = true;
 //		}else 
-		if (!GetData.tinyHL.isRising())
+		if (GetData.tinyHL.isDropping())
 		{
-			Global.addLog("Not Rising");
+			Global.addLog("Is Dropping");
 			XMLWatcher.stairs.get(currentStairIndex).buying = false;
 			shutdownStair(currentStairIndex);
 			shutdown = true;
