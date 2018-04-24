@@ -34,6 +34,8 @@ public class RuleSkyStair extends Rules
 
 	public void openContract()
 	{
+		
+		boolean volumeRising = false;
 
 		if (!Global.isTradeTime() || Global.getNoOfContracts() != 0)
 			return;
@@ -162,10 +164,20 @@ public class RuleSkyStair extends Rules
 				while(Global.getCurrentPoint() < GetData.tinyHL.refLow + (GetData.tinyHL.getLatestHigh() - GetData.tinyHL.refLow)*0.24 //23.6% fibonacci
 						|| GetData.nanoHL.isDropping())
 				{
+					
+					if (!volumeRising)
+						volumeRising = GetData.getShortTB().isQuantityRising();
+					
 					if (shutdownLong(currentStairIndex))
 						return;
 					
 					sleep(waitingTime);
+				}
+				
+				if (!volumeRising)
+				{
+					Global.addLog("Volume not Rising");
+					return;
 				}
 				
 				Global.addLog("Latest High: " + GetData.tinyHL.getLatestHigh());
@@ -313,9 +325,19 @@ public class RuleSkyStair extends Rules
 				while(Global.getCurrentPoint() > GetData.tinyHL.refHigh - (GetData.tinyHL.refHigh - GetData.tinyHL.getLatestLow())*0.24 //23.6% fibonacci
 						|| GetData.nanoHL.isRising())
 				{
+					
+					if (!volumeRising)
+						volumeRising = GetData.getShortTB().isQuantityRising();
+					
 					if(shutdownShort(currentStairIndex))
 						return;
 					sleep(waitingTime);
+				}
+				
+				if (!volumeRising)
+				{
+					Global.addLog("Volume not Rising");
+					return;
 				}
 				
 				Global.addLog("Ref High: " + GetData.tinyHL.refHigh);
