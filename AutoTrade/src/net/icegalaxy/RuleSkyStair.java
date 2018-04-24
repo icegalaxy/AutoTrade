@@ -159,7 +159,7 @@ public class RuleSkyStair extends Rules
 				
 				
 
-				while(Global.getCurrentPoint() < GetData.tinyHL.refLow + (GetData.tinyHL.getLatestHigh() - GetData.tinyHL.refLow)*0.3
+				while(Global.getCurrentPoint() < GetData.tinyHL.refLow + (GetData.tinyHL.getLatestHigh() - GetData.tinyHL.refLow)*0.24 //23.6% fibonacci
 						|| GetData.nanoHL.isDropping())
 				{
 					if (shutdownLong(currentStairIndex))
@@ -310,7 +310,7 @@ public class RuleSkyStair extends Rules
 
 				Global.addLog("Waiting for a tiny drop");
 
-				while(Global.getCurrentPoint() > GetData.tinyHL.refHigh - (GetData.tinyHL.refHigh - GetData.tinyHL.getLatestLow())*0.3
+				while(Global.getCurrentPoint() > GetData.tinyHL.refHigh - (GetData.tinyHL.refHigh - GetData.tinyHL.getLatestLow())*0.24 //23.6% fibonacci
 						|| GetData.nanoHL.isRising())
 				{
 					if(shutdownShort(currentStairIndex))
