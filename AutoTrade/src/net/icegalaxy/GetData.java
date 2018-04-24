@@ -112,7 +112,7 @@ public class GetData implements Runnable
 
 			// change = new Float(qp.getChange());
 
-			totalQuantity = qp.getQuantity();
+			totalQuantity = Global.getTurnOverVol();
 
 		} catch (FailGettingDataException e)
 		{

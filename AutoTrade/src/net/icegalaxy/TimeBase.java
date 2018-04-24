@@ -318,7 +318,7 @@ public class TimeBase {
 		float ma5;
 
 		if (quantity.size() == 0)
-			return true; // for����quantity����lr
+			return true;
 		else if (quantity.size() < 5)
 			return false;
 		ma5 = TI.getEMA(quantity, 5);
@@ -329,7 +329,7 @@ public class TimeBase {
 		float ma5;
 
 		if (quantity.size() == 0)
-			return 0; // for����quantity����lr
+			return 0;
 		else if (quantity.size() < 5)
 			return 0;
 		ma5 = TI.getEMA(quantity, 5);
