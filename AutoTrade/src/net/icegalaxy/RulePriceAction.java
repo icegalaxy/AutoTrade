@@ -21,7 +21,7 @@ public class RulePriceAction extends Rules
 	public RulePriceAction(boolean globalRunRule)
 	{
 		super(globalRunRule);
-		setOrderTime(93000, 115800, 130300, 161500, 171800, 1003000);
+		setOrderTime(93000, 115800, 130300, 161500, 170300, 1003000);
 	}
 
 	public void openContract()
@@ -37,14 +37,24 @@ public class RulePriceAction extends Rules
 		if (!isOrderTime() || Global.getNoOfContracts() != 0 || shutdown)
 			return;
 
-		if (GetData.tinyHL.isRising())
+		if (GetData.tinyHL.isRising() 
+				&& Global.getCurrentPoint() < GetData.tinyHL.getLatestLow() + 30)
+				
 		{
+			
 			Global.addLog("Price Action: Long");
+			
+			//check fewer times		
+			if(GetData.tinyHL.volumeOfRefLows.get(GetData.tinyHL.volumeOfRefLows.size() - 1) < GetData.getShortTB().getAverageQuantity() * 2)
+			{
+				Global.addLog("Volume Not Enough");
+				
+				while(GetData.tinyHL.isRising() && Global.getCurrentPoint() < GetData.tinyHL.getLatestLow() + 50)
+					sleep(waitingTime);
+			}	
 
 			while (true)
-			{
-			
-				
+			{	
 				if (GetData.tinyHL.findingHigh)
 					profitPt = GetData.tinyHL.refHigh;
 				else
@@ -57,8 +67,14 @@ public class RulePriceAction extends Rules
 				double rr = reward / risk;
 				
 				profitRange = reward;
+				
+				if (!GetData.tinyHL.isRising())
+				{
+					Global.addLog("Not Rising");
+					return;
+				}
 
-				if (rr > 3 && risk < 50)
+				if (rr > 3 && risk < 30)
 				{
 					Global.addLog("RR= " + rr);
 					break;
@@ -85,10 +101,19 @@ public class RulePriceAction extends Rules
 
 			return;
 
-		} else if (GetData.tinyHL.isDropping())
+		} else if (GetData.tinyHL.isDropping() && Global.getCurrentPoint() > GetData.tinyHL.getLatestLow() - 30)
 		{
 			
 			Global.addLog("Price Action: Short");
+			
+			if(GetData.tinyHL.volumeOfRefHighs.get(GetData.tinyHL.volumeOfRefHighs.size() - 1) < GetData.getShortTB().getAverageQuantity() * 2)
+			{
+				Global.addLog("Volume Not Enough");
+				
+				while(GetData.tinyHL.isDropping() && Global.getCurrentPoint() > GetData.tinyHL.getLatestLow() - 50)
+					sleep(waitingTime);
+			}
+			
 
 			while (true)
 			{
@@ -111,7 +136,14 @@ public class RulePriceAction extends Rules
 
 				double rr = reward / risk;
 
-				if (rr > 3 && risk < 50)
+				if (!GetData.tinyHL.isDropping())
+				{
+					Global.addLog("Not Dropping");
+					return;
+				}
+				
+				
+				if (rr > 3 && risk < 30)
 				{
 					Global.addLog("RR= " + rr);
 					break;
@@ -351,61 +383,6 @@ public class RulePriceAction extends Rules
 
 	}
 
-	double getLongStopEarn(double value)
-	{
-
-		double stopEarn = 99999;
-		List<Stair> stairs = XMLWatcher.stairs;
-
-		for (int j = 0; j < stairs.size(); j++)
-		{
-			Stair stair = stairs.get(j);
-			// if (!stair.buying || stair.shutdown)
-			// continue;
-
-			if (stair.value < stopEarn && stair.value - value > 0)
-
-				stopEarn = stair.value;
-
-		}
-
-		// if (TimePeriodDecider.nightOpened)
-		// return value + 50;
-
-		if (stopEarn == 99999) // for the Max or Min of stair
-			return value + 100;
-
-		return Math.max(stopEarn, value + 50);
-	}
-
-	double getShortStopEarn(double value)
-	{
-
-		double stopEarn = 0;
-		List<Stair> stairs = XMLWatcher.stairs;
-
-		for (int j = 0; j < stairs.size(); j++)
-		{
-			Stair stair = stairs.get(j);
-
-			// if (!stair.selling || stair.shutdown)
-			// continue;
-
-			if (stair.value > stopEarn && value - stair.value > 0)
-
-				stopEarn = stair.value;
-
-		}
-
-		// if (TimePeriodDecider.nightOpened)
-		// return value - 50;
-
-		if (stopEarn == 0) // for the Max or Min of stair
-			return value - 100;
-
-		return Math.min(stopEarn, value - 50);
-	}
-
 	@Override
 	void stopEarn()
 	{
@@ -486,29 +463,6 @@ public class RulePriceAction extends Rules
 			return Math.max(10, profitPt - buyingPoint - 10);
 		} else
 		{
-
-			// if (refHigh > currentStair.value + 20)
-			// {
-			// shutdown = true;
-			// return Math.min(20, buyingPoint - refLow - 5);
-			// }
-			//
-			// if (refHigh > currentStair.value + 10)
-			// {
-			// // Global.addLog("Line unclear, trying to take little profit");
-			// shutdown = true;
-			// return 30;
-			// }
-			//
-			// // Try to take profit if blocked by EMA
-			// if (buyingPoint - GetData.getLongTB().getEma50().getEMA() > 50)
-			// {
-			// return buyingPoint - GetData.getLongTB().getEma50().getEMA();
-			// } else if (buyingPoint - GetData.getLongTB().getEma250().getEMA()
-			// > 50)
-			// {
-			// return buyingPoint - GetData.getLongTB().getEma250().getEMA();
-			// }
 
 			return Math.max(10, buyingPoint - profitPt - 10);
 		}

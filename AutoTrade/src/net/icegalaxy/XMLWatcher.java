@@ -148,7 +148,7 @@ public class XMLWatcher implements Runnable
 		RuleRange range = new RuleRange(true);
 //		RuleM5EMA m5ema = new RuleM5EMA(true);
 		RuleSkyStair ss = new RuleSkyStair(true);
-//		RulePriceAction pa = new RulePriceAction(true);
+		RulePriceAction pa = new RulePriceAction(true);
 		// RuleBreakOut breakOut = new RuleBreakOut(true);
 //		Thread s = new Thread(sar);
 //		s.start();
@@ -164,8 +164,8 @@ public class XMLWatcher implements Runnable
 		// b.start();
 		Thread ts = new Thread(ss);
 		ts.start();
-//		Thread p = new Thread(pa);
-//		p.start();
+		Thread p = new Thread(pa);
+		p.start();
 
 		while (Global.isRunning())
 		{

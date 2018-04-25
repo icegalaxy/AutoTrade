@@ -10,6 +10,8 @@ public class HighLow
 	public double refHigh = 0;
 	public ArrayList<Double> refLows = new ArrayList<Double>();
 	public ArrayList<Double> refHighs = new ArrayList<Double>();
+	public ArrayList<Double> volumeOfRefLows = new ArrayList<Double>();
+	public ArrayList<Double> volumeOfRefHighs = new ArrayList<Double>();
 	public double volumeOfRefLow;
 	public double volumeOfRefHigh;
 	public double spread;
@@ -59,6 +61,7 @@ public class HighLow
 		if (refLow < refHigh - (GetData.getShortTB().getLatestCandle().getHigh() * spread))
 		{
 			refHighs.add(refHigh);
+			volumeOfRefHighs.add(volumeOfRefHigh);
 			Global.addLog(hlName + ": Recent High Update: " + refHigh);
 			findingLow = true;
 			findingHigh = false;
@@ -81,6 +84,7 @@ public class HighLow
 		if (refHigh > refLow + (GetData.getShortTB().getLatestCandle().getHigh() * spread))
 		{
 			refLows.add(refLow);
+			volumeOfRefLows.add(volumeOfRefLow);
 			findingLow = false;
 			findingHigh = true;
 			refHigh = 0;
