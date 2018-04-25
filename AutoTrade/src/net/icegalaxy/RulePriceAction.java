@@ -45,9 +45,14 @@ public class RulePriceAction extends Rules
 			Global.addLog("Price Action: Long");
 			
 			//check fewer times		
-			if(GetData.tinyHL.volumeOfRefLows.get(GetData.tinyHL.volumeOfRefLows.size() - 1) < GetData.getShortTB().getAverageQuantity() * 2)
+			if(GetData.tinyHL.getVolumeOfRecentLow() < GetData.getShortTB().getAverageQuantity() * 2
+					|| GetData.tinyHL.getVolumeOfRecentLow() < getVolumeOfHigh())
 			{
-				Global.addLog("Volume Not Enough");
+				Global.addLog("Volume Not Enough" + "\r\n" +
+						"RecentLow: " + GetData.tinyHL.getVolumeOfRecentLow() + "\r\n" +
+						"Average: " + GetData.getShortTB().getAverageQuantity() + "\r\n" +
+						"High: " + getVolumeOfHigh());
+
 				
 				while(GetData.tinyHL.isRising() && Global.getCurrentPoint() < GetData.tinyHL.getLatestLow() + 50)
 					sleep(waitingTime);
@@ -106,9 +111,13 @@ public class RulePriceAction extends Rules
 			
 			Global.addLog("Price Action: Short");
 			
-			if(GetData.tinyHL.volumeOfRefHighs.get(GetData.tinyHL.volumeOfRefHighs.size() - 1) < GetData.getShortTB().getAverageQuantity() * 2)
+			if(GetData.tinyHL.getVolumeOfRecentHigh()  < GetData.getShortTB().getAverageQuantity() * 2
+					|| GetData.tinyHL.getVolumeOfRecentHigh() < getVolumeOfLow())
 			{
-				Global.addLog("Volume Not Enough");
+				Global.addLog("Volume Not Enough" + "\r\n" +
+						"RecentHigh: " + GetData.tinyHL.getVolumeOfRecentHigh() + "\r\n" +
+						"Average: " + GetData.getShortTB().getAverageQuantity() + "\r\n" +
+						"Low: " + getVolumeOfLow());
 				
 				while(GetData.tinyHL.isDropping() && Global.getCurrentPoint() > GetData.tinyHL.getLatestLow() - 50)
 					sleep(waitingTime);
@@ -174,6 +183,22 @@ public class RulePriceAction extends Rules
 
 	}
 
+
+	private double getVolumeOfHigh()
+	{
+		if (GetData.tinyHL.findingHigh)
+			return GetData.tinyHL.volumeOfRefHigh;
+		else
+			return GetData.tinyHL.getVolumeOfRecentHigh();
+	}
+	
+	private double getVolumeOfLow()
+	{
+		if (GetData.tinyHL.findingLow)
+			return GetData.tinyHL.volumeOfRefLow;
+		else
+			return GetData.tinyHL.getVolumeOfRecentLow();
+	}
 
 	// use 1min instead of 5min
 	double getCutLossPt()
