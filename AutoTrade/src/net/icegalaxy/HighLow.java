@@ -152,5 +152,13 @@ public class HighLow
 			return false;
 	}
 	
+	public double getVolumeOfRecentLow(){
+		return volumeOfRefLows.get(volumeOfRefLows.size() -1);
+	}
+	
+	public double getVolumeOfRecentHigh(){
+		return volumeOfRefHighs.get(volumeOfRefHighs.size() -1);
+	}
+	
 	
 }

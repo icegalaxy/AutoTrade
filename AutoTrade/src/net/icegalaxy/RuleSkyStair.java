@@ -178,6 +178,17 @@ public class RuleSkyStair extends Rules
 				if (GetData.tinyHL.volumeOfRefLow < GetData.getShortTB().getAverageQuantity() * 2)
 				{
 					Global.addLog("Ref Vol not enough");
+					Global.addLog("Ref Low volume: " + GetData.tinyHL.volumeOfRefLow);
+					Global.addLog("Average Quantitiy " + GetData.getShortTB().getAverageQuantity());
+					return;				
+				}
+				
+				Global.addLog("Ref Low volume: " + GetData.tinyHL.volumeOfRefLow);
+				Global.addLog("Average Quantitiy " + GetData.getShortTB().getAverageQuantity());
+				
+				if (GetData.tinyHL.volumeOfRefLow < GetData.tinyHL.getVolumeOfRecentHigh())
+				{
+					Global.addLog("Ref Vol < Recent High Vol");
 					return;				
 				}
 				
@@ -342,9 +353,20 @@ public class RuleSkyStair extends Rules
 					sleep(waitingTime);
 				}
 				
-				if (GetData.tinyHL.volumeOfRefLow < GetData.getShortTB().getAverageQuantity() * 2)
+				if (GetData.tinyHL.volumeOfRefHigh < GetData.getShortTB().getAverageQuantity() * 2)
 				{
 					Global.addLog("Ref Vol not enough");
+					Global.addLog("Ref High volume: " + GetData.tinyHL.volumeOfRefHigh);
+					Global.addLog("Average Quantitiy " + GetData.getShortTB().getAverageQuantity());
+					return;				
+				}
+				
+				Global.addLog("Ref High volume: " + GetData.tinyHL.volumeOfRefHigh);
+				Global.addLog("Average Quantitiy " + GetData.getShortTB().getAverageQuantity());
+				
+				if (GetData.tinyHL.volumeOfRefHigh < GetData.tinyHL.getVolumeOfRecentLow())
+				{
+					Global.addLog("Ref Vol < Recent Low Vol");
 					return;				
 				}
 				
