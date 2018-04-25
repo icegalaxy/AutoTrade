@@ -430,7 +430,7 @@ public class XMLWatcher implements Runnable
 				Global.addLog("Fail to set open b4 91500, try again later");
 			}
 
-			setOpenPrice();
+//			setOpenPrice();
 		}
 
 		ohlc.updateNode("open", String.valueOf(openPrice));
