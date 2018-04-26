@@ -22,6 +22,7 @@ public class TimeBase {
 	public ArrayList<Candle> candle;
 	public ArrayList<Rail> upRails;
 	public ArrayList<Rail> downRails;
+	private double overallVol;
 
 	private int baseMin;
 	private int mainUpRailIndex;
@@ -56,7 +57,11 @@ public class TimeBase {
 
 	public void addCandle(String time, double high, double low, double open,
 			double close, double volume) {
-		volume -= total(this.quantity); //�L�Ϊ��A����
+		
+		overallVol = volume;
+		
+		volume -= total(this.quantity); //don't know why, just keeping it
+
 		this.candle.add(new Candle(time, high, low, open, close, getQuantity(), rsi14
 				.getRSI()));
 
@@ -338,7 +343,10 @@ public class TimeBase {
 
 	public float getAverageQuantity() {
 		
-		return total(quantity) / quantity.size();
+		if (candle.size() == 0)
+			return 0;
+		
+		return (float) (overallVol / candle.size());
 		
 //		try {
 //			return total(quantity, 60) / 60;
