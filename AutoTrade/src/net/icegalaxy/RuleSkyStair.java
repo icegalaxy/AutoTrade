@@ -104,7 +104,7 @@ public class RuleSkyStair extends Rules
 					
 					if (Global.getCurrentPoint() > XMLWatcher.stairs.get(currentStairIndex).value + 50)
 					{
-						Global.addLog("Leaved");
+						Global.addLog("Left");
 						return;
 					}
 
@@ -165,6 +165,12 @@ public class RuleSkyStair extends Rules
 					if ( GetData.getShortTB().getLatestCandle().getClose() > GetData.getShortTB().getLatestCandle().getOpen() + 5
 						&& GetData.tinyHL.volumeOfRefLow > GetData.tinyHL.getVolumeOfRecentHigh())
 						break;
+					
+					if (Global.getCurrentPoint() > XMLWatcher.stairs.get(currentStairIndex).value + 50)
+					{
+						Global.addLog("Left");
+						return;
+					}
 					
 					if (shutdownLong(currentStairIndex))
 						return;
@@ -314,7 +320,7 @@ public class RuleSkyStair extends Rules
 					
 					if (Global.getCurrentPoint() < XMLWatcher.stairs.get(currentStairIndex).value - 50)
 					{
-						Global.addLog("Leaved");
+						Global.addLog("Left");
 						return;
 					}
 					
@@ -364,6 +370,12 @@ public class RuleSkyStair extends Rules
 					if (GetData.getShortTB().getLatestCandle().getClose() < GetData.getShortTB().getLatestCandle().getOpen() - 5
 							&& GetData.tinyHL.volumeOfRefHigh > GetData.tinyHL.getVolumeOfRecentLow())
 						break;
+					
+					if (Global.getCurrentPoint() < XMLWatcher.stairs.get(currentStairIndex).value - 50)
+					{
+						Global.addLog("Left");
+						return;
+					}
 					
 					if(shutdownShort(currentStairIndex))
 						return;
