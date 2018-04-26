@@ -183,14 +183,20 @@ public class RuleSkyStair extends Rules
 					return;				
 				}
 				
-				Global.addLog("Ref Low volume: " + GetData.tinyHL.volumeOfRefLow);
-				Global.addLog("Average Quantitiy " + GetData.getShortTB().getAverageQuantity());
+				Global.addLog("RecentHigh: " + GetData.tinyHL.getVolumeOfRecentHigh() + "\r\n" +
+						"Average: " + GetData.getShortTB().getAverageQuantity() + "\r\n" +
+						"Low: " + GetData.tinyHL.volumeOfRefLow);
 				
 				if (GetData.tinyHL.volumeOfRefLow < GetData.tinyHL.getVolumeOfRecentHigh())
 				{
-					Global.addLog("Ref Vol < Recent High Vol");
+					
+					XMLWatcher.stairs.get(currentStairIndex).buying = false;
+					shutdownStair(currentStairIndex);
+					
 					return;				
 				}
+				
+				
 				
 //				if (!volumeRising)
 //				{
@@ -361,14 +367,21 @@ public class RuleSkyStair extends Rules
 					return;				
 				}
 				
-				Global.addLog("Ref High volume: " + GetData.tinyHL.volumeOfRefHigh);
-				Global.addLog("Average Quantitiy " + GetData.getShortTB().getAverageQuantity());
+				Global.addLog("RecentLow: " + GetData.tinyHL.getVolumeOfRecentLow() + "\r\n" +
+						"Average: " + GetData.getShortTB().getAverageQuantity() + "\r\n" +
+						"High: " + GetData.tinyHL.volumeOfRefHigh);
+				
 				
 				if (GetData.tinyHL.volumeOfRefHigh < GetData.tinyHL.getVolumeOfRecentLow())
 				{
-					Global.addLog("Ref Vol < Recent Low Vol");
+					
+					XMLWatcher.stairs.get(currentStairIndex).selling = false;
+					shutdownStair(currentStairIndex);
+					
 					return;				
 				}
+				
+				
 				
 //				if (!volumeRising)
 //				{
