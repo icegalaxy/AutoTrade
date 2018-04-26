@@ -69,7 +69,7 @@ public class RulePriceAction extends Rules
 				
 				double reward = profitPt - Global.getCurrentPoint();
 						
-				double risk = Global.getCurrentPoint() - GetData.nanoHL.getLatestLow();
+				double risk = Global.getCurrentPoint() - GetData.nanoHL.getLatestLow() + 10;
 
 				double rr = reward / risk;
 				
@@ -84,15 +84,15 @@ public class RulePriceAction extends Rules
 					return;
 				}
 
-				if (rr > 3 && risk < 20 && hasYangCandle)
+				if (rr > 3 && risk < 30 && hasYangCandle)
 				{
 					Global.addLog("RR= " + rr);
 					break;
 				}
 
-				if (rr < 0.3)
+				if (Global.getCurrentPoint() > GetData.nanoHL.getLatestLow() + 30)
 				{
-					Global.addLog("RR= " + rr);
+					Global.addLog("Left");
 					return;
 				}
 
@@ -104,7 +104,7 @@ public class RulePriceAction extends Rules
 
 			longContract();
 
-			cutLoss = GetData.nanoHL.getLatestLow();
+			cutLoss = GetData.nanoHL.getLatestLow() - 10;
 
 			Global.addLog("Profit: " + profitPt);
 			Global.addLog("Cut Loss: " + cutLoss);
@@ -168,9 +168,9 @@ public class RulePriceAction extends Rules
 					break;
 				}
 
-				if (rr < 0.3)
+				if (Global.getCurrentPoint() < GetData.nanoHL.getLatestLow() - 30)
 				{
-					Global.addLog("RR= " + rr);
+					Global.addLog("Left");
 					return;
 				}
 
@@ -182,7 +182,7 @@ public class RulePriceAction extends Rules
 
 			shortContract();
 
-			cutLoss = GetData.nanoHL.getLatestHigh();
+			cutLoss = GetData.nanoHL.getLatestHigh() + 10;
 
 			Global.addLog("Profit: " + profitPt);
 			Global.addLog("Cut Loss: " + cutLoss);
