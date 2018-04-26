@@ -39,6 +39,7 @@ public class HighLow
 		if (refLow < refHigh - (GetData.getShortTB().getLatestCandle().getHigh() * spread))
 		{
 			refHighs.add(refHigh);
+			volumeOfRefHighs.add(volumeOfRefHigh);
 			findingLow = true;
 			findingHigh = false;
 			refHigh = 0;
@@ -106,6 +107,7 @@ public class HighLow
 		if (refHigh > refLow + (GetData.getShortTB().getLatestCandle().getHigh() * spread))
 		{
 			refLows.add(refLow);
+			volumeOfRefLows.add(volumeOfRefLow);
 			Global.addLog(hlName + ": Recent Low Update: " + refLow);
 			findingLow = false;
 			findingHigh = true;
