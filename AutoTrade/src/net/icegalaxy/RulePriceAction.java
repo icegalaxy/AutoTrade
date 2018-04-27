@@ -198,7 +198,7 @@ public class RulePriceAction extends Rules
 
 	private double getVolumeOfHigh()
 	{
-		if (GetData.nanoHL.findingHigh)
+		if (GetData.nanoHL.refHigh > GetData.nanoHL.getLatestHigh() )
 			return GetData.nanoHL.volumeOfRefHigh;
 		else
 			return GetData.nanoHL.getVolumeOfRecentHigh();
@@ -206,7 +206,7 @@ public class RulePriceAction extends Rules
 	
 	private double getVolumeOfLow()
 	{
-		if (GetData.nanoHL.findingLow)
+		if (GetData.nanoHL.refLow < GetData.nanoHL.getLatestLow())
 			return GetData.nanoHL.volumeOfRefLow;
 		else
 			return GetData.nanoHL.getVolumeOfRecentLow();
