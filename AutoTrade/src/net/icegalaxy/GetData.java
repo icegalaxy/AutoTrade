@@ -363,6 +363,9 @@ public class GetData implements Runnable
 							hl.findLow(hl.objectName);
 						if (hl.findingHigh)
 							hl.findHigh(hl.objectName);
+						
+						if (hl.findingLow) // do it one more time in case it makes a high and a low in one candle
+							hl.findLow(hl.objectName);
 					}
 
 					
