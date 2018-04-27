@@ -75,8 +75,8 @@ public class RulePriceAction extends Rules
 				
 				profitRange = reward;
 				
-		
-				hasYangCandle = getTimeBase().getLatestCandle().getClose() > getTimeBase().getLatestCandle().getOpen() + 5
+				if (!hasYangCandle)
+					hasYangCandle = getTimeBase().getLatestCandle().getClose() > getTimeBase().getLatestCandle().getOpen() + 5
 									&& GetData.nanoHL.getVolumeOfRecentLow() > getVolumeOfHigh();
 				
 				if (!GetData.nanoHL.isRising())
@@ -153,8 +153,8 @@ public class RulePriceAction extends Rules
 
 				double rr = reward / risk;
 				
-				
-				hasYingCandle = GetData.getShortTB().getLatestCandle().getClose() < GetData.getShortTB().getLatestCandle().getOpen() - 5
+				if (!hasYingCandle)
+					hasYingCandle = GetData.getShortTB().getLatestCandle().getClose() < GetData.getShortTB().getLatestCandle().getOpen() - 5
 						&& GetData.nanoHL.getVolumeOfRecentHigh() > getVolumeOfLow();
 
 				if (!GetData.nanoHL.isDropping())
