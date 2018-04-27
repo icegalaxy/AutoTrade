@@ -163,7 +163,7 @@ public class RuleSkyStair extends Rules
 				while (true)
 				{
 					if ( GetData.getShortTB().getLatestCandle().getClose() > GetData.getShortTB().getLatestCandle().getOpen() + 5
-						&& GetData.tinyHL.volumeOfRefLow > GetData.tinyHL.getVolumeOfRecentHigh())
+						&& GetData.tinyHL.volumeOfRefLow > GetData.tinyHL.getVolumeOfRecentHigh() * 1.5)
 						break;
 					
 					if (Global.getCurrentPoint() > XMLWatcher.stairs.get(currentStairIndex).value + 50)
@@ -368,7 +368,7 @@ public class RuleSkyStair extends Rules
 				{
 					
 					if (GetData.getShortTB().getLatestCandle().getClose() < GetData.getShortTB().getLatestCandle().getOpen() - 5
-							&& GetData.tinyHL.volumeOfRefHigh > GetData.tinyHL.getVolumeOfRecentLow())
+							&& GetData.tinyHL.volumeOfRefHigh > GetData.tinyHL.getVolumeOfRecentLow() * 1.5)
 						break;
 					
 					if (Global.getCurrentPoint() < XMLWatcher.stairs.get(currentStairIndex).value - 50)
