@@ -986,7 +986,7 @@ public class RuleSkyStair extends Rules
 			// return GetData.getLongTB().getEma250().getEMA() - buyingPoint;
 			// }
 
-			return Math.max(10, getLongStopEarn(XMLWatcher.stairs.get(currentStairIndex).value) - buyingPoint - 15);
+			return Math.max(10, getLongStopEarn(XMLWatcher.stairs.get(currentStairIndex).value) - buyingPoint);
 		} else
 		{
 
@@ -1013,7 +1013,7 @@ public class RuleSkyStair extends Rules
 			// return buyingPoint - GetData.getLongTB().getEma250().getEMA();
 			// }
 
-			return Math.max(10, buyingPoint - getShortStopEarn(XMLWatcher.stairs.get(currentStairIndex).value) - 15);
+			return Math.max(10, buyingPoint - getShortStopEarn(XMLWatcher.stairs.get(currentStairIndex).value));
 		}
 
 	}
