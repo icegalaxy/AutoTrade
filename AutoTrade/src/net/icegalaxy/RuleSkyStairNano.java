@@ -16,7 +16,7 @@ public class RuleSkyStairNano extends Rules
 	static ArrayList<Integer> shutdownIndex;
 	double cutLoss;
 	double refHL;
-	static int reActivatePeriod = 10000;
+	static int reActivatePeriod = 3000;
 	private static int reActivateTime = 0;
 	int EMATimer;
 	double profitRange;
@@ -95,7 +95,7 @@ public class RuleSkyStairNano extends Rules
 				if (!XMLWatcher.stairs.get(currentStairIndex).buying || XMLWatcher.stairs.get(currentStairIndex).shutdown)
 					continue;
 
-				Global.addLog("Reached " + XMLWatcher.stairs.get(currentStairIndex).lineType + " @ " + XMLWatcher.stairs.get(currentStairIndex).value + " (Long)");
+				Global.addLog("Nano Reached " + XMLWatcher.stairs.get(currentStairIndex).lineType + " @ " + XMLWatcher.stairs.get(currentStairIndex).value + " (Long)");
 				Global.addLog("Stop Earn: " + getLongStopEarn(XMLWatcher.stairs.get(currentStairIndex).value));
 
 				Global.addLog("Waiting for a refLow");
@@ -175,11 +175,11 @@ public class RuleSkyStairNano extends Rules
 						&& GetData.tinyHL.volumeOfRefLow > GetData.tinyHL.getVolumeOfRecentHigh() * 1.5)
 						break;
 					
-					if (Global.getCurrentPoint() > XMLWatcher.stairs.get(currentStairIndex).value + 50)
-					{
-						Global.addLog("Left");
-						return;
-					}
+//					if (Global.getCurrentPoint() > XMLWatcher.stairs.get(currentStairIndex).value + 50)
+//					{
+//						Global.addLog("Left");
+//						return;
+//					}
 					
 					if (shutdownLong(currentStairIndex))
 						return;
@@ -242,7 +242,7 @@ public class RuleSkyStairNano extends Rules
 				if (refLow < XMLWatcher.stairs.get(currentStairIndex).refLow)
 					XMLWatcher.stairs.get(currentStairIndex).refLow = refLow;
 
-				cutLoss = Math.min(XMLWatcher.stairs.get(currentStairIndex).refLow - XMLWatcher.stairs.get(currentStairIndex).tolerance / 4, XMLWatcher.stairs.get(currentStairIndex).value - 10);
+				cutLoss = XMLWatcher.stairs.get(currentStairIndex).refLow - XMLWatcher.stairs.get(currentStairIndex).tolerance / 4;
 				Global.addLog("Cut loss: " + cutLoss);
 				Global.addLog("Stop Earn: " + getLongStopEarn(XMLWatcher.stairs.get(currentStairIndex).value));
 
@@ -261,7 +261,7 @@ public class RuleSkyStairNano extends Rules
 					profitRange = reward;
 					
 					if (rr > 3 
-							&& Global.getCurrentPoint() - cutLoss < 50)
+							&& Global.getCurrentPoint() - cutLoss < 30)
 					{
 						Global.addLog("RR= " + rr);
 						break;
@@ -311,7 +311,7 @@ public class RuleSkyStairNano extends Rules
 				if (!XMLWatcher.stairs.get(currentStairIndex).selling || XMLWatcher.stairs.get(currentStairIndex).shutdown)
 					continue;
 
-				Global.addLog("Reached " + XMLWatcher.stairs.get(currentStairIndex).lineType + " @ " + XMLWatcher.stairs.get(currentStairIndex).value + " (Short)");
+				Global.addLog("Nano Reached " + XMLWatcher.stairs.get(currentStairIndex).lineType + " @ " + XMLWatcher.stairs.get(currentStairIndex).value + " (Short)");
 				Global.addLog("Stop Earn: " + getShortStopEarn(XMLWatcher.stairs.get(currentStairIndex).value));
 
 				Global.addLog("Waiting for a refHigh");
@@ -380,11 +380,11 @@ public class RuleSkyStairNano extends Rules
 							&& GetData.tinyHL.volumeOfRefHigh > GetData.tinyHL.getVolumeOfRecentLow() * 1.5)
 						break;
 					
-					if (Global.getCurrentPoint() < XMLWatcher.stairs.get(currentStairIndex).value - 50)
-					{
-						Global.addLog("Left");
-						return;
-					}
+//					if (Global.getCurrentPoint() < XMLWatcher.stairs.get(currentStairIndex).value - 50)
+//					{
+//						Global.addLog("Left");
+//						return;
+//					}
 					
 					if(shutdownShort(currentStairIndex))
 						return;
@@ -444,7 +444,7 @@ public class RuleSkyStairNano extends Rules
 				if(refHigh > XMLWatcher.stairs.get(currentStairIndex).refHigh)
 					XMLWatcher.stairs.get(currentStairIndex).refHigh = refHigh;
 				
-				cutLoss = Math.max(XMLWatcher.stairs.get(currentStairIndex).refHigh + XMLWatcher.stairs.get(currentStairIndex).tolerance / 4, XMLWatcher.stairs.get(currentStairIndex).value + 10);
+				cutLoss = XMLWatcher.stairs.get(currentStairIndex).refHigh + XMLWatcher.stairs.get(currentStairIndex).tolerance / 4;
 				Global.addLog("Cut loss: " + cutLoss);
 				Global.addLog("Stop Earn: " + getShortStopEarn(XMLWatcher.stairs.get(currentStairIndex).value));
 
@@ -463,7 +463,7 @@ public class RuleSkyStairNano extends Rules
 					profitRange = reward;
 					
 					if (rr > 3
-							&& cutLoss - Global.getCurrentPoint() < 50)
+							&& cutLoss - Global.getCurrentPoint() < 30)
 					{
 						Global.addLog("RR= " + rr);
 						break;
