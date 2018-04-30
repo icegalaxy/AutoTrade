@@ -58,6 +58,8 @@ public class RulePriceAction extends Rules
 				
 				while(GetData.nanoHL.isRising() && Global.getCurrentPoint() < GetData.nanoHL.getLatestLow() + 40)
 					sleep(waitingTime);
+				
+				return;
 			}	
 
 			while (true)
@@ -129,6 +131,8 @@ public class RulePriceAction extends Rules
 				
 				while(GetData.nanoHL.isDropping() && Global.getCurrentPoint() > GetData.nanoHL.getLatestLow() - 40)
 					sleep(waitingTime);
+				
+				return;
 			}
 			
 
