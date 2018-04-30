@@ -298,7 +298,7 @@ public class RuleSkyStairNano extends Rules
 				Global.updateCSV();
 				Global.addLog("Ref Low: " + refLow);
 
-				cutLoss = Math.min(XMLWatcher.stairs.get(currentStairIndex).refLow - XMLWatcher.stairs.get(currentStairIndex).tolerance / 4, XMLWatcher.stairs.get(currentStairIndex).value - 10);
+//				cutLoss = Math.min(XMLWatcher.stairs.get(currentStairIndex).refLow - XMLWatcher.stairs.get(currentStairIndex).tolerance / 4, XMLWatcher.stairs.get(currentStairIndex).value - 10);
 				Global.addLog("OHLC: " + XMLWatcher.stairs.get(currentStairIndex).lineType);
 				return;
 
@@ -500,7 +500,6 @@ public class RuleSkyStairNano extends Rules
 				if(refHigh > XMLWatcher.stairs.get(currentStairIndex).refHigh)
 					XMLWatcher.stairs.get(currentStairIndex).refHigh= refHigh;
 
-				cutLoss = Math.max(XMLWatcher.stairs.get(currentStairIndex).refHigh + XMLWatcher.stairs.get(currentStairIndex).tolerance / 4, XMLWatcher.stairs.get(currentStairIndex).value + 10);
 
 				Global.addLog("OHLC: " + XMLWatcher.stairs.get(currentStairIndex).lineType);
 				return;
