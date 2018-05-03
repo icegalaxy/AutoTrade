@@ -48,7 +48,9 @@ public class RulePriceAction extends Rules
 			
 			//check fewer times		
 			if(GetData.nanoHL.getVolumeOfRecentLow() < GetData.getShortTB().getAverageQuantity() * 2
-					|| GetData.nanoHL.getVolumeOfRecentLow() < getVolumeOfHigh() * 1.5)
+					|| GetData.nanoHL.getVolumeOfRecentLow() < getVolumeOfHigh() * 1.5
+					|| GetData.nanoHL.getVolumeOfRecentLow() < 0
+					|| getVolumeOfHigh() < 0)
 			{
 				Global.addLog("Volume Not Enough" + "\r\n" +
 						"RecentLow: " + GetData.nanoHL.getVolumeOfRecentLow() + "\r\n" +
@@ -122,7 +124,9 @@ public class RulePriceAction extends Rules
 			boolean hasYingCandle = false;
 			
 			if(GetData.nanoHL.getVolumeOfRecentHigh()  < GetData.getShortTB().getAverageQuantity() * 2
-					|| GetData.nanoHL.getVolumeOfRecentHigh() < getVolumeOfLow() * 1.5)
+					|| GetData.nanoHL.getVolumeOfRecentHigh() < getVolumeOfLow() * 1.5
+					|| GetData.nanoHL.getVolumeOfRecentHigh() < 0
+					|| getVolumeOfLow() < 0)
 			{
 				Global.addLog("Volume Not Enough" + "\r\n" +
 						"RecentHigh: " + GetData.nanoHL.getVolumeOfRecentHigh() + "\r\n" +

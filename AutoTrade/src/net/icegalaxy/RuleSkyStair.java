@@ -205,6 +205,15 @@ public class RuleSkyStair extends Rules
 						"Average: " + GetData.getShortTB().getAverageQuantity() + "\r\n" +
 						"Low: " + GetData.tinyHL.volumeOfRefLow);
 				
+				if (GetData.tinyHL.getVolumeOfRecentHigh() < 0 || GetData.tinyHL.volumeOfRefLow < 0)
+				{
+					Global.addLog("Quantity Error");
+					XMLWatcher.stairs.get(currentStairIndex).buying = false;
+					shutdownStair(currentStairIndex);
+					
+					return;
+				}
+				
 				if (GetData.tinyHL.volumeOfRefLow < GetData.tinyHL.getVolumeOfRecentHigh())
 				{
 					
@@ -407,6 +416,15 @@ public class RuleSkyStair extends Rules
 				Global.addLog("RecentLow: " + GetData.tinyHL.getVolumeOfRecentLow() + "\r\n" +
 						"Average: " + GetData.getShortTB().getAverageQuantity() + "\r\n" +
 						"High: " + GetData.tinyHL.volumeOfRefHigh);
+				
+				if (GetData.tinyHL.getVolumeOfRecentLow() < 0 || GetData.tinyHL.volumeOfRefHigh < 0)
+				{
+					Global.addLog("Quantity Erro");
+					XMLWatcher.stairs.get(currentStairIndex).selling = false;
+					shutdownStair(currentStairIndex);
+					
+					return;	
+				}
 				
 				
 				if (GetData.tinyHL.volumeOfRefHigh < GetData.tinyHL.getVolumeOfRecentLow())

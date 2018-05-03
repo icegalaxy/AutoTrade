@@ -162,6 +162,15 @@ public class RuleSkyStairNano extends Rules
 						"Average: " + GetData.getShortTB().getAverageQuantity() + "\r\n" +
 						"Low: " + GetData.nanoHL.volumeOfRefLow);
 				
+				if (GetData.nanoHL.getVolumeOfRecentHigh() < 0 || GetData.nanoHL.volumeOfRefLow < 0)
+				{
+					Global.addLog("Quantity Error");
+					XMLWatcher.stairs.get(currentStairIndex).buying = false;
+					shutdownStair(currentStairIndex);
+					
+					return;
+				}
+				
 				if (GetData.nanoHL.volumeOfRefLow < GetData.nanoHL.getVolumeOfRecentHigh())
 				{
 					
@@ -289,6 +298,15 @@ public class RuleSkyStairNano extends Rules
 						"Average: " + GetData.getShortTB().getAverageQuantity() + "\r\n" +
 						"High: " + GetData.nanoHL.volumeOfRefHigh);
 				
+
+				if (GetData.nanoHL.getVolumeOfRecentLow() < 0 || GetData.nanoHL.volumeOfRefHigh < 0)
+				{
+					Global.addLog("Quantity Error");
+					XMLWatcher.stairs.get(currentStairIndex).selling = false;
+					shutdownStair(currentStairIndex);
+					
+					return;	
+				}
 				
 				if (GetData.nanoHL.volumeOfRefHigh < GetData.nanoHL.getVolumeOfRecentLow())
 				{

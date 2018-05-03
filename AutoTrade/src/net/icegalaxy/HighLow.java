@@ -63,7 +63,7 @@ public class HighLow
 		{
 			refHighs.add(refHigh);
 			volumeOfRefHighs.add(volumeOfRefHigh);
-			Global.addLog(hlName + ": Recent High Update: " + refHigh);
+			Global.addLog(hlName + ": Recent High Update: " + refHigh + "; volume: " + volumeOfRefHigh);
 			findingLow = true;
 			findingHigh = false;
 			refHigh = 0;
@@ -108,7 +108,7 @@ public class HighLow
 		{
 			refLows.add(refLow);
 			volumeOfRefLows.add(volumeOfRefLow);
-			Global.addLog(hlName + ": Recent Low Update: " + refLow);
+			Global.addLog(hlName + ": Recent Low Update: " + refLow + "; volume: " + volumeOfRefLow);
 			findingLow = false;
 			findingHigh = true;
 			refHigh = 0;
