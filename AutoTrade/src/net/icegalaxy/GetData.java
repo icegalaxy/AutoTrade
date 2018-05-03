@@ -368,6 +368,17 @@ public class GetData implements Runnable
 							hl.findLow(hl.objectName);
 					}
 
+					//check connection
+					if (!Global.isConnectionOK())
+					{
+						Global.addLog("Conncetion fail, try re-login");
+						
+						SPApi.SPApiDll.INSTANCE.SPAPI_Logout(SPApi.userid);
+						
+						sleep(10000);
+						
+						SPApi.SPApiDll.INSTANCE.SPAPI_Login();
+					}
 					
 					
 

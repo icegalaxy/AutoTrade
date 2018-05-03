@@ -30,7 +30,7 @@ public class SPApi
 	static final int port = 8080;
 	static final String license = "76C2FB5B60006C7A";
 	static final String app_id = "BS";
-	static final String userid = "T865829";
+	public static final String userid = "T865829";
 	static String password = "";
 	static final String server = "futures.bsgroup.com.hk";
 
