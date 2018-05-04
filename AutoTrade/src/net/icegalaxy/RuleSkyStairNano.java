@@ -1,5 +1,6 @@
 package net.icegalaxy;
 
+import java.nio.file.Watchable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -413,6 +414,15 @@ public class RuleSkyStairNano extends Rules
 			XMLWatcher.stairs.get(currentStairIndex).selling = false;
 			shutdownStair(currentStairIndex);
 			shutdown = true;
+		}else
+		
+		if (GetData.tinyHL.findingHigh)
+		{
+			Global.addLog("TinyHL Is findingHigh, shut down Nano for 30mins");
+			int currentTime = GetData.getTimeInt();
+			while (GetData.getTimeInt() < currentTime + 3000)
+				sleep(waitingTime);
+			shutdown = true; //not shutting down the stair
 		}
 		
 		return shutdown;
@@ -421,7 +431,7 @@ public class RuleSkyStairNano extends Rules
 	@Override
 	boolean shutdownLong(int currentStairIndex)
 	{
-		if(super.shutdownShort(currentStairIndex))
+		if(super.shutdownLong(currentStairIndex))
 			return true;
 		
 		if (GetData.nanoHL.isDropping())
@@ -430,6 +440,15 @@ public class RuleSkyStairNano extends Rules
 			XMLWatcher.stairs.get(currentStairIndex).buying = false;
 			shutdownStair(currentStairIndex);
 			shutdown = true;
+		}else
+		
+		if (GetData.tinyHL.findingLow)
+		{
+			Global.addLog("TinyHL Is findingLow, shut down Nano for 30mins");
+			int currentTime = GetData.getTimeInt();
+			while (GetData.getTimeInt() < currentTime + 3000)
+				sleep(waitingTime);
+			shutdown = true; //not shutting down the stair
 		}
 		
 		return shutdown;

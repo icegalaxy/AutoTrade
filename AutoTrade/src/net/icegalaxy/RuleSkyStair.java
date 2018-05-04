@@ -539,7 +539,7 @@ public class RuleSkyStair extends Rules
 	@Override
 	boolean shutdownLong(int currentStairIndex)
 	{
-		if(super.shutdownShort(currentStairIndex))
+		if(super.shutdownLong(currentStairIndex))
 			return true;
 		
 		if (GetData.tinyHL.isDropping())

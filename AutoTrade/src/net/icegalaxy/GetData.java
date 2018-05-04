@@ -373,11 +373,11 @@ public class GetData implements Runnable
 					{
 						Global.addLog("Conncetion fail, try re-login");
 						
-						SPApi.SPApiDll.INSTANCE.SPAPI_Logout(SPApi.userid);
+						SPApi.unInit();
 						
 						sleep(10000);
 						
-						SPApi.SPApiDll.INSTANCE.SPAPI_Login();
+						SPApi.init();
 					}
 					
 					
