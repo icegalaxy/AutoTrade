@@ -8,17 +8,19 @@ import java.util.List;
 
 //This is for N shape
 
-public class RuleSkyStair extends Rules
+public class RuleSkyStair5Min extends Rules
 {
 	// Stair currentStair;
 	int currentStairIndex;
 //	Stair currentStair;
+	
 	double cutLoss;
 	double refHL;
+	
 	int EMATimer;
 	double profitRange;
 
-	public RuleSkyStair(boolean globalRunRule)
+	public RuleSkyStair5Min(boolean globalRunRule)
 	{
 		super(globalRunRule);
 		setOrderTime(93000, 115800, 130300, 160000, 171800, 1003000); // need to
@@ -38,39 +40,17 @@ public class RuleSkyStair extends Rules
 		if (!Global.isTradeTime() || Global.getNoOfContracts() != 0)
 			return;
 
-		// RE-activate after 1hr
-		if (shutdownIndex.size() > 0)
-		{
-			for (int i = 0; i < shutdownIndex.size(); i++)
-			{
-				if (GetData.getTimeInt() > XMLWatcher.stairs.get(shutdownIndex.get(i)).reActivateTime)
-				{
-					XMLWatcher.stairs.get(shutdownIndex.get(i)).buying = true;
-					XMLWatcher.stairs.get(shutdownIndex.get(i)).selling = true;
-					Global.addLog("Re-activate: " + XMLWatcher.stairs.get(shutdownIndex.get(i)).lineType + " @ "
-							+ XMLWatcher.stairs.get(shutdownIndex.get(i)).value);
-					shutdownIndex.remove(i);
-					i--;
-					Global.updateCSV();
-				}
-			}
-		}
-
 		for (int i = 0; i < XMLWatcher.stairs.size(); i++)
 		{
 
 			currentStairIndex = i;
 
-//			currentStair = XMLWatcher.stairs.get(currentStairIndex);
 
 			if (Global.getNoOfContracts() != 0)
 				return;
 
 			if (XMLWatcher.stairs.get(currentStairIndex).value == 0)
 				continue;
-
-			// if (currentStair.shutdown)
-			// continue;
 
 			// Long
 			if (
@@ -84,16 +64,10 @@ public class RuleSkyStair extends Rules
 				if (!XMLWatcher.stairs.get(currentStairIndex).buying || XMLWatcher.stairs.get(currentStairIndex).shutdown)
 					continue;
 
-				Global.addLog("Reached " + XMLWatcher.stairs.get(currentStairIndex).lineType + " @ " + XMLWatcher.stairs.get(currentStairIndex).value + " (Long)");
-				Global.addLog("Stop Earn: " + getLongStopEarn(XMLWatcher.stairs.get(currentStairIndex).value));
+				Global.addLog("ST5 Reached " + XMLWatcher.stairs.get(currentStairIndex).lineType + " @ " + XMLWatcher.stairs.get(currentStairIndex).value + " (Long)");
+				Global.addLog("ST5 Stop Earn: " + getLongStopEarn(XMLWatcher.stairs.get(currentStairIndex).value));
 
-				Global.addLog("Waiting for a refLow");
-//				while(Global.getCurrentPoint() > GetData.refHigh - Global.getCurrentPoint() * 0.05)
-//				{
-//					if (shutdownLong(currentStairIndex))
-//						return;
-//					sleep(waitingTime);
-//				}
+				Global.addLog("Waiting for a refLow");	
 				
 				while(!GetData.tinyHL.findingLow || !isOrderTime())
 				{
@@ -112,63 +86,14 @@ public class RuleSkyStair extends Rules
 				if (refHigh < GetData.tinyHL.refHigh)
 					refHigh = GetData.tinyHL.refHigh;
 				
-				
-//				Global.addLog("RefLow: " + GetData.refLows.get(GetData.refLows.size()));
-				
-//				if (isDownTrend())
-//				{
-//					Global.addLog("Down Trend");
-//					XMLWatcher.stairs.get(currentStairIndex).buying = false;
-//					shutdownStair(currentStairIndex);
-//					// shutdown = true;
-//					return;
-//				}
-				
-//				refHL = getTimeBase().getLatestCandle().getOpen();
-
-//				waitForANewCandle();
-
-//				if (getTimeBase().getLatestCandle().isYinCandle())
-//					refHL = getTimeBase().getLatestCandle().getOpen();
-
-				// waiting for a Yang candle
-//				while (Global.isRapidDrop()
-//						|| getTimeBase().getLatestCandle().getClose() - getTimeBase().getLatestCandle().getOpen() < 5
-//						|| Global.getCurrentPoint() < XMLWatcher.stairs.get(currentStairIndex).value)
-//				{
-					
-					
-
-//					currentStair = XMLWatcher.stairs.get(currentStairIndex);
-					//dont need this beause EMA >50
-//					while (GetData.getShortTB().getRSI() > 40)
-//					{
-//						if (shutdownLong(currentStairIndex))
-//							return;
-//						sleep(waitingTime);
-//					}
-					
-//					if (shutdownLong(currentStairIndex))
-//						return;
-//
-//					sleep(waitingTime);
-//				}
-
-				
 				Global.addLog("Waiting for a tiny rise");
 				
 				
 				while (true)
 				{
-					if ( GetData.getShortTB().getLatestCandle().getClose() > GetData.getShortTB().getLatestCandle().getOpen() + 5
-						&& GetData.tinyHL.volumeOfRefLow > GetData.tinyHL.getVolumeOfRecentHigh() * 1.5)
+					if ( GetData.getLongTB().getLatestCandle().getClose() > GetData.getLongTB().getLatestCandle().getOpen() + 5
+						&& GetData.getLongTB().getLatestCandle().getClose() > XMLWatcher.stairs.get(currentStairIndex).value)
 						break;
-					
-//					if (Global.getCurrentPoint() > XMLWatcher.stairs.get(currentStairIndex).value + 50)
-//					{
-//						Global.addLog("Left");
-//						return;
-//					}
 					
 					if (shutdownLong(currentStairIndex))
 						return;
@@ -177,70 +102,10 @@ public class RuleSkyStair extends Rules
 				}
 				
 				
-//				while(Global.getCurrentPoint() < GetData.tinyHL.refLow + (GetData.tinyHL.getLatestHigh() - GetData.tinyHL.refLow)*0.24 //23.6% fibonacci
-////						|| GetData.nanoHL.isDropping()
-//						)
-//				{
-//					
-////					if (!volumeRising)
-////						volumeRising = GetData.getShortTB().isQuantityRising();
-//					
-//					if (shutdownLong(currentStairIndex))
-//						return;
-//					
-//					sleep(waitingTime);
-//				}
-				
-				if (GetData.tinyHL.volumeOfRefLow < GetData.getShortTB().getAverageQuantity() * 2)
-				{
-					Global.addLog("Ref Vol not enough");
-					Global.addLog("Ref Low volume: " + GetData.tinyHL.volumeOfRefLow);
-					Global.addLog("Average Quantitiy " + GetData.getShortTB().getAverageQuantity());
-					return;				
-				}
-				
-				Global.addLog("RecentHigh: " + GetData.tinyHL.getVolumeOfRecentHigh() + "\r\n" +
-						"Average: " + GetData.getShortTB().getAverageQuantity() + "\r\n" +
-						"Low: " + GetData.tinyHL.volumeOfRefLow);
-				
-				if (GetData.tinyHL.getVolumeOfRecentHigh() < 0 || GetData.tinyHL.volumeOfRefLow < 0)
-				{
-					Global.addLog("Quantity Error");
-					XMLWatcher.stairs.get(currentStairIndex).buying = false;
-					shutdownStair(currentStairIndex);
-					
-					return;
-				}
-				
-				if (GetData.tinyHL.volumeOfRefLow < GetData.tinyHL.getVolumeOfRecentHigh())
-				{
-					
-					XMLWatcher.stairs.get(currentStairIndex).buying = false;
-					shutdownStair(currentStairIndex);
-					
-					return;				
-				}
-				
-				
-				
-//				if (!volumeRising)
-//				{
-//					Global.addLog("Volume not Rising");
-//					return;
-//				}
-				
-				Global.addLog("Latest High: " + GetData.tinyHL.getLatestHigh());
-				Global.addLog("Ref Low: " + GetData.tinyHL.refLow);
-				
-				
-
-				// if (Global.getCurrentPoint() > currentStair.value + 20)
-				// Global.addLog("Rise to fast, waiting for a pull back");
-				
 				if (refLow < XMLWatcher.stairs.get(currentStairIndex).refLow)
 					XMLWatcher.stairs.get(currentStairIndex).refLow = refLow;
 
-				cutLoss = Math.min(XMLWatcher.stairs.get(currentStairIndex).refLow - XMLWatcher.stairs.get(currentStairIndex).tolerance / 2, XMLWatcher.stairs.get(currentStairIndex).value - 10);
+				cutLoss = XMLWatcher.stairs.get(currentStairIndex).refLow;
 				Global.addLog("Cut loss: " + cutLoss);
 				Global.addLog("Stop Earn: " + getLongStopEarn(XMLWatcher.stairs.get(currentStairIndex).value));
 
@@ -259,7 +124,7 @@ public class RuleSkyStair extends Rules
 					profitRange = reward;
 					
 					if (rr > 3 
-							&& Global.getCurrentPoint() - cutLoss < 50)
+							&& Global.getCurrentPoint() - cutLoss < XMLWatcher.stairs.get(currentStairIndex).tolerance)
 					{
 						Global.addLog("RR= " + rr);
 						break;
@@ -268,8 +133,6 @@ public class RuleSkyStair extends Rules
 					if (rr < 0.3)
 					{
 						Global.addLog("RR= " + rr);
-//						XMLWatcher.stairs.get(currentStairIndex).buying = false;
-//						shutdownStair(currentStairIndex);
 						return;
 					}
 
@@ -279,15 +142,6 @@ public class RuleSkyStair extends Rules
 
 				trailingDown(2);
 
-//				if (Global.getCurrentPoint() < XMLWatcher.stairs.get(currentStairIndex).value - 10)
-//				{
-//					Global.addLog("Current point out of range");
-//					XMLWatcher.stairs.get(currentStairIndex).buying = false;
-//					shutdownStair(currentStairIndex);
-//					// shutdown = true;
-//					return;
-//				}
-
 				longContract();
 				
 				if (refLow < XMLWatcher.stairs.get(currentStairIndex).refLow)
@@ -295,8 +149,6 @@ public class RuleSkyStair extends Rules
 				
 				Global.updateCSV();
 				Global.addLog("Ref Low: " + refLow);
-
-//				cutLoss = Math.min(XMLWatcher.stairs.get(currentStairIndex).refLow - XMLWatcher.stairs.get(currentStairIndex).tolerance / 2, XMLWatcher.stairs.get(currentStairIndex).value - 10);
 				Global.addLog("OHLC: " + XMLWatcher.stairs.get(currentStairIndex).lineType);
 				return;
 
@@ -309,16 +161,10 @@ public class RuleSkyStair extends Rules
 				if (!XMLWatcher.stairs.get(currentStairIndex).selling || XMLWatcher.stairs.get(currentStairIndex).shutdown)
 					continue;
 
-				Global.addLog("Reached " + XMLWatcher.stairs.get(currentStairIndex).lineType + " @ " + XMLWatcher.stairs.get(currentStairIndex).value + " (Short)");
-				Global.addLog("Stop Earn: " + getShortStopEarn(XMLWatcher.stairs.get(currentStairIndex).value));
+				Global.addLog("ST5 Reached " + XMLWatcher.stairs.get(currentStairIndex).lineType + " @ " + XMLWatcher.stairs.get(currentStairIndex).value + " (Short)");
+				Global.addLog("ST5 Stop Earn: " + getShortStopEarn(XMLWatcher.stairs.get(currentStairIndex).value));
 
 				Global.addLog("Waiting for a refHigh");
-//				while(Global.getCurrentPoint() < GetData.refLow + Global.getCurrentPoint() * 0.05)
-//				{
-//					if (shutdownShort(currentStairIndex))
-//						return;
-//					sleep(waitingTime);
-//				}
 				
 				while(!GetData.tinyHL.findingHigh || !isOrderTime())
 				{
@@ -336,129 +182,34 @@ public class RuleSkyStair extends Rules
 				
 				if (refLow < GetData.tinyHL.refLow)
 					refLow = GetData.tinyHL.refLow;
-				
-//				Global.addLog("RefHigh: " + GetData.refLows.get(GetData.refLows.size()));
-				
-//				if (isUpTrend())
-//				{
-//					Global.addLog("Up Trend");
-//					XMLWatcher.stairs.get(currentStairIndex).selling = false;
-//					shutdownStair(currentStairIndex);
-//					// shutdown = true;
-//					return;
-//				}
-				
-//				refHL = getTimeBase().getLatestCandle().getOpen();
-//
-//				waitForANewCandle();
-//
-//				if (getTimeBase().getLatestCandle().isYangCandle())
-//					refHL = getTimeBase().getLatestCandle().getOpen();
-//
-//				// updateHighLow();
-//
-//				while (Global.isRapidRise()
-//						|| getTimeBase().getLatestCandle().getOpen() - getTimeBase().getLatestCandle().getClose() < 5
-//						|| Global.getCurrentPoint() > XMLWatcher.stairs.get(currentStairIndex).value)
-//				{
-//
-//
-//					if(shutdownShort(currentStairIndex))
-//						return;
-//
-//					sleep(waitingTime);
-//				}
 
 				Global.addLog("Waiting for a tiny drop");
 
 				while(true)
 				{
 					
-					if (GetData.getShortTB().getLatestCandle().getClose() < GetData.getShortTB().getLatestCandle().getOpen() - 5
-							&& GetData.tinyHL.volumeOfRefHigh > GetData.tinyHL.getVolumeOfRecentLow() * 1.5)
+					if (GetData.getLongTB().getLatestCandle().getClose() < GetData.getLongTB().getLatestCandle().getOpen() - 5
+							&& GetData.getLongTB().getLatestCandle().getClose() > XMLWatcher.stairs.get(currentStairIndex).value)
 						break;
 					
-//					if (Global.getCurrentPoint() < XMLWatcher.stairs.get(currentStairIndex).value - 50)
-//					{
-//						Global.addLog("Left");
-//						return;
-//					}
 					
 					if(shutdownShort(currentStairIndex))
 						return;
 					sleep(waitingTime);
 				}
 				
-				
-//				while(Global.getCurrentPoint() > GetData.tinyHL.refHigh - (GetData.tinyHL.refHigh - GetData.tinyHL.getLatestLow())*0.24 //23.6% fibonacci
-////						|| GetData.nanoHL.isRising()
-//						)
-//				{
-//					
-////					if (!volumeRising)
-////						volumeRising = GetData.getShortTB().isQuantityRising();
-//					
-//					if(shutdownShort(currentStairIndex))
-//						return;
-//					sleep(waitingTime);
-//				}
-				
-				if (GetData.tinyHL.volumeOfRefHigh < GetData.getShortTB().getAverageQuantity() * 2)
-				{
-					Global.addLog("Ref Vol not enough");
-					Global.addLog("Ref High volume: " + GetData.tinyHL.volumeOfRefHigh);
-					Global.addLog("Average Quantitiy " + GetData.getShortTB().getAverageQuantity());
-					return;				
-				}
-				
-				Global.addLog("RecentLow: " + GetData.tinyHL.getVolumeOfRecentLow() + "\r\n" +
-						"Average: " + GetData.getShortTB().getAverageQuantity() + "\r\n" +
-						"High: " + GetData.tinyHL.volumeOfRefHigh);
-				
-				if (GetData.tinyHL.getVolumeOfRecentLow() < 0 || GetData.tinyHL.volumeOfRefHigh < 0)
-				{
-					Global.addLog("Quantity Erro");
-					XMLWatcher.stairs.get(currentStairIndex).selling = false;
-					shutdownStair(currentStairIndex);
-					
-					return;	
-				}
-				
-				
-				if (GetData.tinyHL.volumeOfRefHigh < GetData.tinyHL.getVolumeOfRecentLow())
-				{
-					
-					XMLWatcher.stairs.get(currentStairIndex).selling = false;
-					shutdownStair(currentStairIndex);
-					
-					return;				
-				}
-				
-				
-				
-//				if (!volumeRising)
-//				{
-//					Global.addLog("Volume not Rising");
-//					return;
-//				}
-				
-				Global.addLog("Ref High: " + GetData.tinyHL.refHigh);
-				Global.addLog("Latest Low: " + GetData.tinyHL.getLatestLow());
 
-				// if (Global.getCurrentPoint() < currentStair.value - 20)
-				// Global.addLog("Drop to fast, waiting for a pull back");
 
 				if(refHigh > XMLWatcher.stairs.get(currentStairIndex).refHigh)
 					XMLWatcher.stairs.get(currentStairIndex).refHigh = refHigh;
 				
-				cutLoss = Math.max(XMLWatcher.stairs.get(currentStairIndex).refHigh + XMLWatcher.stairs.get(currentStairIndex).tolerance / 2, XMLWatcher.stairs.get(currentStairIndex).value + 10);
+				cutLoss = XMLWatcher.stairs.get(currentStairIndex).refHigh;
 				Global.addLog("Cut loss: " + cutLoss);
 				Global.addLog("Stop Earn: " + getShortStopEarn(XMLWatcher.stairs.get(currentStairIndex).value));
 
 				while (true)
 				{
 
-//					currentStair = XMLWatcher.stairs.get(currentStairIndex);
 					if(shutdownShort(currentStairIndex))
 						return;
 
@@ -470,7 +221,7 @@ public class RuleSkyStair extends Rules
 					profitRange = reward;
 					
 					if (rr > 3
-							&& cutLoss - Global.getCurrentPoint() < 50)
+							&& cutLoss - Global.getCurrentPoint() < XMLWatcher.stairs.get(currentStairIndex).tolerance)
 					{
 						Global.addLog("RR= " + rr);
 						break;
@@ -479,8 +230,6 @@ public class RuleSkyStair extends Rules
 					if (rr < 0.3)
 					{
 						Global.addLog("RR= " + rr);
-//						XMLWatcher.stairs.get(currentStairIndex).selling = false;
-//						shutdownStair(currentStairIndex);
 						return;
 					}
 
@@ -490,16 +239,6 @@ public class RuleSkyStair extends Rules
 
 				trailingUp(2);
 
-//				if (refHigh > XMLWatcher.stairs.get(currentStairIndex).value + 50)
-//				{
-//					Global.addLog("RefHigh out of range");
-//					XMLWatcher.stairs.get(currentStairIndex).selling = false;
-//					shutdownStair(currentStairIndex);
-//					return;
-//				}
-
-			
-				
 				shortContract();
 				Global.updateCSV();
 				Global.addLog("Ref High: " + refHigh);
@@ -518,40 +257,11 @@ public class RuleSkyStair extends Rules
 		}
 	}
 
-	@Override
-	boolean shutdownShort(int currentStairIndex)
-	{
-		
-		if(super.shutdownShort(currentStairIndex))
-			return true;
-		
-		if (GetData.tinyHL.isRising())
-		{
-			Global.addLog("Is Rising");
-			XMLWatcher.stairs.get(currentStairIndex).selling = false;
-			shutdownStair(currentStairIndex);
-			shutdown = true;
-		}
-		
-		return shutdown;
-	}
+	
 
-	@Override
-	boolean shutdownLong(int currentStairIndex)
-	{
-		if(super.shutdownShort(currentStairIndex))
-			return true;
-		
-		if (GetData.tinyHL.isDropping())
-		{
-			Global.addLog("Is Dropping");
-			XMLWatcher.stairs.get(currentStairIndex).buying = false;
-			shutdownStair(currentStairIndex);
-			shutdown = true;
-		}
-		
-		return shutdown;
-	}
+	
+
+	
 
 	// use 1min instead of 5min
 	double getCutLossPt()

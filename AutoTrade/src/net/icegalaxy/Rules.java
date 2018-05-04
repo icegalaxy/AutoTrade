@@ -1,12 +1,15 @@
 package net.icegalaxy;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 
 public abstract class Rules implements Runnable
 {
 
+	static ArrayList<Integer> shutdownIndex;
+	static int reActivatePeriod = 10000;
 	protected boolean hasContract;
 	protected double tempCutLoss;
 	protected double tempStopEarn;
@@ -1125,5 +1128,128 @@ public abstract class Rules implements Runnable
 			return true;
 		else
 			return false;
+	}
+	
+	synchronized boolean shutdownShort(int currentStairIndex)
+	{
+		
+		boolean shutdown = false;
+		
+		updateHighLow();
+		
+		if (!XMLWatcher.stairs.get(currentStairIndex).selling)
+		{
+			Global.addLog("Stair not selling");
+			shutdown = true;
+		}else
+		if (Global.getCurrentPoint() < getShortStopEarn(XMLWatcher.stairs.get(currentStairIndex).value) + 20)
+		{
+			Global.addLog("Reached Stop Earn");
+			XMLWatcher.stairs.get(currentStairIndex).selling = false;
+			shutdownStair(currentStairIndex);
+			shutdown = true;
+		}else if (refHigh > XMLWatcher.stairs.get(currentStairIndex).value + XMLWatcher.stairs.get(currentStairIndex).tolerance)
+		{
+			Global.addLog("RefHigh out of range");
+			XMLWatcher.stairs.get(currentStairIndex).selling = false;
+			shutdownStair(currentStairIndex);
+			shutdown = true;
+		}
+		
+		return shutdown;
+	}
+
+	synchronized boolean shutdownLong(int currentStairIndex)
+	{
+		boolean shutdown = false;
+		
+		updateHighLow();
+		
+		if (!XMLWatcher.stairs.get(currentStairIndex).buying)
+		{
+			Global.addLog("Stair not buying");
+			shutdown = true;
+		}else
+		if (Global.getCurrentPoint() > getLongStopEarn(XMLWatcher.stairs.get(currentStairIndex).value) - 20)
+		{
+			Global.addLog("Reached Stop Earn");
+			XMLWatcher.stairs.get(currentStairIndex).buying = false;
+			shutdownStair(currentStairIndex);
+			shutdown = true;
+		}else if (refLow < XMLWatcher.stairs.get(currentStairIndex).value - XMLWatcher.stairs.get(currentStairIndex).tolerance)
+		{
+			Global.addLog("RefLow out of range");
+			XMLWatcher.stairs.get(currentStairIndex).buying = false;
+			shutdownStair(currentStairIndex);
+			shutdown = true;
+		}
+		
+		return shutdown;
+	}
+	
+	public static void shutdownStair(int i)
+	{
+		XMLWatcher.stairs.get(i).reActivateTime = GetData.getTimeInt() + reActivatePeriod * XMLWatcher.stairs.get(i).timesOfShutdown;
+		XMLWatcher.stairs.get(i).timesOfShutdown++;
+		shutdownIndex.add(i);
+		Global.updateCSV();
+	}
+	
+	double getLongStopEarn(double value)
+	{
+
+		double stopEarn = 99999;
+		List<Stair> stairs = XMLWatcher.stairs;
+
+		for (int j = 0; j < stairs.size(); j++)
+		{
+			Stair stair = stairs.get(j);
+//			if (!stair.buying || stair.shutdown)
+//				continue;
+			
+			if (stair.value < stopEarn && stair.value - value > 10
+					&& stair.value > GetData.getShortTB().getEma5().getEMA())
+				stopEarn = stair.value;
+
+		}
+
+//		if (TimePeriodDecider.nightOpened)
+//			return value + 50;
+
+		if (stopEarn == 99999) // for the Max or Min of stair
+			return value + 100;
+
+//		return Math.max(stopEarn, value + 50);
+		return stopEarn;
+	}
+
+	double getShortStopEarn(double value)
+	{
+
+		double stopEarn = 0;
+		List<Stair> stairs = XMLWatcher.stairs;
+
+		for (int j = 0; j < stairs.size(); j++)
+		{
+			Stair stair = stairs.get(j);
+			
+//			if (!stair.selling || stair.shutdown)
+//				continue;
+			
+			if (stair.value > stopEarn && value - stair.value > 10
+					&& stair.value < GetData.getShortTB().getEma5().getEMA())
+
+				stopEarn = stair.value;
+
+		}
+
+//		if (TimePeriodDecider.nightOpened)
+//			return value - 50;
+
+		if (stopEarn == 0) // for the Max or Min of stair
+			return value - 100;
+
+//		return Math.min(stopEarn, value - 50);
+		return stopEarn;
 	}
 }

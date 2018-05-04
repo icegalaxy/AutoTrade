@@ -13,10 +13,10 @@ public class RuleSkyStairNano extends Rules
 	// Stair currentStair;
 	int currentStairIndex;
 //	Stair currentStair;
-	static ArrayList<Integer> shutdownIndex;
+
 	double cutLoss;
 	double refHL;
-	static int reActivatePeriod = 3000;
+
 	private static int reActivateTime = 0;
 	int EMATimer;
 	double profitRange;
@@ -400,42 +400,17 @@ public class RuleSkyStairNano extends Rules
 		}
 	}
 
-	private boolean shutdownShort(int currentStairIndex)
+	@Override
+	boolean shutdownShort(int currentStairIndex)
 	{
 		
-		boolean shutdown = false;
+		if(super.shutdownShort(currentStairIndex))
+			return true;
 		
-		updateHighLow();
-		
-//		double profitRange = XMLWatcher.stairs.get(currentStairIndex).value - getShortStopEarn(XMLWatcher.stairs.get(currentStairIndex).value);
-		
-//		if (profitRange < 50 && profitRange > 10)
-//		{
-//			Global.addLog("Profit too small");
-//			XMLWatcher.stairs.get(currentStairIndex).selling = false;
-//			shutdownStair(currentStairIndex);
-//			shutdown = true;
-//		}else 
 		if (GetData.nanoHL.isRising())
 		{
-			Global.addLog("Nano is Rising");
-//			XMLWatcher.stairs.get(currentStairIndex).selling = false;
-			shutdownStair(currentStairIndex);
-			shutdown = true;
-		}else if (Global.getCurrentPoint() < getShortStopEarn(XMLWatcher.stairs.get(currentStairIndex).value) + 20)
-		{
-			Global.addLog("Reached Stop Earn");
-//			XMLWatcher.stairs.get(currentStairIndex).selling = false;
-			shutdownStair(currentStairIndex);
-			shutdown = true;
-		}else if (refHigh > XMLWatcher.stairs.get(currentStairIndex).value + XMLWatcher.stairs.get(currentStairIndex).tolerance / 2)
-		{
-			Global.addLog("RefHigh out of range");
-//			XMLWatcher.stairs.get(currentStairIndex).selling = false;
-			shutdownStair(currentStairIndex);
-			shutdown = true;
-		}else if (GetData.tinyHL.findingHigh){ //do not want 2 rules to buy at same time
-			Global.addLog("tinyHL findingHigh");
+			Global.addLog("nanoHL Is Rising");
+			XMLWatcher.stairs.get(currentStairIndex).selling = false;
 			shutdownStair(currentStairIndex);
 			shutdown = true;
 		}
@@ -443,55 +418,21 @@ public class RuleSkyStairNano extends Rules
 		return shutdown;
 	}
 
-	private boolean shutdownLong(int currentStairIndex)
+	@Override
+	boolean shutdownLong(int currentStairIndex)
 	{
-		boolean shutdown = false;
+		if(super.shutdownShort(currentStairIndex))
+			return true;
 		
-		updateHighLow();
-		
-//		double profitRange = getLongStopEarn(XMLWatcher.stairs.get(currentStairIndex).value) - XMLWatcher.stairs.get(currentStairIndex).value;
-		
-//		if (profitRange < 50 && profitRange > 10)
-//		{
-//			Global.addLog("Profit too small");
-//			XMLWatcher.stairs.get(currentStairIndex).buying = false;
-//			shutdownStair(currentStairIndex);
-//			shutdown = true;
-//		}else 
 		if (GetData.nanoHL.isDropping())
 		{
-			Global.addLog("Nano is Dropping");
-//			XMLWatcher.stairs.get(currentStairIndex).buying = false;
-			shutdownStair(currentStairIndex);
-			shutdown = true;
-		}else if (Global.getCurrentPoint() > getLongStopEarn(XMLWatcher.stairs.get(currentStairIndex).value) - 20)
-		{
-			Global.addLog("Reached Stop Earn");
-//			XMLWatcher.stairs.get(currentStairIndex).buying = false;
-			shutdownStair(currentStairIndex);
-			shutdown = true;
-		}else if (refLow < XMLWatcher.stairs.get(currentStairIndex).value - XMLWatcher.stairs.get(currentStairIndex).tolerance / 2)
-		{
-			Global.addLog("RefLow out of range");
-//			XMLWatcher.stairs.get(currentStairIndex).buying = false;
-			shutdownStair(currentStairIndex);
-			shutdown = true;
-		}else if (GetData.tinyHL.findingLow){
-			Global.addLog("tinyHL findingLow");
+			Global.addLog("NanoHL Is Dropping");
+			XMLWatcher.stairs.get(currentStairIndex).buying = false;
 			shutdownStair(currentStairIndex);
 			shutdown = true;
 		}
 		
 		return shutdown;
-	}
-
-	public static void shutdownStair(int i)
-	{
-//		XMLWatcher.stairs.get(i).reActivateTime = GetData.getTimeInt() + reActivatePeriod * XMLWatcher.stairs.get(i).timesOfShutdown;
-//		XMLWatcher.stairs.get(i).timesOfShutdown++;
-//		shutdownIndex.add(i);
-//		Global.updateCSV();
-		reActivateTime = GetData.getTimeInt() + reActivatePeriod;
 	}
 
 	// use 1min instead of 5min
@@ -735,12 +676,14 @@ public class RuleSkyStairNano extends Rules
 
 	}
 
+	@Override
 	double getLongStopEarn(double value)
 	{
 		return GetData.nanoHL.getLatestHigh();
 		
 	}
 
+	@Override
 	double getShortStopEarn(double value)
 	{
 
