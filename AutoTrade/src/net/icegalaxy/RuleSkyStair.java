@@ -75,8 +75,8 @@ public class RuleSkyStair extends Rules
 			// Long
 			if (
 					GetData.getLongTB().getEma5().getEMA() > XMLWatcher.stairs.get(currentStairIndex).value && 
-					Global.getCurrentPoint() < XMLWatcher.stairs.get(currentStairIndex).value + XMLWatcher.stairs.get(currentStairIndex).tolerance / 2
-					&& Global.getCurrentPoint() > XMLWatcher.stairs.get(currentStairIndex).value)
+					GetData.minuteLow < XMLWatcher.stairs.get(currentStairIndex).value + XMLWatcher.stairs.get(currentStairIndex).tolerance / 2
+					&& GetData.minuteLow > XMLWatcher.stairs.get(currentStairIndex).value)
 			{
 				
 				
@@ -302,8 +302,8 @@ public class RuleSkyStair extends Rules
 
 			} else if (
 					GetData.getLongTB().getEma5().getEMA() < XMLWatcher.stairs.get(currentStairIndex).value && 
-					Global.getCurrentPoint() > XMLWatcher.stairs.get(currentStairIndex).value - XMLWatcher.stairs.get(currentStairIndex).tolerance / 2
-					&& Global.getCurrentPoint() < XMLWatcher.stairs.get(currentStairIndex).value)
+					GetData.minuteHigh > XMLWatcher.stairs.get(currentStairIndex).value - XMLWatcher.stairs.get(currentStairIndex).tolerance / 2
+					&& GetData.minuteHigh < XMLWatcher.stairs.get(currentStairIndex).value)
 			{
 
 				if (!XMLWatcher.stairs.get(currentStairIndex).selling || XMLWatcher.stairs.get(currentStairIndex).shutdown)
