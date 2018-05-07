@@ -28,13 +28,13 @@ public class RulePriceAction extends Rules
 	{
 		
 		//Re-activated
-		if (!Global.isTradeTime() && shutdown)
+		if (!Global.isTradeTime() && shutdownRule)
 		{
 			Global.addLog("Re-activate PriceAction");
-			shutdown = false;
+			shutdownRule = false;
 		}
 
-		if (!isOrderTime() || Global.getNoOfContracts() != 0 || shutdown)
+		if (!isOrderTime() || Global.getNoOfContracts() != 0 || shutdownRule)
 			return;
 
 		if (GetData.nanoHL.isRising() 

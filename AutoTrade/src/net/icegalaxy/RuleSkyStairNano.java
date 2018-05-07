@@ -38,10 +38,10 @@ public class RuleSkyStairNano extends Rules
 	{
 		
 		//Re-activated
-		if (!Global.isTradeTime() && shutdown)
+		if (!Global.isTradeTime() && shutdownRule)
 		{
 			Global.addLog("Re-activate SSNano");
-			shutdown = false;
+			shutdownRule = false;
 		}
 		
 //		boolean volumeRising = false;
@@ -53,7 +53,7 @@ public class RuleSkyStairNano extends Rules
 		
 		
 
-		if (!Global.isTradeTime() || Global.getNoOfContracts() != 0 || shutdown)
+		if (!Global.isTradeTime() || Global.getNoOfContracts() != 0 || shutdownRule)
 			return;
 
 		// RE-activate after 1hr
@@ -413,7 +413,7 @@ public class RuleSkyStairNano extends Rules
 			Global.addLog("nanoHL Is Rising");
 			XMLWatcher.stairs.get(currentStairIndex).selling = false;
 			shutdownStair(currentStairIndex);
-			shutdown = true;
+			return true;
 		}else
 		
 		if (GetData.tinyHL.findingHigh)
@@ -422,10 +422,10 @@ public class RuleSkyStairNano extends Rules
 			int currentTime = GetData.getTimeInt();
 			while (GetData.getTimeInt() < currentTime + 3000)
 				sleep(waitingTime);
-			shutdown = true; //not shutting down the stair
+			return true; //not shutting down the stair
 		}
 		
-		return shutdown;
+		return false;
 	}
 
 	@Override
@@ -439,7 +439,7 @@ public class RuleSkyStairNano extends Rules
 			Global.addLog("NanoHL Is Dropping");
 			XMLWatcher.stairs.get(currentStairIndex).buying = false;
 			shutdownStair(currentStairIndex);
-			shutdown = true;
+			return true;
 		}else
 		
 		if (GetData.tinyHL.findingLow)
@@ -448,10 +448,10 @@ public class RuleSkyStairNano extends Rules
 			int currentTime = GetData.getTimeInt();
 			while (GetData.getTimeInt() < currentTime + 3000)
 				sleep(waitingTime);
-			shutdown = true; //not shutting down the stair
+			return true; //not shutting down the stair
 		}
 		
-		return shutdown;
+		return false;
 	}
 
 	// use 1min instead of 5min
@@ -873,7 +873,7 @@ public class RuleSkyStairNano extends Rules
 
 		super.cutLoss();
 		
-		if(shutdown)
+		if(shutdownRule)
 		{
 			XMLWatcher.stairs.get(currentStairIndex).shutdown = true;
 			Global.updateCSV();

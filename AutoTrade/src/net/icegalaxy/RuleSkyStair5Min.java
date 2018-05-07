@@ -670,7 +670,7 @@ public class RuleSkyStair5Min extends Rules
 
 		super.cutLoss();
 		
-		if(shutdown)
+		if(shutdownRule)
 		{
 			XMLWatcher.stairs.get(currentStairIndex).shutdown = true;
 			Global.updateCSV();

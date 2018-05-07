@@ -38,10 +38,10 @@ public class RuleDanny250Pena3 extends Rules
 		
 		
 
-		if (shutdown)
+		if (shutdownRule)
 		{
 			lossTimes++;
-			shutdown = false;
+			shutdownRule = false;
 			Global.addLog("LossTimes: " + lossTimes);
 		}
 
@@ -217,11 +217,11 @@ public class RuleDanny250Pena3 extends Rules
 		if (Global.getNoOfContracts() > 0 && GetData.getShortTB().getLatestCandle().getClose() < tempCutLoss)
 		{
 			closeContract(className + ": CutLoss, short @ " + Global.getCurrentBid());
-			shutdown = true;
+			shutdownRule = true;
 		} else if (Global.getNoOfContracts() < 0 && GetData.getShortTB().getLatestCandle().getClose() > tempCutLoss)
 		{
 			closeContract(className + ": CutLoss, long @ " + Global.getCurrentAsk());
-			shutdown = true;
+			shutdownRule = true;
 		}
 		
 		if (Global.getCurrentPoint() > chasing.getRefHigh())

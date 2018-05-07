@@ -24,11 +24,11 @@ public class RuleM5EMA extends Rules
 		if (!isOrderTime() || Global.getNoOfContracts() != 0)
 			return;
 		
-		if (shutdown || trendReversed)
+		if (shutdownRule || trendReversed)
 		{
 			shutDownSAR();
 			trendReversed = false;
-			shutdown = false;
+			shutdownRule = false;
 			
 			sleep(60000);
 		}
@@ -290,14 +290,14 @@ public class RuleM5EMA extends Rules
 			{
 				
 				if (refLow < cutLoss - 20){
-					shutdown = true;
+					shutdownRule = true;
 					return Math.min(20, refHigh - buyingPoint - 5);
 				}
 				
 				if (refLow < cutLoss - 10)
 				{
 //					Global.addLog("Line unclear, trying to take little profit");
-					shutdown = true;
+					shutdownRule = true;
 					return 30;
 				} 
 					
@@ -307,14 +307,14 @@ public class RuleM5EMA extends Rules
 			{
 				
 				if (refHigh > cutLoss + 20){
-					shutdown = true;
+					shutdownRule = true;
 					return Math.min(20, buyingPoint - refLow - 5);
 				}
 				
 				if (refHigh > cutLoss + 10)
 				{
 //					Global.addLog("Line unclear, trying to take little profit");
-					shutdown = true;
+					shutdownRule = true;
 					return 30;
 				}
 				

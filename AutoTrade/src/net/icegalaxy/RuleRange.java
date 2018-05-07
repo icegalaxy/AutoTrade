@@ -22,14 +22,14 @@ public class RuleRange extends Rules
 		if (!isOrderTime() || Global.getNoOfContracts() != 0)
 			return;
 		
-		if (shutdown)
+		if (shutdownRule)
 		{
 			XMLWatcher.updateIntraDayXML("rangeResist", "0");
 			XMLWatcher.updateIntraDayXML("rangeSupport", "0");
 			Global.addLog("Shut down ruleRange");
 			rangeResist = 0;
 			rangeSupport = 0;
-			shutdown = false;
+			shutdownRule = false;
 			
 			sleep(60000);
 		}
@@ -56,7 +56,7 @@ public class RuleRange extends Rules
 				if (Global.getCurrentPoint() < rangeSupport - 5)
 				{
 					Global.addLog("Current point out of range");
-					shutdown = true;
+					shutdownRule = true;
 					return;
 				}
 
@@ -78,7 +78,7 @@ public class RuleRange extends Rules
 				if (Global.getCurrentPoint() < rangeSupport - 5)
 				{
 					Global.addLog("Current point out of range");
-					shutdown = true;
+					shutdownRule = true;
 					return;
 				}
 				
@@ -106,7 +106,7 @@ public class RuleRange extends Rules
 				if (Global.getCurrentPoint() > rangeResist + 5)
 				{
 					Global.addLog("Current point out of range");
-					shutdown = true;
+					shutdownRule = true;
 					return;
 				}
 
@@ -127,7 +127,7 @@ public class RuleRange extends Rules
 				if (Global.getCurrentPoint() > rangeResist + 5)
 				{
 					Global.addLog("Current point out of range");
-					shutdown = true;
+					shutdownRule = true;
 					return;
 				}
 				

@@ -530,10 +530,10 @@ public class RuleSkyStair extends Rules
 			Global.addLog("Is Rising");
 			XMLWatcher.stairs.get(currentStairIndex).selling = false;
 			shutdownStair(currentStairIndex);
-			shutdown = true;
+			return true;
 		}
 		
-		return shutdown;
+		return false;
 	}
 
 	@Override
@@ -547,10 +547,10 @@ public class RuleSkyStair extends Rules
 			Global.addLog("Is Dropping");
 			XMLWatcher.stairs.get(currentStairIndex).buying = false;
 			shutdownStair(currentStairIndex);
-			shutdown = true;
+			return true;
 		}
 		
-		return shutdown;
+		return false;
 	}
 
 	// use 1min instead of 5min
@@ -960,7 +960,7 @@ public class RuleSkyStair extends Rules
 
 		super.cutLoss();
 		
-		if(shutdown)
+		if(shutdownRule)
 		{
 			XMLWatcher.stairs.get(currentStairIndex).shutdown = true;
 			Global.updateCSV();

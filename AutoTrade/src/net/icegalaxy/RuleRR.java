@@ -30,14 +30,14 @@ public class RuleRR extends Rules
 			return;
 
 		// if cutLoss, shutdown the ohlc
-		if (shutdown)
+		if (shutdownRule)
 		{
 			for (int i = 0; i < XMLWatcher.ohlcs.length; i++)
 			{
 				if (currentOHLC.name.equals(XMLWatcher.ohlcs[i].name))
 					XMLWatcher.ohlcs[i].shutdown = true;
 			}
-			shutdown = false;
+			shutdownRule = false;
 		}
 
 		// stair should not be reseted in this area or it wont function
@@ -439,7 +439,7 @@ public class RuleRR extends Rules
 			if (Global.getCurrentPoint() < buyingPoint + 5)
 			{
 				closeContract(className + ": Break even, short @ " + Global.getCurrentBid());
-				shutdown = true;
+				shutdownRule = true;
 			} else if (Global.getCurrentPoint() < tempCutLoss)
 				closeContract(className + ": StopEarn, short @ " + Global.getCurrentBid());
 
@@ -449,7 +449,7 @@ public class RuleRR extends Rules
 			if (Global.getCurrentPoint() > buyingPoint - 5)
 			{
 				closeContract(className + ": Break even, long @ " + Global.getCurrentAsk());
-				shutdown = true;
+				shutdownRule = true;
 			} else if (Global.getCurrentPoint() > tempCutLoss)
 				closeContract(className + ": StopEarn, long @ " + Global.getCurrentAsk());
 
@@ -509,14 +509,14 @@ public class RuleRR extends Rules
 
 			if (refLow < currentOHLC.cutLoss - 20)
 			{
-				shutdown = true;
+				shutdownRule = true;
 				return Math.min(20, refHigh - buyingPoint - 5);
 			}
 
 			if (refLow < currentOHLC.cutLoss - 10)
 			{
 				// Global.addLog("Line unclear, trying to take little profit");
-				shutdown = true;
+				shutdownRule = true;
 				return 30;
 			}
 
@@ -535,14 +535,14 @@ public class RuleRR extends Rules
 
 			if (refHigh > currentOHLC.cutLoss + 20)
 			{
-				shutdown = true;
+				shutdownRule = true;
 				return Math.min(20, buyingPoint - refLow - 5);
 			}
 
 			if (refHigh > currentOHLC.cutLoss + 10)
 			{
 				// Global.addLog("Line unclear, trying to take little profit");
-				shutdown = true;
+				shutdownRule = true;
 				return 30;
 			}
 

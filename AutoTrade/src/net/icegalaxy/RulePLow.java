@@ -30,7 +30,7 @@ public class RulePLow extends Rules {
 //			chasing = new Chasing();
 //		}
 		
-		if (!isOrderTime() || Global.getNoOfContracts() != 0 || Global.getpLow() == 0 || shutdown
+		if (!isOrderTime() || Global.getNoOfContracts() != 0 || Global.getpLow() == 0 || shutdownRule
 				|| Math.abs(GetData.getEma250().getEMA() - GetData.getEma1200().getEMA()) > 100
 				|| Global.balance < -30)
 			return;
@@ -201,11 +201,11 @@ public class RulePLow extends Rules {
 		if (Global.getNoOfContracts() > 0 && Global.getCurrentPoint() < tempCutLoss)
 		{
 			closeContract(className + ": CutLoss, short @ " + Global.getCurrentBid());
-			shutdown = true;
+			shutdownRule = true;
 		} else if (Global.getNoOfContracts() < 0 && Global.getCurrentPoint() > tempCutLoss)
 		{
 			closeContract(className + ": CutLoss, long @ " + Global.getCurrentAsk());
-			shutdown = true;
+			shutdownRule = true;
 
 		}
 		

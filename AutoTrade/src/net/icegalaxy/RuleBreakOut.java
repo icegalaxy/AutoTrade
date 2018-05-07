@@ -24,14 +24,14 @@ public class RuleBreakOut extends Rules
 		
 		
 		// if cutLoss, shutdown the ohlc
-		if (shutdown)
+		if (shutdownRule)
 		{
 			for (int i=0; i<XMLWatcher.ohlcs.length; i++)	
 			{
 				if (currentOHLC.name.equals(XMLWatcher.ohlcs[i].name))
 					XMLWatcher.ohlcs[i].shutdown = true;				
 			}
-			shutdown = false;
+			shutdownRule = false;
 		}
 			
 		// stair should not be reseted in this area or it wont function

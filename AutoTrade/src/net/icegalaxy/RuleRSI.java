@@ -28,14 +28,14 @@ public class RuleRSI extends Rules {
 
 	  
 	        if (!Global.isOrderTime()
-	        		|| shutdown
+	        		|| shutdownRule
 //	        		|| lossTimes >= 2
 //	                || noOfCutLoss >= 3
 	        // || Global.getDayHigh() - Global.getDayLow() > 100
 	                )
 	            return;
 
-	        if (shutdown){
+	        if (shutdownRule){
 
 //	            while (getTimeBase().getRSI() < lowerRSI || getTimeBase().getRSI() > upperRSI)
 //	                sleep(1000);

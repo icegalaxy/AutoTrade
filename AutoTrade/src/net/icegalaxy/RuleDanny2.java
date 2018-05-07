@@ -31,10 +31,10 @@ public class RuleDanny2 extends Rules
 		
 
 
-		if (shutdown)
+		if (shutdownRule)
 		{
 			lossTimes++;
-			shutdown = false;
+			shutdownRule = false;
 		}
 
 		if (!isOrderTime() || Global.getNoOfContracts() != 0 || lossTimes >= 10)
@@ -285,11 +285,11 @@ public class RuleDanny2 extends Rules
 		if (Global.getNoOfContracts() > 0 && Global.getCurrentPoint() < tempCutLoss)
 		{
 			closeContract(className + ": CutLoss, short @ " + Global.getCurrentBid());
-			shutdown = true;
+			shutdownRule = true;
 		} else if (Global.getNoOfContracts() < 0 && Global.getCurrentPoint() > tempCutLoss)
 		{
 			closeContract(className + ": CutLoss, long @ " + Global.getCurrentAsk());
-			shutdown = true;
+			shutdownRule = true;
 		}
 		
 		if (Global.getCurrentPoint() > chasing.getRefHigh())

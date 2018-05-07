@@ -15,9 +15,9 @@ public class RuleDanny240 extends Rules {
 
 	public void openContract() {
 
-		if (shutdown) {
+		if (shutdownRule) {
 			lossTimes++;
-			shutdown = false;
+			shutdownRule = false;
 		}
 		
 		if (!isOrderTime() || Global.getNoOfContracts() != 0
@@ -152,7 +152,7 @@ public class RuleDanny240 extends Rules {
 			//
 
 			closeContract(className + ": CutLoss, short @ " + Global.getCurrentBid());
-			shutdown = true;
+			shutdownRule = true;
 
 			// wait for it to clam down
 
@@ -174,7 +174,7 @@ public class RuleDanny240 extends Rules {
 			// }
 
 			closeContract(className + ": CutLoss, long @ " + Global.getCurrentAsk());
-			shutdown = true;
+			shutdownRule = true;
 
 			// if (Global.getCurrentPoint() > getTimeBase().getEMA(6)){
 			// Global.addLog(className + ": waiting for it to calm down");

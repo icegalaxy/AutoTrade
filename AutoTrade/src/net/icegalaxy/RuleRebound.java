@@ -24,7 +24,7 @@ public class RuleRebound extends Rules {
 		refLow = 99999;
 		trendReversed = false;
 		
-		if (!isOrderTime() || Global.getNoOfContracts() != 0 || shutdown || Global.balance < -30)
+		if (!isOrderTime() || Global.getNoOfContracts() != 0 || shutdownRule || Global.balance < -30)
 			return;
 		
 		if (ohlcs == null){
@@ -257,12 +257,12 @@ public class RuleRebound extends Rules {
 		if (Global.getNoOfContracts() > 0 && Global.getCurrentPoint() < tempCutLoss)
 		{
 			closeContract(className + ": CutLoss, short @ " + Global.getCurrentBid());
-			shutdown = true;
+			shutdownRule = true;
 			currentOHLC.shutdown = true;
 		} else if (Global.getNoOfContracts() < 0 && Global.getCurrentPoint() > tempCutLoss)
 		{
 			closeContract(className + ": CutLoss, long @ " + Global.getCurrentAsk());
-			shutdown = true;
+			shutdownRule = true;
 			currentOHLC.shutdown = true;
 		}
 

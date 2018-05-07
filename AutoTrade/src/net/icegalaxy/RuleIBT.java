@@ -25,7 +25,7 @@ public class RuleIBT extends Rules
 
 		if (!isOrderTime() 
 				|| Global.getNoOfContracts() != 0 
-				|| shutdown 
+				|| shutdownRule 
 				|| TimePeriodDecider.getTime() > 91800
 				|| Global.getOpen() == 0 
 				|| traded
@@ -66,7 +66,7 @@ public class RuleIBT extends Rules
 			if (Global.getCurrentPoint() < Global.getOpen() - 10)
 			{
 				Global.addLog("Current point out of range");
-				shutdown = true;
+				shutdownRule = true;
 				return;
 			}
 			
@@ -114,7 +114,7 @@ public class RuleIBT extends Rules
 			if (Global.getCurrentPoint() > Global.getOpen() + 10)
 			{
 				Global.addLog("Current point out of range");
-				shutdown = true;
+				shutdownRule = true;
 				return;
 			}
 

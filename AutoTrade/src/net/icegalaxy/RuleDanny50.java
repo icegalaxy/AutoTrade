@@ -31,10 +31,10 @@ public class RuleDanny50 extends Rules {
 //			chasing = new Chasing();
 //		}
 
-		if (shutdown)
+		if (shutdownRule)
 		{
 			lossTimes++;
-			shutdown = false;
+			shutdownRule = false;
 		}
 
 		if (!isOrderTime() || Global.getNoOfContracts() != 0 || lossTimes >= getLossTimesAllowed())
@@ -84,7 +84,7 @@ public class RuleDanny50 extends Rules {
 				if (Global.getCurrentPoint() < getRefPt() - 30)
 				{
 					Global.addLog("Penatraded");
-					shutdown = true;
+					shutdownRule = true;
 					return;
 				}
 				
@@ -149,7 +149,7 @@ public class RuleDanny50 extends Rules {
 				if (Global.getCurrentPoint() > getRefPt() + 30)
 				{
 					Global.addLog("Penatraded");
-					shutdown = true;
+					shutdownRule = true;
 					return;
 				}
 				
@@ -250,11 +250,11 @@ public class RuleDanny50 extends Rules {
 		if (Global.getNoOfContracts() > 0 && GetData.getShortTB().getLatestCandle().getClose() < tempCutLoss)
 		{
 			closeContract(className + ": CutLoss, short @ " + Global.getCurrentBid());
-			shutdown = true;
+			shutdownRule = true;
 		} else if (Global.getNoOfContracts() < 0 && GetData.getShortTB().getLatestCandle().getClose() > tempCutLoss)
 		{
 			closeContract(className + ": CutLoss, long @ " + Global.getCurrentAsk());
-			shutdown = true;
+			shutdownRule = true;
 		}
 		
 		if (Global.getCurrentPoint() > chasing.getRefHigh())

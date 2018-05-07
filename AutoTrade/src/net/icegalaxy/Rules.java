@@ -37,7 +37,7 @@ public abstract class Rules implements Runnable
 	boolean usingMA20;
 	boolean usingMA10;
 	boolean usingMA5;
-	boolean shutdown;
+	boolean shutdownRule;
 
 	private static float balance; // holding contracts �� balance
 
@@ -456,7 +456,7 @@ public abstract class Rules implements Runnable
 			}
 			
 			closeContract(className + ": CutLoss, short @ " + Global.getCurrentBid());
-			shutdown = true;
+			shutdownRule = true;
 		} else if (Global.getNoOfContracts() < 0 && refPt > tempCutLoss)
 		{
 			
@@ -467,7 +467,7 @@ public abstract class Rules implements Runnable
 			}
 			
 			closeContract(className + ": CutLoss, long @ " + Global.getCurrentAsk());
-			shutdown = true;
+			shutdownRule = true;
 		}
 	}
 
@@ -631,7 +631,7 @@ public abstract class Rules implements Runnable
 		
 		if (getProfit() < 0)
 		{
-			shutdown = true;
+			shutdownRule = true;
 		}
 		closeContract(className + ": Trend Reversed");
 	}

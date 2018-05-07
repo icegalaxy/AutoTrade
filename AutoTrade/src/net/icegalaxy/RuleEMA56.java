@@ -14,10 +14,10 @@ public class RuleEMA56 extends Rules {
 	}
 	public void openContract() {
 
-		if (shutdown) {
+		if (shutdownRule) {
 			lossTimes++;
 //			firstCorner = true;
-			shutdown = false;
+			shutdownRule = false;
 		}
 		
 		while (lossTimes > 0 && TimePeriodDecider.getTime() < 100000)
@@ -280,12 +280,12 @@ public class RuleEMA56 extends Rules {
 		if (Global.getNoOfContracts() > 0 && Global.getCurrentPoint() < tempCutLoss) {
 		
 			closeContract(className + ": CutLoss, short @ " + Global.getCurrentBid());
-			shutdown = true;
+			shutdownRule = true;
 
 		} else if (Global.getNoOfContracts() < 0 && Global.getCurrentPoint() > tempCutLoss) {
 			
 			closeContract(className + ": CutLoss, long @ " + Global.getCurrentAsk());
-			shutdown = true;
+			shutdownRule = true;
 
 		}
 	}

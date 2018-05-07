@@ -26,11 +26,11 @@ public class RuleSAR extends Rules
 		if (!isOrderTime() || Global.getNoOfContracts() != 0)
 			return;
 		
-		if (shutdown || trendReversed)
+		if (shutdownRule || trendReversed)
 		{
 			shutDownSAR();
 			trendReversed = false;
-			shutdown = false;
+			shutdownRule = false;
 			
 			sleep(60000);
 		}
@@ -278,14 +278,14 @@ public class RuleSAR extends Rules
 			{
 				
 				if (refLow < cutLoss - 20){
-					shutdown = true;
+					shutdownRule = true;
 					return Math.min(20, refHigh - buyingPoint - 5);
 				}
 				
 				if (refLow < cutLoss - 10)
 				{
 //					Global.addLog("Line unclear, trying to take little profit");
-					shutdown = true;
+					shutdownRule = true;
 					return 30;
 				} 
 					
@@ -295,14 +295,14 @@ public class RuleSAR extends Rules
 			{
 				
 				if (refHigh > cutLoss + 20){
-					shutdown = true;
+					shutdownRule = true;
 					return Math.min(20, buyingPoint - refLow - 5);
 				}
 				
 				if (refHigh > cutLoss + 10)
 				{
 //					Global.addLog("Line unclear, trying to take little profit");
-					shutdown = true;
+					shutdownRule = true;
 					return 30;
 				}
 				
@@ -320,7 +320,7 @@ public class RuleSAR extends Rules
 			if (Global.getCurrentPoint() < buyingPoint + 5)
 			{
 				closeContract(className + ": Break even, short @ " + Global.getCurrentBid());
-				shutdown = true;
+				shutdownRule = true;
 			}
 			else if (Global.getCurrentPoint() < tempCutLoss)
 				closeContract(className + ": StopEarn, short @ " + Global.getCurrentBid());
@@ -332,7 +332,7 @@ public class RuleSAR extends Rules
 			if (Global.getCurrentPoint() > buyingPoint - 5)
 			{
 				closeContract(className + ": Break even, long @ " + Global.getCurrentAsk());
-				shutdown = true;
+				shutdownRule = true;
 			}
 			else if (Global.getCurrentPoint() > tempCutLoss)
 				closeContract(className + ": StopEarn, long @ " + Global.getCurrentAsk());
