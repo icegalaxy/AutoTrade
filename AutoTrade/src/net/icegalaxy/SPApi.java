@@ -467,6 +467,11 @@ public class SPApi
 				Global.setTurnOverVol(price.TurnoverVol);
 				Global.setDayHigh(price.High);
 				Global.setDayLow(price.Low);
+				
+				if (price.Last[0] < GetData.minuteLow)
+					GetData.minuteLow = price.Last[0];
+				else if(price.Last[0] > GetData.minuteHigh)
+					GetData.minuteHigh = price.Last[0];
 		};
 
 		SPApiDll.INSTANCE.SPAPI_RegisterApiPriceUpdate(priceUpdate);

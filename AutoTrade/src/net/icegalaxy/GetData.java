@@ -9,6 +9,9 @@ public class GetData implements Runnable
 {
 
 	ArrayList<RSIData> rsiDatas;
+	
+	public static double minuteHigh = 0;
+	public static double minuteLow = 99999;
 
 	private static TimeBase shortTB;
 	private static TimeBase m15TB;
@@ -332,6 +335,8 @@ public class GetData implements Runnable
 						Global.addLog("Set open after 91500 at: " + Global.getOpen());
 					}
 
+					
+					
 					// if (Global.getpHigh() == 0)
 					// {
 					// setOHLC();
@@ -344,8 +349,14 @@ public class GetData implements Runnable
 
 					getShortTB().addData(point, new Float(totalQuantity));
 
-					getShortTB().addCandle(getTime(), shortData.periodHigh, shortData.periodLow, shortData.openPt,
+//					getShortTB().addCandle(getTime(), shortData.periodHigh, shortData.periodLow, shortData.openPt,
+//							point, totalQuantity);
+					
+					getShortTB().addCandle(getTime(), minuteHigh, minuteLow, shortData.openPt,
 							point, totalQuantity);
+					
+					minuteHigh = 0;
+					minuteLow = 99999;
 
 					for (int x = 0; x < shortTB.EMAs.length; x++)
 						shortTB.EMAs[x].setlatestEMA(point);
