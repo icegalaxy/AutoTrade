@@ -189,7 +189,7 @@ public class RuleSkyStair5Min extends Rules
 				{
 					
 					if (GetData.getLongTB().getLatestCandle().getClose() < GetData.getLongTB().getLatestCandle().getOpen() - 5
-							&& GetData.getLongTB().getLatestCandle().getClose() > XMLWatcher.stairs.get(currentStairIndex).value)
+							&& GetData.getLongTB().getLatestCandle().getClose() < XMLWatcher.stairs.get(currentStairIndex).value)
 						break;
 					
 					
