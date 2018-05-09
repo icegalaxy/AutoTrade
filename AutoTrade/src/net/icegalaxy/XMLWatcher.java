@@ -149,7 +149,7 @@ public class XMLWatcher implements Runnable
 //		RuleM5EMA m5ema = new RuleM5EMA(true);
 		RuleSkyStair ss = new RuleSkyStair(true);
 		RuleSkyStairNano na = new RuleSkyStairNano(true);
-		RuleSkyStair5Min pa = new RuleSkyStair5Min(true);
+//		RuleSkyStair5Min pa = new RuleSkyStair5Min(true);
 		RuleSkyStair1Min st1 = new RuleSkyStair1Min(true);
 		// RuleBreakOut breakOut = new RuleBreakOut(true);
 //		Thread s = new Thread(sar);
@@ -166,8 +166,8 @@ public class XMLWatcher implements Runnable
 		// b.start();
 		Thread ts = new Thread(ss);
 		ts.start();
-		Thread p = new Thread(pa);
-		p.start();
+//		Thread p = new Thread(pa);
+//		p.start();
 		Thread nano = new Thread(na);
 		nano.start();
 		Thread tSt1 = new Thread(st1);

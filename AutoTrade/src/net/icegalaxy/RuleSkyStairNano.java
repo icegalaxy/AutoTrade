@@ -411,17 +411,14 @@ public class RuleSkyStairNano extends Rules
 		if (GetData.nanoHL.isRising())
 		{
 			Global.addLog("nanoHL Is Rising");
-			XMLWatcher.stairs.get(currentStairIndex).selling = false;
-			shutdownStair(currentStairIndex);
+			waitForAPeriod(3000);
 			return true;
 		}else
 		
 		if (GetData.tinyHL.findingHigh)
 		{
-			Global.addLog("TinyHL Is findingHigh, shut down Nano for 30mins");
-			int currentTime = GetData.getTimeInt();
-			while (GetData.getTimeInt() < currentTime + 3000)
-				sleep(waitingTime);
+			Global.addLog("TinyHL Is findingHigh");
+			waitForAPeriod(3000);
 			return true; //not shutting down the stair
 		}
 		
@@ -437,17 +434,14 @@ public class RuleSkyStairNano extends Rules
 		if (GetData.nanoHL.isDropping())
 		{
 			Global.addLog("NanoHL Is Dropping");
-			XMLWatcher.stairs.get(currentStairIndex).buying = false;
-			shutdownStair(currentStairIndex);
+			waitForAPeriod(3000);
 			return true;
 		}else
 		
 		if (GetData.tinyHL.findingLow)
 		{
-			Global.addLog("TinyHL Is findingLow, shut down Nano for 30mins");
-			int currentTime = GetData.getTimeInt();
-			while (GetData.getTimeInt() < currentTime + 3000)
-				sleep(waitingTime);
+			Global.addLog("TinyHL Is findingLow");
+			waitForAPeriod(3000);
 			return true; //not shutting down the stair
 		}
 		

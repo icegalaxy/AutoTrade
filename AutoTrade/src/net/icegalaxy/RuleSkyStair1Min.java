@@ -331,6 +331,39 @@ public class RuleSkyStair1Min extends Rules
 			return Math.max(10, cutLoss - buyingPoint);
 		}
 	}
+	
+	@Override
+	boolean shutdownShort(int currentStairIndex)
+	{
+		
+		if(super.shutdownShort(currentStairIndex))
+			return true;
+		
+		if (refHigh > XMLWatcher.stairs.get(currentStairIndex).value + XMLWatcher.stairs.get(currentStairIndex).tolerance / 4)
+		{
+			Global.addLog("ST1 RefHigh out of range");
+			waitForAPeriod(3000);
+			return true;
+		}
+		
+		return false;
+	}
+
+	@Override
+	boolean shutdownLong(int currentStairIndex)
+	{
+		if(super.shutdownLong(currentStairIndex))
+			return true;
+		
+		if (refLow < XMLWatcher.stairs.get(currentStairIndex).value - XMLWatcher.stairs.get(currentStairIndex).tolerance / 4)
+		{
+			Global.addLog("ST1 RefLow out of range");
+			waitForAPeriod(3000);
+			return true;
+		}
+		
+		return false;
+	}
 
 	@Override
 	protected void updateCutLoss()

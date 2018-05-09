@@ -528,8 +528,7 @@ public class RuleSkyStair extends Rules
 		if (GetData.tinyHL.isRising())
 		{
 			Global.addLog("Is Rising");
-			XMLWatcher.stairs.get(currentStairIndex).selling = false;
-			shutdownStair(currentStairIndex);
+			waitForAPeriod(3000);
 			return true;
 		}
 		
@@ -545,8 +544,7 @@ public class RuleSkyStair extends Rules
 		if (GetData.tinyHL.isDropping())
 		{
 			Global.addLog("Is Dropping");
-			XMLWatcher.stairs.get(currentStairIndex).buying = false;
-			shutdownStair(currentStairIndex);
+			waitForAPeriod(3000);
 			return true;
 		}
 		

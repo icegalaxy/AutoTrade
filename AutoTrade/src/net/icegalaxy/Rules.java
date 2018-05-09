@@ -1252,4 +1252,23 @@ public abstract class Rules implements Runnable
 //		return Math.min(stopEarn, value - 50);
 		return stopEarn;
 	}
+	
+	void waitForAPeriod(int waitingTime)
+	{
+		int startTime = GetData.getTimeInt();
+		
+		Global.addLog("Waiting for : " + waitingTime);
+		
+		while(true)
+		{
+			
+			if(GetData.getTimeInt() > startTime + waitingTime)
+				break;
+			
+			sleep(waitingTime);
+		}
+		
+		
+	}
+	
 }
