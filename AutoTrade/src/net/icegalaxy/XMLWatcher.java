@@ -151,6 +151,7 @@ public class XMLWatcher implements Runnable
 		RuleSkyStairNano na = new RuleSkyStairNano(true);
 //		RuleSkyStair5Min pa = new RuleSkyStair5Min(true);
 		RuleSkyStair1Min st1 = new RuleSkyStair1Min(true);
+		RuleSkyStair5Min st5 = new RuleSkyStair5Min(true);
 		// RuleBreakOut breakOut = new RuleBreakOut(true);
 //		Thread s = new Thread(sar);
 //		s.start();
@@ -172,6 +173,8 @@ public class XMLWatcher implements Runnable
 		nano.start();
 		Thread tSt1 = new Thread(st1);
 		tSt1.start();
+		Thread tSt5 = new Thread(st5);
+		tSt5.start();
 
 		while (Global.isRunning())
 		{

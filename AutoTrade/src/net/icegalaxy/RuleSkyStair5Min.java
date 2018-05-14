@@ -188,7 +188,7 @@ public class RuleSkyStair5Min extends Rules
 				while(true)
 				{
 					
-					if (GetData.getLongTB().getLatestCandle().getClose() < GetData.getLongTB().getLatestCandle().getOpen() - 5
+					if (GetData.getLongTB().getLatestCandle().getClose() < GetData.getLongTB().getLatestCandle().getOpen() - 10
 							&& GetData.getLongTB().getLatestCandle().getClose() < XMLWatcher.stairs.get(currentStairIndex).value)
 						break;
 					
@@ -259,7 +259,38 @@ public class RuleSkyStair5Min extends Rules
 
 	
 
-	
+	@Override
+	boolean shutdownShort(int currentStairIndex)
+	{
+		
+		if(super.shutdownShort(currentStairIndex))
+			return true;
+		
+		if (refHigh > XMLWatcher.stairs.get(currentStairIndex).value + XMLWatcher.stairs.get(currentStairIndex).tolerance / 2)
+		{
+			Global.addLog("ST5 RefHigh out of range");
+			waitForAPeriod(3000);
+			return true;
+		}
+		
+		return false;
+	}
+
+	@Override
+	boolean shutdownLong(int currentStairIndex)
+	{
+		if(super.shutdownLong(currentStairIndex))
+			return true;
+		
+		if (refLow < XMLWatcher.stairs.get(currentStairIndex).value - XMLWatcher.stairs.get(currentStairIndex).tolerance / 2)
+		{
+			Global.addLog("ST5 RefLow out of range");
+			waitForAPeriod(3000);
+			return true;
+		}
+		
+		return false;
+	}
 
 	
 
