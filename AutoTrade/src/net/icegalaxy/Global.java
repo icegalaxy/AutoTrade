@@ -1,5 +1,8 @@
 package net.icegalaxy;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class Global
 {
 
@@ -115,14 +118,26 @@ public class Global
 
 	public static synchronized void addLog(String msg)
 	{
+		String callerClassName = new Exception().getStackTrace()[1].getClassName();
+		String caller = "";
+		Pattern pat = Pattern.compile(".*\\.(.*)$");
+		Matcher matcher = pat.matcher(callerClassName);
 		
-		String csvMsg = GetData.getTime() + "," + msg;
+		while (matcher.find())
+			caller =  matcher.group(1);
+		
+		String csvMsg = GetData.getTime() + "," + caller + "," + msg + "\r\n";
 		
 		msg = GetData.getTime() + "	" + msg + "\r\n";
 		System.out.println(msg);
 		Global.log.append(msg);
-		DB.stringtoFile(Global.log.toString(), "TradeData\\log " + getToday() + ".txt");
+//		DB.stringtoFile(Global.log.toString(), "TradeData\\log " + getToday() + ".txt");
 		DB.stringtoFile(Global.log.toString(), "C:\\Users\\joech\\Dropbox\\TradeData\\log" + getToday() + ".txt");
+		
+		csvLog.append(csvMsg);
+		
+		DB.stringtoFile(csvLog.toString(), "C:\\Users\\joech\\Dropbox\\TradeData\\csvLog " + getToday() + ".csv");
+		
 	}
 
 	public static synchronized void clearLog()
@@ -595,7 +610,7 @@ public class Global
 	private static float greatProfit;
 
 	public static StringBuffer log = new StringBuffer("");
-	private StringBuffer csvLog = new StringBuffer("");
+	private static StringBuffer csvLog = new StringBuffer("");
 
 	public static float totalBalance;
 	public static boolean analysingAll;
