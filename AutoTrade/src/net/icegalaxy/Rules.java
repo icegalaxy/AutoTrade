@@ -1217,7 +1217,7 @@ public abstract class Rules implements Runnable
 //			return value + 50;
 
 		if (stopEarn == 99999) // for the Max or Min of stair
-			return value + 100;
+			return GetData.tinyHL.getLatestHigh();
 
 //		return Math.max(stopEarn, value + 50);
 		return stopEarn;
@@ -1247,7 +1247,7 @@ public abstract class Rules implements Runnable
 //			return value - 50;
 
 		if (stopEarn == 0) // for the Max or Min of stair
-			return value - 100;
+			return GetData.tinyHL.getLatestLow();
 
 //		return Math.min(stopEarn, value - 50);
 		return stopEarn;
