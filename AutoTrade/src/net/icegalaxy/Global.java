@@ -115,6 +115,9 @@ public class Global
 
 	public static synchronized void addLog(String msg)
 	{
+		
+		String csvMsg = GetData.getTime() + "," + msg;
+		
 		msg = GetData.getTime() + "	" + msg + "\r\n";
 		System.out.println(msg);
 		Global.log.append(msg);
@@ -592,6 +595,7 @@ public class Global
 	private static float greatProfit;
 
 	public static StringBuffer log = new StringBuffer("");
+	private StringBuffer csvLog = new StringBuffer("");
 
 	public static float totalBalance;
 	public static boolean analysingAll;
