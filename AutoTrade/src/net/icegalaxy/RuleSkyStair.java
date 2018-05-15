@@ -527,7 +527,14 @@ public class RuleSkyStair extends Rules
 		
 		if (GetData.tinyHL.isRising())
 		{
-			Global.addLog("Is Rising");
+			Global.addLog("TinyHL Is Rising");
+			waitForAPeriod(3000);
+			return true;
+		}
+		
+		if (GetData.nanoHL.isRising())
+		{
+			Global.addLog("NanoHL Is Rising");
 			waitForAPeriod(3000);
 			return true;
 		}
@@ -543,7 +550,14 @@ public class RuleSkyStair extends Rules
 		
 		if (GetData.tinyHL.isDropping())
 		{
-			Global.addLog("Is Dropping");
+			Global.addLog("Tiny Is Dropping");
+			waitForAPeriod(3000);
+			return true;
+		}
+		
+		if (GetData.nanoHL.isDropping())
+		{
+			Global.addLog("Nano Is Dropping");
 			waitForAPeriod(3000);
 			return true;
 		}
