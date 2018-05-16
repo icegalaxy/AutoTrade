@@ -21,7 +21,7 @@ public class RulePriceAction extends Rules
 	public RulePriceAction(boolean globalRunRule)
 	{
 		super(globalRunRule);
-		setOrderTime(93000, 110000, 143000, 154500, 203000, 234500);
+		setOrderTime(94500, 110000, 143000, 154500, 203000, 234500);
 	}
 
 	public void openContract()
