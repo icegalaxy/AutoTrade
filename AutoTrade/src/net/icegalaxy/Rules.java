@@ -22,6 +22,9 @@ public abstract class Rules implements Runnable
 	
 	boolean shutDownRaising;
 	
+	int localShutdownIndex = -1;
+	
+	
 	long buyingTime;
 	
 	double refHigh = 0;
@@ -1274,20 +1277,20 @@ public abstract class Rules implements Runnable
 	
 	void waitForAPeriod(int waitingTime)
 	{
-		int startTime = GetData.getTimeInt();
+		long startTime = TimePeriodDecider.getEpochSec();
 		
 		Global.addLog("Waiting for : " + waitingTime);
 		
 		while(true)
 		{
 			
-			if(GetData.getTimeInt() > startTime + waitingTime)
+			if(TimePeriodDecider.getEpochSec() > startTime + waitingTime)
 				break;
 			
 			sleep(waitingTime);
-		}
-		
-		
+		}	
 	}
+	
+	
 	
 }

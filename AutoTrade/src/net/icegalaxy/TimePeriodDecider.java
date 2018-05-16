@@ -1,5 +1,7 @@
 package net.icegalaxy;
 
+import java.time.Instant;
+
 public class TimePeriodDecider implements Runnable
 {
 
@@ -27,6 +29,9 @@ public class TimePeriodDecider implements Runnable
 	private boolean noonOpened;
 	public static boolean dayClosed;
 	public static boolean nightOpened;
+	
+	static Instant instant;
+	
 
 	@Override
 	public void run()
@@ -163,5 +168,12 @@ public class TimePeriodDecider implements Runnable
 		{
 			e.printStackTrace();
 		}
+	}
+	
+	public static long getEpochSec(){
+		
+		instant = Instant.now();	
+		return instant.getEpochSecond();
+	    
 	}
 }

@@ -37,7 +37,7 @@ public class RuleSkyStair1Min extends Rules
 		
 //		boolean volumeRising = false;
 
-		if (!Global.isTradeTime() || Global.getNoOfContracts() != 0)
+		if (!Global.isTradeTime() || Global.getNoOfContracts() != 0 || !isOrderTime())
 			return;
 
 		for (int i = 0; i < XMLWatcher.stairs.size(); i++)
@@ -59,7 +59,10 @@ public class RuleSkyStair1Min extends Rules
 					&& GetData.minuteLow > XMLWatcher.stairs.get(currentStairIndex).value)
 			{
 				
-				
+				if (localShutdownIndex == currentStairIndex)
+					continue;
+				else
+					localShutdownIndex = -1;
 
 				if (!XMLWatcher.stairs.get(currentStairIndex).buying || XMLWatcher.stairs.get(currentStairIndex).shutdown)
 					continue;
@@ -88,8 +91,8 @@ public class RuleSkyStair1Min extends Rules
 					sleep(waitingTime);
 				}
 				
-				if (refHigh < GetData.tinyHL.refHigh)
-					refHigh = GetData.tinyHL.refHigh;
+				if (GetData.tinyHL.refLow < refLow)
+					refLow = GetData.tinyHL.refLow;
 				
 				Global.addLog("Waiting for a tiny rise");
 				
@@ -163,6 +166,11 @@ public class RuleSkyStair1Min extends Rules
 					GetData.minuteHigh > XMLWatcher.stairs.get(currentStairIndex).value - XMLWatcher.stairs.get(currentStairIndex).tolerance / 4
 					&& GetData.minuteHigh < XMLWatcher.stairs.get(currentStairIndex).value)
 			{
+				
+				if (localShutdownIndex == currentStairIndex)
+					continue;
+				else
+					localShutdownIndex = -1;
 
 				if (!XMLWatcher.stairs.get(currentStairIndex).selling || XMLWatcher.stairs.get(currentStairIndex).shutdown)
 					continue;
@@ -191,8 +199,8 @@ public class RuleSkyStair1Min extends Rules
 					sleep(waitingTime);
 				}
 				
-				if (refLow < GetData.tinyHL.refLow)
-					refLow = GetData.tinyHL.refLow;
+				if (GetData.tinyHL.refHigh > refHigh)
+					refHigh = GetData.tinyHL.refHigh;
 
 				Global.addLog("Waiting for a tiny drop");
 
@@ -353,7 +361,10 @@ public class RuleSkyStair1Min extends Rules
 		if (refHigh > XMLWatcher.stairs.get(currentStairIndex).value + XMLWatcher.stairs.get(currentStairIndex).tolerance / 4)
 		{
 			Global.addLog("ST1 RefHigh out of range");
-			waitForAPeriod(3000);
+//			waitForAPeriod(1800);
+			
+			localShutdownIndex = currentStairIndex;
+			
 			return true;
 		}
 		
@@ -369,7 +380,10 @@ public class RuleSkyStair1Min extends Rules
 		if (refLow < XMLWatcher.stairs.get(currentStairIndex).value - XMLWatcher.stairs.get(currentStairIndex).tolerance / 4)
 		{
 			Global.addLog("ST1 RefLow out of range");
-			waitForAPeriod(3000);
+//			waitForAPeriod(1800);
+			
+			localShutdownIndex = currentStairIndex;
+			
 			return true;
 		}
 		
