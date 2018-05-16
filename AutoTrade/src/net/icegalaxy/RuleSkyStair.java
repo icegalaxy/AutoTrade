@@ -38,23 +38,7 @@ public class RuleSkyStair extends Rules
 		if (!Global.isTradeTime() || Global.getNoOfContracts() != 0)
 			return;
 
-		// RE-activate after 1hr
-		if (shutdownIndex.size() > 0)
-		{
-			for (int i = 0; i < shutdownIndex.size(); i++)
-			{
-				if (GetData.getTimeInt() > XMLWatcher.stairs.get(shutdownIndex.get(i)).reActivateTime)
-				{
-					XMLWatcher.stairs.get(shutdownIndex.get(i)).buying = true;
-					XMLWatcher.stairs.get(shutdownIndex.get(i)).selling = true;
-					Global.addLog("Re-activate: " + XMLWatcher.stairs.get(shutdownIndex.get(i)).lineType + " @ "
-							+ XMLWatcher.stairs.get(shutdownIndex.get(i)).value);
-					shutdownIndex.remove(i);
-					i--;
-					Global.updateCSV();
-				}
-			}
-		}
+		
 
 		for (int i = 0; i < XMLWatcher.stairs.size(); i++)
 		{

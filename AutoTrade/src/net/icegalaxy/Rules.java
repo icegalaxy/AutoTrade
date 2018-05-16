@@ -87,6 +87,25 @@ public abstract class Rules implements Runnable
 					refHigh = 0;
 					refLow = 99999;
 					shutDownRaising = false;
+					
+					// RE-activate after 1hr
+					if (shutdownIndex.size() > 0)
+					{
+						for (int i = 0; i < shutdownIndex.size(); i++)
+						{
+							if (GetData.getTimeInt() > XMLWatcher.stairs.get(shutdownIndex.get(i)).reActivateTime)
+							{
+								XMLWatcher.stairs.get(shutdownIndex.get(i)).buying = true;
+								XMLWatcher.stairs.get(shutdownIndex.get(i)).selling = true;
+								Global.addLog("Re-activate: " + XMLWatcher.stairs.get(shutdownIndex.get(i)).lineType + " @ "
+										+ XMLWatcher.stairs.get(shutdownIndex.get(i)).value);
+								shutdownIndex.remove(i);
+								i--;
+								Global.updateCSV();
+							}
+						}
+					}
+					
 					openContract();
 				}
 
@@ -1137,7 +1156,7 @@ public abstract class Rules implements Runnable
 		
 		updateHighLow();
 		
-		if (!XMLWatcher.stairs.get(currentStairIndex).selling)
+		if (!XMLWatcher.stairs.get(currentStairIndex).selling || XMLWatcher.stairs.get(currentStairIndex).shutdown)
 		{
 			Global.addLog("Stair not selling");
 			shutdown = true;
@@ -1165,7 +1184,7 @@ public abstract class Rules implements Runnable
 		
 		updateHighLow();
 		
-		if (!XMLWatcher.stairs.get(currentStairIndex).buying)
+		if (!XMLWatcher.stairs.get(currentStairIndex).buying || XMLWatcher.stairs.get(currentStairIndex).shutdown)
 		{
 			Global.addLog("Stair not buying");
 			shutdown = true;
