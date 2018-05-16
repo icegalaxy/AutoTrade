@@ -610,7 +610,7 @@ public class Global
 	private static float greatProfit;
 
 	public static StringBuffer log = new StringBuffer("");
-	private static StringBuffer csvLog = new StringBuffer("");
+	private static StringBuffer csvLog = new StringBuffer("Time,Caller,Message,Remark\r\n");
 
 	public static float totalBalance;
 	public static boolean analysingAll;
