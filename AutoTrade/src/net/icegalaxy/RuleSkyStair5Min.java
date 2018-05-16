@@ -59,7 +59,6 @@ public class RuleSkyStair5Min extends Rules
 					&& GetData.minuteLow > XMLWatcher.stairs.get(currentStairIndex).value)
 			{
 				
-				
 
 				if (!XMLWatcher.stairs.get(currentStairIndex).buying || XMLWatcher.stairs.get(currentStairIndex).shutdown)
 					continue;
@@ -67,6 +66,11 @@ public class RuleSkyStair5Min extends Rules
 				Global.addLog("ST5 Reached " + XMLWatcher.stairs.get(currentStairIndex).lineType + " @ " + XMLWatcher.stairs.get(currentStairIndex).value + " (Long)");
 				Global.addLog("ST5 Stop Earn: " + getLongStopEarn(XMLWatcher.stairs.get(currentStairIndex).value));
 
+				
+				Global.addLog("Waiting for a new candle");
+				
+				waitForANewCandle();
+				
 				Global.addLog("Waiting for a refLow");	
 				
 				while(!GetData.tinyHL.findingLow || !isOrderTime())
@@ -164,6 +168,10 @@ public class RuleSkyStair5Min extends Rules
 
 				Global.addLog("ST5 Reached " + XMLWatcher.stairs.get(currentStairIndex).lineType + " @ " + XMLWatcher.stairs.get(currentStairIndex).value + " (Short)");
 				Global.addLog("ST5 Stop Earn: " + getShortStopEarn(XMLWatcher.stairs.get(currentStairIndex).value));
+				
+				Global.addLog("Waiting for a new candle");
+				
+				waitForANewCandle();
 
 				Global.addLog("Waiting for a refHigh");
 				
@@ -740,6 +748,6 @@ public class RuleSkyStair5Min extends Rules
 	@Override
 	public TimeBase getTimeBase()
 	{
-		return GetData.getShortTB();
+		return GetData.getLongTB();
 	}
 }

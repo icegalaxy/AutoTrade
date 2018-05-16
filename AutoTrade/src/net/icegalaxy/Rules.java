@@ -527,8 +527,7 @@ public abstract class Rules implements Runnable
 		}
 
 		stopEarnPt = getStopEarnPt();
-		cutLossPt = 100; // �O�׫Y�O�I�A��ĤG��set���H�Pcut loss�Ӥj,
-		// �O�ӫYMaximum
+		cutLossPt = 100; 
 
 		Global.addLog("Enter loop of closeContract");
 		
@@ -638,10 +637,14 @@ public abstract class Rules implements Runnable
 	
 	void updateHighLow()
 	{
-		if (Global.getCurrentPoint() > refHigh)
-			refHigh = Global.getCurrentPoint();
-		else if (Global.getCurrentPoint() < refLow)
-			refLow = Global.getCurrentPoint();
+		double high = Math.max(Global.getCurrentPoint(), GetData.getShortTB().getLatestCandle().getHigh());
+		double low = Math.min(Global.getCurrentPoint(), GetData.getShortTB().getLatestCandle().getLow());
+		
+		
+		if (high > refHigh)
+			refHigh = high;
+		else if (low < refLow)
+			refLow = low;
 		
 	}
 
@@ -1106,13 +1109,10 @@ public abstract class Rules implements Runnable
 	public void waitForANewCandle()
 	{
 
-		
-		
 		int currentSize = getTimeBase().getCandles().size();
 
 		while (currentSize == getTimeBase().getCandles().size())
 		{
-			
 			updateHighLow();
 			sleep(waitingTime);
 		}

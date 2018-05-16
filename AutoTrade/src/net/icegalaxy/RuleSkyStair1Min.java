@@ -67,6 +67,11 @@ public class RuleSkyStair1Min extends Rules
 				Global.addLog("ST1 Reached " + XMLWatcher.stairs.get(currentStairIndex).lineType + " @ " + XMLWatcher.stairs.get(currentStairIndex).value + " (Long)");
 				Global.addLog("ST1 Stop Earn: " + getLongStopEarn(XMLWatcher.stairs.get(currentStairIndex).value));
 
+				Global.addLog("Waiting for a new candle");
+				
+				waitForANewCandle();
+				
+				
 				Global.addLog("Waiting for a refLow");	
 				
 				while(!GetData.tinyHL.findingLow || !isOrderTime())
@@ -165,6 +170,11 @@ public class RuleSkyStair1Min extends Rules
 				Global.addLog("ST1 Reached " + XMLWatcher.stairs.get(currentStairIndex).lineType + " @ " + XMLWatcher.stairs.get(currentStairIndex).value + " (Short)");
 				Global.addLog("ST1 Stop Earn: " + getShortStopEarn(XMLWatcher.stairs.get(currentStairIndex).value));
 
+				Global.addLog("Waiting for a new candle");
+				
+				waitForANewCandle();
+				
+				
 				Global.addLog("Waiting for a refHigh");
 				
 				while(!GetData.tinyHL.findingHigh || !isOrderTime())
