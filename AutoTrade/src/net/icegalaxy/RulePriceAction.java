@@ -38,6 +38,7 @@ public class RulePriceAction extends Rules
 			return;
 
 		if (GetData.nanoHL.isRising() 
+				&& !GetData.nanoHL.isDropping()
 				&& Global.getCurrentPoint() < GetData.nanoHL.getLatestLow() + 10)
 				
 		{
@@ -116,7 +117,9 @@ public class RulePriceAction extends Rules
 
 			return;
 
-		} else if (GetData.nanoHL.isDropping() && Global.getCurrentPoint() > GetData.nanoHL.getLatestHigh() - 10)
+		} else if (GetData.nanoHL.isDropping() 
+				&& !GetData.nanoHL.isRising()
+				&& Global.getCurrentPoint() > GetData.nanoHL.getLatestHigh() - 10)
 		{
 			
 			Global.addLog("Price Action: Short");
