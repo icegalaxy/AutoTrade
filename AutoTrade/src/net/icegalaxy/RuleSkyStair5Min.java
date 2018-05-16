@@ -91,13 +91,14 @@ public class RuleSkyStair5Min extends Rules
 				
 				while (true)
 				{
-					if ( GetData.getLongTB().getLatestCandle().getClose() > GetData.getLongTB().getLatestCandle().getOpen() + 5
-						&& GetData.getLongTB().getLatestCandle().getClose() > XMLWatcher.stairs.get(currentStairIndex).value)
-						break;
 					
 					if (shutdownLong(currentStairIndex))
 						return;
 					
+					if ( GetData.getLongTB().getLatestCandle().getClose() > GetData.getLongTB().getLatestCandle().getOpen() + 5
+						&& GetData.getLongTB().getLatestCandle().getClose() > XMLWatcher.stairs.get(currentStairIndex).value)
+						break;
+
 					sleep(waitingTime);
 				}
 				
@@ -188,13 +189,13 @@ public class RuleSkyStair5Min extends Rules
 				while(true)
 				{
 					
+					if(shutdownShort(currentStairIndex))
+						return;
+					
 					if (GetData.getLongTB().getLatestCandle().getClose() < GetData.getLongTB().getLatestCandle().getOpen() - 10
 							&& GetData.getLongTB().getLatestCandle().getClose() < XMLWatcher.stairs.get(currentStairIndex).value)
 						break;
-					
-					
-					if(shutdownShort(currentStairIndex))
-						return;
+	
 					sleep(waitingTime);
 				}
 				
