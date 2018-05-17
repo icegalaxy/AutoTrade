@@ -8,10 +8,17 @@ public class HighLow
 	public boolean findingHigh = true;
 	public double refLow = 99999;
 	public double refHigh = 0;
-	public ArrayList<Double> refLows = new ArrayList<Double>();
-	public ArrayList<Double> refHighs = new ArrayList<Double>();
-	public ArrayList<Double> volumeOfRefLows = new ArrayList<Double>();
-	public ArrayList<Double> volumeOfRefHighs = new ArrayList<Double>();
+//	public ArrayList<Double> refLows = new ArrayList<Double>();
+//	public ArrayList<Double> refHighs = new ArrayList<Double>();
+//	public ArrayList<Double> volumeOfRefLows = new ArrayList<Double>();
+//	public ArrayList<Double> volumeOfRefHighs = new ArrayList<Double>();
+//	public ArrayList<Long> epochTimeOfHighs = new ArrayList<Long>();
+//	public ArrayList<Long> epochTimeOfLows = new ArrayList<Long>();
+	
+	public ArrayList<RefPoint> highs = new ArrayList<RefPoint>();
+	public ArrayList<RefPoint> lows = new ArrayList<RefPoint>();
+	
+	
 	public double volumeOfRefLow;
 	public double volumeOfRefHigh;
 	public double spread;
@@ -38,8 +45,12 @@ public class HighLow
 		
 		if (refLow < refHigh - (GetData.getShortTB().getLatestCandle().getHigh() * spread))
 		{
-			refHighs.add(refHigh);
-			volumeOfRefHighs.add(volumeOfRefHigh);
+			
+			RefPoint ref = new RefPoint(refHigh,volumeOfRefHigh,TimePeriodDecider.getEpochSec());
+			highs.add(ref);
+//			refHighs.add(refHigh);
+//			volumeOfRefHighs.add(volumeOfRefHigh);
+//			epochTimeOfHighs.add(TimePeriodDecider.getEpochSec());
 			findingLow = true;
 			findingHigh = false;
 			refHigh = 0;
@@ -61,8 +72,13 @@ public class HighLow
 		
 		if (refLow < refHigh - (GetData.getShortTB().getLatestCandle().getHigh() * spread))
 		{
-			refHighs.add(refHigh);
-			volumeOfRefHighs.add(volumeOfRefHigh);
+			
+			RefPoint ref = new RefPoint(refHigh,volumeOfRefHigh,TimePeriodDecider.getEpochSec());
+			highs.add(ref);
+			
+//			refHighs.add(refHigh);
+//			volumeOfRefHighs.add(volumeOfRefHigh);
+//			epochTimeOfHighs.add(TimePeriodDecider.getEpochSec());
 			Global.addLog(hlName + ": Recent High Update: " + refHigh + "; volume: " + volumeOfRefHigh);
 			findingLow = true;
 			findingHigh = false;
@@ -84,8 +100,13 @@ public class HighLow
 
 		if (refHigh > refLow + (GetData.getShortTB().getLatestCandle().getHigh() * spread))
 		{
-			refLows.add(refLow);
-			volumeOfRefLows.add(volumeOfRefLow);
+			
+			RefPoint ref = new RefPoint(refLow,volumeOfRefLow,TimePeriodDecider.getEpochSec());
+			highs.add(ref);
+			
+//			refLows.add(refLow);
+//			volumeOfRefLows.add(volumeOfRefLow);
+//			epochTimeOfLows.add(TimePeriodDecider.getEpochSec());
 			findingLow = false;
 			findingHigh = true;
 			refHigh = 0;
@@ -106,8 +127,13 @@ public class HighLow
 
 		if (refHigh > refLow + (GetData.getShortTB().getLatestCandle().getHigh() * spread))
 		{
-			refLows.add(refLow);
-			volumeOfRefLows.add(volumeOfRefLow);
+			
+			RefPoint ref = new RefPoint(refLow,volumeOfRefLow,TimePeriodDecider.getEpochSec());
+			highs.add(ref);
+			
+//			refLows.add(refLow);
+//			volumeOfRefLows.add(volumeOfRefLow);
+//			epochTimeOfLows.add(TimePeriodDecider.getEpochSec());
 			Global.addLog(hlName + ": Recent Low Update: " + refLow + "; volume: " + volumeOfRefLow);
 			findingLow = false;
 			findingHigh = true;
@@ -118,25 +144,28 @@ public class HighLow
 	
 	public double getLatestHigh()
 	{
-		if (refHighs.size() == 0)
+		if (highs.size() == 0)
 			return 99999;
-		return refHighs.get(refHighs.size() -1);
+		return highs.get(highs.size() -1).refPoint;
 	}
 
 	public double getLatestLow()
 	{
-		if (refLows.size() == 0)
+		if (lows.size() == 0)
 			return 0;
-		return refLows.get(refLows.size() -1);
+		return lows.get(lows.size() -1).refPoint;
 	}
 	
 	public boolean isRising()
 	{
-		if (refLows.size() < 2)
+		if (lows.size() < 2)
 			return false;
 		
-		if (refLows.get(refLows.size() - 1) > refLows.get(refLows.size() - 2)
-				&& refLow >= refLows.get(refLows.size() - 1))
+		if (lows.get(lows.size() - 1).epochTime - lows.get(lows.size() - 2).epochTime < 300)
+			return false;
+		
+		if (lows.get(lows.size() - 1).refPoint > lows.get(lows.size() - 2).refPoint
+				&& refLow >= lows.get(lows.size() - 1).refPoint)
 			return true;
 		else
 			return false;
@@ -144,22 +173,25 @@ public class HighLow
 	
 	public boolean isDropping()
 	{
-		if (refHighs.size() < 2)
+		if (highs.size() < 2)
 			return false;
 		
-		if (refHighs.get(refHighs.size() - 1) < refHighs.get(refHighs.size() - 2)
-				&& refHigh <= refHighs.get(refHighs.size() - 1))
+		if (highs.get(highs.size() - 1).epochTime - highs.get(highs.size() - 2).epochTime < 300)
+			return false;
+		
+		if (highs.get(highs.size() - 1).refPoint < highs.get(highs.size() - 2).refPoint
+				&& refHigh <= highs.get(highs.size() - 1).refPoint)
 			return true;
 		else
 			return false;
 	}
 	
 	public double getVolumeOfRecentLow(){
-		return volumeOfRefLows.get(volumeOfRefLows.size() -1);
+		return lows.get(lows.size() -1).volume;
 	}
 	
 	public double getVolumeOfRecentHigh(){
-		return volumeOfRefHighs.get(volumeOfRefHighs.size() -1);
+		return highs.get(highs.size() -1).volume;
 	}
 	
 	
