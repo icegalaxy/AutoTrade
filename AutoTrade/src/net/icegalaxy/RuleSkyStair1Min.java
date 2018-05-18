@@ -103,7 +103,7 @@ public class RuleSkyStair1Min extends Rules
 					if (shutdownLong(currentStairIndex))
 						return;
 					
-					if ( GetData.getShortTB().getLatestCandle().getClose() > GetData.getShortTB().getLatestCandle().getOpen() + 10
+					if ( GetData.getShortTB().getLatestCandle().getClose() > GetData.getShortTB().getLatestCandle().getOpen() + 5
 						&& GetData.getShortTB().getLatestCandle().getClose() > XMLWatcher.stairs.get(currentStairIndex).value)
 						break;
 							
