@@ -145,7 +145,7 @@ public class RuleSkyStair1Min2 extends Rules
 						return;
 					}
 					
-					if (GetData.getShortTB().getLatestCandle().getClose() < GetData.getShortTB().getLatestCandle().getOpen() - 5)
+					if (GetData.getShortTB().getLatestCandle().getClose() < GetData.getShortTB().getLatestCandle().getOpen())
 					{
 						Global.addLog("Ying Candle");
 						return;
@@ -258,7 +258,7 @@ public class RuleSkyStair1Min2 extends Rules
 						return;
 					}
 					
-					if (GetData.getShortTB().getLatestCandle().getClose() > GetData.getShortTB().getLatestCandle().getOpen() + 5)
+					if (GetData.getShortTB().getLatestCandle().getClose() > GetData.getShortTB().getLatestCandle().getOpen())
 					{
 						Global.addLog("Yang Candle");
 						return;
