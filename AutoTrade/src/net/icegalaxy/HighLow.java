@@ -147,14 +147,14 @@ public class HighLow
 	public double getLatestHigh()
 	{
 		if (highs.size() == 0)
-			return 99999;
+			return 0;
 		return highs.get(highs.size() -1).refPoint;
 	}
 
 	public double getLatestLow()
 	{
 		if (lows.size() == 0)
-			return 0;
+			return 99999;
 		return lows.get(lows.size() -1).refPoint;
 	}
 	
