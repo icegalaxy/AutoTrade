@@ -434,6 +434,13 @@ public class XMLWatcher implements Runnable
 		if (openPrice == 0)
 		{
 			Global.addLog("Open = 0");
+			
+			SPApi.unInit();
+			
+			sleep(10000);
+			
+			SPApi.init();
+			
 			sleep(5000);
 
 			if (TimePeriodDecider.nightOpened || TimePeriodDecider.dayClosed)
