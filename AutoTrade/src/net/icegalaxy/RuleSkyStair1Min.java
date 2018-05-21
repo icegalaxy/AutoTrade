@@ -56,7 +56,8 @@ public class RuleSkyStair1Min extends Rules
 			if (
 					GetData.getLongTB().getEma5().getEMA() > XMLWatcher.stairs.get(currentStairIndex).value && 
 					GetData.minuteLow < XMLWatcher.stairs.get(currentStairIndex).value + XMLWatcher.stairs.get(currentStairIndex).tolerance / 4
-					&& GetData.minuteLow > XMLWatcher.stairs.get(currentStairIndex).value)
+					&& GetData.minuteLow > XMLWatcher.stairs.get(currentStairIndex).value
+					&& GetData.nanoHL.isRising())
 			{
 				
 				if (localShutdownIndex == currentStairIndex)
@@ -164,7 +165,8 @@ public class RuleSkyStair1Min extends Rules
 			} else if (
 					GetData.getLongTB().getEma5().getEMA() < XMLWatcher.stairs.get(currentStairIndex).value && 
 					GetData.minuteHigh > XMLWatcher.stairs.get(currentStairIndex).value - XMLWatcher.stairs.get(currentStairIndex).tolerance / 4
-					&& GetData.minuteHigh < XMLWatcher.stairs.get(currentStairIndex).value)
+					&& GetData.minuteHigh < XMLWatcher.stairs.get(currentStairIndex).value
+					&& GetData.nanoHL.isDropping())
 			{
 				
 				if (localShutdownIndex == currentStairIndex)
@@ -358,6 +360,13 @@ public class RuleSkyStair1Min extends Rules
 		if(super.shutdownShort(currentStairIndex))
 			return true;
 		
+		if (!GetData.nanoHL.isDropping())
+		{
+			Global.addLog("ST1 Nano not dropping");
+			localShutdownIndex = currentStairIndex;
+			return true;
+		}
+		
 		if (refHigh > XMLWatcher.stairs.get(currentStairIndex).value + XMLWatcher.stairs.get(currentStairIndex).tolerance / 4)
 		{
 			Global.addLog("ST1 RefHigh out of range");
@@ -376,6 +385,13 @@ public class RuleSkyStair1Min extends Rules
 	{
 		if(super.shutdownLong(currentStairIndex))
 			return true;
+		
+		if (!GetData.nanoHL.isRising())
+		{
+			Global.addLog("ST1 Nano not rising");
+			localShutdownIndex = currentStairIndex;
+			return true;
+		}
 		
 		if (refLow < XMLWatcher.stairs.get(currentStairIndex).value - XMLWatcher.stairs.get(currentStairIndex).tolerance / 4)
 		{
