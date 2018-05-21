@@ -102,7 +102,7 @@ public class HighLow
 		{
 			
 			RefPoint ref = new RefPoint(refLow,volumeOfRefLow,TimePeriodDecider.getEpochSec());
-			highs.add(ref);
+			lows.add(ref);
 			
 //			refLows.add(refLow);
 //			volumeOfRefLows.add(volumeOfRefLow);
@@ -131,7 +131,7 @@ public class HighLow
 			long time = TimePeriodDecider.getEpochSec();
 			
 			RefPoint ref = new RefPoint(refLow,volumeOfRefLow,time);
-			highs.add(ref);
+			lows.add(ref);
 			
 //			refLows.add(refLow);
 //			volumeOfRefLows.add(volumeOfRefLow);
