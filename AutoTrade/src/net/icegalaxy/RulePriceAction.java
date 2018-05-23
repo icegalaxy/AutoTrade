@@ -39,6 +39,8 @@ public class RulePriceAction extends Rules
 
 		if (GetData.nanoHL.isRising() 
 				&& !GetData.nanoHL.isDropping()
+				&& GetData.tinyHL.isRising() 
+				&& !GetData.tinyHL.isDropping()
 				&& GetData.minuteLow < GetData.nanoHL.getLatestLow() + 10)
 				
 		{
@@ -119,6 +121,8 @@ public class RulePriceAction extends Rules
 
 		} else if (GetData.nanoHL.isDropping() 
 				&& !GetData.nanoHL.isRising()
+				&& GetData.tinyHL.isDropping() 
+				&& !GetData.tinyHL.isRising()
 				&& GetData.minuteHigh > GetData.nanoHL.getLatestHigh() - 10)
 		{
 			
