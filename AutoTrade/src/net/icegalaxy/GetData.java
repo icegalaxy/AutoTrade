@@ -176,7 +176,14 @@ public class GetData implements Runnable
 
 				// this is for quote power
 				if (!getIndex())
+				{
+					SPApi.unInit();			
+					sleep(10000);
+					SPApi.init();
+					sleep(5000);
+					
 					continue;
+				}
 
 				min = new Integer(time.substring(3, 5));
 
