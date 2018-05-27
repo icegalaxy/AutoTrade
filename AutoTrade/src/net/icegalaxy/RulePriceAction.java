@@ -493,12 +493,15 @@ public class RulePriceAction extends Rules
 
 		if (Global.getNoOfContracts() > 0)
 		{
+			double profit = Math.min(profitPt - buyingPoint, getLongStopEarn(buyingPoint));
 
-			return Math.max(10, profitPt - buyingPoint - 10);
+			return Math.max(10, profit);
 		} else
 		{
+			
+			double profit = Math.min(buyingPoint - profitPt, getShortStopEarn(buyingPoint));
 
-			return Math.max(10, buyingPoint - profitPt - 10);
+			return Math.max(10, profit);
 		}
 
 	}
@@ -545,6 +548,9 @@ public class RulePriceAction extends Rules
 	//
 	//
 	// }
+	
+	
+	
 	
 	
 
