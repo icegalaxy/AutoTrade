@@ -717,7 +717,7 @@ public class RuleSkyStairNano extends Rules
 	@Override
 	double getLongStopEarn(double value)
 	{
-		return GetData.nanoHL.getLatestHigh();
+		return Math.min(super.getLongStopEarn(value), GetData.nanoHL.getLatestHigh());
 		
 	}
 
@@ -725,7 +725,7 @@ public class RuleSkyStairNano extends Rules
 	double getShortStopEarn(double value)
 	{
 
-		return GetData.nanoHL.getLatestLow();
+		return Math.max(super.getShortStopEarn(value), GetData.nanoHL.getLatestLow());
 	}
 
 	@Override
