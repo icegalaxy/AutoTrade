@@ -47,6 +47,27 @@ public class RulePriceAction extends Rules
 			
 			Global.addLog("Price Action: Long");
 			
+			Global.addLog("Waiting for a new candle");
+			
+			waitForANewCandle();
+			
+			Global.addLog("Waiting for a Yang Candle");
+
+			while (true)
+			{
+				
+				if (getTimeBase().getLatestCandle().getClose() <  GetData.nanoHL.getLatestLow() - 10)
+				{
+					Global.addLog("1min Close out of range");
+					return;
+				}
+				
+				if ( GetData.getShortTB().getLatestCandle().getClose() > GetData.getShortTB().getLatestCandle().getOpen() + 5)
+					break;
+						
+				sleep(waitingTime);
+			}
+			
 //			boolean hasYangCandle = false;
 			
 			//check fewer times		
@@ -70,9 +91,9 @@ public class RulePriceAction extends Rules
 			while (true)
 			{	
 				if (GetData.nanoHL.findingHigh)
-					profitPt = GetData.nanoHL.refHigh;
+					profitPt = Math.min(GetData.nanoHL.refHigh, getLongStopEarn(Global.getCurrentPoint()));
 				else
-					profitPt = GetData.nanoHL.getLatestHigh();
+					profitPt = Math.min(GetData.nanoHL.getLatestHigh(), getLongStopEarn(Global.getCurrentPoint()));
 				
 				double reward = profitPt - Global.getCurrentPoint();
 						
@@ -128,6 +149,28 @@ public class RulePriceAction extends Rules
 			
 			Global.addLog("Price Action: Short");
 			
+			
+			Global.addLog("Waiting for a new candle");
+			
+			waitForANewCandle();
+			
+			Global.addLog("Waiting for a Ying Candle");
+
+			while (true)
+			{
+				
+				if (getTimeBase().getLatestCandle().getClose() >  GetData.nanoHL.getLatestLow() + 10)
+				{
+					Global.addLog("1min Close out of range");
+					return;
+				}
+				
+				if ( GetData.getShortTB().getLatestCandle().getClose() < GetData.getShortTB().getLatestCandle().getOpen() - 5)
+					break;
+						
+				sleep(waitingTime);
+			}
+			
 //			boolean hasYingCandle = false;
 			
 
@@ -138,9 +181,9 @@ public class RulePriceAction extends Rules
 //					return;
 			
 				if (GetData.nanoHL.findingLow)
-					profitPt = GetData.nanoHL.refLow;
+					profitPt = Math.max(GetData.nanoHL.refLow, getShortStopEarn(Global.getCurrentPoint()));
 				else
-					profitPt = GetData.nanoHL.getLatestLow();
+					profitPt = Math.max(GetData.nanoHL.getLatestLow(), getShortStopEarn(Global.getCurrentPoint()));
 				
 				double reward = Global.getCurrentPoint() - profitPt;
 				
@@ -493,15 +536,15 @@ public class RulePriceAction extends Rules
 
 		if (Global.getNoOfContracts() > 0)
 		{
-			double profit = Math.min(profitPt - buyingPoint, getLongStopEarn(buyingPoint));
+//			double profit = Math.min(profitPt - buyingPoint, getLongStopEarn(buyingPoint));
 
-			return Math.max(10, profit);
+			return Math.max(10, profitPt - buyingPoint);
 		} else
 		{
 			
-			double profit = Math.min(buyingPoint - profitPt, getShortStopEarn(buyingPoint));
+//			double profit = Math.min(buyingPoint - profitPt, getShortStopEarn(buyingPoint));
 
-			return Math.max(10, profit);
+			return Math.max(10, buyingPoint - profitPt);
 		}
 
 	}
