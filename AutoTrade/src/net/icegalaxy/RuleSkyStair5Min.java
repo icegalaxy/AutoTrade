@@ -115,7 +115,7 @@ public class RuleSkyStair5Min extends Rules
 				if (refLow < XMLWatcher.stairs.get(currentStairIndex).refLow)
 					XMLWatcher.stairs.get(currentStairIndex).refLow = refLow;
 
-				cutLoss = XMLWatcher.stairs.get(currentStairIndex).refLow - 5;
+				cutLoss = XMLWatcher.stairs.get(currentStairIndex).refLow - XMLWatcher.stairs.get(currentStairIndex).tolerance / 2;
 				Global.addLog("Cut loss: " + cutLoss);
 				Global.addLog("Stop Earn: " + getLongStopEarn(XMLWatcher.stairs.get(currentStairIndex).value));
 
@@ -223,7 +223,7 @@ public class RuleSkyStair5Min extends Rules
 				if(refHigh > XMLWatcher.stairs.get(currentStairIndex).refHigh)
 					XMLWatcher.stairs.get(currentStairIndex).refHigh = refHigh;
 				
-				cutLoss = XMLWatcher.stairs.get(currentStairIndex).refHigh + 5;
+				cutLoss = XMLWatcher.stairs.get(currentStairIndex).refHigh + XMLWatcher.stairs.get(currentStairIndex).tolerance / 2;
 				Global.addLog("Cut loss: " + cutLoss);
 				Global.addLog("Stop Earn: " + getShortStopEarn(XMLWatcher.stairs.get(currentStairIndex).value));
 
