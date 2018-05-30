@@ -292,7 +292,7 @@ public class RuleSkyStair5Min extends Rules
 			localShutdownIndex = currentStairIndex;
 		}
 		
-		if (refHigh > XMLWatcher.stairs.get(currentStairIndex).value + XMLWatcher.stairs.get(currentStairIndex).tolerance / 2)
+		if (refHigh > XMLWatcher.stairs.get(currentStairIndex).value + XMLWatcher.stairs.get(currentStairIndex).tolerance)
 		{
 			Global.addLog("ST5 RefHigh out of range");
 //			waitForAPeriod(3000);
@@ -316,7 +316,7 @@ public class RuleSkyStair5Min extends Rules
 			localShutdownIndex = currentStairIndex;
 		}
 		
-		if (refLow < XMLWatcher.stairs.get(currentStairIndex).value - XMLWatcher.stairs.get(currentStairIndex).tolerance / 2)
+		if (refLow < XMLWatcher.stairs.get(currentStairIndex).value - XMLWatcher.stairs.get(currentStairIndex).tolerance)
 		{
 			Global.addLog("ST5 RefLow out of range");
 //			waitForAPeriod(1800);
