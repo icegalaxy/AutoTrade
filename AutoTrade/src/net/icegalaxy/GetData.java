@@ -16,6 +16,10 @@ public class GetData implements Runnable
 	private static TimeBase shortTB;
 	private static TimeBase m15TB;
 	private static TimeBase longTB;
+	
+	private double previousPoint;
+	private int samePointCount;
+	
 	// private static TimeBase sec10TB;
 	private QuotePower qp;
 
@@ -180,10 +184,18 @@ public class GetData implements Runnable
 					SPApi.unInit();			
 					sleep(10000);
 					SPApi.init();
-					sleep(5000);
+					sleep(20000);
 					
 					continue;
 				}
+				
+				if (Global.getCurrentPoint() != previousPoint)
+				{
+					previousPoint = Global.getCurrentPoint();
+					samePointCount = 0;
+				}
+				else
+					samePointCount++;
 
 				min = new Integer(time.substring(3, 5));
 
@@ -387,7 +399,7 @@ public class GetData implements Runnable
 					}
 
 					//check connection
-					if (!Global.isConnectionOK())
+					if (!Global.isConnectionOK() || samePointCount > 10)
 					{
 						Global.addLog("Conncetion fail, try re-login");
 						
@@ -396,6 +408,8 @@ public class GetData implements Runnable
 						sleep(10000);
 						
 						SPApi.init();
+						
+						sleep(20000);
 					}
 					
 					
