@@ -543,6 +543,8 @@ public class SPApi
 
 	public static int init()
 	{
+		Global.addLog("Init API");
+		
 		int status = 0;
 		if (Setting.password == 0)
 		{
@@ -572,6 +574,9 @@ public class SPApi
 
 	public static int unInit()
 	{
+		
+		Global.addLog("Un-init API");
+		
 		int status = 0;
 
 		status += SPApiDll.INSTANCE.SPAPI_SubscribePrice(userid, product, 0);
