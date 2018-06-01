@@ -492,6 +492,19 @@ public class SPApi
 		return status;
 	}
 	
+	public static int unSubscribePrice()
+	{
+
+		int status = SPApiDll.INSTANCE.SPAPI_SubscribePrice(userid, watchingProduct, 0);
+
+		if (status == 0)
+			System.out.println("Un-Subscribed price: " + Native.toString(watchingProduct) + ", Succeed[" + status + "]");
+		else
+			System.out.println("Un-Subscribed price: " + Native.toString(watchingProduct) + ", Failed[" + status + "]");
+
+		return status;
+	}
+	
 	public static void registerTradeReport(){
 		RegisterTradeReport tradeReport = (rec_no, trade) -> 
 		{
@@ -568,6 +581,38 @@ public class SPApi
 		registerOrderFail();
 		registerOrderReport();
 		status += SPApiDll.INSTANCE.SPAPI_Login();
+		
+		while (!Global.isConnectionOK())
+			try
+			{
+				Thread.sleep(1000);
+			} catch (InterruptedException e1)
+			{
+				e1.printStackTrace();
+			}
+		
+		SPApi.accLoginReply();
+		
+		int subscribeAttemps = 0;
+		
+		while (SPApi.subscribePrice() !=0)
+		{
+			System.out.println("Failed to subscrib price, waiting for 5 sec!");
+			try
+			{
+				Thread.sleep(5000);
+			} catch (InterruptedException e1)
+			{
+				e1.printStackTrace();
+			}
+			subscribeAttemps++;
+			
+			if (subscribeAttemps > 10)
+			{
+				System.out.println("Failed attemps > 10, please check!");
+				break;
+			}
+		}
 
 		return status;
 	}

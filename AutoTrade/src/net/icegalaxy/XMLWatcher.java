@@ -435,13 +435,13 @@ public class XMLWatcher implements Runnable
 		{
 			Global.addLog("Open = 0");
 			
-			SPApi.unInit();
+			SPApi.unSubscribePrice();
 			
 			sleep(10000);
 			
-			SPApi.init();
+			SPApi.subscribePrice();
 			
-			sleep(5000);
+			sleep(10000);
 
 			if (TimePeriodDecider.nightOpened || TimePeriodDecider.dayClosed)
 			{

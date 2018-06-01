@@ -108,37 +108,7 @@ public class Setting extends JFrame {
 				SPApi.init();
 				
 				
-				while (!Global.isConnectionOK())
-					try
-					{
-						Thread.sleep(1000);
-					} catch (InterruptedException e1)
-					{
-						e1.printStackTrace();
-					}
 				
-				SPApi.accLoginReply();
-				
-				int subscribeAttemps = 0;
-				
-				while (SPApi.subscribePrice() !=0)
-				{
-					System.out.println("Failed to subscrib price, waiting for 5 sec!");
-					try
-					{
-						Thread.sleep(5000);
-					} catch (InterruptedException e1)
-					{
-						e1.printStackTrace();
-					}
-					subscribeAttemps++;
-					
-					if (subscribeAttemps > 10)
-					{
-						System.out.println("Failed attemps > 10, please check!");
-						break;
-					}
-				}
 				
 				while (getDayOfWeek() == 1 || getDayOfWeek() == 7){
 					System.out.println("Sunday or Saturday " + GetData.getTimeInt() + " Sleep for 1 hr");

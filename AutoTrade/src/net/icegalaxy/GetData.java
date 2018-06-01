@@ -181,10 +181,11 @@ public class GetData implements Runnable
 				// this is for quote power
 				if (!getIndex())
 				{
-					SPApi.unInit();			
+					SPApi.unSubscribePrice();
+					samePointCount = 0;
 					sleep(10000);
-					SPApi.init();
-					sleep(20000);
+					SPApi.subscribePrice();
+					sleep(10000);
 					
 					continue;
 				}
