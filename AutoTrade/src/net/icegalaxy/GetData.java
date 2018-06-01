@@ -400,7 +400,7 @@ public class GetData implements Runnable
 					}
 
 					//check connection
-					if (!Global.isConnectionOK() || samePointCount > 10)
+					if (!Global.isConnectionOK())
 					{
 						Global.addLog("Conncetion fail, try re-login");
 						
