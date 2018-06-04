@@ -130,8 +130,8 @@ public class RuleSkyStairNano extends Rules
 					sleep(waitingTime);
 				}
 				
-				if (refHigh < GetData.nanoHL.refHigh)
-					refHigh = GetData.nanoHL.refHigh;
+//				if (refHigh < GetData.nanoHL.refHigh)
+//					refHigh = GetData.nanoHL.refHigh;
 				
 				
 				Global.addLog("Waiting for a nano rise");
@@ -196,12 +196,15 @@ public class RuleSkyStairNano extends Rules
 				}
 				
 				
-				Global.addLog("Latest High: " + GetData.nanoHL.getLatestHigh());
-				Global.addLog("Ref Low: " + GetData.nanoHL.refLow);
+//				Global.addLog("Latest High: " + GetData.nanoHL.getLatestHigh());
+//				Global.addLog("Ref Low: " + GetData.nanoHL.refLow);
 				
 				
 				if (refLow < XMLWatcher.stairs.get(currentStairIndex).refLow)
 					XMLWatcher.stairs.get(currentStairIndex).refLow = refLow;
+				else
+					refLow = XMLWatcher.stairs.get(currentStairIndex).refLow;
+
 
 				cutLoss = XMLWatcher.stairs.get(currentStairIndex).refLow - XMLWatcher.stairs.get(currentStairIndex).tolerance / 4;
 				Global.addLog("Cut loss: " + cutLoss);
@@ -282,8 +285,8 @@ public class RuleSkyStairNano extends Rules
 					sleep(waitingTime);
 				}
 				
-				if (refLow < GetData.nanoHL.refLow)
-					refLow = GetData.nanoHL.refLow;
+//				if (refLow < GetData.nanoHL.refLow)
+//					refLow = GetData.nanoHL.refLow;
 				
 
 				Global.addLog("Waiting for a nano drop");
@@ -351,14 +354,16 @@ public class RuleSkyStairNano extends Rules
 //					return;
 //				}
 				
-				Global.addLog("Ref High: " + GetData.nanoHL.refHigh);
-				Global.addLog("Latest Low: " + GetData.nanoHL.getLatestLow());
+//				Global.addLog("Ref High: " + GetData.nanoHL.refHigh);
+//				Global.addLog("Latest Low: " + GetData.nanoHL.getLatestLow());
 
 				// if (Global.getCurrentPoint() < currentStair.value - 20)
 				// Global.addLog("Drop to fast, waiting for a pull back");
 
 				if(refHigh > XMLWatcher.stairs.get(currentStairIndex).refHigh)
 					XMLWatcher.stairs.get(currentStairIndex).refHigh = refHigh;
+				else
+					refHigh = XMLWatcher.stairs.get(currentStairIndex).refHigh;
 				
 				cutLoss = XMLWatcher.stairs.get(currentStairIndex).refHigh + XMLWatcher.stairs.get(currentStairIndex).tolerance / 4;
 				Global.addLog("Cut loss: " + cutLoss);
