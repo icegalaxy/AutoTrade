@@ -21,7 +21,7 @@ public class RuleSkyStair extends Rules
 	public RuleSkyStair(boolean globalRunRule)
 	{
 		super(globalRunRule);
-		setOrderTime(93000, 115800, 130300, 160000, 171800, 1003000); // need to
+		setOrderTime(93000, 115800, 130300, 160000, 1003000, 1003000); // need to
 																		// observe
 																		// the
 																		// first
@@ -44,6 +44,14 @@ public class RuleSkyStair extends Rules
 		{
 
 			currentStairIndex = i;
+			
+			if (localShutdownIndex == currentStairIndex && TimePeriodDecider.getEpochSec() - localShutdownSec < 1800)
+				continue;
+			else
+			{
+				localShutdownIndex = -1;
+				localShutdownSec = -1;
+			}
 
 //			currentStair = XMLWatcher.stairs.get(currentStairIndex);
 
@@ -516,21 +524,27 @@ public class RuleSkyStair extends Rules
 		if (!isDropping())
 		{
 			Global.addLog("ST: no Dropping");
-			waitForAPeriod(1800);
+			localShutdownIndex = currentStairIndex;
+			localShutdownSec = TimePeriodDecider.getEpochSec();
+//			waitForAPeriod(1800);
 			return true;
 		}
 		
 		if (GetData.tinyHL.isRising())
 		{
 			Global.addLog("TinyHL Is Rising");
-			waitForAPeriod(1800);
+			localShutdownIndex = currentStairIndex;
+			localShutdownSec = TimePeriodDecider.getEpochSec();
+//			waitForAPeriod(1800);
 			return true;
 		}
 		
 		if (GetData.nanoHL.isRising())
 		{
 			Global.addLog("NanoHL Is Rising");
-			waitForAPeriod(1800);
+			localShutdownIndex = currentStairIndex;
+			localShutdownSec = TimePeriodDecider.getEpochSec();			
+//			waitForAPeriod(1800);
 			return true;
 		}
 		
@@ -546,21 +560,27 @@ public class RuleSkyStair extends Rules
 		if (!isRising())
 		{
 			Global.addLog("ST: no Rising");
-			waitForAPeriod(1800);
+			localShutdownIndex = currentStairIndex;
+			localShutdownSec = TimePeriodDecider.getEpochSec();			
+//			waitForAPeriod(1800);
 			return true;
 		}
 		
 		if (GetData.tinyHL.isDropping())
 		{
 			Global.addLog("Tiny Is Dropping");
-			waitForAPeriod(1800);
+			localShutdownIndex = currentStairIndex;
+			localShutdownSec = TimePeriodDecider.getEpochSec();
+//			waitForAPeriod(1800);
 			return true;
 		}
 		
 		if (GetData.nanoHL.isDropping())
 		{
 			Global.addLog("Nano Is Dropping");
-			waitForAPeriod(1800);
+			localShutdownIndex = currentStairIndex;
+			localShutdownSec = TimePeriodDecider.getEpochSec();
+//			waitForAPeriod(1800);
 			return true;
 		}
 		

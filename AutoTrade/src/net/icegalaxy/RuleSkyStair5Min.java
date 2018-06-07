@@ -23,7 +23,7 @@ public class RuleSkyStair5Min extends Rules
 	public RuleSkyStair5Min(boolean globalRunRule)
 	{
 		super(globalRunRule);
-		setOrderTime(93000, 115800, 140000, 160000, 203000, 1003000); // need to
+		setOrderTime(93000, 115800, 140000, 160000, 1003000, 1003000); // need to
 																		// observe
 																		// the
 																		// first
@@ -45,6 +45,13 @@ public class RuleSkyStair5Min extends Rules
 
 			currentStairIndex = i;
 
+			if (localShutdownIndex == currentStairIndex && TimePeriodDecider.getEpochSec() - localShutdownSec < 1800)
+				continue;
+			else
+			{
+				localShutdownIndex = -1;
+				localShutdownSec = -1;
+			}
 
 			if (Global.getNoOfContracts() != 0)
 				return;
@@ -60,10 +67,8 @@ public class RuleSkyStair5Min extends Rules
 					&& GetData.tinyHL.isRising())
 			{
 				
-				if (localShutdownIndex == currentStairIndex)
-					continue;
-				else
-					localShutdownIndex = -1;
+				
+				
 				
 				if (!XMLWatcher.stairs.get(currentStairIndex).buying || XMLWatcher.stairs.get(currentStairIndex).shutdown)
 					continue;
@@ -168,11 +173,6 @@ public class RuleSkyStair5Min extends Rules
 					&& GetData.minuteHigh < XMLWatcher.stairs.get(currentStairIndex).value
 					&& GetData.tinyHL.isDropping())
 			{
-
-				if (localShutdownIndex == currentStairIndex)
-					continue;
-				else
-					localShutdownIndex = -1;
 				
 				if (!XMLWatcher.stairs.get(currentStairIndex).selling || XMLWatcher.stairs.get(currentStairIndex).shutdown)
 					continue;
@@ -290,6 +290,8 @@ public class RuleSkyStair5Min extends Rules
 		{
 			Global.addLog("ST5 tinyHL not dropping");
 			localShutdownIndex = currentStairIndex;
+			localShutdownSec = TimePeriodDecider.getEpochSec();
+			return true;
 		}
 		
 		if (refHigh > XMLWatcher.stairs.get(currentStairIndex).value + XMLWatcher.stairs.get(currentStairIndex).tolerance)
@@ -298,6 +300,7 @@ public class RuleSkyStair5Min extends Rules
 //			waitForAPeriod(3000);
 			
 			localShutdownIndex = currentStairIndex;
+			localShutdownSec = TimePeriodDecider.getEpochSec();
 			return true;
 		}
 		
@@ -314,6 +317,8 @@ public class RuleSkyStair5Min extends Rules
 		{
 			Global.addLog("ST5 tinyHL not rising");
 			localShutdownIndex = currentStairIndex;
+			localShutdownSec = TimePeriodDecider.getEpochSec();
+			return true;
 		}
 		
 		if (refLow < XMLWatcher.stairs.get(currentStairIndex).value - XMLWatcher.stairs.get(currentStairIndex).tolerance)
@@ -322,6 +327,7 @@ public class RuleSkyStair5Min extends Rules
 //			waitForAPeriod(1800);
 			
 			localShutdownIndex = currentStairIndex;
+			localShutdownSec = TimePeriodDecider.getEpochSec();
 			
 			return true;
 		}
