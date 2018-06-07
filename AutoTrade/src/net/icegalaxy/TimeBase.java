@@ -20,8 +20,8 @@ public class TimeBase {
 	private TechnicalIndicators agal;
 	private RSI rsi14;
 	public ArrayList<Candle> candle;
-	public ArrayList<Rail> upRails;
-	public ArrayList<Rail> downRails;
+//	public ArrayList<Rail> upRails;
+//	public ArrayList<Rail> downRails;
 	private double overallVol;
 
 	private int baseMin;
@@ -42,11 +42,11 @@ public class TimeBase {
 		this.rsi14 = new RSI(point, 14);
 		this.candle = new ArrayList<Candle>();
 
-		this.upRails = new ArrayList<Rail>();
-		this.downRails = new ArrayList<Rail>();
-
-		this.upRails.add(new Rail(1.0D, true, 1));
-		this.downRails.add(new Rail(1.0D, false, 1));
+//		this.upRails = new ArrayList<Rail>();
+//		this.downRails = new ArrayList<Rail>();
+//
+//		this.upRails.add(new Rail(1.0D, true, 1));
+//		this.downRails.add(new Rail(1.0D, false, 1));
 		
 		
 	}
@@ -68,14 +68,14 @@ public class TimeBase {
 		
 		
 		
-		double upRail = -1.0D;
-		mainUpRailIndex = 0;
-		for (int i = upRails.size() - 1; i >= 0; i--) {
-			upRails.get(i).rail = upRails.get(i).getTheRail();
-			if (i > upRails.size() - 1) {
-//				System.out.println("Up Rail: " + i + " Removed");
-				continue;
-			}
+//		double upRail = -1.0D;
+//		mainUpRailIndex = 0;
+//		for (int i = upRails.size() - 1; i >= 0; i--) {
+//			upRails.get(i).rail = upRails.get(i).getTheRail();
+//			if (i > upRails.size() - 1) {
+////				System.out.println("Up Rail: " + i + " Removed");
+//				continue;
+//			}
 			// System.out.println("Up Rail " + i + ": " +
 			// upRails.get(i).getRail()
 			// + " Org: " + upRails.get(i).getOrgIndex() + " Support: "
@@ -83,26 +83,26 @@ public class TimeBase {
 			// + upRails.get(i).getSlope() + " Retain: " +
 			// upRails.get(i).slopeRetained);
 
-			try {
-				if (upRails.get(i).getRail() >= upRail) {
-					upRail = upRails.get(i).getRail();
-					mainUpRailIndex = i;
-				}
-			} catch (IndexOutOfBoundsException e) {
-//				System.out.println("Up Rail " + i + " Removed");
-			}
-		}
+//			try {
+//				if (upRails.get(i).getRail() >= upRail) {
+//					upRail = upRails.get(i).getRail();
+//					mainUpRailIndex = i;
+//				}
+//			} catch (IndexOutOfBoundsException e) {
+////				System.out.println("Up Rail " + i + " Removed");
+//			}
+//		}
 //		System.out.println("Main Up Rail(" + baseMin + "): "
 //				+ upRails.get(mainUpRailIndex).getRail());
 
-		double downRail = 99999.0D;
-		mainDownRailIndex = 0;
-		for (int i = downRails.size() - 1; i >= 0; i--) {
-			downRails.get(i).rail = downRails.get(i).getTheRail();
-			if (i > downRails.size() - 1) {
-//				System.out.println("Down Rail: " + i + " Removed");
-				continue;
-			}
+//		double downRail = 99999.0D;
+//		mainDownRailIndex = 0;
+//		for (int i = downRails.size() - 1; i >= 0; i--) {
+//			downRails.get(i).rail = downRails.get(i).getTheRail();
+//			if (i > downRails.size() - 1) {
+////				System.out.println("Down Rail: " + i + " Removed");
+//				continue;
+//			}
 
 			// System.out.println("Down Rail " + i + ": "
 			// + downRails.get(i).getRail() + " Org: "
@@ -111,16 +111,16 @@ public class TimeBase {
 			// + downRails.get(i).getSlope() + " Retain: " +
 			// downRails.get(i).slopeRetained);
 
-			try {
-				if (downRails.get(i).getRail() <= downRail
-						&& downRails.get(i).getRail() > 0.0D) {
-					downRail = downRails.get(i).getRail();
-					mainDownRailIndex = i;
-				}
-			} catch (IndexOutOfBoundsException e) {
-//				System.out.println("Down Rail " + i + " Removed");
-			}
-		}
+//			try {
+//				if (downRails.get(i).getRail() <= downRail
+//						&& downRails.get(i).getRail() > 0.0D) {
+//					downRail = downRails.get(i).getRail();
+//					mainDownRailIndex = i;
+//				}
+//			} catch (IndexOutOfBoundsException e) {
+////				System.out.println("Down Rail " + i + " Removed");
+//			}
+//		}
 //		System.out.println("Main Down Rail(" + baseMin + "): "
 //				+ downRails.get(mainDownRailIndex).getRail());
 
@@ -143,14 +143,14 @@ public class TimeBase {
 		
 		
 		
-		double upRail = -1.0D;
-		mainUpRailIndex = 0;
-		for (int i = upRails.size() - 1; i >= 0; i--) {
-			upRails.get(i).rail = upRails.get(i).getTheRail();
-			if (i > upRails.size() - 1) {
-//				System.out.println("Up Rail: " + i + " Removed");
-				continue;
-			}
+//		double upRail = -1.0D;
+//		mainUpRailIndex = 0;
+//		for (int i = upRails.size() - 1; i >= 0; i--) {
+//			upRails.get(i).rail = upRails.get(i).getTheRail();
+//			if (i > upRails.size() - 1) {
+////				System.out.println("Up Rail: " + i + " Removed");
+//				continue;
+//			}
 			// System.out.println("Up Rail " + i + ": " +
 			// upRails.get(i).getRail()
 			// + " Org: " + upRails.get(i).getOrgIndex() + " Support: "
@@ -158,26 +158,26 @@ public class TimeBase {
 			// + upRails.get(i).getSlope() + " Retain: " +
 			// upRails.get(i).slopeRetained);
 
-			try {
-				if (upRails.get(i).getRail() >= upRail) {
-					upRail = upRails.get(i).getRail();
-					mainUpRailIndex = i;
-				}
-			} catch (IndexOutOfBoundsException e) {
-//				System.out.println("Up Rail " + i + " Removed");
-			}
-		}
+//			try {
+//				if (upRails.get(i).getRail() >= upRail) {
+//					upRail = upRails.get(i).getRail();
+//					mainUpRailIndex = i;
+//				}
+//			} catch (IndexOutOfBoundsException e) {
+////				System.out.println("Up Rail " + i + " Removed");
+//			}
+//		}
 //		System.out.println("Main Up Rail(" + baseMin + "): "
 //				+ upRails.get(mainUpRailIndex).getRail());
 
-		double downRail = 99999.0D;
-		mainDownRailIndex = 0;
-		for (int i = downRails.size() - 1; i >= 0; i--) {
-			downRails.get(i).rail = downRails.get(i).getTheRail();
-			if (i > downRails.size() - 1) {
-//				System.out.println("Down Rail: " + i + " Removed");
-				continue;
-			}
+//		double downRail = 99999.0D;
+//		mainDownRailIndex = 0;
+//		for (int i = downRails.size() - 1; i >= 0; i--) {
+//			downRails.get(i).rail = downRails.get(i).getTheRail();
+//			if (i > downRails.size() - 1) {
+////				System.out.println("Down Rail: " + i + " Removed");
+//				continue;
+//			}
 
 			// System.out.println("Down Rail " + i + ": "
 			// + downRails.get(i).getRail() + " Org: "
@@ -186,16 +186,16 @@ public class TimeBase {
 			// + downRails.get(i).getSlope() + " Retain: " +
 			// downRails.get(i).slopeRetained);
 
-			try {
-				if (downRails.get(i).getRail() <= downRail
-						&& downRails.get(i).getRail() > 0.0D) {
-					downRail = downRails.get(i).getRail();
-					mainDownRailIndex = i;
-				}
-			} catch (IndexOutOfBoundsException e) {
-//				System.out.println("Down Rail " + i + " Removed");
-			}
-		}
+//			try {
+//				if (downRails.get(i).getRail() <= downRail
+//						&& downRails.get(i).getRail() > 0.0D) {
+//					downRail = downRails.get(i).getRail();
+//					mainDownRailIndex = i;
+//				}
+//			} catch (IndexOutOfBoundsException e) {
+////				System.out.println("Down Rail " + i + " Removed");
+//			}
+//		}
 //		System.out.println("Main Down Rail(" + baseMin + "): "
 //				+ downRails.get(mainDownRailIndex).getRail());
 
@@ -248,13 +248,13 @@ public class TimeBase {
 		return maRetained;
 	}
 
-	public Rail getMainUpRail() {
-		return (upRails.get(this.mainUpRailIndex));
-	}
+//	public Rail getMainUpRail() {
+//		return (upRails.get(this.mainUpRailIndex));
+//	}
 
-	public Rail getMainDownRail() {
-		return (downRails.get(this.mainDownRailIndex));
-	}
+//	public Rail getMainDownRail() {
+//		return (downRails.get(this.mainDownRailIndex));
+//	}
 
 	public void addPoint(Float f) {
 		this.point.add(f);
@@ -614,208 +614,208 @@ public class TimeBase {
 		}
 	}
 
-	class Rail {
-		public ArrayList<Rail> rails;
-		private boolean isUpRail;
-		private double direction;
-		private int railIndex;
-		private final double averageOneMinPt;
-		private final int timeInterval = 2;
-		// private int orgMaxRetain = 1000;
-		private int shiftedPeriod;
-		private int originIndex;
-		private int supportIndex;
-		private double rail;
-		public int slopeRetained;
-		public int orgRetained;
-		double slope = 100.0D;
-		private double bufferSlope;
-
-		public Rail(double averageOneMinPt, boolean isUpRail, int shiftedPeriod) {
-			this.isUpRail = isUpRail;
-			this.averageOneMinPt = averageOneMinPt;
-			this.shiftedPeriod = shiftedPeriod;
-
-			if (isUpRail) {
-				this.direction = 1;
-				this.railIndex = upRails.size();
-				this.rails = upRails;
-			} else {
-				this.direction = -1;
-				this.railIndex = downRails.size();
-				this.rails = downRails;
-			}
-		}
-
-		public void addNewRail(double averageOneMinPt, boolean isUpRail,
-				int shiftedPeriod) {
-
-			if (shiftedPeriod == candle.size() - 1)
-				return;
-
-			Rail r = new Rail(averageOneMinPt, isUpRail, shiftedPeriod);
-
-			if (r.isUpRail)
-				upRails.add(r);
-			else
-				downRails.add(r);
-		}
-
-		private int getOriginIndex() {
-			double origin = 99999 * direction;
-
-//			System.out.println("ShiftedPeriod: " + shiftedPeriod);
-//			System.out.println("Candle Size: " + candle.size());
-			
-			for (int i = shiftedPeriod; i < candle.size(); ++i){
-//				System.out.println("GetPoint I: " + getPoint(i));
-				if ((getPoint(i) - origin) * direction < 0.0D) {
-					origin = getPoint(i);
-				} else {
-					originIndex = (i - 1);
-					return originIndex;
-				}
-
-			}
-			originIndex = (candle.size() - 1);
-//			System.out.println("Loop Out, orginIndex:" + originIndex);
-			return originIndex;
-		}
-
-		private double getTheSlope() {
-			int origin = getOriginIndex();
-
-//			System.out.println("Candle size: " + candle.size());
-//			System.out.println("Origin: " + origin);
-			
-			if (candle.size() - origin < timeInterval) {
-				return 0.0D;
-			}
-
-			if (supportIndex < origin)
-				supportIndex = origin;
-
-			for (int i = origin + 1; i < candle.size(); i++) {
-				if (slope(origin, i) - averageOneMinPt < 0.0D) {
-					supportIndex = i;
-					break;
-				}
-
-				if (slope(origin, i) < slope) {
-					supportIndex = i;
-					slope = slope(origin, i);
-					slopeRetained = 0;
-				}
-
-			}
-
-			if (slope(origin, supportIndex) - averageOneMinPt < 0.0D) {
-				if (railIndex == 0) {
-					slopeRetained = 0;
-					orgRetained = 0;
-					slope = 100.0D;
-					shiftedPeriod = (origin + 1);
-					getTheSlope();
-				} else if (isLatestRail()) {
-					rails.remove(railIndex);
-				} else { // �S���Y�Ĥ@���S���Y�̫�G��
-					slopeRetained = 0;
-					slope = 100.0D;
-				}
-			} else {
-				if (supportIndex - origin < timeInterval) {
-					slopeRetained = 0;
-					if (isLatestRail())
-						addNewRail(this.averageOneMinPt, this.isUpRail,
-								supportIndex);
-					return 0.0D;
-				}
-				if (slopeRetained < getRetainRef()) {
-					slopeRetained++;
-					orgRetained++;
-					if (isLatestRail())
-						addNewRail(this.averageOneMinPt, this.isUpRail,
-								supportIndex);
-					return 0.0D;
-				}
-
-				slopeRetained++;
-				orgRetained++;
-				slope = slope(origin, supportIndex);
-				if (isLatestRail())
-					addNewRail(this.averageOneMinPt, isUpRail, supportIndex);
-				return slope;
-			}
-			return 0.0D;
-		}
-
-		private double getRetainRef() {
-			double ref;
-
-			ref = (1 / slope) * 20;
-
-			if (ref < 2)
-				return 2;
-			else
-				return ref;
-		}
-
-		private double slope(int orginIndex, int candleIndex) {
-			double dt = candleIndex - orginIndex;
-			double dx = getPoint(candleIndex) - getPoint(orginIndex);
-
-			if (dt == 0.0D) {
-				return 0.0D;
-			}
-
-			return (dx * direction) / dt;
-		}
-
-		private double getTheRail() {
-			double slope = getTheSlope();
-
-			double org = getPoint(this.originIndex);
-			if (slope == 0.0D)
-				return 0.0D;
-
-			this.slope = slope;
-
-			double dt2 = candle.size() - 1 - this.originIndex;
-			double dx2 = slope * dt2;
-
-			return (org + dx2 * this.direction);
-		}
-
-		public double getRail() {
-			return this.rail;
-		}
-
-		public double getSlope() {
-			if (this.slope == 100)
-				return 0;
-			else
-				return this.slope;
-
-		}
-
-		public int getOrgIndex() {
-			return this.originIndex;
-		}
-
-		private double getPoint(int index) {
-			if (isUpRail)
-				return ((Candle) candle.get(index)).getLow();
-
-			return ((Candle) candle.get(index)).getHigh();
-		}
-
-		private boolean isLatestRail() {
-			if (isUpRail)
-				return railIndex == upRails.size() - 1;
-
-			return railIndex == downRails.size() - 1;
-		}
-	}
+//	class Rail {
+//		public ArrayList<Rail> rails;
+//		private boolean isUpRail;
+//		private double direction;
+//		private int railIndex;
+//		private final double averageOneMinPt;
+//		private final int timeInterval = 2;
+//		// private int orgMaxRetain = 1000;
+//		private int shiftedPeriod;
+//		private int originIndex;
+//		private int supportIndex;
+//		private double rail;
+//		public int slopeRetained;
+//		public int orgRetained;
+//		double slope = 100.0D;
+//		private double bufferSlope;
+//
+//		public Rail(double averageOneMinPt, boolean isUpRail, int shiftedPeriod) {
+//			this.isUpRail = isUpRail;
+//			this.averageOneMinPt = averageOneMinPt;
+//			this.shiftedPeriod = shiftedPeriod;
+//
+//			if (isUpRail) {
+//				this.direction = 1;
+//				this.railIndex = upRails.size();
+//				this.rails = upRails;
+//			} else {
+//				this.direction = -1;
+//				this.railIndex = downRails.size();
+//				this.rails = downRails;
+//			}
+//		}
+//
+//		public void addNewRail(double averageOneMinPt, boolean isUpRail,
+//				int shiftedPeriod) {
+//
+//			if (shiftedPeriod == candle.size() - 1)
+//				return;
+//
+//			Rail r = new Rail(averageOneMinPt, isUpRail, shiftedPeriod);
+//
+//			if (r.isUpRail)
+//				upRails.add(r);
+//			else
+//				downRails.add(r);
+//		}
+//
+//		private int getOriginIndex() {
+//			double origin = 99999 * direction;
+//
+////			System.out.println("ShiftedPeriod: " + shiftedPeriod);
+////			System.out.println("Candle Size: " + candle.size());
+//			
+//			for (int i = shiftedPeriod; i < candle.size(); ++i){
+////				System.out.println("GetPoint I: " + getPoint(i));
+//				if ((getPoint(i) - origin) * direction < 0.0D) {
+//					origin = getPoint(i);
+//				} else {
+//					originIndex = (i - 1);
+//					return originIndex;
+//				}
+//
+//			}
+//			originIndex = (candle.size() - 1);
+////			System.out.println("Loop Out, orginIndex:" + originIndex);
+//			return originIndex;
+//		}
+//
+//		private double getTheSlope() {
+//			int origin = getOriginIndex();
+//
+////			System.out.println("Candle size: " + candle.size());
+////			System.out.println("Origin: " + origin);
+//			
+//			if (candle.size() - origin < timeInterval) {
+//				return 0.0D;
+//			}
+//
+//			if (supportIndex < origin)
+//				supportIndex = origin;
+//
+//			for (int i = origin + 1; i < candle.size(); i++) {
+//				if (slope(origin, i) - averageOneMinPt < 0.0D) {
+//					supportIndex = i;
+//					break;
+//				}
+//
+//				if (slope(origin, i) < slope) {
+//					supportIndex = i;
+//					slope = slope(origin, i);
+//					slopeRetained = 0;
+//				}
+//
+//			}
+//
+//			if (slope(origin, supportIndex) - averageOneMinPt < 0.0D) {
+//				if (railIndex == 0) {
+//					slopeRetained = 0;
+//					orgRetained = 0;
+//					slope = 100.0D;
+//					shiftedPeriod = (origin + 1);
+//					getTheSlope();
+//				} else if (isLatestRail()) {
+//					rails.remove(railIndex);
+//				} else { // �S���Y�Ĥ@���S���Y�̫�G��
+//					slopeRetained = 0;
+//					slope = 100.0D;
+//				}
+//			} else {
+//				if (supportIndex - origin < timeInterval) {
+//					slopeRetained = 0;
+//					if (isLatestRail())
+//						addNewRail(this.averageOneMinPt, this.isUpRail,
+//								supportIndex);
+//					return 0.0D;
+//				}
+//				if (slopeRetained < getRetainRef()) {
+//					slopeRetained++;
+//					orgRetained++;
+//					if (isLatestRail())
+//						addNewRail(this.averageOneMinPt, this.isUpRail,
+//								supportIndex);
+//					return 0.0D;
+//				}
+//
+//				slopeRetained++;
+//				orgRetained++;
+//				slope = slope(origin, supportIndex);
+//				if (isLatestRail())
+//					addNewRail(this.averageOneMinPt, isUpRail, supportIndex);
+//				return slope;
+//			}
+//			return 0.0D;
+//		}
+//
+//		private double getRetainRef() {
+//			double ref;
+//
+//			ref = (1 / slope) * 20;
+//
+//			if (ref < 2)
+//				return 2;
+//			else
+//				return ref;
+//		}
+//
+//		private double slope(int orginIndex, int candleIndex) {
+//			double dt = candleIndex - orginIndex;
+//			double dx = getPoint(candleIndex) - getPoint(orginIndex);
+//
+//			if (dt == 0.0D) {
+//				return 0.0D;
+//			}
+//
+//			return (dx * direction) / dt;
+//		}
+//
+//		private double getTheRail() {
+//			double slope = getTheSlope();
+//
+//			double org = getPoint(this.originIndex);
+//			if (slope == 0.0D)
+//				return 0.0D;
+//
+//			this.slope = slope;
+//
+//			double dt2 = candle.size() - 1 - this.originIndex;
+//			double dx2 = slope * dt2;
+//
+//			return (org + dx2 * this.direction);
+//		}
+//
+//		public double getRail() {
+//			return this.rail;
+//		}
+//
+//		public double getSlope() {
+//			if (this.slope == 100)
+//				return 0;
+//			else
+//				return this.slope;
+//
+//		}
+//
+//		public int getOrgIndex() {
+//			return this.originIndex;
+//		}
+//
+//		private double getPoint(int index) {
+//			if (isUpRail)
+//				return ((Candle) candle.get(index)).getLow();
+//
+//			return ((Candle) candle.get(index)).getHigh();
+//		}
+//
+//		private boolean isLatestRail() {
+//			if (isUpRail)
+//				return railIndex == upRails.size() - 1;
+//
+//			return railIndex == downRails.size() - 1;
+//		}
+//	}
 
 	class HighLow {
 
