@@ -45,13 +45,7 @@ public class RuleSkyStair extends Rules
 
 			currentStairIndex = i;
 			
-			if (localShutdownIndex == currentStairIndex && TimePeriodDecider.getEpochSec() - localShutdownSec < 1800)
-				continue;
-			else
-			{
-				localShutdownIndex = -1;
-				localShutdownSec = -1;
-			}
+		
 
 //			currentStair = XMLWatcher.stairs.get(currentStairIndex);
 
@@ -71,7 +65,14 @@ public class RuleSkyStair extends Rules
 					&& GetData.minuteLow > XMLWatcher.stairs.get(currentStairIndex).value)
 			{
 				
-				
+				//must be put inside long or short to avoid reset of index and sec every time
+				if (localShutdownIndex == currentStairIndex && TimePeriodDecider.getEpochSec() - localShutdownSec < 1800)
+					continue;
+				else
+				{
+					localShutdownIndex = -1;
+					localShutdownSec = -1;
+				}
 
 				if (!XMLWatcher.stairs.get(currentStairIndex).buying || XMLWatcher.stairs.get(currentStairIndex).shutdown)
 					continue;
@@ -299,6 +300,15 @@ public class RuleSkyStair extends Rules
 					GetData.minuteHigh > XMLWatcher.stairs.get(currentStairIndex).value - XMLWatcher.stairs.get(currentStairIndex).tolerance / 2
 					&& GetData.minuteHigh < XMLWatcher.stairs.get(currentStairIndex).value)
 			{
+				
+				//must be put inside long or short to avoid reset of index and sec every time
+				if (localShutdownIndex == currentStairIndex && TimePeriodDecider.getEpochSec() - localShutdownSec < 1800)
+					continue;
+				else
+				{
+					localShutdownIndex = -1;
+					localShutdownSec = -1;
+				}
 
 				if (!XMLWatcher.stairs.get(currentStairIndex).selling || XMLWatcher.stairs.get(currentStairIndex).shutdown)
 					continue;

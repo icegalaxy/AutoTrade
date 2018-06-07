@@ -45,13 +45,7 @@ public class RuleSkyStair5Min extends Rules
 
 			currentStairIndex = i;
 
-			if (localShutdownIndex == currentStairIndex && TimePeriodDecider.getEpochSec() - localShutdownSec < 1800)
-				continue;
-			else
-			{
-				localShutdownIndex = -1;
-				localShutdownSec = -1;
-			}
+			
 
 			if (Global.getNoOfContracts() != 0)
 				return;
@@ -67,7 +61,14 @@ public class RuleSkyStair5Min extends Rules
 					&& GetData.tinyHL.isRising())
 			{
 				
-				
+				//must be put inside long or short to avoid reset of index and sec every time
+				if (localShutdownIndex == currentStairIndex && TimePeriodDecider.getEpochSec() - localShutdownSec < 1800)
+					continue;
+				else
+				{
+					localShutdownIndex = -1;
+					localShutdownSec = -1;
+				}
 				
 				
 				if (!XMLWatcher.stairs.get(currentStairIndex).buying || XMLWatcher.stairs.get(currentStairIndex).shutdown)
@@ -173,6 +174,15 @@ public class RuleSkyStair5Min extends Rules
 					&& GetData.minuteHigh < XMLWatcher.stairs.get(currentStairIndex).value
 					&& GetData.tinyHL.isDropping())
 			{
+				
+				//must be put inside long or short to avoid reset of index and sec every time
+				if (localShutdownIndex == currentStairIndex && TimePeriodDecider.getEpochSec() - localShutdownSec < 1800)
+					continue;
+				else
+				{
+					localShutdownIndex = -1;
+					localShutdownSec = -1;
+				}
 				
 				if (!XMLWatcher.stairs.get(currentStairIndex).selling || XMLWatcher.stairs.get(currentStairIndex).shutdown)
 					continue;
