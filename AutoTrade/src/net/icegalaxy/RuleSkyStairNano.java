@@ -208,6 +208,8 @@ public class RuleSkyStairNano extends Rules
 //				Global.addLog("Latest High: " + GetData.nanoHL.getLatestHigh());
 //				Global.addLog("Ref Low: " + GetData.nanoHL.refLow);
 				
+				if (shutdownLong(currentStairIndex))
+					return;
 				
 				if (refLow < XMLWatcher.stairs.get(currentStairIndex).refLow)
 					XMLWatcher.stairs.get(currentStairIndex).refLow = refLow;
@@ -377,6 +379,8 @@ public class RuleSkyStairNano extends Rules
 
 				// if (Global.getCurrentPoint() < currentStair.value - 20)
 				// Global.addLog("Drop to fast, waiting for a pull back");
+				if (shutdownShort(currentStairIndex))
+					return;
 
 				if(refHigh > XMLWatcher.stairs.get(currentStairIndex).refHigh)
 					XMLWatcher.stairs.get(currentStairIndex).refHigh = refHigh;

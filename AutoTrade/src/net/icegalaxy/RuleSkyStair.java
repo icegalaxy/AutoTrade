@@ -230,6 +230,9 @@ public class RuleSkyStair extends Rules
 				// if (Global.getCurrentPoint() > currentStair.value + 20)
 				// Global.addLog("Rise to fast, waiting for a pull back");
 				
+				if (shutdownLong(currentStairIndex))
+					return;
+				
 				if (refLow < XMLWatcher.stairs.get(currentStairIndex).refLow)
 					XMLWatcher.stairs.get(currentStairIndex).refLow = refLow;
 				else
@@ -451,6 +454,9 @@ public class RuleSkyStair extends Rules
 
 				// if (Global.getCurrentPoint() < currentStair.value - 20)
 				// Global.addLog("Drop to fast, waiting for a pull back");
+				
+				if(shutdownShort(currentStairIndex))
+					return;
 
 				if(refHigh > XMLWatcher.stairs.get(currentStairIndex).refHigh)
 					XMLWatcher.stairs.get(currentStairIndex).refHigh = refHigh;
