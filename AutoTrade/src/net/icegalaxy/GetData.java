@@ -279,8 +279,7 @@ public class GetData implements Runnable
 				// that Math.abs is for when min = 59 and ref = -1
 				// use 10 in case the feeder stopped for serval mins
 
-				// *** 呢個位無Define refMin，原本係15
-				// *** min 會變
+			
 
 				// if (min > refMin && Math.abs(min - refMin) < 10)
 				// {
@@ -355,7 +354,7 @@ public class GetData implements Runnable
 						Global.addLog("Set open after 91500 at: " + Global.getOpen());
 					}
 
-					
+				
 					
 					// if (Global.getpHigh() == 0)
 					// {
@@ -425,6 +424,13 @@ public class GetData implements Runnable
 
 				if (m15Minutes >= 15)
 				{
+					
+					try {
+						Global.addLog("1min Up Rail: " + getShortTB().getMainUpRail().getRail() + "; Slope: " + getShortTB().getMainUpRail().getSlope());
+						Global.addLog("1min Down Rail: " + getShortTB().getMainDownRail().getRail() + "; Slope: " + getShortTB().getMainDownRail().getSlope());
+					}catch (Exception e) {
+						e.printStackTrace();
+					}
 
 					getM15TB().addData(point, new Float(totalQuantity));
 
