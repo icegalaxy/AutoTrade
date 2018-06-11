@@ -137,8 +137,7 @@ public class RuleRSI extends Rules {
 	    }
 
 	    double getStopEarnPt() {
-//	        return Global.getDayHigh() - Global.getDayLow(); //應該只會計買果一刻的diff (i.e. escaped 30 70後)  因為進入Close Contract個Loop之後，StopEarn只會減少，不會增多
-//	        return getTimeBase().getHL(120).getFluctuation() / 2;
+
 	    	return 30;
 	    }
 
