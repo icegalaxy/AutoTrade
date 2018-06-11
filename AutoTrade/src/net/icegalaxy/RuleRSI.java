@@ -101,43 +101,42 @@ public class RuleRSI extends Rules {
 	        return getTimeBase().getHL(60).getFluctuation() < 100;
 	    }
 
-//	    boolean isDropping() {
-//
-//	        double slope = 0;
-//	        double longSlope = 0;
-//
-//	        if (GetData.getShortTB().getMainDownRail().getSlope() != 100)
-//	            slope = GetData.getShortTB().getMainDownRail()
-//	                    .getSlope();
-//	        if (getTimeBase().getMainUpRail().getSlope() != 100)
-//	            longSlope = getTimeBase().getMainUpRail().getSlope();
-//
-//	        return slope > longSlope * 2
-//	                && GetData.getShortTB().getMainDownRail().slopeRetained > 2;
-//	    }
-//
-//	    boolean isRising() {
-//
-//	        double slope = 0;
-//	        double longSlope = 0;
-//
-//	        if (GetData.getShortTB().getMainUpRail().getSlope() != 100)
-//	            slope = GetData.getShortTB().getMainUpRail().getSlope();
-//
-//	        if (getTimeBase().getMainDownRail().getSlope() != 100)
-//	            longSlope = getTimeBase().getMainDownRail().getSlope();
-//
-//	        return slope > longSlope * 2
-//	                && GetData.getShortTB().getMainUpRail().slopeRetained > 2;
-//
-//	    }
+	    boolean isDropping() {
+
+	        double slope = 0;
+	        double longSlope = 0;
+
+	        if (GetData.getShortTB().getMainDownRail().getSlope() != 100)
+	            slope = GetData.getShortTB().getMainDownRail()
+	                    .getSlope();
+	        if (getTimeBase().getMainUpRail().getSlope() != 100)
+	            longSlope = getTimeBase().getMainUpRail().getSlope();
+
+	        return slope > longSlope * 2
+	                && GetData.getShortTB().getMainDownRail().slopeRetained > 2;
+	    }
+
+	    boolean isRising() {
+
+	        double slope = 0;
+	        double longSlope = 0;
+
+	        if (GetData.getShortTB().getMainUpRail().getSlope() != 100)
+	            slope = GetData.getShortTB().getMainUpRail().getSlope();
+
+	        if (getTimeBase().getMainDownRail().getSlope() != 100)
+	            longSlope = getTimeBase().getMainDownRail().getSlope();
+
+	        return slope > longSlope * 2
+	                && GetData.getShortTB().getMainUpRail().slopeRetained > 2;
+
+	    }
 
 	    double getCutLossPt() {
 	        return 15;
 	    }
 
 	    double getStopEarnPt() {
-
 	    	return 30;
 	    }
 
