@@ -426,8 +426,8 @@ public class GetData implements Runnable
 				{
 					
 					try {
-						Global.addLog("1min Up Rail: " + getShortTB().getMainUpRail().getRail() + "; Slope: " + getShortTB().getMainUpRail().getSlope());
-						Global.addLog("1min Down Rail: " + getShortTB().getMainDownRail().getRail() + "; Slope: " + getShortTB().getMainDownRail().getSlope());
+						Global.addLog("Tiny Up Trend: " + tinyHL.getUpTrend());
+						Global.addLog("Tiny Down Trend: " + tinyHL.getDownTrend());
 					}catch (Exception e) {
 						e.printStackTrace();
 					}

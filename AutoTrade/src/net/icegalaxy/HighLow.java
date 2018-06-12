@@ -197,4 +197,63 @@ public class HighLow
 	}
 	
 	
+	private double getSlopeOfUpTrend() {
+		
+		
+		if (lows.size() < 2)
+			return 0;
+		
+		
+		double pointsDiff = lows.get(lows.size()-1).refPoint - lows.get(lows.size()-2).refPoint;
+		double secDiff = lows.get(lows.size()-1).epochTime - lows.get(lows.size()-2).epochTime;
+		
+		if (secDiff == 0)
+		{
+			Global.addLog("Sec Diff = 0");
+			return 0;
+		}
+		
+		return pointsDiff/secDiff;
+		
+	}
+	
+	//get the current Up Trend point based on current epoch sec
+	public double getUpTrend()
+	{
+		if (getSlopeOfUpTrend() < 0.02)
+			return 0;
+		
+		return getSlopeOfUpTrend() * (TimePeriodDecider.getEpochSec() - lows.get(lows.size()-1).epochTime) + lows.get(lows.size()-1).refPoint;
+		
+		
+	}
+	
+	private double getSlopeOfDownTrend() {
+		
+		if (highs.size() < 2)
+			return 0;
+		
+		double pointsDiff = highs.get(highs.size()-1).refPoint - highs.get(highs.size()-2).refPoint;
+		double secDiff = highs.get(highs.size()-1).epochTime - highs.get(highs.size()-2).epochTime;
+		
+		if (secDiff == 0)
+		{
+			Global.addLog("Sec Diff = 0");
+			return 0;
+		}
+		
+		return pointsDiff/secDiff;
+		
+	}
+	
+	//get the current Down Trend point based on current epoch sec
+		public double getDownTrend()
+		{
+			if (getSlopeOfUpTrend() > -0.02)
+				return 0;
+			
+			return getSlopeOfUpTrend() * (TimePeriodDecider.getEpochSec() - lows.get(lows.size()-1).epochTime) + lows.get(lows.size()-1).refPoint;		
+			
+		}
+	
 }
