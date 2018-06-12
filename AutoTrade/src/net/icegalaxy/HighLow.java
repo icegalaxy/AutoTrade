@@ -224,7 +224,7 @@ public class HighLow
 	//get the current Up Trend point based on current epoch sec
 	public double getUpTrend()
 	{
-		if (getSlopeOfUpTrend() < 0.02)
+		if (getSlopeOfUpTrend() < 0.02 || !isRising())
 			return 0;
 		
 		return getSlopeOfUpTrend() * (TimePeriodDecider.getEpochSec() - lows.get(lows.size()-1).epochTime) + lows.get(lows.size()-1).refPoint;
@@ -253,10 +253,10 @@ public class HighLow
 	//get the current Down Trend point based on current epoch sec
 		public double getDownTrend()
 		{
-			if (getSlopeOfUpTrend() > -0.02)
+			if (getSlopeOfDownTrend() > -0.02 || !isDropping())
 				return 0;
 			
-			return getSlopeOfUpTrend() * (TimePeriodDecider.getEpochSec() - lows.get(lows.size()-1).epochTime) + lows.get(lows.size()-1).refPoint;		
+			return getSlopeOfDownTrend() * (TimePeriodDecider.getEpochSec() - lows.get(lows.size()-1).epochTime) + lows.get(lows.size()-1).refPoint;		
 			
 		}
 	
