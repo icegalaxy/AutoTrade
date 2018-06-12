@@ -18,6 +18,8 @@ public class HighLow
 	public ArrayList<RefPoint> highs = new ArrayList<RefPoint>();
 	public ArrayList<RefPoint> lows = new ArrayList<RefPoint>();
 	
+	long epochSecForHigh;
+	long epochSecForLow;
 	
 	public double volumeOfRefLow;
 	public double volumeOfRefHigh;
@@ -40,13 +42,14 @@ public class HighLow
 		{
 			refHigh = GetData.getShortTB().getLatestCandle().getHigh();
 			volumeOfRefHigh = GetData.getShortTB().getLatestCandle().getVolume();
+			epochSecForHigh = TimePeriodDecider.getEpochSec();
 			refLow = 99999;
 		}
 		
 		if (refLow < refHigh - (GetData.getShortTB().getLatestCandle().getHigh() * spread))
 		{
 			
-			RefPoint ref = new RefPoint(refHigh,volumeOfRefHigh,TimePeriodDecider.getEpochSec());
+			RefPoint ref = new RefPoint(refHigh,volumeOfRefHigh,epochSecForHigh);
 			highs.add(ref);
 //			refHighs.add(refHigh);
 //			volumeOfRefHighs.add(volumeOfRefHigh);
@@ -67,19 +70,19 @@ public class HighLow
 		{
 			refHigh = GetData.getShortTB().getLatestCandle().getHigh();
 			volumeOfRefHigh = GetData.getShortTB().getLatestCandle().getVolume();
+			epochSecForHigh = TimePeriodDecider.getEpochSec();
 			refLow = 99999;
 		}
 		
 		if (refLow < refHigh - (GetData.getShortTB().getLatestCandle().getHigh() * spread))
 		{
-			long time = TimePeriodDecider.getEpochSec();
-			RefPoint ref = new RefPoint(refHigh,volumeOfRefHigh,time);
+			RefPoint ref = new RefPoint(refHigh,volumeOfRefHigh,epochSecForHigh);
 			highs.add(ref);
 			
 //			refHighs.add(refHigh);
 //			volumeOfRefHighs.add(volumeOfRefHigh);
 //			epochTimeOfHighs.add(TimePeriodDecider.getEpochSec());
-			Global.addLog(hlName + ": Recent High Update: " + refHigh + "; volume: " + volumeOfRefHigh + "; time: " + time);
+			Global.addLog(hlName + ": Recent High Update: " + refHigh + "; volume: " + volumeOfRefHigh + "; time: " + epochSecForHigh);
 			findingLow = true;
 			findingHigh = false;
 			refHigh = 0;
@@ -93,6 +96,7 @@ public class HighLow
 		{
 			refLow = GetData.getShortTB().getLatestCandle().getLow();
 			volumeOfRefLow = GetData.getShortTB().getLatestCandle().getVolume();
+			epochSecForLow = TimePeriodDecider.getEpochSec();
 			refHigh = 0;
 		}
 		if (GetData.getShortTB().getLatestCandle().getHigh() > refHigh)
@@ -101,7 +105,7 @@ public class HighLow
 		if (refHigh > refLow + (GetData.getShortTB().getLatestCandle().getHigh() * spread))
 		{
 			
-			RefPoint ref = new RefPoint(refLow,volumeOfRefLow,TimePeriodDecider.getEpochSec());
+			RefPoint ref = new RefPoint(refLow,volumeOfRefLow,epochSecForLow);
 			lows.add(ref);
 			
 //			refLows.add(refLow);
@@ -120,6 +124,7 @@ public class HighLow
 		{
 			refLow = GetData.getShortTB().getLatestCandle().getLow();
 			volumeOfRefLow = GetData.getShortTB().getLatestCandle().getVolume();
+			epochSecForLow = TimePeriodDecider.getEpochSec();
 			refHigh = 0;
 		}
 		if (GetData.getShortTB().getLatestCandle().getHigh() > refHigh)
@@ -128,15 +133,14 @@ public class HighLow
 		if (refHigh > refLow + (GetData.getShortTB().getLatestCandle().getHigh() * spread))
 		{
 			
-			long time = TimePeriodDecider.getEpochSec();
 			
-			RefPoint ref = new RefPoint(refLow,volumeOfRefLow,time);
+			RefPoint ref = new RefPoint(refLow,volumeOfRefLow,epochSecForLow);
 			lows.add(ref);
 			
 //			refLows.add(refLow);
 //			volumeOfRefLows.add(volumeOfRefLow);
 //			epochTimeOfLows.add(TimePeriodDecider.getEpochSec());
-			Global.addLog(hlName + ": Recent Low Update: " + refLow + "; volume: " + volumeOfRefLow + "; time: " + time);
+			Global.addLog(hlName + ": Recent Low Update: " + refLow + "; volume: " + volumeOfRefLow + "; time: " + epochSecForLow);
 			findingLow = false;
 			findingHigh = true;
 			refHigh = 0;
