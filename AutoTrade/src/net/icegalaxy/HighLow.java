@@ -1,6 +1,9 @@
 package net.icegalaxy;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class HighLow
 {
@@ -33,16 +36,17 @@ public class HighLow
 		this.spread = spread / 100;
 	}
 	
+	//for previous data
 	public void findHigh()
 	{
 		if (GetData.getShortTB().getLatestCandle().getLow() < refLow)
 			refLow = GetData.getShortTB().getLatestCandle().getLow();
 
 		if (GetData.getShortTB().getLatestCandle().getHigh() > refHigh)
-		{
+		{ 
 			refHigh = GetData.getShortTB().getLatestCandle().getHigh();
 			volumeOfRefHigh = GetData.getShortTB().getLatestCandle().getVolume();
-			epochSecForHigh = TimePeriodDecider.getEpochSec();
+			epochSecForHigh = strToEpoch(GetData.getShortTB().getLatestCandle().getTime());
 			refLow = 99999;
 		}
 		
@@ -90,13 +94,14 @@ public class HighLow
 		}
 	}
 
+	//for previous data
 	public void findLow()
 	{
 		if (GetData.getShortTB().getLatestCandle().getLow() < refLow)
 		{
 			refLow = GetData.getShortTB().getLatestCandle().getLow();
 			volumeOfRefLow = GetData.getShortTB().getLatestCandle().getVolume();
-			epochSecForLow = TimePeriodDecider.getEpochSec();
+			epochSecForLow = strToEpoch(GetData.getShortTB().getLatestCandle().getTime());
 			refHigh = 0;
 		}
 		if (GetData.getShortTB().getLatestCandle().getHigh() > refHigh)
@@ -257,6 +262,26 @@ public class HighLow
 				return 0;
 			
 			return getSlopeOfDownTrend() * (TimePeriodDecider.getEpochSec() - lows.get(lows.size()-1).epochTime) + lows.get(lows.size()-1).refPoint;		
+			
+		}
+		
+		private long strToEpoch(String s)
+		{
+			
+//			String dateTime = "2018/06/05/15/23/01";
+//			SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd/HH/mm/ss");
+			SimpleDateFormat df = new SimpleDateFormat(s);
+			Date date = null;
+			try {
+				date = df.parse(s);
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			long epoch = date.getTime();
+			return epoch;
+			
+			
 			
 		}
 	
