@@ -269,8 +269,8 @@ public class HighLow
 		{
 			
 //			String dateTime = "2018/06/05/15/23/01";
-//			SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd/HH/mm/ss");
-			SimpleDateFormat df = new SimpleDateFormat(s);
+			SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd/HH/mm/ss");
+//			SimpleDateFormat df = new SimpleDateFormat(s);
 			Date date = null;
 			try {
 				date = df.parse(s);
