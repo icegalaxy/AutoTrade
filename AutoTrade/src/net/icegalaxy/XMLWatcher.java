@@ -242,14 +242,14 @@ public class XMLWatcher implements Runnable
 				if (OHLC.isModified())
 					setOHLC();
 
-				try
-				{
-					if (EMA.isModified())
-						setEMA();
-				} catch (Exception x)
-				{
-					x.printStackTrace();
-				}
+//				try
+//				{
+//					if (EMA.isModified())
+//						setEMA();
+//				} catch (Exception x)
+//				{
+//					x.printStackTrace();
+//				}
 
 				if (Stair.isModified())
 				{
