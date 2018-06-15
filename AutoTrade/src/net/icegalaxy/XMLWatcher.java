@@ -75,7 +75,7 @@ public class XMLWatcher implements Runnable
 
 		files.add(intraDayXML);
 		files.add(OHLC);
-		files.add(EMA);
+//		files.add(EMA);
 		files.add(Stair);
 //		files.add(csvLog);
 		
