@@ -132,11 +132,11 @@ public class Global
 		System.out.println(msg);
 		Global.log.append(msg);
 //		DB.stringtoFile(Global.log.toString(), "TradeData\\log " + getToday() + ".txt");
-		DB.stringtoFile(Global.log.toString(), "C:\\Users\\joech\\Dropbox\\TradeData\\log" + getToday() + ".txt");
+//		DB.stringtoFile(Global.log.toString(), "C:\\Users\\joech\\Dropbox\\TradeData\\log" + getToday() + ".txt");
 		
 		csvLog.append(csvMsg);
 		
-		DB.stringtoFile(csvLog.toString(), "C:\\Users\\joech\\Dropbox\\TradeData\\csvLog " + getToday() + ".csv");
+//		DB.stringtoFile(csvLog.toString(), "C:\\Users\\joech\\Dropbox\\TradeData\\csvLog " + getToday() + ".csv");
 		
 	}
 
@@ -662,5 +662,7 @@ public class Global
 	static boolean hugeDrop;
 
 	public static boolean shutDownRaising;
+	
+	public static String logString = "C:\\Users\\joech\\Dropbox\\TradeData\\csvLog " + getToday() + ".csv";
 
 }

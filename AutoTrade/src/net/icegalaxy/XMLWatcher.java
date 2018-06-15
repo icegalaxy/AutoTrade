@@ -17,10 +17,18 @@ public class XMLWatcher implements Runnable
 	public static IntraDayReader intraDay;
 	public static IntraDayReader ema;
 	XMLReader ohlc;
-	static String intraDayXMLPath = "C:\\Users\\joech\\Dropbox\\TradeData\\Intraday.xml";
-	static String OHLCPath = "C:\\Users\\joech\\Dropbox\\TradeData\\FHIdata.xml";
-	static String EMAPath = "C:\\Users\\joech\\Dropbox\\TradeData\\EMA.xml";
-	static String StairPath = "C:\\Users\\joech\\Dropbox\\TradeData\\stair.csv";
+	
+	static MyFile intraDayXML = new MyFile("C:\\Users\\joech\\Dropbox\\TradeData\\Intraday.xml");
+	static MyFile OHLC = new MyFile("C:\\Users\\joech\\Dropbox\\TradeData\\FHIdata.xml");
+	static MyFile EMA = new MyFile("C:\\Users\\joech\\Dropbox\\TradeData\\EMA.xml");
+	static MyFile Stair = new MyFile("C:\\Users\\joech\\Dropbox\\TradeData\\stair.csv");
+	
+	ArrayList<MyFile> files = new ArrayList<MyFile>();
+	
+//	static String intraDayXMLPath = "C:\\Users\\joech\\Dropbox\\TradeData\\Intraday.xml";
+//	static String OHLCPath = "C:\\Users\\joech\\Dropbox\\TradeData\\FHIdata.xml";
+//	static String EMAPath = "C:\\Users\\joech\\Dropbox\\TradeData\\EMA.xml";
+//	static String StairPath = "C:\\Users\\joech\\Dropbox\\TradeData\\stair.csv";
 
 	public static boolean M5EMA50;
 	public static boolean M5EMA250;
@@ -53,25 +61,36 @@ public class XMLWatcher implements Runnable
 	public static boolean selling;
 	public static double stair = 0;
 
-	private long intraDayModifiedTime;
-	private long FHIDataModifiedTime;
-	private long EMAModifiedTime;
-	private long stairModifiedTime;
+//	private long intraDayModifiedTime;
+//	private long FHIDataModifiedTime;
+//	private long EMAModifiedTime;
+//	private long stairModifiedTime;
 
 	private int secCounter;
 
 	public XMLWatcher()
 	{
 
-		intraDayModifiedTime = new File(intraDayXMLPath).lastModified() / 60000;
-		FHIDataModifiedTime = new File(OHLCPath).lastModified() / 60000;
-		EMAModifiedTime = new File(EMAPath).lastModified() / 60000;
-		stairModifiedTime = new File(StairPath).lastModified() / 60000;
+		files.add(intraDayXML);
+		files.add(OHLC);
+		files.add(EMA);
+		files.add(Stair);
+		
+//		for (MyFile x: files)
+//		{
+		// Done in the constructor of MyFile
+//			x.previousModifiedTime = x.lastModified();
+//		}
+		
+//		intraDayModifiedTime = new File(intraDayXMLPath).lastModified() / 60000;
+//		FHIDataModifiedTime = new File(OHLCPath).lastModified() / 60000;
+//		EMAModifiedTime = new File(EMAPath).lastModified() / 60000;
+//		stairModifiedTime = new File(StairPath).lastModified() / 60000;
 
 		// stairs = new ArrayList<Stair>(); not created here, should be created
 		// everytime updated.
 
-		intraDay = new IntraDayReader(Global.getToday(), intraDayXMLPath);
+		intraDay = new IntraDayReader(Global.getToday(), intraDayXML.pathName);
 
 		open = new OHLC();
 		open.name = "Open";
@@ -88,7 +107,7 @@ public class XMLWatcher implements Runnable
 		mySAR = new OHLC();
 		mySAR.name = "SAR";
 
-		ema = new IntraDayReader(Global.getToday(), EMAPath);
+		ema = new IntraDayReader(Global.getToday(), EMA.pathName);
 
 		// ohlc = new XMLReader(Global.getToday(), OHLCPath);
 		// using today
@@ -195,7 +214,7 @@ public class XMLWatcher implements Runnable
 			{
 				secCounter = 0;
 
-				if (isIntraDayModified(intraDayXMLPath))
+				if (intraDayXML.isModified())
 				{
 					intraDay.findElementOfToday();
 					intraDay.findOHLC();
@@ -217,19 +236,19 @@ public class XMLWatcher implements Runnable
 					Global.addLog("--------------------");
 				}
 
-				if (isFHIModified(OHLCPath))
+				if (OHLC.isModified())
 					setOHLC();
 
 				try
 				{
-					if (isEMAModified(EMAPath))
+					if (EMA.isModified())
 						setEMA();
 				} catch (Exception x)
 				{
 					x.printStackTrace();
 				}
 
-				if (isStairModified(StairPath))
+				if (Stair.isModified())
 				{
 					try{
 						readStairs();
@@ -292,7 +311,7 @@ public class XMLWatcher implements Runnable
 		Scanner sc = null;
 		try
 		{
-			sc = new Scanner(new File(StairPath));
+			sc = new Scanner(new File(Stair.pathName));
 		} catch (FileNotFoundException e)
 		{
 			e.printStackTrace();
@@ -497,7 +516,7 @@ public class XMLWatcher implements Runnable
 	private void setOHLC()
 	{
 
-		ohlc = new XMLReader("Today", OHLCPath);
+		ohlc = new XMLReader("Today", OHLC.pathName);
 
 		try
 		{
