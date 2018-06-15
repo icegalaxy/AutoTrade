@@ -22,8 +22,10 @@ public abstract class Rules implements Runnable
 	
 	boolean shutDownRaising;
 	
-	int localShutdownIndex = -1;
-	long localShutdownSec = -1;
+	int localShutdownLongIndex = -1;
+	int localShutdownShortIndex = -1;
+	long localShutdownLongSec = -1;
+	long localShutdownShortSec = -1;
 	
 	
 	long buyingTime;

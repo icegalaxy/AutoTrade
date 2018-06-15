@@ -59,10 +59,10 @@ public class RuleSkyStair1Min2 extends Rules
 					&& GetData.minuteLow > XMLWatcher.stairs.get(currentStairIndex).value)
 			{
 				
-				if (localShutdownIndex == currentStairIndex)
+				if (localShutdownLongIndex == currentStairIndex)
 					continue;
 				else
-					localShutdownIndex = -1;
+					localShutdownLongIndex = -1;
 
 				if (!XMLWatcher.stairs.get(currentStairIndex).buying || XMLWatcher.stairs.get(currentStairIndex).shutdown)
 					continue;
@@ -173,10 +173,10 @@ public class RuleSkyStair1Min2 extends Rules
 					&& GetData.minuteHigh < XMLWatcher.stairs.get(currentStairIndex).value)
 			{
 				
-				if (localShutdownIndex == currentStairIndex)
+				if (localShutdownLongIndex == currentStairIndex)
 					continue;
 				else
-					localShutdownIndex = -1;
+					localShutdownLongIndex = -1;
 
 				if (!XMLWatcher.stairs.get(currentStairIndex).selling || XMLWatcher.stairs.get(currentStairIndex).shutdown)
 					continue;
@@ -375,7 +375,7 @@ public class RuleSkyStair1Min2 extends Rules
 			Global.addLog("ST1 RefHigh out of range");
 //			waitForAPeriod(1800);
 			
-			localShutdownIndex = currentStairIndex;
+			localShutdownLongIndex = currentStairIndex;
 			
 			return true;
 		}
@@ -394,7 +394,7 @@ public class RuleSkyStair1Min2 extends Rules
 			Global.addLog("ST1 RefLow out of range");
 //			waitForAPeriod(1800);
 			
-			localShutdownIndex = currentStairIndex;
+			localShutdownLongIndex = currentStairIndex;
 			
 			return true;
 		}
