@@ -193,6 +193,7 @@ public class GetData implements Runnable
 							file.writeToFile();
 							file.previousString = new StringBuffer(file.fileString.toString());
 					}
+					createdLog = true;
 				}
 
 				
