@@ -51,6 +51,8 @@ public class GetData implements Runnable
 	// private static EMA ema1200;
 	private int errTimes;
 
+	private boolean createdLog;
+
 	// private float previousClose = 0;
 
 	// private static TimeBase sec5TB;
@@ -178,6 +180,22 @@ public class GetData implements Runnable
 			if (Global.isTradeTime())
 			{
 
+				if(!createdLog)
+				{
+					XMLWatcher.csvLog = new MyFile("C:\\Users\\joech\\Dropbox\\TradeData\\csvLog " + Global.getToday() + ".csv");
+					XMLWatcher.csvLog.fileString.append("Time,Caller,Message,Remark\r\n");
+					XMLWatcher.files.add(XMLWatcher.csvLog);
+					
+					for (MyFile file: XMLWatcher.files)
+					{
+						if(file.previousModifiedTime != file.lastModified()
+								|| !file.previousString.toString().equals(file.fileString.toString()))
+							file.writeToFile();
+							file.previousString = new StringBuffer(file.fileString.toString());
+					}
+				}
+
+				
 				// this is for quote power
 				if (!getIndex())
 				{
@@ -354,7 +372,13 @@ public class GetData implements Runnable
 						Global.addLog("Set open after 91500 at: " + Global.getOpen());
 					}
 
-				
+					for (MyFile file: XMLWatcher.files)
+					{
+						if(file.previousModifiedTime != file.lastModified()
+								|| !file.previousString.toString().equals(file.fileString.toString()))
+							file.writeToFile();
+							file.previousString = new StringBuffer(file.fileString.toString());
+					}
 					
 					// if (Global.getpHigh() == 0)
 					// {

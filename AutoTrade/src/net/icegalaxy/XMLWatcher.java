@@ -23,7 +23,9 @@ public class XMLWatcher implements Runnable
 	static MyFile EMA = new MyFile("C:\\Users\\joech\\Dropbox\\TradeData\\EMA.xml");
 	static MyFile Stair = new MyFile("C:\\Users\\joech\\Dropbox\\TradeData\\stair.csv");
 	
-	ArrayList<MyFile> files = new ArrayList<MyFile>();
+	static MyFile csvLog = new MyFile("C:\\Users\\joech\\Dropbox\\TradeData\\csvLog " + Global.getToday() + ".csv");
+	
+	public static ArrayList<MyFile> files = new ArrayList<MyFile>();
 	
 //	static String intraDayXMLPath = "C:\\Users\\joech\\Dropbox\\TradeData\\Intraday.xml";
 //	static String OHLCPath = "C:\\Users\\joech\\Dropbox\\TradeData\\FHIdata.xml";
@@ -75,6 +77,7 @@ public class XMLWatcher implements Runnable
 		files.add(OHLC);
 		files.add(EMA);
 		files.add(Stair);
+//		files.add(csvLog);
 		
 //		for (MyFile x: files)
 //		{
@@ -385,61 +388,61 @@ public class XMLWatcher implements Runnable
 		Global.addLog("--------------------");
 	}
 
-	private boolean isFHIModified(String filePath)
-	{
-
-		if (FHIDataModifiedTime == new File(filePath).lastModified() / 60000)
-			return false;
-		else
-		{
-			FHIDataModifiedTime = new File(filePath).lastModified() / 60000;
-			Global.addLog("OHLC XML file updated");
-			return true;
-		}
-
-	}
-
-	private boolean isStairModified(String filePath)
-	{
-
-		if (stairModifiedTime == new File(filePath).lastModified() / 60000)
-			return false;
-		else
-		{
-			stairModifiedTime = new File(filePath).lastModified() / 60000;
-			Global.addLog("Stair.csv updated");
-			return true;
-		}
-
-	}
-
-	private boolean isIntraDayModified(String filePath)
-	{
-
-		if (intraDayModifiedTime == new File(filePath).lastModified() / 60000)
-			return false;
-		else
-		{
-			intraDayModifiedTime = new File(filePath).lastModified() / 60000;
-			Global.addLog("IntraDay XML file updated");
-			return true;
-		}
-
-	}
-
-	private boolean isEMAModified(String filePath)
-	{
-
-		if (EMAModifiedTime == new File(filePath).lastModified() / 60000)
-			return false;
-		else
-		{
-			EMAModifiedTime = new File(filePath).lastModified() / 60000;
-			Global.addLog("EMA XML file updated");
-			return true;
-		}
-
-	}
+//	private boolean isFHIModified(String filePath)
+//	{
+//
+//		if (FHIDataModifiedTime == new File(filePath).lastModified() / 60000)
+//			return false;
+//		else
+//		{
+//			FHIDataModifiedTime = new File(filePath).lastModified() / 60000;
+//			Global.addLog("OHLC XML file updated");
+//			return true;
+//		}
+//
+//	}
+//
+//	private boolean isStairModified(String filePath)
+//	{
+//
+//		if (stairModifiedTime == new File(filePath).lastModified() / 60000)
+//			return false;
+//		else
+//		{
+//			stairModifiedTime = new File(filePath).lastModified() / 60000;
+//			Global.addLog("Stair.csv updated");
+//			return true;
+//		}
+//
+//	}
+//
+//	private boolean isIntraDayModified(String filePath)
+//	{
+//
+//		if (intraDayModifiedTime == new File(filePath).lastModified() / 60000)
+//			return false;
+//		else
+//		{
+//			intraDayModifiedTime = new File(filePath).lastModified() / 60000;
+//			Global.addLog("IntraDay XML file updated");
+//			return true;
+//		}
+//
+//	}
+//
+//	private boolean isEMAModified(String filePath)
+//	{
+//
+//		if (EMAModifiedTime == new File(filePath).lastModified() / 60000)
+//			return false;
+//		else
+//		{
+//			EMAModifiedTime = new File(filePath).lastModified() / 60000;
+//			Global.addLog("EMA XML file updated");
+//			return true;
+//		}
+//
+//	}
 
 	private void setOpenPrice()
 	{

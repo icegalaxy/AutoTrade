@@ -130,26 +130,26 @@ public class Global
 		
 		msg = GetData.getTime() + "	" + msg + "\r\n";
 		System.out.println(msg);
-		Global.log.append(msg);
+//		Global.log.append(msg);
 //		DB.stringtoFile(Global.log.toString(), "TradeData\\log " + getToday() + ".txt");
 //		DB.stringtoFile(Global.log.toString(), "C:\\Users\\joech\\Dropbox\\TradeData\\log" + getToday() + ".txt");
 		
-		csvLog.append(csvMsg);
+		XMLWatcher.csvLog.fileString.append(csvMsg);
 		
 //		DB.stringtoFile(csvLog.toString(), "C:\\Users\\joech\\Dropbox\\TradeData\\csvLog " + getToday() + ".csv");
 		
 	}
 
-	public static synchronized void clearLog()
-	{
+//	public static synchronized void clearLog()
+//	{
+//
+//		Global.log = new StringBuffer("");
+//	}
 
-		Global.log = new StringBuffer("");
-	}
-
-	public static synchronized String getLog()
-	{
-		return Global.log.toString();
-	}
+//	public static synchronized String getLog()
+//	{
+//		return Global.log.toString();
+//	}
 
 	public static synchronized boolean isForceSellTime()
 	{
@@ -563,11 +563,12 @@ public class Global
 	public static void updateCSV()
 	{
 
-		CSVWriter csvw = new CSVWriter(XMLWatcher.stairs, "C:\\Users\\joech\\Dropbox\\TradeData\\stair.csv");
+		CSVWriter csvw = new CSVWriter(XMLWatcher.stairs, XMLWatcher.Stair.pathName);
 
 		try
 		{
-			csvw.writeToCSV();
+			XMLWatcher.Stair.fileString = new StringBuffer(csvw.getCSVString());
+			
 		} catch (Exception e)
 		{
 			e.printStackTrace();
@@ -609,8 +610,8 @@ public class Global
 
 	private static float greatProfit;
 
-	public static StringBuffer log = new StringBuffer("");
-	private static StringBuffer csvLog = new StringBuffer("Time,Caller,Message,Remark\r\n");
+//	public static StringBuffer log = new StringBuffer("");
+//	private static StringBuffer csvLog = new StringBuffer("Time,Caller,Message,Remark\r\n");
 
 	public static float totalBalance;
 	public static boolean analysingAll;
@@ -663,6 +664,6 @@ public class Global
 
 	public static boolean shutDownRaising;
 	
-	public static String logString = "C:\\Users\\joech\\Dropbox\\TradeData\\csvLog " + getToday() + ".csv";
+//	public static String logString = "C:\\Users\\joech\\Dropbox\\TradeData\\csvLog " + getToday() + ".csv";
 
 }

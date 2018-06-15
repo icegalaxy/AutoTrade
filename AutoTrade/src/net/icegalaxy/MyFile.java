@@ -9,6 +9,7 @@ public class MyFile extends File
 
 	public long previousModifiedTime;
 	public StringBuffer fileString;
+	public StringBuffer previousString;
 	String pathName;
 	
 	public MyFile(String pathname)
@@ -16,6 +17,7 @@ public class MyFile extends File
 		super(pathname);
 		this.pathName = pathname;
 		fileString = new StringBuffer("");
+		previousString = new StringBuffer("");
 		previousModifiedTime = this.lastModified();
 		// TODO Auto-generated constructor stub
 	}

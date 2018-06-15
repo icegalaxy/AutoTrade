@@ -16,7 +16,7 @@ public class CSVWriter
 		this.csvPath = csvPath;
 	}
 	
-	public void writeToCSV()
+	public String getCSVString()
 	{
 		StringBuilder csvString = new StringBuilder();
 		
@@ -38,9 +38,9 @@ public class CSVWriter
 			
 		}
 		
-		stringtoFile(csvString.toString(), csvPath);
+//		stringtoFile(csvString.toString(), csvPath);
 		
-		
+		return csvString.toString();
 	}
 	
 	public static void stringtoFile(String inputString,
