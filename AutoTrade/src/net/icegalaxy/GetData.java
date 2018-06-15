@@ -186,13 +186,7 @@ public class GetData implements Runnable
 					XMLWatcher.csvLog.fileString.append("Time,Caller,Message,Remark\r\n");
 					XMLWatcher.files.add(XMLWatcher.csvLog);
 					
-					for (MyFile file: XMLWatcher.files)
-					{
-						if(file.previousModifiedTime != file.lastModified()
-								|| !file.previousString.toString().equals(file.fileString.toString()))
-							file.writeToFile();
-							file.previousString = new StringBuffer(file.fileString.toString());
-					}
+					XMLWatcher.csvLog.writeToFile();	
 					createdLog = true;
 				}
 
@@ -375,10 +369,11 @@ public class GetData implements Runnable
 
 					for (MyFile file: XMLWatcher.files)
 					{
-						if(file.previousModifiedTime != file.lastModified()
-								|| !file.previousString.toString().equals(file.fileString.toString()))
+						if(file.isStringModified())
+						{
 							file.writeToFile();
-							file.previousString = new StringBuffer(file.fileString.toString());
+							file.previousModifiedTime = file.lastModified();
+						}
 					}
 					
 					// if (Global.getpHigh() == 0)

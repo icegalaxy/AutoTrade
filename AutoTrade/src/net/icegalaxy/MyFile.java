@@ -38,9 +38,23 @@ public class MyFile extends File
 		
 	}
 	
-	public boolean isModified()
+	public boolean isStringModified(){
+		
+		if (previousString.toString().equals(fileString.toString()))
+				return false;
+		
+		previousString = new StringBuffer(fileString.toString());
+		return true;
+	}
+	
+	public boolean isFileModified()
 	{
-		return previousModifiedTime != this.lastModified();
+		if (previousModifiedTime == this.lastModified())
+			return false;
+			
+		previousModifiedTime = this.lastModified();
+		return true;
+		
 	}
 
 }

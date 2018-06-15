@@ -75,7 +75,7 @@ public class XMLWatcher implements Runnable
 
 		files.add(intraDayXML);
 		files.add(OHLC);
-//		files.add(EMA);
+		files.add(EMA);
 		files.add(Stair);
 //		files.add(csvLog);
 		
@@ -217,7 +217,7 @@ public class XMLWatcher implements Runnable
 			{
 				secCounter = 0;
 
-				if (intraDayXML.isModified())
+				if (intraDayXML.isFileModified())
 				{
 					intraDay.findElementOfToday();
 					intraDay.findOHLC();
@@ -239,19 +239,19 @@ public class XMLWatcher implements Runnable
 					Global.addLog("--------------------");
 				}
 
-				if (OHLC.isModified())
+				if (OHLC.isFileModified())
 					setOHLC();
 
-//				try
-//				{
-//					if (EMA.isModified())
-//						setEMA();
-//				} catch (Exception x)
-//				{
-//					x.printStackTrace();
-//				}
+				try
+				{
+					if (EMA.isFileModified())
+						setEMA();
+				} catch (Exception x)
+				{
+					x.printStackTrace();
+				}
 
-				if (Stair.isModified())
+				if (Stair.isFileModified())
 				{
 					try{
 						readStairs();
