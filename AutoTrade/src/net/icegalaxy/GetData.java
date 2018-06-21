@@ -180,15 +180,15 @@ public class GetData implements Runnable
 			if (Global.isTradeTime())
 			{
 
-				if(!createdLog)
-				{
-					XMLWatcher.csvLog = new MyFile("C:\\Users\\joech\\Dropbox\\TradeData\\csvLog " + Global.getToday() + ".csv");
-					XMLWatcher.csvLog.fileString.append("Time,Caller,Message,Remark\r\n");
-					XMLWatcher.files.add(XMLWatcher.csvLog);
-					
-					XMLWatcher.csvLog.writeToFile();	
-					createdLog = true;
-				}
+//				if(!createdLog)
+//				{
+//					XMLWatcher.csvLog = new MyFile("C:\\Users\\joech\\Dropbox\\TradeData\\csvLog " + Global.getToday() + ".csv");
+//					XMLWatcher.csvLog.fileString.append("Time,Caller,Message,Remark\r\n");
+//					XMLWatcher.files.add(XMLWatcher.csvLog);
+//					
+//					XMLWatcher.csvLog.writeToFile();	
+//					createdLog = true;
+//				}
 
 				
 				// this is for quote power
