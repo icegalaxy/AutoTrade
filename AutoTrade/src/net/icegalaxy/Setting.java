@@ -105,6 +105,13 @@ public class Setting extends JFrame {
 				String myLibraryPath = System.getProperty("user.dir");//or another absolute or relative path
 				System.setProperty("java.library.path", myLibraryPath);
 				
+				
+				XMLWatcher.csvLog = new MyFile("C:\\Users\\joech\\Dropbox\\TradeData\\csvLog " + Global.getToday() + ".csv");
+				XMLWatcher.csvLog.fileString.append("Time,Caller,Message,Remark\r\n");
+				XMLWatcher.files.add(XMLWatcher.csvLog);
+				
+				XMLWatcher.csvLog.writeToFile();
+				
 				SPApi.init();
 				
 				
@@ -129,12 +136,7 @@ public class Setting extends JFrame {
 					}
 					
 				}
-				
-				XMLWatcher.csvLog = new MyFile("C:\\Users\\joech\\Dropbox\\TradeData\\csvLog " + Global.getToday() + ".csv");
-				XMLWatcher.csvLog.fileString.append("Time,Caller,Message,Remark\r\n");
-				XMLWatcher.files.add(XMLWatcher.csvLog);
-				
-				XMLWatcher.csvLog.writeToFile();
+			
 				
 				Global.setCurrentPoint(SPApi.getAPIPrice().Last[0]); //don't know if this is necessary, try to test if the API is functioning
 				
