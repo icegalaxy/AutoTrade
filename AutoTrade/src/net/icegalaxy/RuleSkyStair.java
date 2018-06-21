@@ -1,7 +1,6 @@
 package net.icegalaxy;
 
 import java.util.ArrayList;
-import java.util.List;
 
 //Use the OPEN Line
 //Better not playing than lose
@@ -620,7 +619,7 @@ public class RuleSkyStair extends Rules
 //			}
 //		}
 
-		double stair = XMLWatcher.stair;
+//		double stair = XMLWatcher.stair;
 
 //		updateExpectedProfit(10);
 
@@ -632,11 +631,11 @@ public class RuleSkyStair extends Rules
 			if (tempCutLoss < cutLoss)
 				tempCutLoss = cutLoss;
 
-			if (stair != 0 && tempCutLoss < stair && GetData.getShortTB().getLatestCandle().getClose() > stair)
-			{
-				Global.addLog("Stair updated: " + stair);
-				tempCutLoss = stair;
-			}
+//			if (stair != 0 && tempCutLoss < stair && GetData.getShortTB().getLatestCandle().getClose() > stair)
+//			{
+//				Global.addLog("Stair updated: " + stair);
+//				tempCutLoss = stair;
+//			}
 
 //			if (buyingPoint > tempCutLoss && getProfit() > 30)
 //			{
@@ -658,11 +657,11 @@ public class RuleSkyStair extends Rules
 			if (tempCutLoss > cutLoss)
 				tempCutLoss = cutLoss;
 
-			if (stair != 0 && tempCutLoss > stair && GetData.getShortTB().getLatestCandle().getClose() < stair)
-			{
-				Global.addLog("Stair updated: " + stair);
-				tempCutLoss = stair;
-			}
+//			if (stair != 0 && tempCutLoss > stair && GetData.getShortTB().getLatestCandle().getClose() < stair)
+//			{
+//				Global.addLog("Stair updated: " + stair);
+//				tempCutLoss = stair;
+//			}
 
 //			if (buyingPoint < tempCutLoss && getProfit() > 30)
 //			{
@@ -742,7 +741,7 @@ public class RuleSkyStair extends Rules
 	@Override
 	void updateStopEarn()
 	{
-		double stair = XMLWatcher.stair;
+//		double stair = XMLWatcher.stair;
 
 		if (Global.getNoOfContracts() > 0)
 		{
@@ -771,11 +770,11 @@ public class RuleSkyStair extends Rules
 			}
 
 			// update stair
-			if (stair != 0 && tempCutLoss < stair && Global.getCurrentPoint() > stair)
-			{
-				Global.addLog("Stair updated: " + stair);
-				tempCutLoss = stair;
-			}
+//			if (stair != 0 && tempCutLoss < stair && Global.getCurrentPoint() > stair)
+//			{
+//				Global.addLog("Stair updated: " + stair);
+//				tempCutLoss = stair;
+//			}
 
 			if (tempCutLoss < getLongStopEarn(XMLWatcher.stairs.get(currentStairIndex).value))
 			{
@@ -820,11 +819,11 @@ public class RuleSkyStair extends Rules
 				Global.addLog("Profit pt update by tinyHL: " + tempCutLoss);
 			}
 
-			if (stair != 0 && tempCutLoss > stair && Global.getCurrentPoint() < stair)
-			{
-				Global.addLog("Stair updated: " + stair);
-				tempCutLoss = stair;
-			}
+//			if (stair != 0 && tempCutLoss > stair && Global.getCurrentPoint() < stair)
+//			{
+//				Global.addLog("Stair updated: " + stair);
+//				tempCutLoss = stair;
+//			}
 
 			if (tempCutLoss > getShortStopEarn(XMLWatcher.stairs.get(currentStairIndex).value))
 			{

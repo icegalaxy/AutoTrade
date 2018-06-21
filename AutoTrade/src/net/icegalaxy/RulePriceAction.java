@@ -256,7 +256,7 @@ public class RulePriceAction extends Rules
 	double getCutLossPt()
 	{
 
-		double stair = XMLWatcher.stair;
+//		double stair = XMLWatcher.stair;
 
 		if (Global.getNoOfContracts() > 0)
 		{
@@ -266,11 +266,11 @@ public class RulePriceAction extends Rules
 			if (tempCutLoss < cutLoss)
 				tempCutLoss = cutLoss;
 
-			if (stair != 0 && tempCutLoss < stair && GetData.getShortTB().getLatestCandle().getClose() > stair)
-			{
-				Global.addLog("Stair updated: " + stair);
-				tempCutLoss = stair;
-			}
+//			if (stair != 0 && tempCutLoss < stair && GetData.getShortTB().getLatestCandle().getClose() > stair)
+//			{
+//				Global.addLog("Stair updated: " + stair);
+//				tempCutLoss = stair;
+//			}
 
 			return Math.max(10, buyingPoint - cutLoss);
 			
@@ -281,11 +281,11 @@ public class RulePriceAction extends Rules
 			if (tempCutLoss > cutLoss)
 				tempCutLoss = cutLoss;
 
-			if (stair != 0 && tempCutLoss > stair && GetData.getShortTB().getLatestCandle().getClose() < stair)
-			{
-				Global.addLog("Stair updated: " + stair);
-				tempCutLoss = stair;
-			}
+//			if (stair != 0 && tempCutLoss > stair && GetData.getShortTB().getLatestCandle().getClose() < stair)
+//			{
+//				Global.addLog("Stair updated: " + stair);
+//				tempCutLoss = stair;
+//			}
 
 
 			// just in case, should be stopped by tempCutLoss first
@@ -358,7 +358,7 @@ public class RulePriceAction extends Rules
 	@Override
 	void updateStopEarn()
 	{
-		double stair = XMLWatcher.stair;
+//		double stair = XMLWatcher.stair;
 
 		if (Global.getNoOfContracts() > 0)
 		{
@@ -388,11 +388,11 @@ public class RulePriceAction extends Rules
 			}
 
 			// update stair
-			if (stair != 0 && tempCutLoss < stair && Global.getCurrentPoint() > stair)
-			{
-				Global.addLog("Stair updated: " + stair);
-				tempCutLoss = stair;
-			}
+//			if (stair != 0 && tempCutLoss < stair && Global.getCurrentPoint() > stair)
+//			{
+//				Global.addLog("Stair updated: " + stair);
+//				tempCutLoss = stair;
+//			}
 
 			if (tempCutLoss < profitPt)
 			{
@@ -437,11 +437,11 @@ public class RulePriceAction extends Rules
 			}
 			
 
-			if (stair != 0 && tempCutLoss > stair && Global.getCurrentPoint() < stair)
-			{
-				Global.addLog("Stair updated: " + stair);
-				tempCutLoss = stair;
-			}
+//			if (stair != 0 && tempCutLoss > stair && Global.getCurrentPoint() < stair)
+//			{
+//				Global.addLog("Stair updated: " + stair);
+//				tempCutLoss = stair;
+//			}
 
 			if (tempCutLoss > profitPt)
 			{
