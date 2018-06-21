@@ -150,20 +150,20 @@ public class XMLWatcher implements Runnable
 //		XMLWatcher.updateIntraDayXML("buying", "false");
 //		XMLWatcher.updateIntraDayXML("selling", "false");
 
-		try
-		{
-			updateEMAXML("stair", "0");
-			updateEMAXML("stopEarn", "0");
-			updateEMAXML("buying", "false");
-			updateEMAXML("selling", "false");
-			updateEMAXML("M5EMA50", "false");
-			updateEMAXML("M5EMA250", "false");
-		} catch (Exception e)
-		{
-			e.printStackTrace();
-		}
-
-		setOHLC();
+//		try
+//		{
+//			updateEMAXML("stair", "0");
+//			updateEMAXML("stopEarn", "0");
+//			updateEMAXML("buying", "false");
+//			updateEMAXML("selling", "false");
+//			updateEMAXML("M5EMA50", "false");
+//			updateEMAXML("M5EMA250", "false");
+//		} catch (Exception e)
+//		{
+//			e.printStackTrace();
+//		}
+//
+//		setOHLC();
 
 //		RuleSAR sar = new RuleSAR(true);
 //		RuleRR rr = new RuleRR(true);
