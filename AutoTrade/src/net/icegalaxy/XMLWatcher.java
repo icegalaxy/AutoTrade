@@ -23,7 +23,8 @@ public class XMLWatcher implements Runnable
 	static MyFile EMA = new MyFile("C:\\Users\\joech\\Dropbox\\TradeData\\EMA.xml");
 	static MyFile Stair = new MyFile("C:\\Users\\joech\\Dropbox\\TradeData\\stair.csv");
 	
-	static MyFile csvLog = new MyFile("C:\\Users\\joech\\Dropbox\\TradeData\\csvLog " + Global.getToday() + ".csv");
+//	static MyFile csvLog = new MyFile("C:\\Users\\joech\\Dropbox\\TradeData\\csvLog " + Global.getToday() + ".csv");
+	static MyFile csvLog;
 	
 	public static ArrayList<MyFile> files = new ArrayList<MyFile>();
 	
