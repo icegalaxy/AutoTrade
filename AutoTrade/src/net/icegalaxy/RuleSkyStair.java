@@ -51,9 +51,12 @@ public class RuleSkyStair extends Rules
 			if (Global.getNoOfContracts() != 0)
 				return;
 
-			if (XMLWatcher.stairs.get(currentStairIndex).value == 0)
+			if (XMLWatcher.stairs.get(currentStairIndex).value == 0
+					|| Math.abs(localShutdownPt - Global.getCurrentPoint()) < 50)
 				continue;
-
+			else
+				localShutdownPt = 0;
+			
 			// if (currentStair.shutdown)
 			// continue;
 
@@ -65,6 +68,7 @@ public class RuleSkyStair extends Rules
 			{
 				
 				//must be put inside long or short to avoid reset of index and sec every time
+				
 				if (localShutdownLongIndex == currentStairIndex && TimePeriodDecider.getEpochSec() - localShutdownLongSec < 1800)
 					continue;
 				else
@@ -304,6 +308,7 @@ public class RuleSkyStair extends Rules
 			{
 				
 				//must be put inside long or short to avoid reset of index and sec every time
+				
 				if (localShutdownShortIndex == currentStairIndex && TimePeriodDecider.getEpochSec() - localShutdownShortSec < 1800)
 					continue;
 				else
@@ -541,6 +546,7 @@ public class RuleSkyStair extends Rules
 			Global.addLog("ST: no Dropping");
 			localShutdownShortIndex = currentStairIndex;
 			localShutdownShortSec = TimePeriodDecider.getEpochSec();
+			localShutdownPt = Global.getCurrentPoint();
 //			waitForAPeriod(1800);
 			return true;
 		}
@@ -550,6 +556,7 @@ public class RuleSkyStair extends Rules
 			Global.addLog("TinyHL Is Rising");
 			localShutdownShortIndex = currentStairIndex;
 			localShutdownShortSec = TimePeriodDecider.getEpochSec();
+			localShutdownPt = Global.getCurrentPoint();
 //			waitForAPeriod(1800);
 			return true;
 		}
@@ -558,7 +565,8 @@ public class RuleSkyStair extends Rules
 		{
 			Global.addLog("NanoHL Is Rising");
 			localShutdownShortIndex = currentStairIndex;
-			localShutdownShortSec = TimePeriodDecider.getEpochSec();			
+			localShutdownShortSec = TimePeriodDecider.getEpochSec();	
+			localShutdownPt = Global.getCurrentPoint();
 //			waitForAPeriod(1800);
 			return true;
 		}
@@ -577,6 +585,7 @@ public class RuleSkyStair extends Rules
 			Global.addLog("ST: no Rising");
 			localShutdownLongIndex = currentStairIndex;
 			localShutdownLongSec = TimePeriodDecider.getEpochSec();			
+			localShutdownPt = Global.getCurrentPoint();
 //			waitForAPeriod(1800);
 			return true;
 		}
@@ -586,6 +595,7 @@ public class RuleSkyStair extends Rules
 			Global.addLog("Tiny Is Dropping");
 			localShutdownLongIndex = currentStairIndex;
 			localShutdownLongSec = TimePeriodDecider.getEpochSec();
+			localShutdownPt = Global.getCurrentPoint();
 //			waitForAPeriod(1800);
 			return true;
 		}
@@ -595,6 +605,7 @@ public class RuleSkyStair extends Rules
 			Global.addLog("Nano Is Dropping");
 			localShutdownLongIndex = currentStairIndex;
 			localShutdownLongSec = TimePeriodDecider.getEpochSec();
+			localShutdownPt = Global.getCurrentPoint();
 //			waitForAPeriod(1800);
 			return true;
 		}

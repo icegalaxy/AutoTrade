@@ -50,8 +50,11 @@ public class RuleSkyStair5Min extends Rules
 			if (Global.getNoOfContracts() != 0)
 				return;
 
-			if (XMLWatcher.stairs.get(currentStairIndex).value == 0)
+			if (XMLWatcher.stairs.get(currentStairIndex).value == 0
+					|| Math.abs(localShutdownPt - Global.getCurrentPoint()) < 50)
 				continue;
+			else
+				localShutdownPt = 0;
 
 			// Long
 			if (
@@ -301,6 +304,7 @@ public class RuleSkyStair5Min extends Rules
 			Global.addLog("ST5 tinyHL not dropping");
 			localShutdownShortIndex = currentStairIndex;
 			localShutdownShortSec = TimePeriodDecider.getEpochSec();
+			localShutdownPt = Global.getCurrentPoint();
 			return true;
 		}
 		
@@ -311,6 +315,7 @@ public class RuleSkyStair5Min extends Rules
 			
 			localShutdownShortIndex = currentStairIndex;
 			localShutdownShortSec = TimePeriodDecider.getEpochSec();
+			localShutdownPt = Global.getCurrentPoint();
 			return true;
 		}
 		
@@ -328,6 +333,7 @@ public class RuleSkyStair5Min extends Rules
 			Global.addLog("ST5 tinyHL not rising");
 			localShutdownLongIndex = currentStairIndex;
 			localShutdownLongSec = TimePeriodDecider.getEpochSec();
+			localShutdownPt = Global.getCurrentPoint();
 			return true;
 		}
 		
@@ -338,6 +344,7 @@ public class RuleSkyStair5Min extends Rules
 			
 			localShutdownLongIndex = currentStairIndex;
 			localShutdownLongSec = TimePeriodDecider.getEpochSec();
+			localShutdownPt = Global.getCurrentPoint();
 			
 			return true;
 		}

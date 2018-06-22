@@ -26,6 +26,7 @@ public abstract class Rules implements Runnable
 	int localShutdownShortIndex = -1;
 	long localShutdownLongSec = -1;
 	long localShutdownShortSec = -1;
+	double localShutdownPt = 0;
 	
 	
 	long buyingTime;
