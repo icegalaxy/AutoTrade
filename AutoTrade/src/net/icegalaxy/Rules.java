@@ -46,7 +46,7 @@ public abstract class Rules implements Runnable
 	boolean usingMA5;
 	boolean shutdownRule;
 
-	private static float balance; // holding contracts �� balance
+	private static float balance; // holding contracts balance
 
 	// can use default trade time, just do not use the setTime method
 	int morningOpen = 92000;
@@ -1183,6 +1183,18 @@ public abstract class Rules implements Runnable
 			XMLWatcher.stairs.get(currentStairIndex).selling = false;
 			shutdownStair(currentStairIndex);
 			shutdown = true;
+		}else if (GetData.tinyHL.isRising())
+		{
+			Global.addLog("TinyHL is Rising");
+			XMLWatcher.stairs.get(currentStairIndex).selling = false;
+			shutdownStair(currentStairIndex);
+			shutdown = true;
+		}else if (GetData.smallHL.isRising())
+		{
+			Global.addLog("SmallHL is Rising");
+			XMLWatcher.stairs.get(currentStairIndex).selling = false;
+			shutdownStair(currentStairIndex);
+			shutdown = true;
 		}
 		
 		return shutdown;
@@ -1214,7 +1226,20 @@ public abstract class Rules implements Runnable
 			XMLWatcher.stairs.get(currentStairIndex).buying = false;
 			shutdownStair(currentStairIndex);
 			shutdown = true;
+		}else if (GetData.tinyHL.isDropping())
+		{
+			Global.addLog("TinyHL is Dropping");
+			XMLWatcher.stairs.get(currentStairIndex).buying = false;
+			shutdownStair(currentStairIndex);
+			shutdown = true;
+		}else if (GetData.smallHL.isDropping())
+		{
+			Global.addLog("SmallHL is Dropping");
+			XMLWatcher.stairs.get(currentStairIndex).buying = false;
+			shutdownStair(currentStairIndex);
+			shutdown = true;
 		}
+		
 		
 		return shutdown;
 	}
