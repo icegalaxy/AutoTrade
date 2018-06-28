@@ -194,7 +194,7 @@ public class RuleSkyStairNano extends Rules
 //				}
 				
 				while(Global.getCurrentPoint() < GetData.nanoHL.refLow + (GetData.nanoHL.getLatestHigh() - GetData.nanoHL.refLow)*0.24 //23.6% fibonacci
-//						|| GetData.nanoHL.isDropping()
+						|| GetData.getShortTB().getLatestCandle().getClose() < GetData.getShortTB().getLatestCandle().getOpen() + 5 // yang candle
 						)
 				{
 					
@@ -359,7 +359,7 @@ public class RuleSkyStairNano extends Rules
 //				}
 				
 				while(Global.getCurrentPoint() > GetData.nanoHL.refHigh - (GetData.nanoHL.refHigh - GetData.nanoHL.getLatestLow())*0.24 //23.6% fibonacci
-//						|| GetData.nanoHL.isRising()
+						|| GetData.getShortTB().getLatestCandle().getClose() > GetData.getShortTB().getLatestCandle().getOpen() - 5
 						)
 				{
 					
