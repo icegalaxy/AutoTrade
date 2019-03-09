@@ -7,14 +7,8 @@ import java.util.List;
 
 public class RulePriceAction extends Rules
 {
-	// Stair currentStair;
-//	int currentStairIndex;
-	// Stair currentStair;
-//	static ArrayList<Integer> shutdownIndex;
+
 	double cutLoss;
-//	double refHL;
-//	static int reActivatePeriod = 10000;
-//	int EMATimer;
 	double profitRange;
 	double profitPt;
 
