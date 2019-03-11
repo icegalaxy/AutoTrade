@@ -142,8 +142,7 @@ public class RuleSkyStair5Min extends Rules
 
 					profitRange = reward;
 					
-					if (rr > 3 
-							&& Global.getCurrentPoint() - cutLoss < XMLWatcher.stairs.get(currentStairIndex).tolerance)
+					if (2 < rr && rr < 3 && risk < 100)
 					{
 						Global.addLog("RR= " + rr);
 						break;
@@ -253,8 +252,7 @@ public class RuleSkyStair5Min extends Rules
 
 					profitRange = reward;
 					
-					if (rr > 3
-							&& cutLoss - Global.getCurrentPoint() < XMLWatcher.stairs.get(currentStairIndex).tolerance)
+					if (2 < rr && rr < 3 && risk < 100)
 					{
 						Global.addLog("RR= " + rr);
 						break;

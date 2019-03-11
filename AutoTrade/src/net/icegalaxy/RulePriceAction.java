@@ -62,25 +62,6 @@ public class RulePriceAction extends Rules
 				sleep(waitingTime);
 			}
 			
-//			boolean hasYangCandle = false;
-			
-			//check fewer times		
-//			if(GetData.nanoHL.getVolumeOfRecentLow() < GetData.getShortTB().getAverageQuantity() * 2
-//					|| GetData.nanoHL.getVolumeOfRecentLow() < getVolumeOfHigh() * 1.5
-//					|| GetData.nanoHL.getVolumeOfRecentLow() < 0
-//					|| getVolumeOfHigh() < 0)
-//			{
-//				Global.addLog("Volume Not Enough" + "\r\n" +
-//						"RecentLow: " + GetData.nanoHL.getVolumeOfRecentLow() + "\r\n" +
-//						"Average: " + GetData.getShortTB().getAverageQuantity() + "\r\n" +
-//						"High: " + getVolumeOfHigh());
-//
-//				
-//				while(GetData.nanoHL.isRising() && Global.getCurrentPoint() < GetData.nanoHL.getLatestLow() + 40)
-//					sleep(waitingTime);
-//				
-//				return;
-//			}	
 
 			while (true)
 			{	
@@ -97,9 +78,7 @@ public class RulePriceAction extends Rules
 				
 				profitRange = reward;
 				
-//				if (!hasYangCandle)
-//					hasYangCandle = getTimeBase().getLatestCandle().getClose() > getTimeBase().getLatestCandle().getOpen() + 5
-//									&& GetData.nanoHL.getVolumeOfRecentLow() > getVolumeOfHigh();
+
 				
 				if (!GetData.nanoHL.isRising() || GetData.nanoHL.isDropping())
 				{
@@ -107,7 +86,7 @@ public class RulePriceAction extends Rules
 					return;
 				}
 
-				if (rr > 5 && risk < 20)
+				if (2 < rr && rr < 3 && risk < 100)
 				{
 					Global.addLog("RR= " + rr);
 					break;
@@ -165,14 +144,12 @@ public class RulePriceAction extends Rules
 				sleep(waitingTime);
 			}
 			
-//			boolean hasYingCandle = false;
 			
 
 			while (true)
 			{
 
-//				if (shutdownShort(currentStairIndex))
-//					return;
+
 			
 				if (GetData.nanoHL.findingLow)
 					profitPt = Math.max(GetData.nanoHL.refLow, getShortStopEarn(Global.getCurrentPoint()));
@@ -187,9 +164,6 @@ public class RulePriceAction extends Rules
 
 				double rr = reward / risk;
 				
-//				if (!hasYingCandle)
-//					hasYingCandle = GetData.getShortTB().getLatestCandle().getClose() < GetData.getShortTB().getLatestCandle().getOpen() - 5
-//						&& GetData.nanoHL.getVolumeOfRecentHigh() > getVolumeOfLow();
 
 				if (!GetData.nanoHL.isDropping() || GetData.nanoHL.isRising())
 				{
@@ -198,7 +172,7 @@ public class RulePriceAction extends Rules
 				}
 				
 				
-				if (rr > 5 && risk < 20)
+				if (2 < rr && rr < 3 && risk < 100)
 				{
 					Global.addLog("RR= " + rr);
 					break;
