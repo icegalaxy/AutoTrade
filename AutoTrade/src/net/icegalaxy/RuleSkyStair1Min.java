@@ -83,7 +83,6 @@ public class RuleSkyStair1Min extends Rules
 				
 				waitForANewCandle();
 				
-				
 				Global.addLog("Waiting for a refLow");	
 				
 				while(!GetData.tinyHL.findingLow || !isOrderTime())
@@ -91,11 +90,11 @@ public class RuleSkyStair1Min extends Rules
 					if (shutdownLong(currentStairIndex))
 						return;
 					
-					if (Global.getCurrentPoint() > XMLWatcher.stairs.get(currentStairIndex).value + 50)
-					{
-						Global.addLog("Left");
-						return;
-					}
+//					if (Global.getCurrentPoint() > XMLWatcher.stairs.get(currentStairIndex).value + 50)
+//					{
+//						Global.addLog("Left");
+//						return;
+//					}
 
 					sleep(waitingTime);
 				}
@@ -103,21 +102,21 @@ public class RuleSkyStair1Min extends Rules
 				if (GetData.tinyHL.refLow < refLow)
 					refLow = GetData.tinyHL.refLow;
 				
-				Global.addLog("Waiting for a tiny rise");
-				
-				
-				while (true)
-				{
-					
-					if (shutdownLong(currentStairIndex))
-						return;
-					
-					if ( GetData.getShortTB().getLatestCandle().getClose() > GetData.getShortTB().getLatestCandle().getOpen() + 5
-						&& GetData.getShortTB().getLatestCandle().getClose() > XMLWatcher.stairs.get(currentStairIndex).value)
-						break;
-							
-					sleep(waitingTime);
-				}
+//				Global.addLog("Waiting for a tiny rise");
+//				
+//				
+//				while (true)
+//				{
+//					
+//					if (shutdownLong(currentStairIndex))
+//						return;
+//					
+//					if ( GetData.getShortTB().getLatestCandle().getClose() > GetData.getShortTB().getLatestCandle().getOpen() + 5
+//						&& GetData.getShortTB().getLatestCandle().getClose() > XMLWatcher.stairs.get(currentStairIndex).value)
+//						break;
+//							
+//					sleep(waitingTime);
+//				}
 				
 				
 				if (refLow < XMLWatcher.stairs.get(currentStairIndex).refLow)
@@ -150,6 +149,12 @@ public class RuleSkyStair1Min extends Rules
 					if (rr < 0.3)
 					{
 						Global.addLog("RR= " + rr);
+						return;
+					}
+					
+					if (Global.getCurrentPoint() < cutLoss)
+					{
+						Global.addLog("Lower than cutloss");
 						return;
 					}
 
@@ -203,11 +208,11 @@ public class RuleSkyStair1Min extends Rules
 					if (shutdownShort(currentStairIndex))
 						return;
 					
-					if (Global.getCurrentPoint() < XMLWatcher.stairs.get(currentStairIndex).value - 50)
-					{
-						Global.addLog("Left");
-						return;
-					}
+//					if (Global.getCurrentPoint() < XMLWatcher.stairs.get(currentStairIndex).value - 50)
+//					{
+//						Global.addLog("Left");
+//						return;
+//					}
 					
 					sleep(waitingTime);
 				}
@@ -215,20 +220,20 @@ public class RuleSkyStair1Min extends Rules
 				if (GetData.tinyHL.refHigh > refHigh)
 					refHigh = GetData.tinyHL.refHigh;
 
-				Global.addLog("Waiting for a tiny drop");
-
-				while(true)
-				{
-				
-					if(shutdownShort(currentStairIndex))
-						return;
-					
-					if (GetData.getShortTB().getLatestCandle().getClose() < GetData.getShortTB().getLatestCandle().getOpen() - 5
-							&& GetData.getShortTB().getLatestCandle().getClose() < XMLWatcher.stairs.get(currentStairIndex).value)
-						break;
-		
-					sleep(waitingTime);
-				}
+//				Global.addLog("Waiting for a tiny drop");
+//
+//				while(true)
+//				{
+//				
+//					if(shutdownShort(currentStairIndex))
+//						return;
+//					
+//					if (GetData.getShortTB().getLatestCandle().getClose() < GetData.getShortTB().getLatestCandle().getOpen() - 5
+//							&& GetData.getShortTB().getLatestCandle().getClose() < XMLWatcher.stairs.get(currentStairIndex).value)
+//						break;
+//		
+//					sleep(waitingTime);
+//				}
 				
 
 
@@ -261,6 +266,12 @@ public class RuleSkyStair1Min extends Rules
 					if (rr < 0.3)
 					{
 						Global.addLog("RR= " + rr);
+						return;
+					}
+					
+					if (Global.getCurrentPoint() > cutLoss)
+					{
+						Global.addLog("Higher than cutloss");
 						return;
 					}
 
