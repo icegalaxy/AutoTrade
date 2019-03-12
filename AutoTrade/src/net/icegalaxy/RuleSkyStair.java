@@ -131,7 +131,7 @@ public class RuleSkyStair extends Rules
 
 					profitRange = reward;
 					
-					if (2 < rr && rr < 3 && risk < 100)
+					if (2 < rr && rr < 2.5 && risk < 100)
 					{
 						Global.addLog("RR= " + rr);
 						break;
@@ -298,7 +298,7 @@ public class RuleSkyStair extends Rules
 
 					profitRange = reward;
 					
-					if (2 < rr && rr < 3 && risk < 100)
+					if (2 < rr && rr < 2.5 && risk < 100)
 					{
 						Global.addLog("RR= " + rr);
 						break;
