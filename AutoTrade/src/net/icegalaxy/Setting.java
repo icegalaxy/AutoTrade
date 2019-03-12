@@ -106,7 +106,7 @@ public class Setting extends JFrame {
 				System.setProperty("java.library.path", myLibraryPath);
 				
 				
-				XMLWatcher.csvLog = new MyFile("C:\\Users\\joecheung0\\Dropbox\\TradeData\\csvLog " + getToday() + ".csv");
+				XMLWatcher.csvLog = new MyFile("C:\\Users\\joech\\Dropbox\\TradeData\\csvLog " + getToday() + ".csv");
 				XMLWatcher.csvLog.fileString.append("Time,Caller,Message,Remark\r\n");
 				XMLWatcher.files.add(XMLWatcher.csvLog);
 				

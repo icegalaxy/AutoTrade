@@ -13,7 +13,7 @@ public class XMLWatcher implements Runnable
 {
 
 	public static List<Stair> stairs = new CopyOnWriteArrayList<Stair>();
-	static MyFile Stair = new MyFile("C:\\Users\\joecheung0\\Dropbox\\TradeData\\stair.csv");
+	static MyFile Stair = new MyFile("C:\\Users\\joech\\Dropbox\\TradeData\\stair.csv");
 	static MyFile csvLog;
 	public static ArrayList<MyFile> files = new ArrayList<MyFile>();
 	public static double stair = 0;
