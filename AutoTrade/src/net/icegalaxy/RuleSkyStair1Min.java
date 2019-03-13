@@ -40,7 +40,7 @@ public class RuleSkyStair1Min extends Rules
 		if (!Global.isTradeTime() || Global.getNoOfContracts() != 0 || !isOrderTime())
 			return;
 
-		for (int i = 0; i < XMLWatcher.stairs.size(); i++)
+		for (int i = 2; i < XMLWatcher.stairs.size(); i++)
 		{
 
 			currentStairIndex = i;

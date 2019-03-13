@@ -77,7 +77,7 @@ public class RuleSkyStairNano extends Rules
 		
 		
 
-		for (int i = 0; i < XMLWatcher.stairs.size(); i++)
+		for (int i = 2; i < XMLWatcher.stairs.size(); i++)
 		{
 
 			currentStairIndex = i;
