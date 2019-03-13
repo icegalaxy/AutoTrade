@@ -89,19 +89,15 @@ public class RuleSkyStair extends Rules
 				}
 				
 				
-//				Global.addLog("Waiting for a tiny rise");
-//
-//				
-//				while(Global.getCurrentPoint() < GetData.tinyHL.refLow + (GetData.tinyHL.getLatestHigh() - GetData.tinyHL.refLow)*0.24 //23.6% fibonacci
-//
-//						)
-//				{
-//
-//					if (shutdownLong(currentStairIndex))
-//						return;
-//					
-//					sleep(waitingTime);
-//				}
+				Global.addLog("Waiting to break nano high");
+				
+				while(Global.getCurrentPoint() < GetData.nanoHL.getLatestHigh())
+				{
+					if (shutdownLong(currentStairIndex))
+						return;
+					
+					sleep(waitingTime);
+				}
 				
 
 				
@@ -210,22 +206,15 @@ public class RuleSkyStair extends Rules
 				}
 				
 
-//				Global.addLog("Waiting for a tiny drop");
-//
-//				
-//				
-//				while(Global.getCurrentPoint() > GetData.tinyHL.refHigh - (GetData.tinyHL.refHigh - GetData.tinyHL.getLatestLow())*0.24 //23.6% fibonacci
-////						|| GetData.nanoHL.isRising()
-//						)
-//				{
-//					
-////					if (!volumeRising)
-////						volumeRising = GetData.getShortTB().isQuantityRising();
-//					
-//					if(shutdownShort(currentStairIndex))
-//						return;
-//					sleep(waitingTime);
-//				}
+				Global.addLog("Waiting to break nanoLow");
+	
+				while(Global.getCurrentPoint() > GetData.nanoHL.getLatestLow())
+				{
+					
+					if(shutdownShort(currentStairIndex))
+						return;
+					sleep(waitingTime);
+				}
 				
 //				if (GetData.tinyHL.volumeOfRefHigh < GetData.getShortTB().getAverageQuantity() * 2)
 //				{
