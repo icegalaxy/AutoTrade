@@ -352,84 +352,84 @@ public class RuleSkyStair extends Rules
 		}
 	}
 
-	@Override
-	boolean shutdownShort(int currentStairIndex)
-	{
-		
-		if(super.shutdownShort(currentStairIndex))
-			return true;
-		
-		if (!isDropping())
-		{
-			Global.addLog("ST: no Dropping");
-			localShutdownShortIndex = currentStairIndex;
-			localShutdownShortSec = TimePeriodDecider.getEpochSec();
-			localShutdownPt = Global.getCurrentPoint();
-//			waitForAPeriod(1800);
-			return true;
-		}
-		
-		if (GetData.tinyHL.isRising())
-		{
-			Global.addLog("TinyHL Is Rising");
-			localShutdownShortIndex = currentStairIndex;
-			localShutdownShortSec = TimePeriodDecider.getEpochSec();
-			localShutdownPt = Global.getCurrentPoint();
-//			waitForAPeriod(1800);
-			return true;
-		}
-		
-		if (GetData.nanoHL.isRising())
-		{
-			Global.addLog("NanoHL Is Rising");
-			localShutdownShortIndex = currentStairIndex;
-			localShutdownShortSec = TimePeriodDecider.getEpochSec();	
-			localShutdownPt = Global.getCurrentPoint();
-//			waitForAPeriod(1800);
-			return true;
-		}
-		
-		return false;
-	}
-
-	@Override
-	boolean shutdownLong(int currentStairIndex)
-	{
-		if(super.shutdownLong(currentStairIndex))
-			return true;
-		
-		if (!isRising())
-		{
-			Global.addLog("ST: no Rising");
-			localShutdownLongIndex = currentStairIndex;
-			localShutdownLongSec = TimePeriodDecider.getEpochSec();			
-			localShutdownPt = Global.getCurrentPoint();
-//			waitForAPeriod(1800);
-			return true;
-		}
-		
-		if (GetData.tinyHL.isDropping())
-		{
-			Global.addLog("Tiny Is Dropping");
-			localShutdownLongIndex = currentStairIndex;
-			localShutdownLongSec = TimePeriodDecider.getEpochSec();
-			localShutdownPt = Global.getCurrentPoint();
-//			waitForAPeriod(1800);
-			return true;
-		}
-		
-		if (GetData.nanoHL.isDropping())
-		{
-			Global.addLog("Nano Is Dropping");
-			localShutdownLongIndex = currentStairIndex;
-			localShutdownLongSec = TimePeriodDecider.getEpochSec();
-			localShutdownPt = Global.getCurrentPoint();
-//			waitForAPeriod(1800);
-			return true;
-		}
-		
-		return false;
-	}
+//	@Override
+//	boolean shutdownShort(int currentStairIndex)
+//	{
+//		
+//		if(super.shutdownShort(currentStairIndex))
+//			return true;
+//		
+//		if (!isDropping())
+//		{
+//			Global.addLog("ST: no Dropping");
+//			localShutdownShortIndex = currentStairIndex;
+//			localShutdownShortSec = TimePeriodDecider.getEpochSec();
+//			localShutdownPt = Global.getCurrentPoint();
+////			waitForAPeriod(1800);
+//			return true;
+//		}
+//		
+//		if (GetData.tinyHL.isRising())
+//		{
+//			Global.addLog("TinyHL Is Rising");
+//			localShutdownShortIndex = currentStairIndex;
+//			localShutdownShortSec = TimePeriodDecider.getEpochSec();
+//			localShutdownPt = Global.getCurrentPoint();
+////			waitForAPeriod(1800);
+//			return true;
+//		}
+//		
+//		if (GetData.nanoHL.isRising())
+//		{
+//			Global.addLog("NanoHL Is Rising");
+//			localShutdownShortIndex = currentStairIndex;
+//			localShutdownShortSec = TimePeriodDecider.getEpochSec();	
+//			localShutdownPt = Global.getCurrentPoint();
+////			waitForAPeriod(1800);
+//			return true;
+//		}
+//		
+//		return false;
+//	}
+//
+//	@Override
+//	boolean shutdownLong(int currentStairIndex)
+//	{
+//		if(super.shutdownLong(currentStairIndex))
+//			return true;
+//		
+//		if (!isRising())
+//		{
+//			Global.addLog("ST: no Rising");
+//			localShutdownLongIndex = currentStairIndex;
+//			localShutdownLongSec = TimePeriodDecider.getEpochSec();			
+//			localShutdownPt = Global.getCurrentPoint();
+////			waitForAPeriod(1800);
+//			return true;
+//		}
+//		
+//		if (GetData.tinyHL.isDropping())
+//		{
+//			Global.addLog("Tiny Is Dropping");
+//			localShutdownLongIndex = currentStairIndex;
+//			localShutdownLongSec = TimePeriodDecider.getEpochSec();
+//			localShutdownPt = Global.getCurrentPoint();
+////			waitForAPeriod(1800);
+//			return true;
+//		}
+//		
+//		if (GetData.nanoHL.isDropping())
+//		{
+//			Global.addLog("Nano Is Dropping");
+//			localShutdownLongIndex = currentStairIndex;
+//			localShutdownLongSec = TimePeriodDecider.getEpochSec();
+//			localShutdownPt = Global.getCurrentPoint();
+////			waitForAPeriod(1800);
+//			return true;
+//		}
+//		
+//		return false;
+//	}
 
 	// use 1min instead of 5min
 	double getCutLossPt()

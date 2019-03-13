@@ -271,65 +271,65 @@ public class RuleSkyStair5Min extends Rules
 
 	
 
-	@Override
-	boolean shutdownShort(int currentStairIndex)
-	{
-		
-		if(super.shutdownShort(currentStairIndex))
-			return true;
-		
-		if (!GetData.tinyHL.isDropping())
-		{
-			Global.addLog("ST5 tinyHL not dropping");
-			localShutdownShortIndex = currentStairIndex;
-			localShutdownShortSec = TimePeriodDecider.getEpochSec();
-			localShutdownPt = Global.getCurrentPoint();
-			return true;
-		}
-		
-		if (refHigh > XMLWatcher.stairs.get(currentStairIndex).value + XMLWatcher.stairs.get(currentStairIndex).tolerance)
-		{
-			Global.addLog("ST5 RefHigh out of range");
-//			waitForAPeriod(3000);
-			
-			localShutdownShortIndex = currentStairIndex;
-			localShutdownShortSec = TimePeriodDecider.getEpochSec();
-			localShutdownPt = Global.getCurrentPoint();
-			return true;
-		}
-		
-		return false;
-	}
-
-	@Override
-	boolean shutdownLong(int currentStairIndex)
-	{
-		if(super.shutdownLong(currentStairIndex))
-			return true;
-		
-		if (!GetData.tinyHL.isRising())
-		{
-			Global.addLog("ST5 tinyHL not rising");
-			localShutdownLongIndex = currentStairIndex;
-			localShutdownLongSec = TimePeriodDecider.getEpochSec();
-			localShutdownPt = Global.getCurrentPoint();
-			return true;
-		}
-		
-		if (refLow < XMLWatcher.stairs.get(currentStairIndex).value - XMLWatcher.stairs.get(currentStairIndex).tolerance)
-		{
-			Global.addLog("ST5 RefLow out of range");
-//			waitForAPeriod(1800);
-			
-			localShutdownLongIndex = currentStairIndex;
-			localShutdownLongSec = TimePeriodDecider.getEpochSec();
-			localShutdownPt = Global.getCurrentPoint();
-			
-			return true;
-		}
-		
-		return false;
-	}
+//	@Override
+//	boolean shutdownShort(int currentStairIndex)
+//	{
+//		
+//		if(super.shutdownShort(currentStairIndex))
+//			return true;
+//		
+//		if (!GetData.tinyHL.isDropping())
+//		{
+//			Global.addLog("ST5 tinyHL not dropping");
+//			localShutdownShortIndex = currentStairIndex;
+//			localShutdownShortSec = TimePeriodDecider.getEpochSec();
+//			localShutdownPt = Global.getCurrentPoint();
+//			return true;
+//		}
+//		
+//		if (refHigh > XMLWatcher.stairs.get(currentStairIndex).value + XMLWatcher.stairs.get(currentStairIndex).tolerance)
+//		{
+//			Global.addLog("ST5 RefHigh out of range");
+////			waitForAPeriod(3000);
+//			
+//			localShutdownShortIndex = currentStairIndex;
+//			localShutdownShortSec = TimePeriodDecider.getEpochSec();
+//			localShutdownPt = Global.getCurrentPoint();
+//			return true;
+//		}
+//		
+//		return false;
+//	}
+//
+//	@Override
+//	boolean shutdownLong(int currentStairIndex)
+//	{
+//		if(super.shutdownLong(currentStairIndex))
+//			return true;
+//		
+//		if (!GetData.tinyHL.isRising())
+//		{
+//			Global.addLog("ST5 tinyHL not rising");
+//			localShutdownLongIndex = currentStairIndex;
+//			localShutdownLongSec = TimePeriodDecider.getEpochSec();
+//			localShutdownPt = Global.getCurrentPoint();
+//			return true;
+//		}
+//		
+//		if (refLow < XMLWatcher.stairs.get(currentStairIndex).value - XMLWatcher.stairs.get(currentStairIndex).tolerance)
+//		{
+//			Global.addLog("ST5 RefLow out of range");
+////			waitForAPeriod(1800);
+//			
+//			localShutdownLongIndex = currentStairIndex;
+//			localShutdownLongSec = TimePeriodDecider.getEpochSec();
+//			localShutdownPt = Global.getCurrentPoint();
+//			
+//			return true;
+//		}
+//		
+//		return false;
+//	}
 
 	
 

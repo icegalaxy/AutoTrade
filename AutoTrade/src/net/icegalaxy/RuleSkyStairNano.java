@@ -339,64 +339,64 @@ public class RuleSkyStairNano extends Rules
 		}
 	}
 
-	@Override
-	boolean shutdownShort(int currentStairIndex)
-	{
-		
-		if(super.shutdownShort(currentStairIndex))
-			return true;
-		
-		if (!isDropping())
-		{
-			Global.addLog("STNano: not dropping");
-			localShutdownShortIndex = currentStairIndex;
-			localShutdownShortSec = TimePeriodDecider.getEpochSec();	
-			localShutdownPt = Global.getCurrentPoint();
-//			waitForAPeriod(1800);
-			return true;
-		}else
-		
-		if (GetData.tinyHL.findingHigh)
-		{
-			Global.addLog("TinyHL Is findingHigh");
-			localShutdownShortIndex = currentStairIndex;
-			localShutdownShortSec = TimePeriodDecider.getEpochSec();		
-			localShutdownPt = Global.getCurrentPoint();
-//			waitForAPeriod(1800);
-			return true; //not shutting down the stair
-		}
-		
-		return false;
-	}
-
-	@Override
-	boolean shutdownLong(int currentStairIndex)
-	{
-		if(super.shutdownLong(currentStairIndex))
-			return true;
-		
-		if (!isRising())
-		{
-			Global.addLog("STNano: not rising");
-			localShutdownLongIndex = currentStairIndex;
-			localShutdownLongSec = TimePeriodDecider.getEpochSec();
-			localShutdownPt = Global.getCurrentPoint();
-//			waitForAPeriod(1800);
-			return true;
-		}else
-		
-		if (GetData.tinyHL.findingLow)
-		{
-			Global.addLog("TinyHL Is findingLow");
-			localShutdownLongIndex = currentStairIndex;
-			localShutdownLongSec = TimePeriodDecider.getEpochSec();		
-			localShutdownPt = Global.getCurrentPoint();
-//			waitForAPeriod(1800);
-			return true; //not shutting down the stair
-		}
-		
-		return false;
-	}
+//	@Override
+//	boolean shutdownShort(int currentStairIndex)
+//	{
+//		
+//		if(super.shutdownShort(currentStairIndex))
+//			return true;
+//		
+//		if (!isDropping())
+//		{
+//			Global.addLog("STNano: not dropping");
+//			localShutdownShortIndex = currentStairIndex;
+//			localShutdownShortSec = TimePeriodDecider.getEpochSec();	
+//			localShutdownPt = Global.getCurrentPoint();
+////			waitForAPeriod(1800);
+//			return true;
+//		}else
+//		
+//		if (GetData.tinyHL.findingHigh)
+//		{
+//			Global.addLog("TinyHL Is findingHigh");
+//			localShutdownShortIndex = currentStairIndex;
+//			localShutdownShortSec = TimePeriodDecider.getEpochSec();		
+//			localShutdownPt = Global.getCurrentPoint();
+////			waitForAPeriod(1800);
+//			return true; //not shutting down the stair
+//		}
+//		
+//		return false;
+//	}
+//
+//	@Override
+//	boolean shutdownLong(int currentStairIndex)
+//	{
+//		if(super.shutdownLong(currentStairIndex))
+//			return true;
+//		
+//		if (!isRising())
+//		{
+//			Global.addLog("STNano: not rising");
+//			localShutdownLongIndex = currentStairIndex;
+//			localShutdownLongSec = TimePeriodDecider.getEpochSec();
+//			localShutdownPt = Global.getCurrentPoint();
+////			waitForAPeriod(1800);
+//			return true;
+//		}else
+//		
+//		if (GetData.tinyHL.findingLow)
+//		{
+//			Global.addLog("TinyHL Is findingLow");
+//			localShutdownLongIndex = currentStairIndex;
+//			localShutdownLongSec = TimePeriodDecider.getEpochSec();		
+//			localShutdownPt = Global.getCurrentPoint();
+////			waitForAPeriod(1800);
+//			return true; //not shutting down the stair
+//		}
+//		
+//		return false;
+//	}
 
 	// use 1min instead of 5min
 	double getCutLossPt()
