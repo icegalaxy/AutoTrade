@@ -1174,14 +1174,14 @@ public abstract class Rules implements Runnable
 		if (Global.getCurrentPoint() < getShortStopEarn(XMLWatcher.stairs.get(currentStairIndex).value) + 20)
 		{
 			Global.addLog("Reached Stop Earn");
-			XMLWatcher.stairs.get(currentStairIndex).selling = false;
-			shutdownStair(currentStairIndex);
+//			XMLWatcher.stairs.get(currentStairIndex).selling = false;
+//			shutdownStair(currentStairIndex);
 			shutdown = true;
 		}else if (refHigh > XMLWatcher.stairs.get(currentStairIndex).value + XMLWatcher.stairs.get(currentStairIndex).tolerance)
 		{
 			Global.addLog("RefHigh out of range");
-			XMLWatcher.stairs.get(currentStairIndex).selling = false;
-			shutdownStair(currentStairIndex);
+//			XMLWatcher.stairs.get(currentStairIndex).selling = false;
+//			shutdownStair(currentStairIndex);
 			shutdown = true;
 		}else if (GetData.tinyHL.isRising())
 		{
@@ -1217,14 +1217,14 @@ public abstract class Rules implements Runnable
 		if (Global.getCurrentPoint() > getLongStopEarn(XMLWatcher.stairs.get(currentStairIndex).value) - 20)
 		{
 			Global.addLog("Reached Stop Earn");
-			XMLWatcher.stairs.get(currentStairIndex).buying = false;
-			shutdownStair(currentStairIndex);
+//			XMLWatcher.stairs.get(currentStairIndex).buying = false;
+//			shutdownStair(currentStairIndex);
 			shutdown = true;
 		}else if (refLow < XMLWatcher.stairs.get(currentStairIndex).value - XMLWatcher.stairs.get(currentStairIndex).tolerance)
 		{
 			Global.addLog("RefLow out of range");
-			XMLWatcher.stairs.get(currentStairIndex).buying = false;
-			shutdownStair(currentStairIndex);
+//			XMLWatcher.stairs.get(currentStairIndex).buying = false;
+//			shutdownStair(currentStairIndex);
 			shutdown = true;
 		}else if (GetData.tinyHL.isDropping())
 		{

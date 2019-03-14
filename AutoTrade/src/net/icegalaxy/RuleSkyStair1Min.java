@@ -102,15 +102,15 @@ public class RuleSkyStair1Min extends Rules
 				if (GetData.tinyHL.refLow < refLow)
 					refLow = GetData.tinyHL.refLow;
 				
-				Global.addLog("Waiting to break nano high");
-				
-				while(Global.getCurrentPoint() < GetData.nanoHL.getLatestHigh())
-				{
-					if (shutdownLong(currentStairIndex))
-						return;
-					
-					sleep(waitingTime);
-				}
+//				Global.addLog("Waiting to break nano high");
+//				
+//				while(Global.getCurrentPoint() < GetData.nanoHL.getLatestHigh())
+//				{
+//					if (shutdownLong(currentStairIndex))
+//						return;
+//					
+//					sleep(waitingTime);
+//				}
 				
 				
 				
@@ -215,15 +215,15 @@ public class RuleSkyStair1Min extends Rules
 				if (GetData.tinyHL.refHigh > refHigh)
 					refHigh = GetData.tinyHL.refHigh;
 
-				Global.addLog("Waiting to break nanoLow");
-				
-				while(Global.getCurrentPoint() > GetData.nanoHL.getLatestLow())
-				{
-					
-					if(shutdownShort(currentStairIndex))
-						return;
-					sleep(waitingTime);
-				}
+//				Global.addLog("Waiting to break nanoLow");
+//				
+//				while(Global.getCurrentPoint() > GetData.nanoHL.getLatestLow())
+//				{
+//					
+//					if(shutdownShort(currentStairIndex))
+//						return;
+//					sleep(waitingTime);
+//				}
 
 
 				if(refHigh > XMLWatcher.stairs.get(currentStairIndex).refHigh)

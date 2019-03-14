@@ -141,15 +141,15 @@ public class RuleSkyStairNano extends Rules
 //					refHigh = GetData.nanoHL.refHigh;
 				
 				
-				Global.addLog("Waiting to break nano high");
-				
-				while(Global.getCurrentPoint() < GetData.nanoHL.getLatestHigh())
-				{
-					if (shutdownLong(currentStairIndex))
-						return;
-					
-					sleep(waitingTime);
-				}
+//				Global.addLog("Waiting to break nano high");
+//				
+//				while(Global.getCurrentPoint() < GetData.nanoHL.getLatestHigh())
+//				{
+//					if (shutdownLong(currentStairIndex))
+//						return;
+//					
+//					sleep(waitingTime);
+//				}
 				
 				
 				
@@ -256,15 +256,15 @@ public class RuleSkyStairNano extends Rules
 //				if (refLow < GetData.nanoHL.refLow)
 //					refLow = GetData.nanoHL.refLow;
 				
-				Global.addLog("Waiting to break nanoLow");
-				
-				while(Global.getCurrentPoint() > GetData.nanoHL.getLatestLow())
-				{
-					
-					if(shutdownShort(currentStairIndex))
-						return;
-					sleep(waitingTime);
-				}
+//				Global.addLog("Waiting to break nanoLow");
+//				
+//				while(Global.getCurrentPoint() > GetData.nanoHL.getLatestLow())
+//				{
+//					
+//					if(shutdownShort(currentStairIndex))
+//						return;
+//					sleep(waitingTime);
+//				}
 				
 //				if (!volumeRising)
 //				{
