@@ -1258,7 +1258,7 @@ public abstract class Rules implements Runnable
 		double stopEarn = 99999;
 		List<Stair> stairs = XMLWatcher.stairs;
 
-		for (int j = 0; j < stairs.size(); j++)
+		for (int j = 2; j < stairs.size(); j++)
 		{
 			Stair stair = stairs.get(j);
 //			if (!stair.buying || stair.shutdown)
@@ -1286,7 +1286,7 @@ public abstract class Rules implements Runnable
 		double stopEarn = 0;
 		List<Stair> stairs = XMLWatcher.stairs;
 
-		for (int j = 0; j < stairs.size(); j++)
+		for (int j = 2; j < stairs.size(); j++)
 		{
 			Stair stair = stairs.get(j);
 			
