@@ -120,6 +120,7 @@ public class RuleSkyStair1Min extends Rules
 				{
 					updateHighLow();
 
+					cutLoss = Math.min(Math.min(refLow, XMLWatcher.stairs.get(currentStairIndex).refLow), XMLWatcher.stairs.get(currentStairIndex).value - 10);
 //					currentStair = XMLWatcher.stairs.get(currentStairIndex);
 					if (shutdownLong(currentStairIndex))
 						return;
@@ -137,26 +138,16 @@ public class RuleSkyStair1Min extends Rules
 						break;
 					}
 
-					if (rr < 0.3)
-					{
-						Global.addLog("RR= " + rr);
-						return;
-					}
 					
-					if (Global.getCurrentPoint() < cutLoss)
-					{
-						Global.addLog("Lower than cutloss");
-						return;
-					}
 
 					sleep(waitingTime);
 
 				}
 				
-				if (refLow < XMLWatcher.stairs.get(currentStairIndex).refLow)
-					XMLWatcher.stairs.get(currentStairIndex).refLow = refLow;
-
-				cutLoss = XMLWatcher.stairs.get(currentStairIndex).refLow - 5;
+//				if (refLow < XMLWatcher.stairs.get(currentStairIndex).refLow)
+//					XMLWatcher.stairs.get(currentStairIndex).refLow = refLow;
+//
+//				cutLoss = XMLWatcher.stairs.get(currentStairIndex).refLow - 5;
 				Global.addLog("Cut loss: " + cutLoss);
 				Global.addLog("Stop Earn: " + getLongStopEarn(XMLWatcher.stairs.get(currentStairIndex).value));
 
@@ -240,6 +231,8 @@ public class RuleSkyStair1Min extends Rules
 				while (true)
 				{
 					updateHighLow();
+					
+					cutLoss = Math.max(Math.max(refHigh, XMLWatcher.stairs.get(currentStairIndex).refHigh), XMLWatcher.stairs.get(currentStairIndex).value + 10);
 
 					if(shutdownShort(currentStairIndex))
 						return;
@@ -257,26 +250,16 @@ public class RuleSkyStair1Min extends Rules
 						break;
 					}
 
-					if (rr < 0.3)
-					{
-						Global.addLog("RR= " + rr);
-						return;
-					}
 					
-					if (Global.getCurrentPoint() > cutLoss)
-					{
-						Global.addLog("Higher than cutloss");
-						return;
-					}
 
 					sleep(waitingTime);
 
 				}
 				
-				if(refHigh > XMLWatcher.stairs.get(currentStairIndex).refHigh)
-					XMLWatcher.stairs.get(currentStairIndex).refHigh = refHigh;
-				
-				cutLoss = XMLWatcher.stairs.get(currentStairIndex).refHigh + 5;
+//				if(refHigh > XMLWatcher.stairs.get(currentStairIndex).refHigh)
+//					XMLWatcher.stairs.get(currentStairIndex).refHigh = refHigh;
+//				
+//				cutLoss = XMLWatcher.stairs.get(currentStairIndex).refHigh + 5;
 				Global.addLog("Cut loss: " + cutLoss);
 				Global.addLog("Stop Earn: " + getShortStopEarn(XMLWatcher.stairs.get(currentStairIndex).value));
 

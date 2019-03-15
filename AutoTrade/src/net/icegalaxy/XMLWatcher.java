@@ -38,20 +38,20 @@ public class XMLWatcher implements Runnable
 
 
 		RuleSkyStair ss = new RuleSkyStair(true);
-		RuleSkyStairNano na = new RuleSkyStairNano(true);
-		RuleSkyStair1Min st1 = new RuleSkyStair1Min(true);
-		RuleSkyStair5Min st5 = new RuleSkyStair5Min(true);
+//		RuleSkyStairNano na = new RuleSkyStairNano(true);
+//		RuleSkyStair1Min st1 = new RuleSkyStair1Min(true);
+//		RuleSkyStair5Min st5 = new RuleSkyStair5Min(true);
 		RuleSkyStairBreakOut bo = new RuleSkyStairBreakOut(true);
 		//RulePriceAction pa = new RulePriceAction(true);
 		
 		Thread ts = new Thread(ss);
 		ts.start();
-		Thread nano = new Thread(na);
-		nano.start();
-		Thread tSt1 = new Thread(st1);
-		tSt1.start();
-		Thread tSt5 = new Thread(st5);
-		tSt5.start();
+//		Thread nano = new Thread(na);
+//		nano.start();
+//		Thread tSt1 = new Thread(st1);
+//		tSt1.start();
+//		Thread tSt5 = new Thread(st5);
+//		tSt5.start();
 		Thread tBo = new Thread(bo);
 		tBo.start();
 		//Thread sPa = new Thread(pa);
