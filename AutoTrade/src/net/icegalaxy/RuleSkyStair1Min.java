@@ -516,7 +516,6 @@ public class RuleSkyStair1Min extends Rules
 				Global.addLog("Profit pt update by tinyHL: " + tempCutLoss);
 			}
 
-			// update stair
 			if (stair != 0 && tempCutLoss < stair && Global.getCurrentPoint() > stair)
 			{
 				Global.addLog("Stair updated: " + stair);

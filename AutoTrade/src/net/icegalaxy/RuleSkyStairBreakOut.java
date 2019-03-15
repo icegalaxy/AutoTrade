@@ -3,12 +3,8 @@ package net.icegalaxy;
 import java.util.ArrayList;
 import java.util.List;
 
-//Use the OPEN Line
-//Better not playing than lose
 
-//This is for N shape
-
-public class RuleSkyStair1Min2 extends Rules
+public class RuleSkyStairBreakOut extends Rules
 {
 	// Stair currentStair;
 	int currentStairIndex;
@@ -20,14 +16,10 @@ public class RuleSkyStair1Min2 extends Rules
 	int EMATimer;
 	double profitRange;
 
-	public RuleSkyStair1Min2(boolean globalRunRule)
+	public RuleSkyStairBreakOut(boolean globalRunRule)
 	{
 		super(globalRunRule);
-		setOrderTime(93000, 115800, 143000, 160000, 203000, 1003000); // need to
-																		// observe
-																		// the
-																		// first
-																		// 3min
+		setOrderTime(93000, 115800, 143000, 160000, 1003000, 1003000); 
 		shutdownIndex = new ArrayList<Integer>();
 		// wait for EMA6, that's why 0945
 	}
@@ -40,7 +32,7 @@ public class RuleSkyStair1Min2 extends Rules
 		if (!Global.isTradeTime() || Global.getNoOfContracts() != 0 || !isOrderTime())
 			return;
 
-		for (int i = 0; i < XMLWatcher.stairs.size(); i++)
+		for (int i = 2; i < XMLWatcher.stairs.size(); i++)
 		{
 
 			currentStairIndex = i;
@@ -54,9 +46,9 @@ public class RuleSkyStair1Min2 extends Rules
 
 			// Long
 			if (
-					GetData.getLongTB().getEma5().getEMA() > XMLWatcher.stairs.get(currentStairIndex).value && 
-					GetData.minuteLow < XMLWatcher.stairs.get(currentStairIndex).value + XMLWatcher.stairs.get(currentStairIndex).tolerance / 4
-					&& GetData.minuteLow > XMLWatcher.stairs.get(currentStairIndex).value)
+					GetData.getLongTB().getPreviousCandle(1).getClose() < XMLWatcher.stairs.get(currentStairIndex).value && 
+					GetData.getLongTB().getLatestCandle().getClose() > XMLWatcher.stairs.get(currentStairIndex).value
+					)
 			{
 				
 				if (localShutdownLongIndex == currentStairIndex)
@@ -67,54 +59,58 @@ public class RuleSkyStair1Min2 extends Rules
 				if (!XMLWatcher.stairs.get(currentStairIndex).buying || XMLWatcher.stairs.get(currentStairIndex).shutdown)
 					continue;
 
-				Global.addLog("ST1 Reached " + XMLWatcher.stairs.get(currentStairIndex).lineType + " @ " + XMLWatcher.stairs.get(currentStairIndex).value + " (Long)");
+				Global.addLog("Break out " + XMLWatcher.stairs.get(currentStairIndex).lineType + " @ " + XMLWatcher.stairs.get(currentStairIndex).value + " (Long)");
 				Global.addLog("ST1 Stop Earn: " + getLongStopEarn(XMLWatcher.stairs.get(currentStairIndex).value));
 
-				Global.addLog("Waiting for a new candle");
+				if (shutdownLong(currentStairIndex))
+					return;
 				
-				waitForANewCandle();
-				
-				
-				Global.addLog("Waiting for a refLow");	
-				
-				while(!GetData.tinyHL.findingLow || !isOrderTime())
-				{
-					if (shutdownLong(currentStairIndex))
-						return;
-					
-					if (Global.getCurrentPoint() > XMLWatcher.stairs.get(currentStairIndex).value + 50)
-					{
-						Global.addLog("Left");
-						return;
-					}
-
-					sleep(waitingTime);
-				}
-				
-				if (GetData.tinyHL.refLow < refLow)
-					refLow = GetData.tinyHL.refLow;
-				
-				Global.addLog("Waiting for a tiny rise");
+//				Global.addLog("Waiting for a new candle");
+//				
+//				waitForANewCandle();
 				
 				
-				while (true)
-				{
-					
-					if (shutdownLong(currentStairIndex))
-						return;
-					
-					if (GetData.getShortTB().getLatestCandle().getClose() > GetData.getShortTB().getLatestCandle().getOpen() + 5
-						&& GetData.getShortTB().getLatestCandle().getClose() > XMLWatcher.stairs.get(currentStairIndex).value)
-						break;
-							
-					sleep(waitingTime);
-				}
+//				Global.addLog("Waiting for a refLow");	
+//				
+//				while(!GetData.tinyHL.findingLow || !isOrderTime())
+//				{
+//					if (shutdownLong(currentStairIndex))
+//						return;
+//					
+//					if (Global.getCurrentPoint() > XMLWatcher.stairs.get(currentStairIndex).value + 50)
+//					{
+//						Global.addLog("Left");
+//						return;
+//					}
+//
+//					sleep(waitingTime);
+//				}
+//				
+//				if (GetData.tinyHL.refLow < refLow)
+//					refLow = GetData.tinyHL.refLow;
+//				
+//				Global.addLog("Waiting for a tiny rise");
+//				
+//				
+//				while (true)
+//				{
+//					
+//					if (shutdownLong(currentStairIndex))
+//						return;
+//					
+//					if (GetData.getShortTB().getLatestCandle().getClose() > GetData.getShortTB().getLatestCandle().getOpen() + 5
+//						&& GetData.getShortTB().getLatestCandle().getClose() > XMLWatcher.stairs.get(currentStairIndex).value)
+//						break;
+//							
+//					sleep(waitingTime);
+//				}
+				
 				
 				
 				if (refLow < XMLWatcher.stairs.get(currentStairIndex).refLow)
 					XMLWatcher.stairs.get(currentStairIndex).refLow = refLow;
 
-				cutLoss = XMLWatcher.stairs.get(currentStairIndex).refLow - 5;
+				cutLoss = XMLWatcher.stairs.get(currentStairIndex).value - 5;
 				Global.addLog("Cut loss: " + cutLoss);
 				Global.addLog("Stop Earn: " + getLongStopEarn(XMLWatcher.stairs.get(currentStairIndex).value));
 
@@ -132,8 +128,7 @@ public class RuleSkyStair1Min2 extends Rules
 
 					profitRange = reward;
 					
-					if (rr > 3 
-							&& Global.getCurrentPoint() - cutLoss < XMLWatcher.stairs.get(currentStairIndex).tolerance)
+					if (2 < rr && rr < 2.5 && risk < 100)
 					{
 						Global.addLog("RR= " + rr);
 						break;
@@ -145,11 +140,6 @@ public class RuleSkyStair1Min2 extends Rules
 						return;
 					}
 					
-					if (GetData.getShortTB().getLatestCandle().getClose() < GetData.getShortTB().getLatestCandle().getOpen())
-					{
-						Global.addLog("Ying Candle");
-						return;
-					}
 
 					sleep(waitingTime);
 
@@ -168,9 +158,8 @@ public class RuleSkyStair1Min2 extends Rules
 				return;
 
 			} else if (
-					GetData.getLongTB().getEma5().getEMA() < XMLWatcher.stairs.get(currentStairIndex).value && 
-					GetData.minuteHigh > XMLWatcher.stairs.get(currentStairIndex).value - XMLWatcher.stairs.get(currentStairIndex).tolerance / 4
-					&& GetData.minuteHigh < XMLWatcher.stairs.get(currentStairIndex).value)
+					GetData.getLongTB().getPreviousCandle(1).getClose() > XMLWatcher.stairs.get(currentStairIndex).value && 
+					GetData.getLongTB().getLatestCandle().getClose() < XMLWatcher.stairs.get(currentStairIndex).value)
 			{
 				
 				if (localShutdownLongIndex == currentStairIndex)
@@ -181,54 +170,53 @@ public class RuleSkyStair1Min2 extends Rules
 				if (!XMLWatcher.stairs.get(currentStairIndex).selling || XMLWatcher.stairs.get(currentStairIndex).shutdown)
 					continue;
 
-				Global.addLog("ST1 Reached " + XMLWatcher.stairs.get(currentStairIndex).lineType + " @ " + XMLWatcher.stairs.get(currentStairIndex).value + " (Short)");
+				Global.addLog("Break out " + XMLWatcher.stairs.get(currentStairIndex).lineType + " @ " + XMLWatcher.stairs.get(currentStairIndex).value + " (Short)");
 				Global.addLog("ST1 Stop Earn: " + getShortStopEarn(XMLWatcher.stairs.get(currentStairIndex).value));
 
-				Global.addLog("Waiting for a new candle");
 				
-				waitForANewCandle();
+				if (shutdownShort(currentStairIndex))
+					return;
 				
-				
-				Global.addLog("Waiting for a refHigh");
-				
-				while(!GetData.tinyHL.findingHigh || !isOrderTime())
-				{
-					if (shutdownShort(currentStairIndex))
-						return;
-					
-					if (Global.getCurrentPoint() < XMLWatcher.stairs.get(currentStairIndex).value - 50)
-					{
-						Global.addLog("Left");
-						return;
-					}
-					
-					sleep(waitingTime);
-				}
-				
-				if (GetData.tinyHL.refHigh > refHigh)
-					refHigh = GetData.tinyHL.refHigh;
-
-				Global.addLog("Waiting for a tiny drop");
-
-				while(true)
-				{
-				
-					if(shutdownShort(currentStairIndex))
-						return;
-					
-					if (GetData.getShortTB().getLatestCandle().getClose() < GetData.getShortTB().getLatestCandle().getOpen() - 5
-							&& GetData.getShortTB().getLatestCandle().getClose() < XMLWatcher.stairs.get(currentStairIndex).value)
-						break;
-		
-					sleep(waitingTime);
-				}
+//				Global.addLog("Waiting for a refHigh");
+//				
+//				while(!GetData.tinyHL.findingHigh || !isOrderTime())
+//				{
+//					if (shutdownShort(currentStairIndex))
+//						return;
+//					
+//					if (Global.getCurrentPoint() < XMLWatcher.stairs.get(currentStairIndex).value - 50)
+//					{
+//						Global.addLog("Left");
+//						return;
+//					}
+//					
+//					sleep(waitingTime);
+//				}
+//				
+//				if (GetData.tinyHL.refHigh > refHigh)
+//					refHigh = GetData.tinyHL.refHigh;
+//
+//				Global.addLog("Waiting for a tiny drop");
+//
+//				while(true)
+//				{
+//				
+//					if(shutdownShort(currentStairIndex))
+//						return;
+//					
+//					if (GetData.getShortTB().getLatestCandle().getClose() < GetData.getShortTB().getLatestCandle().getOpen() - 5
+//							&& GetData.getShortTB().getLatestCandle().getClose() < XMLWatcher.stairs.get(currentStairIndex).value)
+//						break;
+//		
+//					sleep(waitingTime);
+//				}
 				
 
 
 				if(refHigh > XMLWatcher.stairs.get(currentStairIndex).refHigh)
 					XMLWatcher.stairs.get(currentStairIndex).refHigh = refHigh;
 				
-				cutLoss = XMLWatcher.stairs.get(currentStairIndex).refHigh + 5;
+				cutLoss = XMLWatcher.stairs.get(currentStairIndex).value + 5;
 				Global.addLog("Cut loss: " + cutLoss);
 				Global.addLog("Stop Earn: " + getShortStopEarn(XMLWatcher.stairs.get(currentStairIndex).value));
 
@@ -245,8 +233,7 @@ public class RuleSkyStair1Min2 extends Rules
 
 					profitRange = reward;
 					
-					if (rr > 3
-							&& cutLoss - Global.getCurrentPoint() < XMLWatcher.stairs.get(currentStairIndex).tolerance)
+					if (2 < rr && rr < 2.5 && risk < 100)
 					{
 						Global.addLog("RR= " + rr);
 						break;
@@ -363,44 +350,7 @@ public class RuleSkyStair1Min2 extends Rules
 		}
 	}
 	
-	@Override
-	boolean shutdownShort(int currentStairIndex)
-	{
-		
-		if(super.shutdownShort(currentStairIndex))
-			return true;
-		
-		if (refHigh > XMLWatcher.stairs.get(currentStairIndex).value + XMLWatcher.stairs.get(currentStairIndex).tolerance / 4)
-		{
-			Global.addLog("ST1 RefHigh out of range");
-//			waitForAPeriod(1800);
-			
-			localShutdownLongIndex = currentStairIndex;
-			
-			return true;
-		}
-		
-		return false;
-	}
 
-	@Override
-	boolean shutdownLong(int currentStairIndex)
-	{
-		if(super.shutdownLong(currentStairIndex))
-			return true;
-		
-		if (refLow < XMLWatcher.stairs.get(currentStairIndex).value - XMLWatcher.stairs.get(currentStairIndex).tolerance / 4)
-		{
-			Global.addLog("ST1 RefLow out of range");
-//			waitForAPeriod(1800);
-			
-			localShutdownLongIndex = currentStairIndex;
-			
-			return true;
-		}
-		
-		return false;
-	}
 
 	@Override
 	protected void updateCutLoss()
@@ -496,7 +446,6 @@ public class RuleSkyStair1Min2 extends Rules
 				Global.addLog("Profit pt update by tinyHL: " + tempCutLoss);
 			}
 
-			// update stair
 			if (stair != 0 && tempCutLoss < stair && Global.getCurrentPoint() > stair)
 			{
 				Global.addLog("Stair updated: " + stair);
@@ -770,6 +719,20 @@ public class RuleSkyStair1Min2 extends Rules
 	//
 	//
 	// }
+	
+	@Override
+	void updateHighLow()
+	{
+		double refPoint = GetData.getLongTB().getLatestCandle().getClose();
+		
+		
+		
+		if (refPoint > refHigh)
+			refHigh = refPoint;
+		else if (refPoint < refLow)
+			refLow = refPoint;
+		
+	}
 
 	@Override
 	public TimeBase getTimeBase()
