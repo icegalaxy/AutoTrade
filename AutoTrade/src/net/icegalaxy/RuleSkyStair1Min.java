@@ -158,6 +158,12 @@ public class RuleSkyStair1Min extends Rules
 				}
 
 				trailingDown(2);
+				
+				if (Global.getCurrentPoint() < cutLoss + 10)
+				{
+					Global.addLog("Too close to cutLoss");
+					return;
+				}
 
 				longContract();
 				
@@ -269,6 +275,12 @@ public class RuleSkyStair1Min extends Rules
 				}
 
 				trailingUp(2);
+				
+				if (Global.getCurrentPoint() > cutLoss - 10)
+				{
+					Global.addLog("Too close to cutLoss");
+					return;
+				}
 
 				shortContract();
 				Global.updateCSV();

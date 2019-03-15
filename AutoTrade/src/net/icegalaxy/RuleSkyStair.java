@@ -152,6 +152,12 @@ public class RuleSkyStair extends Rules
 				}
 
 				trailingDown(2);
+				
+				if (Global.getCurrentPoint() < cutLoss + 10)
+				{
+					Global.addLog("Too close to cutLoss");
+					return;
+				}
 
 
 				longContract();
@@ -312,6 +318,12 @@ public class RuleSkyStair extends Rules
 				}
 
 				trailingUp(2);
+				
+				if (Global.getCurrentPoint() > cutLoss - 10)
+				{
+					Global.addLog("Too close to cutLoss");
+					return;
+				}
 
 //				if (refHigh > XMLWatcher.stairs.get(currentStairIndex).value + 50)
 //				{
