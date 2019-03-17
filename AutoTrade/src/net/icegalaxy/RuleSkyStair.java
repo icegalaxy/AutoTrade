@@ -122,13 +122,13 @@ public class RuleSkyStair extends Rules
 
 					profitRange = reward;
 					
-					if (2 < rr && rr < 3 && risk <100 && stealing)
+					if (2 < rr && rr < 3 && risk <100 && stealing && reward > 50)
 					{
 						Global.addLog("RR= " + rr);
 						break;
 					}
 					
-					if (1.5 < rr && rr < 2 && risk < 100 && !stealing)
+					if (1.5 < rr && rr < 2 && risk < 100 && !stealing && reward > 50)
 					{
 						Global.addLog("RR= " + rr);
 						break;
@@ -280,13 +280,13 @@ public class RuleSkyStair extends Rules
 
 					profitRange = reward;
 					
-					if (2 < rr && rr < 3 && risk <100 && stealing)
+					if (2 < rr && rr < 3 && risk <100 && stealing && reward > 50)
 					{
 						Global.addLog("RR= " + rr);
 						break;
 					}
 					
-					if (1.5 < rr && rr < 2 && risk < 100 && !stealing)
+					if (1.5 < rr && rr < 2 && risk < 100 && !stealing && reward > 50)
 					{
 						Global.addLog("RR= " + rr);
 						break;

@@ -111,10 +111,12 @@ public class RuleSkyStairBreakOut extends Rules
 
 				while (true)
 				{
-					updateHighLow();
+//					updateHighLow();
 //					currentStair = XMLWatcher.stairs.get(currentStairIndex);
 					if (shutdownLong(currentStairIndex))
 						return;
+					
+					cutLoss = Math.min(Math.min(refLow, XMLWatcher.stairs.get(currentStairIndex).refLow), XMLWatcher.stairs.get(currentStairIndex).value - 10);
 
 					double reward = getLongStopEarn(XMLWatcher.stairs.get(currentStairIndex).value) - Global.getCurrentPoint();
 					double risk = Global.getCurrentPoint() - cutLoss;
@@ -123,27 +125,26 @@ public class RuleSkyStairBreakOut extends Rules
 
 					profitRange = reward;
 					
-					if (2 < rr && rr < 2.5 && risk < 100)
+					if (2 < rr && rr < 3 && risk <100 && stealing && reward > 50)
+					{
+						Global.addLog("RR= " + rr);
+						break;
+					}
+					
+					if (1.5 < rr && rr < 2 && risk < 100 && !stealing && reward > 50)
 					{
 						Global.addLog("RR= " + rr);
 						break;
 					}
 
-					if (rr < 0.3)
-					{
-						Global.addLog("RR= " + rr);
-						return;
-					}
+					
 					
 
 					sleep(waitingTime);
 
 				}
 				
-				if (refLow < XMLWatcher.stairs.get(currentStairIndex).refLow)
-					XMLWatcher.stairs.get(currentStairIndex).refLow = refLow;
-
-				cutLoss = XMLWatcher.stairs.get(currentStairIndex).value - 5;
+				
 				Global.addLog("Cut loss: " + cutLoss);
 				Global.addLog("Stop Earn: " + getLongStopEarn(XMLWatcher.stairs.get(currentStairIndex).value));
 
@@ -225,10 +226,13 @@ public class RuleSkyStairBreakOut extends Rules
 
 				while (true)
 				{
-					updateHighLow();
 
 					if(shutdownShort(currentStairIndex))
 						return;
+					
+					cutLoss = Math.max(Math.max(refHigh, XMLWatcher.stairs.get(currentStairIndex).refHigh), XMLWatcher.stairs.get(currentStairIndex).value + 10);
+//					currentStair = XMLWatcher.stairs.get(currentStairIndex);
+
 
 					double reward = Global.getCurrentPoint() - getShortStopEarn(XMLWatcher.stairs.get(currentStairIndex).value);
 					double risk = cutLoss - Global.getCurrentPoint();
@@ -237,32 +241,24 @@ public class RuleSkyStairBreakOut extends Rules
 
 					profitRange = reward;
 					
-					if (2 < rr && rr < 2.5 && risk < 100)
+					if (2 < rr && rr < 3 && risk <100 && stealing && reward > 50)
+					{
+						Global.addLog("RR= " + rr);
+						break;
+					}
+					
+					if (1.5 < rr && rr < 2 && risk < 100 && !stealing && reward > 50)
 					{
 						Global.addLog("RR= " + rr);
 						break;
 					}
 
-					if (rr < 0.3)
-					{
-						Global.addLog("RR= " + rr);
-						return;
-					}
-					
-					if (GetData.getShortTB().getLatestCandle().getClose() > GetData.getShortTB().getLatestCandle().getOpen())
-					{
-						Global.addLog("Yang Candle");
-						return;
-					}
 
 					sleep(waitingTime);
 
 				}
 
-				if(refHigh > XMLWatcher.stairs.get(currentStairIndex).refHigh)
-					XMLWatcher.stairs.get(currentStairIndex).refHigh = refHigh;
 				
-				cutLoss = XMLWatcher.stairs.get(currentStairIndex).value + 5;
 				Global.addLog("Cut loss: " + cutLoss);
 				Global.addLog("Stop Earn: " + getShortStopEarn(XMLWatcher.stairs.get(currentStairIndex).value));
 				
