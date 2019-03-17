@@ -106,12 +106,14 @@ public class RuleSkyStair extends Rules
 
 				while (true)
 				{
-					updateHighLow();
+//					
 					
-					cutLoss = Math.min(Math.min(refLow, XMLWatcher.stairs.get(currentStairIndex).refLow), XMLWatcher.stairs.get(currentStairIndex).value);
-//					currentStair = XMLWatcher.stairs.get(currentStairIndex);
 					if (shutdownLong(currentStairIndex))
 						return;
+					
+					cutLoss = Math.min(Math.min(refLow, XMLWatcher.stairs.get(currentStairIndex).refLow), XMLWatcher.stairs.get(currentStairIndex).value - 10);
+//					currentStair = XMLWatcher.stairs.get(currentStairIndex);
+
 
 					double reward = getLongStopEarn(XMLWatcher.stairs.get(currentStairIndex).value) - Global.getCurrentPoint();
 					double risk = Global.getCurrentPoint() - cutLoss;
@@ -120,7 +122,13 @@ public class RuleSkyStair extends Rules
 
 					profitRange = reward;
 					
-					if (2 < rr && rr < 2.2 && risk < 100)
+					if (2 < rr && rr < 3 && risk <100 && stealing)
+					{
+						Global.addLog("RR= " + rr);
+						break;
+					}
+					
+					if (1.5 < rr && rr < 2 && risk < 100 && !stealing)
 					{
 						Global.addLog("RR= " + rr);
 						break;
@@ -257,13 +265,13 @@ public class RuleSkyStair extends Rules
 
 				while (true)
 				{
-					updateHighLow();
-					
-					
-					cutLoss = Math.max(Math.max(refHigh, XMLWatcher.stairs.get(currentStairIndex).refHigh), XMLWatcher.stairs.get(currentStairIndex).value);
-//					currentStair = XMLWatcher.stairs.get(currentStairIndex);
+//					updateHighLow();
 					if(shutdownShort(currentStairIndex))
 						return;
+					
+					cutLoss = Math.max(Math.max(refHigh, XMLWatcher.stairs.get(currentStairIndex).refHigh), XMLWatcher.stairs.get(currentStairIndex).value + 10);
+//					currentStair = XMLWatcher.stairs.get(currentStairIndex);
+
 
 					double reward = Global.getCurrentPoint() - getShortStopEarn(XMLWatcher.stairs.get(currentStairIndex).value);
 					double risk = cutLoss - Global.getCurrentPoint();
@@ -272,7 +280,13 @@ public class RuleSkyStair extends Rules
 
 					profitRange = reward;
 					
-					if (2 < rr && rr < 2.2 && risk < 100)
+					if (2 < rr && rr < 3 && risk <100 && stealing)
+					{
+						Global.addLog("RR= " + rr);
+						break;
+					}
+					
+					if (1.5 < rr && rr < 2 && risk < 100 && !stealing)
 					{
 						Global.addLog("RR= " + rr);
 						break;

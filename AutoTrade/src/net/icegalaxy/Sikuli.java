@@ -109,10 +109,12 @@ public class Sikuli {
 			return false;
 		}
 		
-		if (TimePeriodDecider.nightOpened)
-			status = SPApi.addOrder((byte) 'B',noOfContracts, true);
-		else
-			status = SPApi.addOrder((byte) 'B',noOfContracts, false);
+		
+		Global.addLog("Demo");
+//		if (TimePeriodDecider.nightOpened)
+//			status = SPApi.addOrder((byte) 'B',noOfContracts, true);
+//		else
+//			status = SPApi.addOrder((byte) 'B',noOfContracts, false);
 		
 		if (status == 0)
 			Global.addLog("Long order sent");
@@ -143,10 +145,11 @@ public class Sikuli {
 		}
 
 
-		if (TimePeriodDecider.nightOpened)
-			status = SPApi.addOrder((byte) 'S', noOfContracts, true);
-		else
-			status = SPApi.addOrder((byte) 'S', noOfContracts, false);
+		Global.addLog("Demo");
+//		if (TimePeriodDecider.nightOpened)
+//			status = SPApi.addOrder((byte) 'S', noOfContracts, true);
+//		else
+//			status = SPApi.addOrder((byte) 'S', noOfContracts, false);
 		
 		if (status == 0)
 			Global.addLog("Short order sent");
@@ -189,10 +192,11 @@ public class Sikuli {
 		}
 
 		
-		if (TimePeriodDecider.nightOpened)
-			status = SPApi.addOrder((byte) 'B', noOfContracts, true);
-		else
-			status = SPApi.addOrder((byte) 'B', noOfContracts, false);
+		Global.addLog("Demo");
+//		if (TimePeriodDecider.nightOpened)
+//			status = SPApi.addOrder((byte) 'B', noOfContracts, true);
+//		else
+//			status = SPApi.addOrder((byte) 'B', noOfContracts, false);
 		
 		if (status == 0)
 			Global.addLog("Long order sent");
@@ -237,11 +241,12 @@ public class Sikuli {
 			noOfContracts = Math.abs(Global.getNoOfContracts());		
 		}
 
+		Global.addLog("Demo");
 
-		if (TimePeriodDecider.nightOpened)
-			status = SPApi.addOrder((byte) 'S', noOfContracts, true);
-		else
-			status = SPApi.addOrder((byte) 'S', noOfContracts, false);
+//		if (TimePeriodDecider.nightOpened)
+//			status = SPApi.addOrder((byte) 'S', noOfContracts, true);
+//		else
+//			status = SPApi.addOrder((byte) 'S', noOfContracts, false);
 		
 		if (status == 0)
 			Global.addLog("Short order sent");
