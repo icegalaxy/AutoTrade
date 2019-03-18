@@ -1293,7 +1293,7 @@ public abstract class Rules implements Runnable
 //			if (!stair.buying || stair.shutdown)
 //				continue;
 			
-			if (stair.value < stopEarn && stair.value - value > 10
+			if (stair.value < stopEarn && stair.value - value > 50
 					&& stair.value > GetData.getShortTB().getEma5().getEMA())
 			{
 //				if (stealing)
@@ -1330,7 +1330,7 @@ public abstract class Rules implements Runnable
 //			if (!stair.selling || stair.shutdown)
 //				continue;
 			
-			if (stair.value > stopEarn && value - stair.value > 10
+			if (stair.value > stopEarn && value - stair.value > 50
 					&& stair.value < GetData.getShortTB().getEma5().getEMA())
 			{
 //				if (stealing)
