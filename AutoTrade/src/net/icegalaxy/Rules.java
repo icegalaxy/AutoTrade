@@ -485,7 +485,7 @@ public abstract class Rules implements Runnable
 			}
 			
 			closeContract(className + ": CutLoss, short @ " + Global.getCurrentBid());
-			shutdownRule = true;
+//			shutdownRule = true;
 		} else if (Global.getNoOfContracts() < 0 && refPt > tempCutLoss)
 		{
 			
@@ -496,7 +496,7 @@ public abstract class Rules implements Runnable
 			}
 			
 			closeContract(className + ": CutLoss, long @ " + Global.getCurrentAsk());
-			shutdownRule = true;
+//			shutdownRule = true;
 		}
 	}
 

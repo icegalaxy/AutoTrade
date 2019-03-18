@@ -692,19 +692,19 @@ public class RuleSkyStairBreakOut extends Rules
 
 	}
 
-	@Override
-	protected void cutLoss()
-	{
-
-		super.cutLoss();
-		
-		if(shutdownRule)
-		{
-			XMLWatcher.stairs.get(currentStairIndex).shutdown = true;
-			Global.updateCSV();
-		}
-		
-	}
+//	@Override
+//	protected void cutLoss()
+//	{
+//
+//		super.cutLoss();
+//		
+//		if(shutdownRule)
+//		{
+//			XMLWatcher.stairs.get(currentStairIndex).shutdown = true;
+//			Global.updateCSV();
+//		}
+//		
+//	}
 
 	// @Override
 	// public void trendReversedAction()

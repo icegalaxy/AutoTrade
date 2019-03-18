@@ -71,22 +71,21 @@ public class RuleSkyStair extends Rules
 				Global.addLog("Reached " + XMLWatcher.stairs.get(currentStairIndex).lineType + " @ " + XMLWatcher.stairs.get(currentStairIndex).value + " (Long)");
 				Global.addLog("Stop Earn: " + getLongStopEarn(XMLWatcher.stairs.get(currentStairIndex).value));
 
-//				Global.addLog("Waiting for a refLow");
-//
-//				
-//				while(!GetData.tinyHL.findingLow || !isOrderTime())
-//				{
-//					if (shutdownLong(currentStairIndex))
+				Global.addLog("Waiting for a refLow");
+				//Must have this 
+				while(!GetData.nanoHL.findingLow || !isOrderTime())
+				{
+					if (shutdownLong(currentStairIndex))
+						return;
+					
+//					if (Global.getCurrentPoint() > XMLWatcher.stairs.get(currentStairIndex).value + 50)
+//					{
+//						Global.addLog("Left");
 //						return;
-//					
-////					if (Global.getCurrentPoint() > XMLWatcher.stairs.get(currentStairIndex).value + 50)
-////					{
-////						Global.addLog("Left");
-////						return;
-////					}
-//
-//					sleep(waitingTime);
-//				}
+//					}
+
+					sleep(waitingTime);
+				}
 				
 				
 //				Global.addLog("Waiting to break nano high");
@@ -186,22 +185,22 @@ public class RuleSkyStair extends Rules
 				Global.addLog("Reached " + XMLWatcher.stairs.get(currentStairIndex).lineType + " @ " + XMLWatcher.stairs.get(currentStairIndex).value + " (Short)");
 				Global.addLog("Stop Earn: " + getShortStopEarn(XMLWatcher.stairs.get(currentStairIndex).value));
 
-//				Global.addLog("Waiting for a refHigh");
-//
-//				
-//				while(!GetData.tinyHL.findingHigh || !isOrderTime())
-//				{
-//					if (shutdownShort(currentStairIndex))
+				Global.addLog("Waiting for a refHigh");
+
+				
+				while(!GetData.nanoHL.findingHigh || !isOrderTime())
+				{
+					if (shutdownShort(currentStairIndex))
+						return;
+					
+//					if (Global.getCurrentPoint() < XMLWatcher.stairs.get(currentStairIndex).value - 50)
+//					{
+//						Global.addLog("Left");
 //						return;
-//					
-////					if (Global.getCurrentPoint() < XMLWatcher.stairs.get(currentStairIndex).value - 50)
-////					{
-////						Global.addLog("Left");
-////						return;
-////					}
-//					
-//					sleep(waitingTime);
-//				}
+//					}
+					
+					sleep(waitingTime);
+				}
 				
 
 //				Global.addLog("Waiting to break nanoLow");
@@ -822,19 +821,19 @@ public class RuleSkyStair extends Rules
 
 	}
 
-	@Override
-	protected void cutLoss()
-	{
-
-		super.cutLoss();
-		
-		if(shutdownRule)
-		{
-			XMLWatcher.stairs.get(currentStairIndex).shutdown = true;
-			Global.updateCSV();
-		}
-		
-	}
+//	@Override
+//	protected void cutLoss()
+//	{
+//
+//		super.cutLoss();
+//		
+//		if(shutdownRule)
+//		{
+//			XMLWatcher.stairs.get(currentStairIndex).shutdown = true;
+//			Global.updateCSV();
+//		}
+//		
+//	}
 
 	// @Override
 	// public void trendReversedAction()
@@ -862,6 +861,20 @@ public class RuleSkyStair extends Rules
 	//
 	//
 	// }
+	
+	@Override
+	void updateHighLow()
+	{
+		double high = Math.max(Global.getCurrentPoint(), GetData.tinyHL.getLatestHigh());
+		double low = Math.min(Global.getCurrentPoint(), GetData.tinyHL.getLatestLow());
+		
+		
+		if (high > refHigh)
+			refHigh = high;
+		else if (low < refLow)
+			refLow = low;
+		
+	}
 	
 	boolean isRising()
 	{
