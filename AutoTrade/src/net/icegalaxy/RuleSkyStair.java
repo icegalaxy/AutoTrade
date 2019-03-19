@@ -502,56 +502,68 @@ public class RuleSkyStair extends Rules
 		{
 			
 			//Calculate how for to reach stop earn and set it equal to tempCutLoss
-			if (Global.getCurrentPoint() > buyingPoint + profitRange / 2 && Global.getCurrentPoint() < getLongStopEarn(XMLWatcher.stairs.get(currentStairIndex).value) - 20)
+//			if (Global.getCurrentPoint() > buyingPoint + profitRange / 2 && Global.getCurrentPoint() < getLongStopEarn(XMLWatcher.stairs.get(currentStairIndex).value) - 20)
+//			{
+//				double expectedEarn =  getLongStopEarn(XMLWatcher.stairs.get(currentStairIndex).value) - Global.getCurrentPoint();
+//				if (tempCutLoss < Global.getCurrentPoint() - expectedEarn)
+//				{
+//					tempCutLoss = Global.getCurrentPoint() - expectedEarn;
+//					Global.addLog("Profit update: " + tempCutLoss);
+//				}
+//				
+//			}
+			
+			if (GetData.tinyHL.getLatestLow() > tempCutLoss)
 			{
-				double expectedEarn =  getLongStopEarn(XMLWatcher.stairs.get(currentStairIndex).value) - Global.getCurrentPoint();
-				if (tempCutLoss < Global.getCurrentPoint() - expectedEarn)
-				{
-					tempCutLoss = Global.getCurrentPoint() - expectedEarn;
-					Global.addLog("Profit update: " + tempCutLoss);
-				}
-				
+				tempCutLoss = GetData.tinyHL.getLatestLow();
+				Global.addLog("Profit pt update by tinyHL: " + tempCutLoss);
 			}
 			
 			
-			if (getHoldingTime() > 3600 && getProfit() > 100 && tempCutLoss < buyingPoint + 80)
-			{
-				tempCutLoss = buyingPoint + 80;
-				Global.addLog("Get 100pt profit");
-			}
-			
-			if (getHoldingTime() > 1800 && getProfit() > 5 && tempCutLoss < buyingPoint + 5)
-			{
-				tempCutLoss = buyingPoint + 5;
-				Global.addLog("Free trade");
-			}
+//			if (getHoldingTime() > 3600 && getProfit() > 100 && tempCutLoss < buyingPoint + 80)
+//			{
+//				tempCutLoss = buyingPoint + 80;
+//				Global.addLog("Get 100pt profit");
+//			}
+//			
+//			if (getHoldingTime() > 1800 && getProfit() > 5 && tempCutLoss < buyingPoint + 5)
+//			{
+//				tempCutLoss = buyingPoint + 5;
+//				Global.addLog("Free trade");
+//			}
 		}else if (Global.getNoOfContracts() < 0)
 		{
 			
 			//Calculate how for to reach stop earn and set it equal to tempCutLoss
-			if (Global.getCurrentPoint() < buyingPoint - profitRange / 2 && Global.getCurrentPoint() > getShortStopEarn(XMLWatcher.stairs.get(currentStairIndex).value) + 20)
-			{
-				double expectedEarn = Global.getCurrentPoint() - getShortStopEarn(XMLWatcher.stairs.get(currentStairIndex).value);
-				if (tempCutLoss > Global.getCurrentPoint() + expectedEarn)
-				{
-					tempCutLoss = Global.getCurrentPoint() + expectedEarn;
-					Global.addLog("Profit update: " + tempCutLoss);
-				}
-				
+//			if (Global.getCurrentPoint() < buyingPoint - profitRange / 2 && Global.getCurrentPoint() > getShortStopEarn(XMLWatcher.stairs.get(currentStairIndex).value) + 20)
+//			{
+//				double expectedEarn = Global.getCurrentPoint() - getShortStopEarn(XMLWatcher.stairs.get(currentStairIndex).value);
+//				if (tempCutLoss > Global.getCurrentPoint() + expectedEarn)
+//				{
+//					tempCutLoss = Global.getCurrentPoint() + expectedEarn;
+//					Global.addLog("Profit update: " + tempCutLoss);
+//				}
+//				
+//			}
+			
+			if (GetData.tinyHL.getLatestHigh() < tempCutLoss)
+			{			
+				tempCutLoss = GetData.tinyHL.getLatestHigh();
+				Global.addLog("Profit pt update by tinyHL: " + tempCutLoss);
 			}
 			
 			
-			if (getHoldingTime() > 3600 && getProfit() > 100 && tempCutLoss > buyingPoint - 80)
-			{
-				tempCutLoss = buyingPoint - 80;
-				Global.addLog("Get 100pt profit");
-			}
-			
-			if (getHoldingTime() > 1800 && getProfit() > 5 && tempCutLoss > buyingPoint - 5)
-			{
-				tempCutLoss = buyingPoint - 5;
-				Global.addLog("Free trade");
-			}
+//			if (getHoldingTime() > 3600 && getProfit() > 100 && tempCutLoss > buyingPoint - 80)
+//			{
+//				tempCutLoss = buyingPoint - 80;
+//				Global.addLog("Get 100pt profit");
+//			}
+//			
+//			if (getHoldingTime() > 1800 && getProfit() > 5 && tempCutLoss > buyingPoint - 5)
+//			{
+//				tempCutLoss = buyingPoint - 5;
+//				Global.addLog("Free trade");
+//			}
 		}
 		
 	}
@@ -581,10 +593,10 @@ public class RuleSkyStair extends Rules
 //				Global.addLog("Free trade");
 //			}
 			
-			if (GetData.tinyHL.getLatestLow() > tempCutLoss)
+			if (GetData.nanoHL.getLatestLow() > tempCutLoss)
 			{
-				tempCutLoss = GetData.tinyHL.getLatestLow();
-				Global.addLog("Profit pt update by tinyHL: " + tempCutLoss);
+				tempCutLoss = GetData.nanoHL.getLatestLow();
+				Global.addLog("Profit pt update by nanoHL: " + tempCutLoss);
 			}
 
 			// update stair
@@ -594,18 +606,18 @@ public class RuleSkyStair extends Rules
 //				tempCutLoss = stair;
 //			}
 
-			if (tempCutLoss < getLongStopEarn(XMLWatcher.stairs.get(currentStairIndex).value))
-			{
-				
-				if (tempCutLoss < GetData.getShortTB().getLatestCandle().getLow())
-					Global.addLog("Profit pt update by m1: " + GetData.getShortTB().getLatestCandle().getLow());
-				
-				tempCutLoss = Math.min(getLongStopEarn(XMLWatcher.stairs.get(currentStairIndex).value),
-						GetData.getShortTB().getLatestCandle().getLow());
-				
-				
-				
-			}
+//			if (tempCutLoss < getLongStopEarn(XMLWatcher.stairs.get(currentStairIndex).value))
+//			{
+//				
+//				if (tempCutLoss < GetData.getShortTB().getLatestCandle().getLow())
+//					Global.addLog("Profit pt update by m1: " + GetData.getShortTB().getLatestCandle().getLow());
+//				
+//				tempCutLoss = Math.min(getLongStopEarn(XMLWatcher.stairs.get(currentStairIndex).value),
+//						GetData.getShortTB().getLatestCandle().getLow());
+//				
+//				
+//				
+//			}
 
 			// if (GetData.getLongTB().getEMA(5) <
 			// GetData.getLongTB().getEMA(6))
@@ -631,10 +643,10 @@ public class RuleSkyStair extends Rules
 //				Global.addLog("Free trade");
 //			}
 			
-			if (GetData.tinyHL.getLatestHigh() < tempCutLoss)
+			if (GetData.nanoHL.getLatestHigh() < tempCutLoss)
 			{			
-				tempCutLoss = GetData.tinyHL.getLatestHigh();
-				Global.addLog("Profit pt update by tinyHL: " + tempCutLoss);
+				tempCutLoss = GetData.nanoHL.getLatestHigh();
+				Global.addLog("Profit pt update by nanoHL: " + tempCutLoss);
 			}
 
 //			if (stair != 0 && tempCutLoss > stair && Global.getCurrentPoint() < stair)
@@ -643,16 +655,16 @@ public class RuleSkyStair extends Rules
 //				tempCutLoss = stair;
 //			}
 
-			if (tempCutLoss > getShortStopEarn(XMLWatcher.stairs.get(currentStairIndex).value))
-			{
-				
-				if (tempCutLoss > GetData.getShortTB().getLatestCandle().getHigh())
-					Global.addLog("Profit pt update by m1: " + GetData.getShortTB().getLatestCandle().getHigh());
-				
-				tempCutLoss = Math.max(getShortStopEarn(XMLWatcher.stairs.get(currentStairIndex).value),
-						GetData.getShortTB().getLatestCandle().getHigh());
-				
-			}
+//			if (tempCutLoss > getShortStopEarn(XMLWatcher.stairs.get(currentStairIndex).value))
+//			{
+//				
+//				if (tempCutLoss > GetData.getShortTB().getLatestCandle().getHigh())
+//					Global.addLog("Profit pt update by m1: " + GetData.getShortTB().getLatestCandle().getHigh());
+//				
+//				tempCutLoss = Math.max(getShortStopEarn(XMLWatcher.stairs.get(currentStairIndex).value),
+//						GetData.getShortTB().getLatestCandle().getHigh());
+//				
+//			}
 
 			// if (GetData.getLongTB().getEMA(5) >
 			// GetData.getLongTB().getEMA(6))
