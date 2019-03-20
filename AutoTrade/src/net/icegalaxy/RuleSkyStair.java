@@ -643,7 +643,7 @@ public class RuleSkyStair extends Rules
 			
 			if (rr < 2)
 			{
-				tempCutLoss = 99999; // take profit
+				tempCutLoss = 0; // take profit
 			}
 			
 //			if (GetData.getShortTB().getLatestCandle().getHigh() > GetData.getLongTB().getEma5().getEMA()

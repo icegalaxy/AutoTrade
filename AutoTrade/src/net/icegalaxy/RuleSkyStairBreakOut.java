@@ -116,7 +116,7 @@ public class RuleSkyStairBreakOut extends Rules
 					if (shutdownLong(currentStairIndex))
 						return;
 					
-					cutLoss = Math.min(Math.min(refLow, XMLWatcher.stairs.get(currentStairIndex).refLow), XMLWatcher.stairs.get(currentStairIndex).value - 10);
+					cutLoss = Math.min(Math.min(Math.min(GetData.tinyHL.getLatestLow(),refLow), XMLWatcher.stairs.get(currentStairIndex).refLow), XMLWatcher.stairs.get(currentStairIndex).value - 10);
 
 					double reward = getLongStopEarn(XMLWatcher.stairs.get(currentStairIndex).value) - Global.getCurrentPoint();
 					double risk = Global.getCurrentPoint() - cutLoss;
@@ -230,7 +230,7 @@ public class RuleSkyStairBreakOut extends Rules
 					if(shutdownShort(currentStairIndex))
 						return;
 					
-					cutLoss = Math.max(Math.max(refHigh, XMLWatcher.stairs.get(currentStairIndex).refHigh), XMLWatcher.stairs.get(currentStairIndex).value + 10);
+					cutLoss = Math.max(Math.max(Math.max(GetData.tinyHL.getLatestHigh(), refHigh), XMLWatcher.stairs.get(currentStairIndex).refHigh), XMLWatcher.stairs.get(currentStairIndex).value + 10);
 //					currentStair = XMLWatcher.stairs.get(currentStairIndex);
 
 
@@ -515,7 +515,7 @@ public class RuleSkyStairBreakOut extends Rules
 			
 			if (rr < 2)
 			{
-				tempCutLoss = 99999; // take profit
+				tempCutLoss = 0; // take profit
 			}
 			
 //			if (GetData.getShortTB().getLatestCandle().getHigh() > GetData.getLongTB().getEma5().getEMA()
