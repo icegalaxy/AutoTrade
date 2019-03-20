@@ -513,10 +513,10 @@ public class RuleSkyStair extends Rules
 //				
 //			}
 			
-			if (GetData.tinyHL.getLatestLow() > tempCutLoss)
+			if (GetData.nanoHL.getLatestLow() > tempCutLoss)
 			{
-				tempCutLoss = GetData.tinyHL.getLatestLow();
-				Global.addLog("Profit pt update by tinyHL: " + tempCutLoss);
+				tempCutLoss = GetData.nanoHL.getLatestLow();
+				Global.addLog("Profit pt update by nanoHL: " + tempCutLoss);
 			}
 			
 			
@@ -576,6 +576,17 @@ public class RuleSkyStair extends Rules
 		if (Global.getNoOfContracts() > 0)
 		{
 			
+			double previousStopEarn = getLongStopEarn(currentStairIndex);
+			double reward = getLongStopEarn(previousStopEarn) - Global.getCurrentPoint();
+			double risk = Global.getCurrentPoint() - tempCutLoss;
+			double rr = reward/risk;
+			
+			if (rr < 2)
+			{
+				tempCutLoss = 99999; // take profit
+			}
+				
+			
 //			if (GetData.getShortTB().getLatestCandle().getLow() < GetData.getLongTB().getEma5().getEMA()
 //					&& GetData.getShortTB().getLatestCandle().getLow() > tempCutLoss)
 //				tempCutLoss = GetData.getShortTB().getLatestCandle().getLow();
@@ -625,6 +636,15 @@ public class RuleSkyStair extends Rules
 
 		} else if (Global.getNoOfContracts() < 0)
 		{
+			double previousStopEarn = getLongStopEarn(currentStairIndex);
+			double reward = getShortStopEarn(previousStopEarn) - Global.getCurrentPoint();
+			double risk = Global.getCurrentPoint() - tempCutLoss;
+			double rr = reward/risk;
+			
+			if (rr < 2)
+			{
+				tempCutLoss = 99999; // take profit
+			}
 			
 //			if (GetData.getShortTB().getLatestCandle().getHigh() > GetData.getLongTB().getEma5().getEMA()
 //					&& GetData.getShortTB().getLatestCandle().getHigh() < tempCutLoss)

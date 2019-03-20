@@ -1166,8 +1166,8 @@ public abstract class Rules implements Runnable
 		
 		updateHighLow();
 		
-		if (refHigh > XMLWatcher.stairs.get(currentStairIndex).refHigh)
-			XMLWatcher.stairs.get(currentStairIndex).refHigh = refHigh;
+//		if (refHigh > XMLWatcher.stairs.get(currentStairIndex).refHigh)
+//			XMLWatcher.stairs.get(currentStairIndex).refHigh = refHigh;
 		
 		if (!XMLWatcher.stairs.get(currentStairIndex).selling || XMLWatcher.stairs.get(currentStairIndex).shutdown)
 		{
@@ -1222,8 +1222,8 @@ public abstract class Rules implements Runnable
 		
 		updateHighLow();
 		
-		if (refLow < XMLWatcher.stairs.get(currentStairIndex).refLow)
-			XMLWatcher.stairs.get(currentStairIndex).refLow = refLow;
+//		if (refLow < XMLWatcher.stairs.get(currentStairIndex).refLow)
+//			XMLWatcher.stairs.get(currentStairIndex).refLow = refLow;
 		
 		if (!XMLWatcher.stairs.get(currentStairIndex).buying || XMLWatcher.stairs.get(currentStairIndex).shutdown)
 		{
