@@ -20,7 +20,7 @@ public class RuleSkyStair extends Rules
 	public RuleSkyStair(boolean globalRunRule)
 	{
 		super(globalRunRule);
-		setOrderTime(91800, 115800, 130300, 161500, 1003000, 1003000); 
+		setOrderTime(91600, 115800, 130300, 161500, 173000, 1003000); 
 		shutdownIndex = new ArrayList<Integer>();
 	}
 

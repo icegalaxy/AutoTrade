@@ -19,7 +19,7 @@ public class RuleSkyStairBreakOut extends Rules
 	public RuleSkyStairBreakOut(boolean globalRunRule)
 	{
 		super(globalRunRule);
-		setOrderTime(93000, 115800, 143000, 160000, 1003000, 1003000); 
+		setOrderTime(93000, 115800, 130300, 160000, 173000, 1003000); 
 		shutdownIndex = new ArrayList<Integer>();
 		// wait for EMA6, that's why 0945
 	}
