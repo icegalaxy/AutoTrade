@@ -446,8 +446,10 @@ public class GetData implements Runnable
 				{
 					
 					try {
-						Global.addLog("Tiny Up Trend: " + tinyHL.getUpTrend() + "; Nano Up Trend: " + nanoHL.getUpTrend());
-						Global.addLog("Tiny Down Trend: " + tinyHL.getDownTrend() + "; Nano Down Trend: " + nanoHL.getDownTrend());
+						if (tinyHL.getUpTrend()+nanoHL.getUpTrend() != 0)
+							Global.addLog("Tiny Up Trend: " + tinyHL.getUpTrend() + "; Nano Up Trend: " + nanoHL.getUpTrend());
+						if (tinyHL.getDownTrend()+nanoHL.getDownTrend() != 0)
+							Global.addLog("Tiny Down Trend: " + tinyHL.getDownTrend() + "; Nano Down Trend: " + nanoHL.getDownTrend());
 					}catch (Exception e) {
 						e.printStackTrace();
 					}

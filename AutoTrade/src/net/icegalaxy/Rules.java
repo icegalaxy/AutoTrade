@@ -1180,9 +1180,9 @@ public abstract class Rules implements Runnable
 //			XMLWatcher.stairs.get(currentStairIndex).selling = false;
 //			shutdownStair(currentStairIndex);
 			shutdown = true;
-		}else if (refHigh > XMLWatcher.stairs.get(currentStairIndex).value + XMLWatcher.stairs.get(currentStairIndex).tolerance)
+		}else if (Global.getCurrentPoint() > XMLWatcher.stairs.get(currentStairIndex).value + XMLWatcher.stairs.get(currentStairIndex).tolerance)
 		{
-			Global.addLog("RefHigh out of range");
+			Global.addLog("CurrentPt out of range");
 //			XMLWatcher.stairs.get(currentStairIndex).selling = false;
 //			shutdownStair(currentStairIndex);
 			shutdown = true;
@@ -1236,9 +1236,9 @@ public abstract class Rules implements Runnable
 //			XMLWatcher.stairs.get(currentStairIndex).buying = false;
 //			shutdownStair(currentStairIndex);
 			shutdown = true;
-		}else if (refLow < XMLWatcher.stairs.get(currentStairIndex).value - XMLWatcher.stairs.get(currentStairIndex).tolerance)
+		}else if (Global.getCurrentPoint() < XMLWatcher.stairs.get(currentStairIndex).value - XMLWatcher.stairs.get(currentStairIndex).tolerance)
 		{
-			Global.addLog("RefLow out of range");
+			Global.addLog("CurrentPt out of range");
 //			XMLWatcher.stairs.get(currentStairIndex).buying = false;
 //			shutdownStair(currentStairIndex);
 			shutdown = true;
