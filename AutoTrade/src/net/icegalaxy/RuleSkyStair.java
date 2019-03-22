@@ -16,6 +16,7 @@ public class RuleSkyStair extends Rules
 	double refHL;
 	int EMATimer;
 	double profitRange;
+	private boolean shutdown;
 
 	public RuleSkyStair(boolean globalRunRule)
 	{
@@ -27,6 +28,19 @@ public class RuleSkyStair extends Rules
 	public void openContract()
 	{
 
+		if (shutdown)
+		{
+			//wait 5 mins
+			int currentSize = GetData.getShortTB().getCandles().size();
+
+			while (currentSize == GetData.getShortTB().getCandles().size())
+			{
+				sleep(waitingTime);
+			}
+			
+			shutdown = false;
+			
+		}
 
 		if (!Global.isTradeTime() || Global.getNoOfContracts() != 0)
 			return;
@@ -76,39 +90,27 @@ public class RuleSkyStair extends Rules
 				while(!GetData.nanoHL.findingLow || !isOrderTime())
 				{
 					if (shutdownLong(currentStairIndex))
+					{
+						shutdown = true;
 						return;
+					}
 					
-//					if (Global.getCurrentPoint() > XMLWatcher.stairs.get(currentStairIndex).value + 50)
-//					{
-//						Global.addLog("Left");
-//						return;
-//					}
 
 					sleep(waitingTime);
 				}
 				
 				
-//				Global.addLog("Waiting to break nano high");
-//				
-//				while(Global.getCurrentPoint() < GetData.nanoHL.getLatestHigh())
-//				{
-//					if (shutdownLong(currentStairIndex))
-//						return;
-//					
-//					sleep(waitingTime);
-//				}
-				
 
-				
 				
 				
 
 				while (true)
-				{
-//					
-					
+				{					
 					if (shutdownLong(currentStairIndex))
+					{
+						shutdown = true;
 						return;
+					}
 					
 					cutLoss = Math.min(Math.min(refLow, XMLWatcher.stairs.get(currentStairIndex).refLow), XMLWatcher.stairs.get(currentStairIndex).value - 10);
 //					currentStair = XMLWatcher.stairs.get(currentStairIndex);
@@ -191,73 +193,13 @@ public class RuleSkyStair extends Rules
 				while(!GetData.nanoHL.findingHigh || !isOrderTime())
 				{
 					if (shutdownShort(currentStairIndex))
+					{
+						shutdown = true;
 						return;
-					
-//					if (Global.getCurrentPoint() < XMLWatcher.stairs.get(currentStairIndex).value - 50)
-//					{
-//						Global.addLog("Left");
-//						return;
-//					}
+					}
 					
 					sleep(waitingTime);
 				}
-				
-
-//				Global.addLog("Waiting to break nanoLow");
-//	
-//				while(Global.getCurrentPoint() > GetData.nanoHL.getLatestLow())
-//				{
-//					
-//					if(shutdownShort(currentStairIndex))
-//						return;
-//					sleep(waitingTime);
-//				}
-				
-//				if (GetData.tinyHL.volumeOfRefHigh < GetData.getShortTB().getAverageQuantity() * 2)
-//				{
-//					Global.addLog("Ref Vol not enough");
-//					Global.addLog("Ref High volume: " + GetData.tinyHL.volumeOfRefHigh);
-//					Global.addLog("Average Quantitiy " + GetData.getShortTB().getAverageQuantity());
-//					return;				
-//				}
-//				
-//				Global.addLog("RecentLow: " + GetData.tinyHL.getVolumeOfRecentLow() + "\r\n" +
-//						"Average: " + GetData.getShortTB().getAverageQuantity() + "\r\n" +
-//						"High: " + GetData.tinyHL.volumeOfRefHigh);
-//				
-//				if (GetData.tinyHL.getVolumeOfRecentLow() < 0 || GetData.tinyHL.volumeOfRefHigh < 0)
-//				{
-//					Global.addLog("Quantity Erro");
-//					XMLWatcher.stairs.get(currentStairIndex).selling = false;
-//					shutdownStair(currentStairIndex);
-//					
-//					return;	
-//				}
-//				
-//				
-//				if (GetData.tinyHL.volumeOfRefHigh < GetData.tinyHL.getVolumeOfRecentLow())
-//				{
-//					
-//					XMLWatcher.stairs.get(currentStairIndex).selling = false;
-//					shutdownStair(currentStairIndex);
-//					
-//					return;				
-//				}
-				
-				
-				
-//				if (!volumeRising)
-//				{
-//					Global.addLog("Volume not Rising");
-//					return;
-//				}
-				
-//				Global.addLog("Ref High: " + GetData.tinyHL.refHigh);
-//				Global.addLog("Latest Low: " + GetData.tinyHL.getLatestLow());
-
-				// if (Global.getCurrentPoint() < currentStair.value - 20)
-				// Global.addLog("Drop to fast, waiting for a pull back");
-				
 				
 
 				
@@ -265,8 +207,11 @@ public class RuleSkyStair extends Rules
 				while (true)
 				{
 //					updateHighLow();
-					if(shutdownShort(currentStairIndex))
+					if (shutdownShort(currentStairIndex))
+					{
+						shutdown = true;
 						return;
+					}
 					
 					cutLoss = Math.max(Math.max(refHigh, XMLWatcher.stairs.get(currentStairIndex).refHigh), XMLWatcher.stairs.get(currentStairIndex).value + 10);
 //					currentStair = XMLWatcher.stairs.get(currentStairIndex);
@@ -513,9 +458,11 @@ public class RuleSkyStair extends Rules
 //				
 //			}
 			
-			if (GetData.nanoHL.getLatestLow() > tempCutLoss)
+			double low = Math.min(GetData.nanoHL.getLatestLow(), GetData.nanoHL.refLow);
+			
+			if (low > tempCutLoss)
 			{
-				tempCutLoss = GetData.nanoHL.getLatestLow();
+				tempCutLoss = low;
 				Global.addLog("Profit pt update by nanoHL: " + tempCutLoss);
 			}
 			
@@ -546,10 +493,12 @@ public class RuleSkyStair extends Rules
 //				
 //			}
 			
-			if (GetData.tinyHL.getLatestHigh() < tempCutLoss)
+			double high = Math.max(GetData.nanoHL.getLatestHigh(), GetData.nanoHL.refHigh);
+			
+			if (high < tempCutLoss)
 			{			
-				tempCutLoss = GetData.tinyHL.getLatestHigh();
-				Global.addLog("Profit pt update by tinyHL: " + tempCutLoss);
+				tempCutLoss = high;
+				Global.addLog("Profit pt update by nanoHL: " + tempCutLoss);
 			}
 			
 			
@@ -917,6 +866,30 @@ public class RuleSkyStair extends Rules
 		return GetData.tinyHL.isDropping() && !GetData.tinyHL.isRising();
 	}
 	
+	
+	@Override
+	public boolean shutdownLong(int currentStairIndex)
+	{
+		boolean shutdown = super.shutdownLong(currentStairIndex);
+		if (Global.getCurrentPoint() < XMLWatcher.stairs.get(currentStairIndex).value - XMLWatcher.stairs.get(currentStairIndex).tolerance)
+		{
+			Global.addLog("CurrentPt out of range");
+			shutdown = true;
+		}		
+		return shutdown;
+	}
+	
+	@Override
+	public boolean shutdownShort(int currentStairIndex)
+	{
+		boolean shutdown = super.shutdownShort(currentStairIndex);
+		if (Global.getCurrentPoint() > XMLWatcher.stairs.get(currentStairIndex).value + XMLWatcher.stairs.get(currentStairIndex).tolerance)
+		{
+			Global.addLog("CurrentPt out of range");
+			shutdown = true;
+		}		
+		return shutdown;
+	}
 	
 
 	@Override

@@ -1180,12 +1180,6 @@ public abstract class Rules implements Runnable
 //			XMLWatcher.stairs.get(currentStairIndex).selling = false;
 //			shutdownStair(currentStairIndex);
 			shutdown = true;
-		}else if (Global.getCurrentPoint() > XMLWatcher.stairs.get(currentStairIndex).value + XMLWatcher.stairs.get(currentStairIndex).tolerance)
-		{
-			Global.addLog("CurrentPt out of range");
-//			XMLWatcher.stairs.get(currentStairIndex).selling = false;
-//			shutdownStair(currentStairIndex);
-			shutdown = true;
 		}
 		else if (GetData.tinyHL.isRising())
 		{
@@ -1194,6 +1188,7 @@ public abstract class Rules implements Runnable
 				stealing = true;
 				Global.addLog("TinyHL is Rising - stealing");
 //				Global.addLog("Stop Earn: " + getShortStopEarn(XMLWatcher.stairs.get(currentStairIndex).value));
+				shutdown = true;
 			}
 //			XMLWatcher.stairs.get(currentStairIndex).selling = false;
 //			shutdownStair(currentStairIndex);
@@ -1206,6 +1201,7 @@ public abstract class Rules implements Runnable
 				stealing = true;
 				Global.addLog("SmallHL is Rising - stealing");
 //				Global.addLog("Stop Earn: " + getShortStopEarn(XMLWatcher.stairs.get(currentStairIndex).value));
+				shutdown = true;
 			}
 //			XMLWatcher.stairs.get(currentStairIndex).selling = false;
 //			shutdownStair(currentStairIndex);
@@ -1236,12 +1232,6 @@ public abstract class Rules implements Runnable
 //			XMLWatcher.stairs.get(currentStairIndex).buying = false;
 //			shutdownStair(currentStairIndex);
 			shutdown = true;
-		}else if (Global.getCurrentPoint() < XMLWatcher.stairs.get(currentStairIndex).value - XMLWatcher.stairs.get(currentStairIndex).tolerance)
-		{
-			Global.addLog("CurrentPt out of range");
-//			XMLWatcher.stairs.get(currentStairIndex).buying = false;
-//			shutdownStair(currentStairIndex);
-			shutdown = true;
 		}
 		else if (GetData.tinyHL.isDropping())
 		{
@@ -1250,6 +1240,7 @@ public abstract class Rules implements Runnable
 				stealing = true;
 				Global.addLog("TinyHL is Dropping, stealing");
 //				Global.addLog("Stop Earn: " + getLongStopEarn(XMLWatcher.stairs.get(currentStairIndex).value));
+				shutdown = true;
 			}
 //			XMLWatcher.stairs.get(currentStairIndex).buying = false;
 //			shutdownStair(currentStairIndex);
@@ -1262,6 +1253,7 @@ public abstract class Rules implements Runnable
 				stealing = true;
 				Global.addLog("SmallHL is Dropping, stealing");
 //				Global.addLog("Stop Earn: " + getLongStopEarn(XMLWatcher.stairs.get(currentStairIndex).value));
+				shutdown = true;
 			}
 //			XMLWatcher.stairs.get(currentStairIndex).buying = false;
 //			shutdownStair(currentStairIndex);
