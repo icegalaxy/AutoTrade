@@ -31,7 +31,7 @@ public class RuleSkyStairBreakOut extends Rules
 		
 		if (shutdown)
 		{
-			//wait 5 mins
+			Global.addLog("Waiting for 5 mins");
 			int currentSize = GetData.getLongTB().getCandles().size();
 
 			while (currentSize == GetData.getLongTB().getCandles().size())
