@@ -336,7 +336,7 @@ public class RuleSkyStairBreakOut extends Rules
 			
 			double low = Math.min(GetData.nanoHL.getLatestLow(), GetData.nanoHL.refLow);
 			
-			if (low > tempCutLoss)
+			if (low > tempCutLoss && low > buyingPoint)
 			{
 				tempCutLoss = low;
 				Global.addLog("Profit pt update by nanoHL: " + tempCutLoss);
@@ -371,7 +371,7 @@ public class RuleSkyStairBreakOut extends Rules
 			
 			double high = Math.max(GetData.nanoHL.getLatestHigh(), GetData.nanoHL.refHigh);
 			
-			if (high < tempCutLoss)
+			if (high < tempCutLoss && high < buyingPoint)
 			{			
 				tempCutLoss = high;
 				Global.addLog("Profit pt update by nanoHL: " + tempCutLoss);
@@ -429,7 +429,7 @@ public class RuleSkyStairBreakOut extends Rules
 //				Global.addLog("Free trade");
 //			}
 			
-			if (GetData.nanoHL.getLatestLow() > tempCutLoss)
+			if (GetData.nanoHL.getLatestLow() > tempCutLoss && GetData.nanoHL.getLatestLow() > buyingPoint)
 			{
 				tempCutLoss = GetData.nanoHL.getLatestLow();
 				Global.addLog("Profit pt update by nanoHL: " + tempCutLoss);
@@ -488,7 +488,7 @@ public class RuleSkyStairBreakOut extends Rules
 //				Global.addLog("Free trade");
 //			}
 			
-			if (GetData.nanoHL.getLatestHigh() < tempCutLoss)
+			if (GetData.nanoHL.getLatestHigh() < tempCutLoss && GetData.nanoHL.getLatestHigh() < buyingPoint)
 			{			
 				tempCutLoss = GetData.nanoHL.getLatestHigh();
 				Global.addLog("Profit pt update by nanoHL: " + tempCutLoss);
