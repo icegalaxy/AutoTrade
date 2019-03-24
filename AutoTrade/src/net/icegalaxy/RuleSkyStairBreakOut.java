@@ -65,6 +65,8 @@ public class RuleSkyStairBreakOut extends Rules
 			if (
 					GetData.getLongTB().getPreviousCandle(1).getClose() < XMLWatcher.stairs.get(currentStairIndex).value && 
 					GetData.getLongTB().getLatestCandle().getClose() > XMLWatcher.stairs.get(currentStairIndex).value
+					&& !GetData.tinyHL.isDropping()
+					&& !GetData.smallHL.isDropping()
 					)
 			{
 				
@@ -148,7 +150,9 @@ public class RuleSkyStairBreakOut extends Rules
 
 			} else if (
 					GetData.getLongTB().getPreviousCandle(1).getClose() > XMLWatcher.stairs.get(currentStairIndex).value && 
-					GetData.getLongTB().getLatestCandle().getClose() < XMLWatcher.stairs.get(currentStairIndex).value)
+					GetData.getLongTB().getLatestCandle().getClose() < XMLWatcher.stairs.get(currentStairIndex).value
+					&& !GetData.tinyHL.isRising()
+					&& !GetData.smallHL.isRising())
 			{
 				
 				if (localShutdownLongIndex == currentStairIndex)
