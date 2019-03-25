@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class RuleSkyStairBreakOut extends Rules
+public class RuleSkyStairBreakOut1min extends Rules
 {
 	// Stair currentStair;
 	int currentStairIndex;
@@ -18,10 +18,10 @@ public class RuleSkyStairBreakOut extends Rules
 
 	private boolean shutdown;
 
-	public RuleSkyStairBreakOut(boolean globalRunRule)
+	public RuleSkyStairBreakOut1min(boolean globalRunRule)
 	{
 		super(globalRunRule);
-		setOrderTime(91800, 115800, 130300, 160000, 173000, 1003000); 
+		setOrderTime(93000, 115800, 130300, 160000, 173000, 1003000); 
 		shutdownIndex = new ArrayList<Integer>();
 		// wait for EMA6, that's why 0945
 	}
@@ -32,9 +32,9 @@ public class RuleSkyStairBreakOut extends Rules
 		if (shutdown)
 		{
 			Global.addLog("Waiting for 5 mins");
-			int currentSize = GetData.getShortTB().getCandles().size();
+			int currentSize = GetData.getLongTB().getCandles().size();
 
-			while (currentSize == GetData.getShortTB().getCandles().size())
+			while (currentSize == GetData.getLongTB().getCandles().size())
 			{
 				sleep(waitingTime);
 			}
@@ -63,8 +63,8 @@ public class RuleSkyStairBreakOut extends Rules
 
 			// Long
 			if (
-					GetData.getShortTB().getPreviousCandle(1).getClose() < XMLWatcher.stairs.get(currentStairIndex).value && 
-					GetData.getShortTB().getLatestCandle().getClose() > XMLWatcher.stairs.get(currentStairIndex).value
+					GetData.getLongTB().getPreviousCandle(1).getClose() < XMLWatcher.stairs.get(currentStairIndex).value && 
+					GetData.getLongTB().getLatestCandle().getClose() > XMLWatcher.stairs.get(currentStairIndex).value
 					&& !GetData.tinyHL.isDropping()
 					&& !GetData.smallHL.isDropping()
 					)
@@ -107,8 +107,13 @@ public class RuleSkyStairBreakOut extends Rules
 
 					profitRange = reward;
 					
+					if (2 < rr && rr < 3 && risk <100 && stealing && reward > 50)
+					{
+						Global.addLog("RR= " + rr);
+						break;
+					}
 					
-					if (1.5 < rr && rr < 2 && risk < 100 && reward > 50)
+					if (1.5 < rr && rr < 2 && risk < 100 && !stealing && reward > 50)
 					{
 						Global.addLog("RR= " + rr);
 						break;
@@ -144,8 +149,8 @@ public class RuleSkyStairBreakOut extends Rules
 				return;
 
 			} else if (
-					GetData.getShortTB().getPreviousCandle(1).getClose() > XMLWatcher.stairs.get(currentStairIndex).value && 
-					GetData.getShortTB().getLatestCandle().getClose() < XMLWatcher.stairs.get(currentStairIndex).value
+					GetData.getLongTB().getPreviousCandle(1).getClose() > XMLWatcher.stairs.get(currentStairIndex).value && 
+					GetData.getLongTB().getLatestCandle().getClose() < XMLWatcher.stairs.get(currentStairIndex).value
 					&& !GetData.tinyHL.isRising()
 					&& !GetData.smallHL.isRising())
 			{
@@ -189,8 +194,13 @@ public class RuleSkyStairBreakOut extends Rules
 
 					profitRange = reward;
 					
+					if (2 < rr && rr < 3 && risk <100 && stealing && reward > 50)
+					{
+						Global.addLog("RR= " + rr);
+						break;
+					}
 					
-					if (1.5 < rr && rr < 2 && risk < 100 && reward > 50)
+					if (1.5 < rr && rr < 2 && risk < 100 && !stealing && reward > 50)
 					{
 						Global.addLog("RR= " + rr);
 						break;
@@ -716,7 +726,7 @@ public class RuleSkyStairBreakOut extends Rules
 	@Override
 	void updateHighLow()
 	{
-		double refPoint = GetData.getShortTB().getLatestCandle().getClose();
+		double refPoint = GetData.getLongTB().getLatestCandle().getClose();
 		
 		
 		

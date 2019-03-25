@@ -42,6 +42,7 @@ public class XMLWatcher implements Runnable
 //		RuleSkyStair1Min st1 = new RuleSkyStair1Min(true);
 //		RuleSkyStair5Min st5 = new RuleSkyStair5Min(true);
 		RuleSkyStairBreakOut bo = new RuleSkyStairBreakOut(true);
+		RuleSkyStairBreakOut1min bo1m = new RuleSkyStairBreakOut1min(true);
 		//RulePriceAction pa = new RulePriceAction(true);
 		
 		Thread ts = new Thread(ss);
@@ -54,6 +55,8 @@ public class XMLWatcher implements Runnable
 //		tSt5.start();
 		Thread tBo = new Thread(bo);
 		tBo.start();
+		Thread tBo1m = new Thread(bo1m);
+		tBo1m.start();
 		//Thread sPa = new Thread(pa);
 		//sPa.start();
 
