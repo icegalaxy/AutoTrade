@@ -78,8 +78,9 @@ public class RuleSkyStairBreakOut1min extends Rules
 				if (!XMLWatcher.stairs.get(currentStairIndex).buying || XMLWatcher.stairs.get(currentStairIndex).shutdown)
 					continue;
 
-				Global.addLog("Break out " + XMLWatcher.stairs.get(currentStairIndex).lineType + " @ " + XMLWatcher.stairs.get(currentStairIndex).value + " (Long)");
-				Global.addLog("ST1 Stop Earn: " + getLongStopEarn(XMLWatcher.stairs.get(currentStairIndex).value));
+				Global.addLog("1m Break out " + XMLWatcher.stairs.get(currentStairIndex).lineType + " @ " + XMLWatcher.stairs.get(currentStairIndex).value + " (Long)");
+				Global.addLog("Stop Earn: " + getLongStopEarn(XMLWatcher.stairs.get(currentStairIndex).value));
+				Global.addLog("Cut Loss: " + GetData.tinyHL.getLatestLow());
 
 				if (shutdownLong(currentStairIndex))
 				{
@@ -163,8 +164,9 @@ public class RuleSkyStairBreakOut1min extends Rules
 				if (!XMLWatcher.stairs.get(currentStairIndex).selling || XMLWatcher.stairs.get(currentStairIndex).shutdown)
 					continue;
 
-				Global.addLog("Break out " + XMLWatcher.stairs.get(currentStairIndex).lineType + " @ " + XMLWatcher.stairs.get(currentStairIndex).value + " (Short)");
-				Global.addLog("ST1 Stop Earn: " + getShortStopEarn(XMLWatcher.stairs.get(currentStairIndex).value));
+				Global.addLog("1m Break out " + XMLWatcher.stairs.get(currentStairIndex).lineType + " @ " + XMLWatcher.stairs.get(currentStairIndex).value + " (Short)");
+				Global.addLog("Stop Earn: " + getShortStopEarn(XMLWatcher.stairs.get(currentStairIndex).value));
+				Global.addLog("Cut Loss: " + GetData.tinyHL.getLatestHigh());
 
 				
 				if (shutdownShort(currentStairIndex))
@@ -741,9 +743,15 @@ public class RuleSkyStairBreakOut1min extends Rules
 	public boolean shutdownLong(int currentStairIndex)
 	{
 		boolean shutdown = super.shutdownLong(currentStairIndex);
-		if (Global.getCurrentPoint() < GetData.tinyHL.getLatestLow())
+//		if (Global.getCurrentPoint() < GetData.tinyHL.getLatestLow())
+//		{
+//			Global.addLog("CurrentPt out of range");
+//			shutdown = true;
+//		}
+		
+		if (GetData.getShortTB().getLatestCandle().getClose() > XMLWatcher.stairs.get(currentStairIndex).value)
 		{
-			Global.addLog("CurrentPt out of range");
+			Global.addLog("M1 close out of range");
 			shutdown = true;
 		}
 		
@@ -754,9 +762,15 @@ public class RuleSkyStairBreakOut1min extends Rules
 	public boolean shutdownShort(int currentStairIndex)
 	{
 		boolean shutdown = super.shutdownShort(currentStairIndex);
-		if (Global.getCurrentPoint() > GetData.tinyHL.getLatestHigh())
+//		if (Global.getCurrentPoint() > GetData.tinyHL.getLatestHigh())
+//		{
+//			Global.addLog("CurrentPt out of range");
+//			shutdown = true;
+//		}
+		
+		if (GetData.getShortTB().getLatestCandle().getClose() > XMLWatcher.stairs.get(currentStairIndex).value)
 		{
-			Global.addLog("CurrentPt out of range");
+			Global.addLog("M1 close out of range");
 			shutdown = true;
 		}
 		
