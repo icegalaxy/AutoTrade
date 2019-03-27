@@ -451,16 +451,16 @@ public class RuleSkyStair extends Rules
 		{
 			
 			//Calculate how for to reach stop earn and set it equal to tempCutLoss
-//			if (Global.getCurrentPoint() > buyingPoint + profitRange / 2 && Global.getCurrentPoint() < getLongStopEarn(XMLWatcher.stairs.get(currentStairIndex).value) - 20)
-//			{
-//				double expectedEarn =  getLongStopEarn(XMLWatcher.stairs.get(currentStairIndex).value) - Global.getCurrentPoint();
-//				if (tempCutLoss < Global.getCurrentPoint() - expectedEarn)
-//				{
-//					tempCutLoss = Global.getCurrentPoint() - expectedEarn;
-//					Global.addLog("Profit update: " + tempCutLoss);
-//				}
-//				
-//			}
+			if (Global.getCurrentPoint() > buyingPoint + profitRange / 2 && Global.getCurrentPoint() < getLongStopEarn(XMLWatcher.stairs.get(currentStairIndex).value) - 30)
+			{
+				double expectedEarn =  getLongStopEarn(XMLWatcher.stairs.get(currentStairIndex).value) - Global.getCurrentPoint();
+				if (tempCutLoss < Global.getCurrentPoint() - expectedEarn)
+				{
+					tempCutLoss = Global.getCurrentPoint() - expectedEarn;
+					Global.addLog("Profit update: " + tempCutLoss);
+				}
+				
+			}
 			
 			double low = Math.min(GetData.nanoHL.getLatestLow(), GetData.nanoHL.refLow);
 			
@@ -486,16 +486,16 @@ public class RuleSkyStair extends Rules
 		{
 			
 			//Calculate how for to reach stop earn and set it equal to tempCutLoss
-//			if (Global.getCurrentPoint() < buyingPoint - profitRange / 2 && Global.getCurrentPoint() > getShortStopEarn(XMLWatcher.stairs.get(currentStairIndex).value) + 20)
-//			{
-//				double expectedEarn = Global.getCurrentPoint() - getShortStopEarn(XMLWatcher.stairs.get(currentStairIndex).value);
-//				if (tempCutLoss > Global.getCurrentPoint() + expectedEarn)
-//				{
-//					tempCutLoss = Global.getCurrentPoint() + expectedEarn;
-//					Global.addLog("Profit update: " + tempCutLoss);
-//				}
-//				
-//			}
+			if (Global.getCurrentPoint() < buyingPoint - profitRange / 2 && Global.getCurrentPoint() > getShortStopEarn(XMLWatcher.stairs.get(currentStairIndex).value) + 30)
+			{
+				double expectedEarn = Global.getCurrentPoint() - getShortStopEarn(XMLWatcher.stairs.get(currentStairIndex).value);
+				if (tempCutLoss > Global.getCurrentPoint() + expectedEarn)
+				{
+					tempCutLoss = Global.getCurrentPoint() + expectedEarn;
+					Global.addLog("Profit update: " + tempCutLoss);
+				}
+				
+			}
 			
 			double high = Math.max(GetData.nanoHL.getLatestHigh(), GetData.nanoHL.refHigh);
 			
