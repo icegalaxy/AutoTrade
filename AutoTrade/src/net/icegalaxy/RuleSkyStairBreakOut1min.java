@@ -749,7 +749,7 @@ public class RuleSkyStairBreakOut1min extends Rules
 //			shutdown = true;
 //		}
 		
-		if (getTimeBase().getLatestCandle().getClose() > XMLWatcher.stairs.get(currentStairIndex).value)
+		if (getTimeBase().getLatestCandle().getClose() < XMLWatcher.stairs.get(currentStairIndex).value)
 		{
 			Global.addLog("M1 close out of range");
 			shutdown = true;
