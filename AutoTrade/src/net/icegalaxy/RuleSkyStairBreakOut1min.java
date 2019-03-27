@@ -31,10 +31,10 @@ public class RuleSkyStairBreakOut1min extends Rules
 		
 		if (shutdown)
 		{
-			Global.addLog("Waiting for 5 mins");
-			int currentSize = GetData.getLongTB().getCandles().size();
+			Global.addLog("Waiting for 1 mins");
+			int currentSize = getTimeBase().getCandles().size();
 
-			while (currentSize == GetData.getLongTB().getCandles().size())
+			while (currentSize == getTimeBase().getCandles().size())
 			{
 				sleep(waitingTime);
 			}
@@ -63,8 +63,8 @@ public class RuleSkyStairBreakOut1min extends Rules
 
 			// Long
 			if (
-					GetData.getLongTB().getPreviousCandle(1).getClose() < XMLWatcher.stairs.get(currentStairIndex).value && 
-					GetData.getLongTB().getLatestCandle().getClose() > XMLWatcher.stairs.get(currentStairIndex).value
+					getTimeBase().getPreviousCandle(1).getClose() <= XMLWatcher.stairs.get(currentStairIndex).value && 
+					getTimeBase().getLatestCandle().getClose() > XMLWatcher.stairs.get(currentStairIndex).value
 					&& !GetData.tinyHL.isDropping()
 					&& !GetData.smallHL.isDropping()
 					)
@@ -150,8 +150,8 @@ public class RuleSkyStairBreakOut1min extends Rules
 				return;
 
 			} else if (
-					GetData.getLongTB().getPreviousCandle(1).getClose() > XMLWatcher.stairs.get(currentStairIndex).value && 
-					GetData.getLongTB().getLatestCandle().getClose() < XMLWatcher.stairs.get(currentStairIndex).value
+					getTimeBase().getPreviousCandle(1).getClose() >= XMLWatcher.stairs.get(currentStairIndex).value && 
+					getTimeBase().getLatestCandle().getClose() < XMLWatcher.stairs.get(currentStairIndex).value
 					&& !GetData.tinyHL.isRising()
 					&& !GetData.smallHL.isRising())
 			{
@@ -274,7 +274,7 @@ public class RuleSkyStairBreakOut1min extends Rules
 			if (tempCutLoss < cutLoss)
 				tempCutLoss = cutLoss;
 
-			if (stair != 0 && tempCutLoss < stair && GetData.getShortTB().getLatestCandle().getClose() > stair)
+			if (stair != 0 && tempCutLoss < stair && getTimeBase().getLatestCandle().getClose() > stair)
 			{
 				Global.addLog("Stair updated: " + stair);
 				tempCutLoss = stair;
@@ -300,7 +300,7 @@ public class RuleSkyStairBreakOut1min extends Rules
 			if (tempCutLoss > cutLoss)
 				tempCutLoss = cutLoss;
 
-			if (stair != 0 && tempCutLoss > stair && GetData.getShortTB().getLatestCandle().getClose() < stair)
+			if (stair != 0 && tempCutLoss > stair && getTimeBase().getLatestCandle().getClose() < stair)
 			{
 				Global.addLog("Stair updated: " + stair);
 				tempCutLoss = stair;
@@ -418,7 +418,7 @@ public class RuleSkyStairBreakOut1min extends Rules
 			}
 				
 			
-//			if (GetData.getShortTB().getLatestCandle().getLow() < GetData.getLongTB().getEma5().getEMA()
+//			if (GetData.getShortTB().getLatestCandle().getLow() < getTimeBase().getEma5().getEMA()
 //					&& GetData.getShortTB().getLatestCandle().getLow() > tempCutLoss)
 //				tempCutLoss = GetData.getShortTB().getLatestCandle().getLow();
 			
@@ -728,7 +728,7 @@ public class RuleSkyStairBreakOut1min extends Rules
 	@Override
 	void updateHighLow()
 	{
-		double refPoint = GetData.getLongTB().getLatestCandle().getClose();
+		double refPoint = getTimeBase().getLatestCandle().getClose();
 		
 		
 		
@@ -749,7 +749,7 @@ public class RuleSkyStairBreakOut1min extends Rules
 //			shutdown = true;
 //		}
 		
-		if (GetData.getShortTB().getLatestCandle().getClose() > XMLWatcher.stairs.get(currentStairIndex).value)
+		if (getTimeBase().getLatestCandle().getClose() > XMLWatcher.stairs.get(currentStairIndex).value)
 		{
 			Global.addLog("M1 close out of range");
 			shutdown = true;
@@ -768,7 +768,7 @@ public class RuleSkyStairBreakOut1min extends Rules
 //			shutdown = true;
 //		}
 		
-		if (GetData.getShortTB().getLatestCandle().getClose() > XMLWatcher.stairs.get(currentStairIndex).value)
+		if (getTimeBase().getLatestCandle().getClose() > XMLWatcher.stairs.get(currentStairIndex).value)
 		{
 			Global.addLog("M1 close out of range");
 			shutdown = true;
