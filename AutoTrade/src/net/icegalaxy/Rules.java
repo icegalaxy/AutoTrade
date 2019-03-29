@@ -1194,12 +1194,12 @@ public abstract class Rules implements Runnable
 //			shutdownStair(currentStairIndex);
 //			shutdown = true;
 			
-		}else if (GetData.smallHL.isRising())
+		}else if (GetData.nanoHL.isRising())
 		{
 			if(!stealing)
 			{
 				stealing = true;
-				Global.addLog("SmallHL is Rising - stealing");
+				Global.addLog("NanoHL is Rising - stealing");
 //				Global.addLog("Stop Earn: " + getShortStopEarn(XMLWatcher.stairs.get(currentStairIndex).value));
 				shutdown = true;
 			}
@@ -1246,12 +1246,12 @@ public abstract class Rules implements Runnable
 //			shutdownStair(currentStairIndex);
 //			shutdown = true;
 			
-		}else if (GetData.smallHL.isDropping())
+		}else if (GetData.nanoHL.isDropping())
 		{
 			if(!stealing)
 			{
 				stealing = true;
-				Global.addLog("SmallHL is Dropping, stealing");
+				Global.addLog("NanoHL is Dropping, stealing");
 //				Global.addLog("Stop Earn: " + getLongStopEarn(XMLWatcher.stairs.get(currentStairIndex).value));
 				shutdown = true;
 			}

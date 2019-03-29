@@ -69,7 +69,7 @@ public class RuleSkyStair extends Rules
 					Global.getCurrentPoint() < XMLWatcher.stairs.get(currentStairIndex).value + XMLWatcher.stairs.get(currentStairIndex).tolerance / 2
 					&& Global.getCurrentPoint() > XMLWatcher.stairs.get(currentStairIndex).value
 					&& !GetData.tinyHL.isDropping()
-					&& !GetData.smallHL.isDropping())
+					&& !GetData.nanoHL.isDropping())
 			{
 				
 				
@@ -172,7 +172,7 @@ public class RuleSkyStair extends Rules
 					Global.getCurrentPoint() > XMLWatcher.stairs.get(currentStairIndex).value - XMLWatcher.stairs.get(currentStairIndex).tolerance / 2
 					&& Global.getCurrentPoint() < XMLWatcher.stairs.get(currentStairIndex).value
 					&& !GetData.tinyHL.isRising()
-					&& !GetData.smallHL.isRising())
+					&& !GetData.nanoHL.isRising())
 			{
 				
 				//must be put inside long or short to avoid reset of index and sec every time
