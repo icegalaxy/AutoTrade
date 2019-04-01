@@ -559,7 +559,7 @@ public class SPApi
 		Global.addLog("Init API");
 		
 		int status = 0;
-		if (Setting.password == 0)
+		if (Setting.password == "0")
 		{
 			
 			Scanner keyIn = new Scanner(System.in);
