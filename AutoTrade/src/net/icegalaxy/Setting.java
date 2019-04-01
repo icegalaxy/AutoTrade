@@ -24,7 +24,7 @@ public class Setting extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	public static Integer password;
+	public static String password;
 	private JTextField passwordField;
 	private JTextField maxContracts;
 	private JButton startBtn;
@@ -85,7 +85,7 @@ public class Setting extends JFrame {
 
 				Global.setCutLost(20);
 				
-				password = new Integer(passwordField.getText());
+				password = passwordField.getText();
 				
 //				Global.setGreatProfit(new Float(passwordField.getText()));
 				Global.maxContracts = new Integer(maxContracts.getText());
