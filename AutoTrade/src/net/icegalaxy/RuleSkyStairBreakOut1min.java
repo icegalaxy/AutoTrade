@@ -65,8 +65,7 @@ public class RuleSkyStairBreakOut1min extends Rules
 			if (
 					getTimeBase().getPreviousCandle(1).getClose() <= XMLWatcher.stairs.get(currentStairIndex).value && 
 					getTimeBase().getLatestCandle().getClose() > XMLWatcher.stairs.get(currentStairIndex).value
-					&& !GetData.tinyHL.isDropping()
-					&& !GetData.nanoHL.isDropping()
+					&& isUpTrend()
 					)
 			{
 				
@@ -152,8 +151,7 @@ public class RuleSkyStairBreakOut1min extends Rules
 			} else if (
 					getTimeBase().getPreviousCandle(1).getClose() >= XMLWatcher.stairs.get(currentStairIndex).value && 
 					getTimeBase().getLatestCandle().getClose() < XMLWatcher.stairs.get(currentStairIndex).value
-					&& !GetData.tinyHL.isRising()
-					&& !GetData.nanoHL.isRising())
+					&& isDownTrend())
 			{
 				
 				if (localShutdownLongIndex == currentStairIndex)
