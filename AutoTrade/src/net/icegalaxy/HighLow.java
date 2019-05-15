@@ -311,7 +311,6 @@ public class HighLow {
 		try {
 			date = df.parse(s);
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		long epoch = date.getTime();

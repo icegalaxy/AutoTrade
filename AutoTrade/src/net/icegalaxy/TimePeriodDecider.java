@@ -64,7 +64,6 @@ public class TimePeriodDecider implements Runnable
 						XMLWatcher.resetStairs();
 					} catch (Exception e)
 					{
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 					noonClosed = true;
@@ -94,7 +93,6 @@ public class TimePeriodDecider implements Runnable
 						XMLWatcher.resetStairs();
 					} catch (Exception e)
 					{
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 					dayClosed = true;

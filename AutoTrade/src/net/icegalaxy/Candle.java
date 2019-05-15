@@ -1,6 +1,5 @@
 package net.icegalaxy;
 
-import java.util.Date;
 
 public class Candle {
 	private String time;
