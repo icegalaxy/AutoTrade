@@ -502,7 +502,7 @@ public class GetData implements Runnable
 
 		}
 
-		qp.close();
+		// qp.close();
 
 	}
 

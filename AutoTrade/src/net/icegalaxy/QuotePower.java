@@ -22,14 +22,14 @@ public class QuotePower {
 	private int errCount;
 	
 	public QuotePower() {
-		try {
-			DB.connect("TradeData\\AutoTrade");
-		} catch (SQLException e) {
+		// try {
+		// 	DB.connect("TradeData\\AutoTrade");
+		// } catch (SQLException e) {
 
-			e.printStackTrace();
-		}
+		// 	e.printStackTrace();
+		// }
 //		hhi = createTable("");
-		fhi = createTable("HSF");
+		// fhi = createTable("HSF");
 
 	}
 	
@@ -54,8 +54,8 @@ public class QuotePower {
 
 		sleep(200); // give time the the computer, dont knwo whether is necessary
 			
-			String tableName = "";
-			tableName = fhi;
+			// String tableName = "";
+			// tableName = fhi;
 
 
 			deal = "";
@@ -106,8 +106,8 @@ public class QuotePower {
 
 //		sleep(100); // give time the the computer, dont knwo whether is necessary
 			
-			String tableName = "";
-			tableName = fhi;
+			// String tableName = "";
+			// tableName = fhi;
 
 
 			deal = "";
@@ -155,18 +155,18 @@ public class QuotePower {
 			//	return;
 			//}
 
-			String query = "INSERT INTO " + tableName + " VALUES("
-					+ quote(num.toString()) + ",\"" + quote(time) + "\","
-					+ quote(deal) + "," + quote(change) + ","
-					+ quote(String.valueOf(quantity)) + "," + quote(String.valueOf(bidQuantity))
-					+ "," + quote(bid) + "," + quote(ask) + ","
-					+ quote(String.valueOf(askQuantity)) + ");";
+			// String query = "INSERT INTO " + tableName + " VALUES("
+			// 		+ quote(num.toString()) + ",\"" + quote(time) + "\","
+			// 		+ quote(deal) + "," + quote(change) + ","
+			// 		+ quote(String.valueOf(quantity)) + "," + quote(String.valueOf(bidQuantity))
+			// 		+ "," + quote(bid) + "," + quote(ask) + ","
+			// 		+ quote(String.valueOf(askQuantity)) + ");";
 
-			try {
-				DB.stmt.executeUpdate(query);
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
+			// try {
+			// 	DB.stmt.executeUpdate(query);
+			// } catch (SQLException e) {
+			// 	e.printStackTrace();
+			// }
 
 		
 
