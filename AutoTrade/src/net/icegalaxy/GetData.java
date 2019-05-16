@@ -566,7 +566,7 @@ public class GetData implements Runnable
 		// parseSPRecord csv = new
 		// parseSPRecord("C:\\Users\\joech\\Dropbox\\TradeData\\SPRecords\\" +
 		// Global.getToday() + "\\m1.txt");
-		parseSPRecord csv = new parseSPRecord("C:\\Users\\joech\\Dropbox\\TradeData\\SPRecords\\m1.txt");
+		parseSPRecord csv = new parseSPRecord("C:\\Users\\joecheung0\\Google Drive\\TradeData\\m1.txt");
 		csv.parseOHLC();
 
 		int m5Period = -4;
