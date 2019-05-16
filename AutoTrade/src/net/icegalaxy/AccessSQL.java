@@ -16,7 +16,6 @@ public class AccessSQL {
 		try {
 			connectToAccessDB();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -71,6 +70,8 @@ public class AccessSQL {
 		while (scr.hasNext()){
 			values.add(scr.next().trim());
 		}
+
+		scr.close();
 		
 		StringBuffer query = new StringBuffer("INSERT INTO " + this.tableName + " VALUES(");
 			

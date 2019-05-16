@@ -1181,33 +1181,33 @@ public abstract class Rules implements Runnable
 //			shutdownStair(currentStairIndex);
 			shutdown = true;
 		}
-		else if (GetData.tinyHL.isRising())
-		{
-			if(!stealing)
-			{
-				stealing = true;
-				Global.addLog("TinyHL is Rising - stealing");
-//				Global.addLog("Stop Earn: " + getShortStopEarn(XMLWatcher.stairs.get(currentStairIndex).value));
-				shutdown = true;
-			}
+// 		else if (GetData.tinyHL.isRising())
+// 		{
+// 			if(!stealing)
+// 			{
+// 				stealing = true;
+// 				Global.addLog("TinyHL is Rising - stealing");
+// //				Global.addLog("Stop Earn: " + getShortStopEarn(XMLWatcher.stairs.get(currentStairIndex).value));
+// 				shutdown = true;
+// 			}
+// //			XMLWatcher.stairs.get(currentStairIndex).selling = false;
+// //			shutdownStair(currentStairIndex);
+// //			shutdown = true;
+			
+// 		}else if (GetData.nanoHL.isRising())
+// 		{
+// 			if(!stealing)
+// 			{
+// 				stealing = true;
+// 				Global.addLog("NanoHL is Rising - stealing");
+// //				Global.addLog("Stop Earn: " + getShortStopEarn(XMLWatcher.stairs.get(currentStairIndex).value));
+// 				shutdown = true;
+// 			}
 //			XMLWatcher.stairs.get(currentStairIndex).selling = false;
 //			shutdownStair(currentStairIndex);
 //			shutdown = true;
 			
-		}else if (GetData.nanoHL.isRising())
-		{
-			if(!stealing)
-			{
-				stealing = true;
-				Global.addLog("NanoHL is Rising - stealing");
-//				Global.addLog("Stop Earn: " + getShortStopEarn(XMLWatcher.stairs.get(currentStairIndex).value));
-				shutdown = true;
-			}
-//			XMLWatcher.stairs.get(currentStairIndex).selling = false;
-//			shutdownStair(currentStairIndex);
-//			shutdown = true;
-			
-		}
+		// }
 		
 		return shutdown;
 	}
@@ -1233,33 +1233,33 @@ public abstract class Rules implements Runnable
 //			shutdownStair(currentStairIndex);
 			shutdown = true;
 		}
-		else if (GetData.tinyHL.isDropping())
-		{
-			if(!stealing)
-			{
-				stealing = true;
-				Global.addLog("TinyHL is Dropping, stealing");
-//				Global.addLog("Stop Earn: " + getLongStopEarn(XMLWatcher.stairs.get(currentStairIndex).value));
-				shutdown = true;
-			}
+// 		else if (GetData.tinyHL.isDropping())
+// 		{
+// 			if(!stealing)
+// 			{
+// 				stealing = true;
+// 				Global.addLog("TinyHL is Dropping, stealing");
+// //				Global.addLog("Stop Earn: " + getLongStopEarn(XMLWatcher.stairs.get(currentStairIndex).value));
+// 				shutdown = true;
+// 			}
+// //			XMLWatcher.stairs.get(currentStairIndex).buying = false;
+// //			shutdownStair(currentStairIndex);
+// //			shutdown = true;
+			
+// 		}else if (GetData.nanoHL.isDropping())
+// 		{
+// 			if(!stealing)
+// 			{
+// 				stealing = true;
+// 				Global.addLog("NanoHL is Dropping, stealing");
+// //				Global.addLog("Stop Earn: " + getLongStopEarn(XMLWatcher.stairs.get(currentStairIndex).value));
+// 				shutdown = true;
+// 			}
 //			XMLWatcher.stairs.get(currentStairIndex).buying = false;
 //			shutdownStair(currentStairIndex);
 //			shutdown = true;
 			
-		}else if (GetData.nanoHL.isDropping())
-		{
-			if(!stealing)
-			{
-				stealing = true;
-				Global.addLog("NanoHL is Dropping, stealing");
-//				Global.addLog("Stop Earn: " + getLongStopEarn(XMLWatcher.stairs.get(currentStairIndex).value));
-				shutdown = true;
-			}
-//			XMLWatcher.stairs.get(currentStairIndex).buying = false;
-//			shutdownStair(currentStairIndex);
-//			shutdown = true;
-			
-		}
+		// }
 		
 		
 		return shutdown;
