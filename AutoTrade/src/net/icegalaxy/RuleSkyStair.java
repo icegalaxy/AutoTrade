@@ -68,7 +68,7 @@ public class RuleSkyStair extends Rules
 					GetData.getLongTB().getEma5().getEMA() > XMLWatcher.stairs.get(currentStairIndex).value && 
 					Global.getCurrentPoint() < XMLWatcher.stairs.get(currentStairIndex).value + XMLWatcher.stairs.get(currentStairIndex).tolerance / 2
 					&& Global.getCurrentPoint() > XMLWatcher.stairs.get(currentStairIndex).value
-					&& !isDownTrend())
+					&& isUpTrend())
 			{
 				
 				
@@ -170,7 +170,7 @@ public class RuleSkyStair extends Rules
 					GetData.getLongTB().getEma5().getEMA() < XMLWatcher.stairs.get(currentStairIndex).value && 
 					Global.getCurrentPoint() > XMLWatcher.stairs.get(currentStairIndex).value - XMLWatcher.stairs.get(currentStairIndex).tolerance / 2
 					&& Global.getCurrentPoint() < XMLWatcher.stairs.get(currentStairIndex).value
-					&& !isUpTrend())
+					&& isDownTrend())
 			{
 				
 				//must be put inside long or short to avoid reset of index and sec every time
