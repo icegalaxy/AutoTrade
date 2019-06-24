@@ -63,7 +63,7 @@ public class XMLWatcher implements Runnable
 		while (Global.isRunning())
 		{
 
-			if (GetData.getTimeInt() > 91420 && Global.getOpen() == 0)
+			if (91420 < GetData.getTimeInt() && GetData.getTimeInt() < 120000 && Global.getOpen() == 0)
 			{
 				setOpenPrice();
 				Global.addLog("Open: " + Global.getOpen());
