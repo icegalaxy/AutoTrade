@@ -100,7 +100,7 @@ public class RuleSkyStair extends Rules
 					sleep(waitingTime);
 				}
 				
-				
+				Global.addLog("Waiting MACD");
 				//MACD
 				while(getTimeBase().getMACDHistogram() < 0)
 				{
@@ -212,7 +212,7 @@ public class RuleSkyStair extends Rules
 					sleep(waitingTime);
 				}
 				
-
+				Global.addLog("Waiting MACD");
 				//MACD
 				while(getTimeBase().getMACDHistogram() > 0)
 				{
