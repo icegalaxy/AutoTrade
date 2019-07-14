@@ -68,7 +68,7 @@ public class RuleSkyStair extends Rules
 					GetData.getLongTB().getEma5().getEMA() > XMLWatcher.stairs.get(currentStairIndex).value && 
 					Global.getCurrentPoint() < XMLWatcher.stairs.get(currentStairIndex).value + XMLWatcher.stairs.get(currentStairIndex).tolerance / 2
 					&& Global.getCurrentPoint() > XMLWatcher.stairs.get(currentStairIndex).value
-					&& isUpTrend())
+			)
 			{
 				
 				
@@ -101,7 +101,16 @@ public class RuleSkyStair extends Rules
 				}
 				
 				
-
+				//MACD
+				while(getTimeBase().getMACDHistogram() < 0)
+				{
+					if (shutdownLong(currentStairIndex))
+					{
+						shutdown = true;
+						return;
+					}
+					sleep(waitingTime);
+				}
 				
 				
 
@@ -124,17 +133,17 @@ public class RuleSkyStair extends Rules
 
 					profitRange = reward;
 					
-					if (2 < rr && rr < 3 && risk <100 && stealing && reward > 50)
+					if (rr > 2 && risk <50 && reward > 50)
 					{
 						Global.addLog("RR= " + rr);
 						break;
 					}
 					
-					if (1.5 < rr && rr < 2 && risk < 100 && !stealing && reward > 50)
-					{
-						Global.addLog("RR= " + rr);
-						break;
-					}
+					// if (1.5 < rr && rr < 2 && risk <50 && !stealing && reward > 50)
+					// {
+					// 	Global.addLog("RR= " + rr);
+					// 	break;
+					// }
 					
 
 					sleep(waitingTime);
@@ -170,7 +179,7 @@ public class RuleSkyStair extends Rules
 					GetData.getLongTB().getEma5().getEMA() < XMLWatcher.stairs.get(currentStairIndex).value && 
 					Global.getCurrentPoint() > XMLWatcher.stairs.get(currentStairIndex).value - XMLWatcher.stairs.get(currentStairIndex).tolerance / 2
 					&& Global.getCurrentPoint() < XMLWatcher.stairs.get(currentStairIndex).value
-					&& isDownTrend())
+			)
 			{
 				
 				//must be put inside long or short to avoid reset of index and sec every time
@@ -204,6 +213,20 @@ public class RuleSkyStair extends Rules
 				}
 				
 
+				//MACD
+				while(getTimeBase().getMACDHistogram() > 0)
+				{
+					if (shutdownShort(currentStairIndex))
+					{
+						shutdown = true;
+						return;
+					}
+
+					sleep(waitingTime);
+
+
+				}
+
 				
 
 				while (true)
@@ -226,17 +249,17 @@ public class RuleSkyStair extends Rules
 
 					profitRange = reward;
 					
-					if (2 < rr && rr < 3 && risk <100 && stealing && reward > 50)
+					if (rr > 2 && risk <50 && reward > 50)
 					{
 						Global.addLog("RR= " + rr);
 						break;
 					}
 					
-					if (1.5 < rr && rr < 2 && risk < 100 && !stealing && reward > 50)
-					{
-						Global.addLog("RR= " + rr);
-						break;
-					}
+					// if (1.5 < rr && rr < 2 && risk < 100 && !stealing && reward > 50)
+					// {
+					// 	Global.addLog("RR= " + rr);
+					// 	break;
+					// }
 
 
 					sleep(waitingTime);
