@@ -920,6 +920,6 @@ public class RuleSkyStair extends Rules
 	@Override
 	public TimeBase getTimeBase()
 	{
-		return GetData.getSLongTB();
+		return GetData.getLongTB();
 	}
 }
