@@ -944,7 +944,8 @@ public class GetData implements Runnable
 
 	}
 
-	static String time = getTime();
+	//static String time = getTime();
+	static String time = "09:00:01"; //prevent it to return something unexpected
 	InputStream is;
 	int min;
 	int refMin = 59;
