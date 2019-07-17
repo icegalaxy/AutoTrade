@@ -100,7 +100,7 @@ public class RuleSkyStair extends Rules
 					sleep(waitingTime);
 				}
 				
-				Global.addLog("Waiting MACD");
+				Global.addLog("Waiting MACD: " + getTimeBase().getMACDHistogram());
 				//MACD
 				while(getTimeBase().getMACDHistogram() < 0)
 				{
@@ -212,7 +212,7 @@ public class RuleSkyStair extends Rules
 					sleep(waitingTime);
 				}
 				
-				Global.addLog("Waiting MACD");
+				Global.addLog("Waiting MACD: " + getTimeBase().getMACDHistogram());
 				//MACD
 				while(getTimeBase().getMACDHistogram() > 0)
 				{
@@ -483,13 +483,13 @@ public class RuleSkyStair extends Rules
 				
 			}
 			
-			double low = Math.min(GetData.nanoHL.getLatestLow(), GetData.nanoHL.refLow);
+			// double low = Math.min(GetData.nanoHL.getLatestLow(), GetData.nanoHL.refLow);
 			
-			if (low > tempCutLoss && low > buyingPoint)
-			{
-				tempCutLoss = low;
-				Global.addLog("Profit pt update by nanoHL: " + tempCutLoss);
-			}
+			// if (low > tempCutLoss && low > buyingPoint)
+			// {
+			// 	tempCutLoss = low;
+			// 	Global.addLog("Profit pt update by nanoHL: " + tempCutLoss);
+			// }
 			
 			
 //			if (getHoldingTime() > 3600 && getProfit() > 100 && tempCutLoss < buyingPoint + 80)
@@ -518,13 +518,13 @@ public class RuleSkyStair extends Rules
 				
 			}
 			
-			double high = Math.max(GetData.nanoHL.getLatestHigh(), GetData.nanoHL.refHigh);
+			// double high = Math.max(GetData.nanoHL.getLatestHigh(), GetData.nanoHL.refHigh);
 			
-			if (high < tempCutLoss && high < buyingPoint)
-			{			
-				tempCutLoss = high;
-				Global.addLog("Profit pt update by nanoHL: " + tempCutLoss);
-			}
+			// if (high < tempCutLoss && high < buyingPoint)
+			// {			
+			// 	tempCutLoss = high;
+			// 	Global.addLog("Profit pt update by nanoHL: " + tempCutLoss);
+			// }
 			
 			
 //			if (getHoldingTime() > 3600 && getProfit() > 100 && tempCutLoss > buyingPoint - 80)

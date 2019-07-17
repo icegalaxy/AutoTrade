@@ -86,6 +86,17 @@ public class RuleSkyStairBreakOut extends Rules
 					return;		
 				}
 				
+				Global.addLog("Waiting MACD: " + getTimeBase().getMACDHistogram());
+				//MACD
+				while(getTimeBase().getMACDHistogram() < 0)
+				{
+					if (shutdownLong(currentStairIndex))
+					{
+						shutdown = true;
+						return;
+					}
+					sleep(waitingTime);
+				}
 
 				while (true)
 				{
@@ -167,6 +178,20 @@ public class RuleSkyStairBreakOut extends Rules
 					return;
 				}
 					
+				Global.addLog("Waiting MACD: " + getTimeBase().getMACDHistogram());
+				//MACD
+				while(getTimeBase().getMACDHistogram() > 0)
+				{
+					if (shutdownShort(currentStairIndex))
+					{
+						shutdown = true;
+						return;
+					}
+
+					sleep(waitingTime);
+
+
+				}
 
 				while (true)
 				{
@@ -327,13 +352,13 @@ public class RuleSkyStairBreakOut extends Rules
 				
 			}
 			
-			double low = Math.min(GetData.nanoHL.getLatestLow(), GetData.nanoHL.refLow);
+			// double low = Math.min(GetData.nanoHL.getLatestLow(), GetData.nanoHL.refLow);
 			
-			if (low > tempCutLoss && low > buyingPoint)
-			{
-				tempCutLoss = low;
-				Global.addLog("Profit pt update by nanoHL: " + tempCutLoss);
-			}
+			// if (low > tempCutLoss && low > buyingPoint)
+			// {
+			// 	tempCutLoss = low;
+			// 	Global.addLog("Profit pt update by nanoHL: " + tempCutLoss);
+			// }
 			
 			
 //			if (getHoldingTime() > 3600 && getProfit() > 100 && tempCutLoss < buyingPoint + 80)
@@ -362,13 +387,13 @@ public class RuleSkyStairBreakOut extends Rules
 				
 			}
 			
-			double high = Math.max(GetData.nanoHL.getLatestHigh(), GetData.nanoHL.refHigh);
+			// double high = Math.max(GetData.nanoHL.getLatestHigh(), GetData.nanoHL.refHigh);
 			
-			if (high < tempCutLoss && high < buyingPoint)
-			{			
-				tempCutLoss = high;
-				Global.addLog("Profit pt update by nanoHL: " + tempCutLoss);
-			}
+			// if (high < tempCutLoss && high < buyingPoint)
+			// {			
+			// 	tempCutLoss = high;
+			// 	Global.addLog("Profit pt update by nanoHL: " + tempCutLoss);
+			// }
 			
 			
 //			if (getHoldingTime() > 3600 && getProfit() > 100 && tempCutLoss > buyingPoint - 80)

@@ -85,6 +85,18 @@ public class RuleSkyStairBreakOut1min extends Rules
 					shutdown = true;
 					return;		
 				}
+
+				Global.addLog("Waiting MACD: " + GetData.getLongTB().getMACDHistogram());
+				//MACD
+				while(GetData.getLongTB().getMACDHistogram() < 0)
+				{
+					if (shutdownLong(currentStairIndex))
+					{
+						shutdown = true;
+						return;
+					}
+					sleep(waitingTime);
+				}
 				
 
 				while (true)
@@ -172,6 +184,20 @@ public class RuleSkyStairBreakOut1min extends Rules
 					return;
 				}
 					
+				Global.addLog("Waiting MACD: " + GetData.getLongTB().getMACDHistogram());
+				//MACD
+				while(GetData.getLongTB().getMACDHistogram() > 0)
+				{
+					if (shutdownShort(currentStairIndex))
+					{
+						shutdown = true;
+						return;
+					}
+
+					sleep(waitingTime);
+
+
+				}
 
 				while (true)
 				{
@@ -337,13 +363,13 @@ public class RuleSkyStairBreakOut1min extends Rules
 				
 			}
 			
-			double low = Math.min(GetData.nanoHL.getLatestLow(), GetData.nanoHL.refLow);
+			// double low = Math.min(GetData.nanoHL.getLatestLow(), GetData.nanoHL.refLow);
 			
-			if (low > tempCutLoss && low > buyingPoint)
-			{
-				tempCutLoss = low;
-				Global.addLog("Profit pt update by nanoHL: " + tempCutLoss);
-			}
+			// if (low > tempCutLoss && low > buyingPoint)
+			// {
+			// 	tempCutLoss = low;
+			// 	Global.addLog("Profit pt update by nanoHL: " + tempCutLoss);
+			// }
 			
 			
 //			if (getHoldingTime() > 3600 && getProfit() > 100 && tempCutLoss < buyingPoint + 80)
@@ -372,13 +398,13 @@ public class RuleSkyStairBreakOut1min extends Rules
 				
 			}
 			
-			double high = Math.max(GetData.nanoHL.getLatestHigh(), GetData.nanoHL.refHigh);
+			// double high = Math.max(GetData.nanoHL.getLatestHigh(), GetData.nanoHL.refHigh);
 			
-			if (high < tempCutLoss && high < buyingPoint)
-			{			
-				tempCutLoss = high;
-				Global.addLog("Profit pt update by nanoHL: " + tempCutLoss);
-			}
+			// if (high < tempCutLoss && high < buyingPoint)
+			// {			
+			// 	tempCutLoss = high;
+			// 	Global.addLog("Profit pt update by nanoHL: " + tempCutLoss);
+			// }
 			
 			
 //			if (getHoldingTime() > 3600 && getProfit() > 100 && tempCutLoss > buyingPoint - 80)
