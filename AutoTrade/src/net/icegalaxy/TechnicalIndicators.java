@@ -28,13 +28,13 @@ public class TechnicalIndicators {
 		this.close = close;
 	}
 
-	// current RSI,�Ӯa����A�ҥH�ntake currentPoint as para
+	
 	public float getRSI(float currentPoint, int noOfPeriods) {
 		RSI rsi = new RSI(close, noOfPeriods);
 		return rsi.getRSI(currentPoint);
 	}
 
-	// previous RSI, ������
+	
 	public float getRSI(int noOfPeriods) {
 		RSI rsi = new RSI(close, noOfPeriods);
 		return rsi.getRSI();
@@ -137,7 +137,7 @@ public class TechnicalIndicators {
 
 	}
 
-	// period�Y�Y��ma�X�h�����u
+	
 	public float getStandardDeviation(int period) {
 
 		if (close.size() < period)

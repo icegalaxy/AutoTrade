@@ -213,7 +213,9 @@ public class GetData implements Runnable
 
 				min = new Integer(time.substring(3, 5));
 
-				point = deal;
+				//point = deal;
+				//Since not using quotepower, need to getData from SPApi
+				point = (float) Global.getCurrentPoint();
 
 				shortData.getHighLow();
 				shortData.getOpen();
