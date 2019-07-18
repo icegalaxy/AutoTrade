@@ -642,6 +642,10 @@ public class GetData implements Runnable
 					for (int x = 0; x < EMAs.length; x++)
 						longTB.EMAs[x].setlatestEMA(close);
 
+					getLongTB().addData(csv.getClose().get(i).floatValue(), csv.getVolume().get(i).floatValue());
+					// addCandle History is made for previous data, volume is not
+					// accumulated
+					getLongTB().addCandleHistory(time,high,low,open, close, volume);
 					m5Period = 0;
 				}
 			}
