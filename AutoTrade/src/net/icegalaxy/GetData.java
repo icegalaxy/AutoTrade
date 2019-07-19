@@ -646,6 +646,8 @@ public class GetData implements Runnable
 					// addCandle History is made for previous data, volume is not
 					// accumulated
 					getLongTB().addCandleHistory(time,high,low,open, close, volume);
+
+					getLongTB().getMACD();
 					m5Period = 0;
 				}
 			}
