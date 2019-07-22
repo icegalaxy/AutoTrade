@@ -498,11 +498,12 @@ public class RuleSkyStair extends Rules
 //				Global.addLog("Get 100pt profit");
 //			}
 //			
-//			if (getHoldingTime() > 1800 && getProfit() > 5 && tempCutLoss < buyingPoint + 5)
-//			{
-//				tempCutLoss = buyingPoint + 5;
-//				Global.addLog("Free trade");
-//			}
+			if (getTimeBase().getMACDHistogram() < 0 && getProfit() > 5 && tempCutLoss < buyingPoint + 5)
+			{
+				tempCutLoss = buyingPoint + 5;
+				Global.addLog("Try to break even");
+			}
+
 		}else if (Global.getNoOfContracts() < 0)
 		{
 			
@@ -533,11 +534,11 @@ public class RuleSkyStair extends Rules
 //				Global.addLog("Get 100pt profit");
 //			}
 //			
-//			if (getHoldingTime() > 1800 && getProfit() > 5 && tempCutLoss > buyingPoint - 5)
-//			{
-//				tempCutLoss = buyingPoint - 5;
-//				Global.addLog("Free trade");
-//			}
+			if (getTimeBase().getMACDHistogram() > 0 && getProfit() > 5 && tempCutLoss > buyingPoint - 5)
+			{
+				tempCutLoss = buyingPoint - 5;
+				Global.addLog("Try to break even");
+			}
 		}
 		
 	}

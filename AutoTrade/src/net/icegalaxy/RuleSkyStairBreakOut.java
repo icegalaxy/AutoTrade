@@ -351,6 +351,12 @@ public class RuleSkyStairBreakOut extends Rules
 				}
 				
 			}
+
+			if (getTimeBase().getMACDHistogram() < 0 && getProfit() > 5 && tempCutLoss < buyingPoint + 5)
+			{
+				tempCutLoss = buyingPoint + 5;
+				Global.addLog("Try to break even");
+			}
 			
 			// double low = Math.min(GetData.nanoHL.getLatestLow(), GetData.nanoHL.refLow);
 			
@@ -385,6 +391,12 @@ public class RuleSkyStairBreakOut extends Rules
 					Global.addLog("Profit update: " + tempCutLoss);
 				}
 				
+			}
+
+			if (getTimeBase().getMACDHistogram() > 0 && getProfit() > 5 && tempCutLoss > buyingPoint - 5)
+			{
+				tempCutLoss = buyingPoint - 5;
+				Global.addLog("Try to break even");
 			}
 			
 			// double high = Math.max(GetData.nanoHL.getLatestHigh(), GetData.nanoHL.refHigh);
