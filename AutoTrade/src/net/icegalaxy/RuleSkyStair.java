@@ -102,7 +102,7 @@ public class RuleSkyStair extends Rules
 				
 				Global.addLog("Waiting MACD: " + getTimeBase().getMACDHistogram());
 				//MACD
-				while(getTimeBase().getMACDHistogram() < 0)
+				while(getTimeBase().getMACDHistogram() < -1)
 				{
 					if (shutdownLong(currentStairIndex))
 					{
@@ -214,7 +214,7 @@ public class RuleSkyStair extends Rules
 				
 				Global.addLog("Waiting MACD: " + getTimeBase().getMACDHistogram());
 				//MACD
-				while(getTimeBase().getMACDHistogram() > 0)
+				while(getTimeBase().getMACDHistogram() > 1)
 				{
 					if (shutdownShort(currentStairIndex))
 					{

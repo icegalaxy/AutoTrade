@@ -88,7 +88,7 @@ public class RuleSkyStairBreakOut1min extends Rules
 
 				Global.addLog("Waiting MACD: " + GetData.getLongTB().getMACDHistogram());
 				//MACD
-				while(GetData.getLongTB().getMACDHistogram() < 0)
+				while(GetData.getLongTB().getMACDHistogram() < -1)
 				{
 					if (shutdownLong(currentStairIndex))
 					{
@@ -186,7 +186,7 @@ public class RuleSkyStairBreakOut1min extends Rules
 					
 				Global.addLog("Waiting MACD: " + GetData.getLongTB().getMACDHistogram());
 				//MACD
-				while(GetData.getLongTB().getMACDHistogram() > 0)
+				while(GetData.getLongTB().getMACDHistogram() > 1)
 				{
 					if (shutdownShort(currentStairIndex))
 					{
