@@ -715,10 +715,11 @@ public class TimeBase {
 					orgRetained = 0;
 					slope = 100.0D;
 					shiftedPeriod = (origin + 1);
-					getTheSlope();
+					return 0.0D; //prevent the recursion, sometimes overflow, dont know why
+					//getTheSlope();
 				} else if (isLatestRail()) {
 					rails.remove(railIndex);
-				} else { // �S���Y�Ĥ@���S���Y�̫�G��
+				} else {
 					slopeRetained = 0;
 					slope = 100.0D;
 				}
