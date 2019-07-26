@@ -352,11 +352,7 @@ public class RuleSkyStairBreakOut extends Rules
 				
 			}
 
-			if (getTimeBase().getMACDHistogram() < 0 && getProfit() > 5 && tempCutLoss < buyingPoint + 5)
-			{
-				tempCutLoss = buyingPoint + 5;
-				Global.addLog("Try to break even");
-			}
+			
 			
 			// double low = Math.min(GetData.nanoHL.getLatestLow(), GetData.nanoHL.refLow);
 			
@@ -393,11 +389,7 @@ public class RuleSkyStairBreakOut extends Rules
 				
 			}
 
-			if (getTimeBase().getMACDHistogram() > 0 && getProfit() > 5 && tempCutLoss > buyingPoint - 5)
-			{
-				tempCutLoss = buyingPoint - 5;
-				Global.addLog("Try to break even");
-			}
+			
 			
 			// double high = Math.max(GetData.nanoHL.getLatestHigh(), GetData.nanoHL.refHigh);
 			
@@ -649,6 +641,11 @@ public class RuleSkyStairBreakOut extends Rules
 			// {
 			// return GetData.getLongTB().getEma250().getEMA() - buyingPoint;
 			// }
+			if (getTimeBase().getMACDHistogram() < 0)
+			{
+				Global.addLog("Try to break even");
+				return 5;
+			}
 
 			return Math.max(10, getLongStopEarn(XMLWatcher.stairs.get(currentStairIndex).value) - buyingPoint);
 		} else
@@ -676,6 +673,11 @@ public class RuleSkyStairBreakOut extends Rules
 			// {
 			// return buyingPoint - GetData.getLongTB().getEma250().getEMA();
 			// }
+			if (getTimeBase().getMACDHistogram() > 0)
+			{
+				Global.addLog("Try to break even");
+				return 5;
+			}
 
 			return Math.max(10, buyingPoint - getShortStopEarn(XMLWatcher.stairs.get(currentStairIndex).value));
 		}

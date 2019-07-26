@@ -498,11 +498,7 @@ public class RuleSkyStair extends Rules
 //				Global.addLog("Get 100pt profit");
 //			}
 //			
-			if (getTimeBase().getMACDHistogram() < 0 && getProfit() > 5 && tempCutLoss < buyingPoint + 5)
-			{
-				tempCutLoss = buyingPoint + 5;
-				Global.addLog("Try to break even");
-			}
+			
 
 		}else if (Global.getNoOfContracts() < 0)
 		{
@@ -534,11 +530,7 @@ public class RuleSkyStair extends Rules
 //				Global.addLog("Get 100pt profit");
 //			}
 //			
-			if (getTimeBase().getMACDHistogram() > 0 && getProfit() > 5 && tempCutLoss > buyingPoint - 5)
-			{
-				tempCutLoss = buyingPoint - 5;
-				Global.addLog("Try to break even");
-			}
+			
 		}
 		
 	}
@@ -769,6 +761,11 @@ public class RuleSkyStair extends Rules
 			// {
 			// return GetData.getLongTB().getEma250().getEMA() - buyingPoint;
 			// }
+			if (getTimeBase().getMACDHistogram() < 0)
+			{
+				Global.addLog("Try to break even");
+				return 5;
+			}
 
 			return Math.max(10, getLongStopEarn(XMLWatcher.stairs.get(currentStairIndex).value) - buyingPoint);
 		} else
@@ -796,6 +793,11 @@ public class RuleSkyStair extends Rules
 			// {
 			// return buyingPoint - GetData.getLongTB().getEma250().getEMA();
 			// }
+			if (getTimeBase().getMACDHistogram() > 0)
+			{
+				Global.addLog("Try to break even");
+				return 5;
+			}
 
 			return Math.max(10, buyingPoint - getShortStopEarn(XMLWatcher.stairs.get(currentStairIndex).value));
 		}
