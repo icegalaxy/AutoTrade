@@ -472,10 +472,13 @@ public abstract class Rules implements Runnable
 //		else
 //			refPt = GetData.getShortTB().getLatestCandle().getClose();
 
-		refPt = GetData.getShortTB().getLatestCandle().getClose();
+		if (getProfit() > 0 && getProfit() < 10)
+			refPt = Global.getCurrentPoint();
+		else
+			refPt = GetData.getShortTB().getLatestCandle().getClose();
 		
 
-		if (Global.getNoOfContracts() > 0 && refPt < tempCutLoss)
+		if (Global.getNoOfContracts() > 0 && refPt < tempCutLoss && GetData.getLongTB().getMACDHistogram() < 0)
 		{
 			
 			if (getProfit() > 5)
@@ -486,7 +489,7 @@ public abstract class Rules implements Runnable
 			
 			closeContract(className + ": CutLoss, short @ " + Global.getCurrentBid());
 //			shutdownRule = true;
-		} else if (Global.getNoOfContracts() < 0 && refPt > tempCutLoss)
+		} else if (Global.getNoOfContracts() < 0 && refPt > tempCutLoss && GetData.getLongTB().getMACDHistogram() > 0)
 		{
 			
 			if (getProfit() > 5)
