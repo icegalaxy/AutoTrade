@@ -1171,7 +1171,12 @@ public abstract class Rules implements Runnable
 		
 //		if (refHigh > XMLWatcher.stairs.get(currentStairIndex).refHigh)
 //			XMLWatcher.stairs.get(currentStairIndex).refHigh = refHigh;
-		
+		if (getTimeBase().getMACDHistogram() > 0)
+		{
+			Global.addLog("MACD > 0");
+			shutdown = true;
+		}
+		else
 		if (!XMLWatcher.stairs.get(currentStairIndex).selling || XMLWatcher.stairs.get(currentStairIndex).shutdown)
 		{
 			Global.addLog("Stair not selling");
@@ -1223,7 +1228,12 @@ public abstract class Rules implements Runnable
 		
 //		if (refLow < XMLWatcher.stairs.get(currentStairIndex).refLow)
 //			XMLWatcher.stairs.get(currentStairIndex).refLow = refLow;
-		
+		if (getTimeBase().getMACDHistogram() < 0)
+		{
+			Global.addLog("MACD < 0");
+			shutdown = true;
+		}
+		else
 		if (!XMLWatcher.stairs.get(currentStairIndex).buying || XMLWatcher.stairs.get(currentStairIndex).shutdown)
 		{
 			Global.addLog("Stair not buying");

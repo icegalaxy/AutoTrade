@@ -88,7 +88,7 @@ public class RuleSkyStairBreakOut1min extends Rules
 
 				Global.addLog("Waiting MACD: " + GetData.getLongTB().getMACDHistogram());
 				//MACD
-				while(GetData.getLongTB().getMACDHistogram() < -1)
+				while(GetData.getLongTB().getMACDHistogram() < 1)
 				{
 					if (shutdownLong(currentStairIndex))
 					{
@@ -186,7 +186,7 @@ public class RuleSkyStairBreakOut1min extends Rules
 					
 				Global.addLog("Waiting MACD: " + GetData.getLongTB().getMACDHistogram());
 				//MACD
-				while(GetData.getLongTB().getMACDHistogram() > 1)
+				while(GetData.getLongTB().getMACDHistogram() > -1)
 				{
 					if (shutdownShort(currentStairIndex))
 					{
@@ -654,7 +654,7 @@ public class RuleSkyStairBreakOut1min extends Rules
 			// }
 			if (GetData.getLongTB().getMACDHistogram() < 0)
 			{
-				Global.addLog("Try to break even");
+				// Global.addLog("Try to break even");
 				return 5;
 			}
 
@@ -686,7 +686,7 @@ public class RuleSkyStairBreakOut1min extends Rules
 			// }
 			if (GetData.getLongTB().getMACDHistogram() > 0)
 			{
-				Global.addLog("Try to break even");
+				// Global.addLog("Try to break even");
 				return 5;
 			}
 
