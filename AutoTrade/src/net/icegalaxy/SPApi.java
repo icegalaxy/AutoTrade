@@ -21,8 +21,8 @@ public class SPApi
 {
 	static int counter;
 	static long status = 0;
-	static byte[] product = getBytes("MHIN9", 16);
-	static byte[] watchingProduct = getBytes("HSIN9", 16);
+	static byte[] product = getBytes("MHIQ9", 16);
+	static byte[] watchingProduct = getBytes("HSIQ9", 16);
 	
 //	static ArrayList<SPApiOrder> orders = new ArrayList<SPApiOrder>();
 
