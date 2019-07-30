@@ -106,6 +106,11 @@ public class RuleSkyStairBreakOut extends Rules
 					{
 						shutdown = true;
 						return;		
+					}else if (getTimeBase().getMACDHistogram() < 0)
+					{
+						Global.addLog("MACD < 0");
+						shutdown = true;
+						return;
 					}
 					
 					cutLoss = Math.min(Math.min(Math.min(GetData.tinyHL.getLatestLow(),refLow), XMLWatcher.stairs.get(currentStairIndex).refLow), XMLWatcher.stairs.get(currentStairIndex).value - 10);
@@ -198,6 +203,11 @@ public class RuleSkyStairBreakOut extends Rules
 
 					if (shutdownShort(currentStairIndex))
 					{
+						shutdown = true;
+						return;
+					}else if (getTimeBase().getMACDHistogram() > 0)
+					{
+						Global.addLog("MACD > 0");
 						shutdown = true;
 						return;
 					}

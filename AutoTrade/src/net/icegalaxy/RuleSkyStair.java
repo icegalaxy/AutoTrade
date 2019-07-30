@@ -120,6 +120,11 @@ public class RuleSkyStair extends Rules
 					{
 						shutdown = true;
 						return;
+					}else if (getTimeBase().getMACDHistogram() < 0)
+					{
+						Global.addLog("MACD < 0");
+						shutdown = true;
+						return;
 					}
 					
 					cutLoss = Math.min(Math.min(refLow, XMLWatcher.stairs.get(currentStairIndex).refLow), XMLWatcher.stairs.get(currentStairIndex).value - 10);
@@ -234,6 +239,11 @@ public class RuleSkyStair extends Rules
 //					updateHighLow();
 					if (shutdownShort(currentStairIndex))
 					{
+						shutdown = true;
+						return;
+					}else if (getTimeBase().getMACDHistogram() > 0)
+					{
+						Global.addLog("MACD > 0");
 						shutdown = true;
 						return;
 					}
