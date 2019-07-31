@@ -472,10 +472,10 @@ public abstract class Rules implements Runnable
 //		else
 //			refPt = GetData.getShortTB().getLatestCandle().getClose();
 
-		if (getProfit() > 0 && getProfit() < 10)
+		// if (getProfit() > 0 && getProfit() < 10)
 			refPt = Global.getCurrentPoint();
-		else
-			refPt = GetData.getShortTB().getLatestCandle().getClose();
+		// else
+		// 	refPt = GetData.getShortTB().getLatestCandle().getClose();
 		
 
 		if (Global.getNoOfContracts() > 0 && refPt < tempCutLoss && GetData.getLongTB().getMACDHistogram() < 0)
