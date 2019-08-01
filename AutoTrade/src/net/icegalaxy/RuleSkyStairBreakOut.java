@@ -98,6 +98,17 @@ public class RuleSkyStairBreakOut extends Rules
 					sleep(waitingTime);
 				}
 
+				//Rebound, wait for a YangCandle
+				while(getTimeBase().getLatestCandle().isYinCandle())
+				{
+					if (shutdownLong(currentStairIndex))
+					{
+						shutdown = true;
+						return;
+					}
+					sleep(waitingTime);
+				}
+
 				while (true)
 				{
 //					updateHighLow();
@@ -194,8 +205,17 @@ public class RuleSkyStairBreakOut extends Rules
 					}
 
 					sleep(waitingTime);
+				}
 
-
+				//Rebound, wait for a YinCandle
+				while(getTimeBase().getLatestCandle().isYangCandle())
+				{
+					if (shutdownLong(currentStairIndex))
+					{
+						shutdown = true;
+						return;
+					}
+					sleep(waitingTime);
 				}
 
 				while (true)
