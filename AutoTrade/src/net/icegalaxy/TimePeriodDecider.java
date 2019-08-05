@@ -59,13 +59,13 @@ public class TimePeriodDecider implements Runnable
 				{
 					Global.addLog("Noon Close");
 					Global.setTradeTime(false);
-					try
-					{
-						XMLWatcher.resetStairs();
-					} catch (Exception e)
-					{
-						e.printStackTrace();
-					}
+					// try
+					// {
+					// 	XMLWatcher.resetStairs();
+					// } catch (Exception e)
+					// {
+					// 	e.printStackTrace();
+					// }
 					noonClosed = true;
 				}
 			
@@ -88,13 +88,13 @@ public class TimePeriodDecider implements Runnable
 				{
 					Global.addLog("Day Close");
 					Global.setTradeTime(false);
-					try
-					{
-						XMLWatcher.resetStairs();
-					} catch (Exception e)
-					{
-						e.printStackTrace();
-					}
+					// try
+					// {
+					// 	XMLWatcher.resetStairs();
+					// } catch (Exception e)
+					// {
+					// 	e.printStackTrace();
+					// }
 					dayClosed = true;
 				}
 				

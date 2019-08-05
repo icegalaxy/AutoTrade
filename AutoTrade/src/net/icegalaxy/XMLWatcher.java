@@ -18,23 +18,39 @@ public class XMLWatcher implements Runnable
 	public static ArrayList<MyFile> files = new ArrayList<MyFile>();
 	public static double stair = 0;
 	private int secCounter;
+	public static double lowestStair = 99999;
+	public static double highestStair = 0;
 
 	public XMLWatcher()
 	{
 		files.add(Stair);
+		readStairs();
+		setLowHighStair();
+	}
+
+	private void setLowHighStair() {
+
+		for (Stair ss : stairs)
+		{
+			if (ss.value > highestStair)
+				highestStair = ss.value;
+			if (ss.value < lowestStair)
+				lowestStair = ss.value;
+		}
+
 	}
 
 	public void run()
 	{
 
-		try
-		{
-			resetStairs();
-		} catch (Exception e1)
-		{
-			e1.printStackTrace();
-			sleep(30000);
-		}
+		// try
+		// {
+		// 	resetStairs();
+		// } catch (Exception e1)
+		// {
+		// 	e1.printStackTrace();
+		// 	sleep(30000);
+		// }
 
 
 		RuleSkyStair ss = new RuleSkyStair(true);
@@ -79,6 +95,7 @@ public class XMLWatcher implements Runnable
 				{
 					try{
 						readStairs();
+						setLowHighStair();
 					}catch (Exception z)
 					{
 						z.printStackTrace();
