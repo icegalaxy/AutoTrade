@@ -568,6 +568,6 @@ public class RulePriceAction extends Rules
 	@Override
 	public TimeBase getTimeBase()
 	{
-		return GetData.getShortTB();
+		return GetData.getLongTB();
 	}
 }
