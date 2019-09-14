@@ -88,7 +88,7 @@ public class RuleSkyStairBreakOut1min extends Rules
 
 				Global.addLog("Waiting MACD: " + GetData.getLongTB().getMACDHistogram());
 				//MACD
-				while(GetData.getLongTB().getMACDHistogram() < 1)
+				while(GetData.getLongTB().getMACDHistogram() < 1 || GetData.getLongTB().getMACDSignal() < 1)
 				{
 					if (shutdownLong(currentStairIndex))
 					{
@@ -97,6 +97,8 @@ public class RuleSkyStairBreakOut1min extends Rules
 					}
 					sleep(waitingTime);
 				}
+
+				Global.addLog("MACD Histo: " + GetData.getLongTB().getMACDHistogram() + "; MACD signal: " + GetData.getLongTB().getMACDSignal());
 				
 				//Rebound, wait for a YangCandle
 				while(getTimeBase().getLatestCandle().isYinCandle())
@@ -201,7 +203,7 @@ public class RuleSkyStairBreakOut1min extends Rules
 					
 				Global.addLog("Waiting MACD: " + GetData.getLongTB().getMACDHistogram());
 				//MACD
-				while(GetData.getLongTB().getMACDHistogram() > -1)
+				while(GetData.getLongTB().getMACDHistogram() > -1 || GetData.getLongTB().getMACDSignal() > -1)
 				{
 					if (shutdownShort(currentStairIndex))
 					{
@@ -211,6 +213,8 @@ public class RuleSkyStairBreakOut1min extends Rules
 
 					sleep(waitingTime);
 				}
+
+				Global.addLog("MACD Histo: " + GetData.getLongTB().getMACDHistogram() + "; MACD signal: " + GetData.getLongTB().getMACDSignal());
 
 				//Rebound, wait for a YinCandle
 				while(getTimeBase().getLatestCandle().isYangCandle())

@@ -549,6 +549,10 @@ public class TimeBase {
 		return ti.getMACDHistogram();
 	}
 
+	public float getMACDSignal() {
+		return ti.getMACDSignalLine();
+	}
+
 	public float getQuantity() {
 		
 		//for csvParser

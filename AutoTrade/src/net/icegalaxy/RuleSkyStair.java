@@ -102,7 +102,7 @@ public class RuleSkyStair extends Rules
 				
 				Global.addLog("Waiting MACD: " + getTimeBase().getMACDHistogram());
 				//MACD
-				while(getTimeBase().getMACDHistogram() < 1)
+				while(getTimeBase().getMACDHistogram() < 1 || getTimeBase().getMACDSignal() <1)
 				{
 					if (shutdownLong(currentStairIndex))
 					{
@@ -111,6 +111,9 @@ public class RuleSkyStair extends Rules
 					}
 					sleep(waitingTime);
 				}
+
+				Global.addLog("MACD Histo: " + getTimeBase().getMACDHistogram() + "; MACD signal: " + getTimeBase().getMACDSignal());
+
 
 				//Rebound, wait for a YangCandle
 				while(getTimeBase().getLatestCandle().isYinCandle())
@@ -229,7 +232,7 @@ public class RuleSkyStair extends Rules
 				
 				Global.addLog("Waiting MACD: " + getTimeBase().getMACDHistogram());
 				//MACD
-				while(getTimeBase().getMACDHistogram() > -1)
+				while(getTimeBase().getMACDHistogram() > -1 || getTimeBase().getMACDSignal() > -1)
 				{
 					if (shutdownShort(currentStairIndex))
 					{
@@ -238,9 +241,9 @@ public class RuleSkyStair extends Rules
 					}
 
 					sleep(waitingTime);
-
-
 				}
+
+				Global.addLog("MACD Histo: " + getTimeBase().getMACDHistogram() + "; MACD signal: " + getTimeBase().getMACDSignal());
 
 				//Rebound, wait for a YinCandle
 				while(getTimeBase().getLatestCandle().isYangCandle())
